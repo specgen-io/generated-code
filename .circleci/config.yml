@@ -18,11 +18,14 @@ jobs:
             find ./models | sed -e "s/[^-][^\/]*\//  |/g" -e "s/|\([^ ]\)/|-\1/"
             ./specgen models-java --spec-file ./models/spec.yaml --generate-path ./models/java
             find ./models | sed -e "s/[^-][^\/]*\//  |/g" -e "s/|\([^ ]\)/|-\1/"
+            rm specgen
       - run:
           name: Commit changes
           command: |
             git config --global user.email "vladimir.sapronov@gmail.com"
             git config --global user.name "vsapronov"
+            git status
+            git add --all
             git status
             git commit -a -m "[skip ci] Generated code with specgen <<pipeline.parameters.specgen-version>>"
             git status
