@@ -29,6 +29,6 @@ commands:
             unzip -o specgen_linux_amd64.zip
 
 workflows:
-  generate-commit
+  generate-commit:
     jobs:
       - generate-commit
