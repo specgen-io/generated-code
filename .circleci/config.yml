@@ -32,7 +32,8 @@ jobs:
             echo "Will commit now"
             git commit -m "[skip ci] Generated code with specgen <<pipeline.parameters.specgen-version>>"
             git status
-            git remote set-url origin https://:$GITHUB_TOKEN@github.com/specgen-io/generated-code.git
+            echo "Setup token"
+            git remote set-url origin https://vsapronov:$GITHUB_TOKEN@github.com/specgen-io/generated-code.git
             git push
 
 commands:
