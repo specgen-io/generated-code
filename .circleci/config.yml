@@ -1,0 +1,34 @@
+version: 2.1
+
+parameters:
+  specgen-version:
+    type: string
+    default: 2.0.404
+
+jobs:
+  generate-commit:
+    docker:
+      - image: cimg/base:2021.04
+    steps:
+      - checkout
+      - install-specgen
+      - run: ./specgen --help
+
+
+commands:
+  install-specgen:
+    parameters:
+      command:
+        type: string
+        default: go test
+    steps:
+      - run:
+          name: Install go-junit-report
+          command: |
+            curl -L https://github.com/specgen-io/specgen/releases/download/v<<pipeline.parameters.specgen-version>>/specgen_linux_amd64.zip > specgen_linux_amd64.zip
+            unzip -o specgen_linux_amd64.zip
+
+workflows:
+  generate-commit
+    jobs:
+      - generate-commit:
