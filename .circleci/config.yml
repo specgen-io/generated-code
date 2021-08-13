@@ -15,6 +15,7 @@ jobs:
       - run:
           name: Generate code
           command: |
+            rm -R -- ./models/*/
             find ./models | sed -e "s/[^-][^\/]*\//  |/g" -e "s/|\([^ ]\)/|-\1/"
             ./specgen models-java --spec-file ./models/spec.yaml --generate-path ./models/java
             find ./models | sed -e "s/[^-][^\/]*\//  |/g" -e "s/|\([^ ]\)/|-\1/"
