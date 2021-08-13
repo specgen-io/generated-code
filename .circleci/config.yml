@@ -31,4 +31,4 @@ commands:
 workflows:
   generate-commit
     jobs:
-      - generate-commit:
+      - generate-commit
