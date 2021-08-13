@@ -14,9 +14,9 @@ jobs:
       - install-specgen
       - run: ls -la
       - run: |
-          tree .
+          find . | sed -e "s/[^-][^\/]*\//  |/g" -e "s/|\([^ ]\)/|-\1/"
           ./specgen models-java --spec-file ./models/spec.yaml --generate-path ./models/java
-          ls -la -R
+          find . | sed -e "s/[^-][^\/]*\//  |/g" -e "s/|\([^ ]\)/|-\1/"
           git commit -a -m "[skip ci] Generated code with specgen <<pipeline.parameters.specgen-version>>"
 
 commands:
