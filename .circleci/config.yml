@@ -23,10 +23,10 @@ jobs:
       - run:
           name: Commit changes
           command: |
+            git add --all
             if [[ `git status --porcelain` ]]; then
               git config --global user.email "vladimir.sapronov@gmail.com"
               git config --global user.name "vsapronov"
-              git add --all
               git commit -m "[skip ci] Generated code with specgen <<pipeline.parameters.specgen-version>>"
               git remote set-url origin https://vsapronov:$GITHUB_TOKEN@github.com/specgen-io/generated-code.git
               git push
