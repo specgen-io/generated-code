@@ -12,12 +12,18 @@ jobs:
     steps:
       - checkout
       - install-specgen
-      - run: ls -la
-      - run: |
-          find . | sed -e "s/[^-][^\/]*\//  |/g" -e "s/|\([^ ]\)/|-\1/"
-          ./specgen models-java --spec-file ./models/spec.yaml --generate-path ./models/java
-          find . | sed -e "s/[^-][^\/]*\//  |/g" -e "s/|\([^ ]\)/|-\1/"
-          git commit -a -m "[skip ci] Generated code with specgen <<pipeline.parameters.specgen-version>>"
+      - run:
+          name: Generate code
+          command: |
+            find ./models | sed -e "s/[^-][^\/]*\//  |/g" -e "s/|\([^ ]\)/|-\1/"
+            ./specgen models-java --spec-file ./models/spec.yaml --generate-path ./models/java
+            find ./models | sed -e "s/[^-][^\/]*\//  |/g" -e "s/|\([^ ]\)/|-\1/"
+      - run:
+          name: Commit changes
+          command: |
+            git config --global user.email "vladimir.sapronov@gmail.com"
+            git config --global user.name "vsapronov"
+            git commit -a -m "[skip ci] Generated code with specgen <<pipeline.parameters.specgen-version>>"
 
 commands:
   install-specgen:
