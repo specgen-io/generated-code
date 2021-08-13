@@ -12,8 +12,10 @@ jobs:
     steps:
       - checkout
       - install-specgen
-      - run: ./specgen --help
-
+      - run: ls -la
+      - run: |
+          ./specgen --help
+          ./specgen models-java --spec-file ./models/spec.yaml --generate-path ./models/java 
 
 commands:
   install-specgen:
