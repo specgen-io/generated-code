@@ -23,7 +23,9 @@ jobs:
           command: |
             git config --global user.email "vladimir.sapronov@gmail.com"
             git config --global user.name "vsapronov"
+            git status
             git commit -a -m "[skip ci] Generated code with specgen <<pipeline.parameters.specgen-version>>"
+            git status
 
 commands:
   install-specgen:
