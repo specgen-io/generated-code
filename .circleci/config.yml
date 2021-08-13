@@ -14,7 +14,10 @@ jobs:
       - install-specgen
       - run: ls -la
       - run: |
-          rm -R -- ./models/*/
+          ls -la -R
+          cd models
+          rm -R -- */
+          cd ..
           ls -la -R
           ./specgen models-java --spec-file ./models/spec.yaml --generate-path ./models/java
           ls -la -R
