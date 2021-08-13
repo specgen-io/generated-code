@@ -32,6 +32,7 @@ jobs:
             echo "Will commit now"
             git commit -m "[skip ci] Generated code with specgen <<pipeline.parameters.specgen-version>>"
             git status
+            git push
 
 commands:
   install-specgen:
@@ -50,4 +51,5 @@ commands:
 workflows:
   generate-commit:
     jobs:
-      - generate-commit
+      - generate-commit:
+          context: specgen
