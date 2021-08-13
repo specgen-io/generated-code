@@ -14,11 +14,7 @@ jobs:
       - install-specgen
       - run: ls -la
       - run: |
-          ls -la -R
-          cd models
-          rm -R -- */
-          cd ..
-          ls -la -R
+          tree .
           ./specgen models-java --spec-file ./models/spec.yaml --generate-path ./models/java
           ls -la -R
           git commit -a -m "[skip ci] Generated code with specgen <<pipeline.parameters.specgen-version>>"
