@@ -46,13 +46,8 @@ commands:
     steps:
       - run:
           name: Print flie system tree
-          command: find <<pipeline.parameters.path>> | sed -e "s/[^-][^\/]*\//  |/g" -e "s/|\([^ ]\)/|-\1/"
-
+          command: find <<parameters.path>> | sed -e "s/[^-][^\/]*\//  |/g" -e "s/|\([^ ]\)/|-\1/"
   install-specgen:
-    parameters:
-      command:
-        type: string
-        default: go test
     steps:
       - run:
           name: Install specgen
