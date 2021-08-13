@@ -13,13 +13,16 @@ jobs:
       - checkout
       - install-specgen
       - run:
-          name: Generate code
+          name: Generate models
           command: |
             rm -R -- ./models/*/
-            find ./models | sed -e "s/[^-][^\/]*\//  |/g" -e "s/|\([^ ]\)/|-\1/"
             ./specgen models-java --spec-file ./models/spec.yaml --generate-path ./models/java
-            find ./models | sed -e "s/[^-][^\/]*\//  |/g" -e "s/|\([^ ]\)/|-\1/"
-            rm specgen
+            ./specgen models-go --spec-file ./models/spec.yaml --generate-path ./models/go
+      - run:
+          name: Remove specgen
+          command: rm specgen
+      - tree:
+          path: ./models
       - run:
           name: Commit changes
           command: |
@@ -35,6 +38,16 @@ jobs:
             fi
 
 commands:
+  tree:
+    parameters:
+      path:
+        type: string
+        default: .
+    steps:
+      - run:
+          name: Print flie system tree
+          command: find <<pipeline.parameters.path>> | sed -e "s/[^-][^\/]*\//  |/g" -e "s/|\([^ ]\)/|-\1/"
+
   install-specgen:
     parameters:
       command:
