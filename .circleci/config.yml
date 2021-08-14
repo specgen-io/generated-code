@@ -3,7 +3,7 @@ version: 2.1
 parameters:
   specgen-version:
     type: string
-    default: 2.0.404
+    default: 2.0.419
 
 jobs:
   generate-commit:
@@ -28,6 +28,7 @@ jobs:
       - run:
           name: Generate clients
           command: |
+            rm -R -- ./clients/*/
             ./specgen openapi --spec-file ./clients/spec.yaml --out-file ./clients/openapi/swagger.yaml
             ./specgen client-go --spec-file ./clients/spec.yaml --generate-path ./clients/go
             ./specgen client-ruby --spec-file ./clients/spec.yaml --generate-path ./clients/ruby
@@ -39,6 +40,7 @@ jobs:
       - run:
           name: Generate services
           command: |
+            rm -R -- ./services/*/
             ./specgen openapi --spec-file ./services/spec.yaml --out-file ./services/openapi/swagger.yaml
             ./specgen service-go --spec-file ./services/spec.yaml --generate-path ./services/go
             ./specgen service-scala-play --spec-file ./services/spec.yaml --generate-path ./services/scala-play
