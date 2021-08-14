@@ -65,7 +65,7 @@ jobs:
               echo "No changes detected - nothing to commit"
             fi
             git tag v<<pipeline.parameters.specgen-version>>
-            git push --tags --force
+            git push --tags -f
 
 commands:
   tree:
