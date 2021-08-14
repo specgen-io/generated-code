@@ -1,0 +1,204 @@
+openapi: 3.0.0
+info:
+  title: test-service
+  version: "1"
+paths: {}
+components:
+  schemas:
+    v2.Message:
+      type: object
+      required:
+        - field
+      properties:
+        field:
+          type: string
+    Message:
+      type: object
+      required:
+        - field
+      properties:
+        field:
+          type: integer
+          format: int32
+    Parent:
+      type: object
+      required:
+        - field
+        - nested
+      properties:
+        field:
+          type: string
+        nested:
+          $ref: '#/components/schemas/Nested'
+    Nested:
+      type: object
+      required:
+        - field
+      properties:
+        field:
+          type: string
+    Choice:
+      type: string
+      enum:
+        - first_choice
+        - second_choice
+        - third_choice
+    EnumFields:
+      type: object
+      required:
+        - enum_field
+      properties:
+        enum_field:
+          $ref: '#/components/schemas/Choice'
+    NumericFields:
+      type: object
+      required:
+        - int_field
+        - long_field
+        - float_field
+        - double_field
+        - decimal_field
+      properties:
+        int_field:
+          type: integer
+          format: int32
+        long_field:
+          type: integer
+          format: int64
+        float_field:
+          type: number
+          format: float
+        double_field:
+          type: number
+          format: double
+        decimal_field:
+          type: number
+          format: decimal
+    NonNumericFields:
+      type: object
+      required:
+        - boolean_field
+        - string_field
+        - uuid_field
+        - date_field
+        - datetime_field
+      properties:
+        boolean_field:
+          type: boolean
+        string_field:
+          type: string
+        uuid_field:
+          type: string
+          format: uuid
+        date_field:
+          type: string
+          format: date
+        datetime_field:
+          type: string
+          format: datetime
+    ArrayFields:
+      type: object
+      required:
+        - int_array_field
+        - string_array_field
+      properties:
+        int_array_field:
+          type: array
+          items:
+            type: integer
+            format: int32
+        string_array_field:
+          type: array
+          items:
+            type: string
+    MapFields:
+      type: object
+      required:
+        - int_map_field
+        - string_map_field
+      properties:
+        int_map_field:
+          type: object
+          additionalProperties:
+            type: integer
+            format: int32
+        string_map_field:
+          type: object
+          additionalProperties:
+            type: string
+    OptionalFields:
+      type: object
+      properties:
+        int_option_field:
+          type: integer
+          format: int32
+        string_option_field:
+          type: string
+    RawJsonField:
+      type: object
+      required:
+        - json_field
+      properties:
+        json_field:
+          type: object
+    OrderCreated:
+      type: object
+      required:
+        - id
+        - sku
+        - quantity
+      properties:
+        id:
+          type: string
+          format: uuid
+        sku:
+          type: string
+        quantity:
+          type: integer
+          format: int32
+    OrderChanged:
+      type: object
+      required:
+        - id
+        - quantity
+      properties:
+        id:
+          type: string
+          format: uuid
+        quantity:
+          type: integer
+          format: int32
+    OrderCanceled:
+      type: object
+      required:
+        - id
+      properties:
+        id:
+          type: string
+          format: uuid
+    OrderEvent:
+      type: object
+      properties:
+        created:
+          $ref: '#/components/schemas/OrderCreated'
+        changed:
+          $ref: '#/components/schemas/OrderChanged'
+        canceled:
+          $ref: '#/components/schemas/OrderCanceled'
+    MessageCamelCase:
+      type: object
+      required:
+        - fieldInt
+      properties:
+        fieldInt:
+          type: integer
+          format: int32
+    OrderEventCamelCase:
+      type: object
+      properties:
+        createdOrder:
+          $ref: '#/components/schemas/OrderCreated'
+        changedOrder:
+          $ref: '#/components/schemas/OrderChanged'
+        canceledOrder:
+          $ref: '#/components/schemas/OrderCanceled'

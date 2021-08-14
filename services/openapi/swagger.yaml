@@ -1,0 +1,320 @@
+openapi: 3.0.0
+info:
+  title: test-service
+  version: "1"
+paths:
+  /v2/echo/body:
+    post:
+      operationId: v2EchoEchoBody
+      tags:
+        - echo
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/v2.Message'
+      responses:
+        "200":
+          description: ""
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/v2.Message'
+        "400":
+          description: Service will return this if parameters are not provided or couldn't be parsed correctly
+        "500":
+          description: Service will return this if unexpected internal error happens
+  /echo/body:
+    post:
+      operationId: echoEchoBody
+      tags:
+        - echo
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Message'
+      responses:
+        "200":
+          description: ""
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Message'
+        "400":
+          description: Service will return this if parameters are not provided or couldn't be parsed correctly
+        "500":
+          description: Service will return this if unexpected internal error happens
+  /echo/query:
+    get:
+      operationId: echoEchoQuery
+      tags:
+        - echo
+      parameters:
+        - in: query
+          name: int_query
+          required: true
+          schema:
+            type: integer
+            format: int32
+        - in: query
+          name: string_query
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ""
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Message'
+        "400":
+          description: Service will return this if parameters are not provided or couldn't be parsed correctly
+        "500":
+          description: Service will return this if unexpected internal error happens
+  /echo/header:
+    get:
+      operationId: echoEchoHeader
+      tags:
+        - echo
+      parameters:
+        - in: header
+          name: Int-Header
+          required: true
+          schema:
+            type: integer
+            format: int32
+        - in: header
+          name: String-Header
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ""
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Message'
+        "400":
+          description: Service will return this if parameters are not provided or couldn't be parsed correctly
+        "500":
+          description: Service will return this if unexpected internal error happens
+  /echo/url_params/{int_url}/{string_url}:
+    get:
+      operationId: echoEchoUrlParams
+      tags:
+        - echo
+      parameters:
+        - in: path
+          name: int_url
+          required: true
+          schema:
+            type: integer
+            format: int32
+        - in: path
+          name: string_url
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ""
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Message'
+        "400":
+          description: Service will return this if parameters are not provided or couldn't be parsed correctly
+        "500":
+          description: Service will return this if unexpected internal error happens
+  /check/empty:
+    get:
+      operationId: checkCheckEmpty
+      tags:
+        - check
+      responses:
+        "200":
+          description: ""
+        "500":
+          description: Service will return this if unexpected internal error happens
+  /check/query:
+    get:
+      operationId: checkCheckQuery
+      tags:
+        - check
+      parameters:
+        - in: query
+          name: p_string
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: p_string_opt
+          required: false
+          schema:
+            type: string
+        - in: query
+          name: p_string_array
+          required: true
+          schema:
+            type: array
+            items:
+              type: string
+        - in: query
+          name: p_date
+          required: true
+          schema:
+            type: string
+            format: date
+        - in: query
+          name: p_date_array
+          required: true
+          schema:
+            type: array
+            items:
+              type: string
+              format: date
+        - in: query
+          name: p_datetime
+          required: true
+          schema:
+            type: string
+            format: datetime
+        - in: query
+          name: p_int
+          required: true
+          schema:
+            type: integer
+            format: int32
+        - in: query
+          name: p_long
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - in: query
+          name: p_decimal
+          required: true
+          schema:
+            type: number
+            format: decimal
+        - in: query
+          name: p_enum
+          required: true
+          schema:
+            $ref: '#/components/schemas/Choice'
+        - in: query
+          name: p_string_defaulted
+          required: true
+          schema:
+            type: string
+            default: the default value
+      responses:
+        "200":
+          description: ""
+        "400":
+          description: Service will return this if parameters are not provided or couldn't be parsed correctly
+        "500":
+          description: Service will return this if unexpected internal error happens
+  /check/url_params/{int_url}/{string_url}/{float_url}/{bool_url}/{uuid_url}/{decimal_url}/{date_url}:
+    get:
+      operationId: checkCheckUrlParams
+      tags:
+        - check
+      parameters:
+        - in: path
+          name: int_url
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - in: path
+          name: string_url
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: float_url
+          required: true
+          schema:
+            type: number
+            format: float
+        - in: path
+          name: bool_url
+          required: true
+          schema:
+            type: boolean
+        - in: path
+          name: uuid_url
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - in: path
+          name: decimal_url
+          required: true
+          schema:
+            type: number
+            format: decimal
+        - in: path
+          name: date_url
+          required: true
+          schema:
+            type: string
+            format: date
+      responses:
+        "200":
+          description: ""
+        "400":
+          description: Service will return this if parameters are not provided or couldn't be parsed correctly
+        "500":
+          description: Service will return this if unexpected internal error happens
+  /check/forbidden:
+    get:
+      operationId: checkCheckForbidden
+      tags:
+        - check
+      responses:
+        "200":
+          description: ""
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Message'
+        "403":
+          description: ""
+        "500":
+          description: Service will return this if unexpected internal error happens
+components:
+  schemas:
+    v2.Message:
+      type: object
+      required:
+        - bool_field
+        - string_field
+      properties:
+        bool_field:
+          type: boolean
+        string_field:
+          type: string
+    Message:
+      type: object
+      required:
+        - int_field
+        - string_field
+      properties:
+        int_field:
+          type: integer
+          format: int32
+        string_field:
+          type: string
+    Choice:
+      type: string
+      enum:
+        - first_choice
+        - second_choice
+        - third_choice
