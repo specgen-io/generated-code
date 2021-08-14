@@ -57,9 +57,9 @@ jobs:
             git add --all
             git config --global user.email "vladimir.sapronov@gmail.com"
             git config --global user.name "vsapronov"
+            git remote set-url origin https://vsapronov:$GITHUB_TOKEN@github.com/specgen-io/generated-code.git
             if [[ `git status --porcelain` ]]; then
               git commit -m "[skip ci] Generated code with specgen <<pipeline.parameters.specgen-version>>"
-              git remote set-url origin https://vsapronov:$GITHUB_TOKEN@github.com/specgen-io/generated-code.git
               git push
             else
               echo "No changes detected - nothing to commit"
