@@ -60,7 +60,8 @@ jobs:
               git config --global user.name "vsapronov"
               git commit -m "[skip ci] Generated code with specgen <<pipeline.parameters.specgen-version>>"
               git remote set-url origin https://vsapronov:$GITHUB_TOKEN@github.com/specgen-io/generated-code.git
-              git push
+              git tag v<<pipeline.parameters.specgen-version>>
+              git push --tags --force
             else
               echo "No changes detected - nothing to commit"
             fi
