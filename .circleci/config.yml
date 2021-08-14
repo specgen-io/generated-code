@@ -64,7 +64,7 @@ jobs:
             else
               echo "No changes detected - nothing to commit"
             fi
-            git tag -f -a v<<pipeline.parameters.specgen-version>>
+            git tag -f -a v<<pipeline.parameters.specgen-version>> -m "Specgen verison: v<<pipeline.parameters.specgen-version>>"
             git push -f --tags
 
 commands:
