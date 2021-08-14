@@ -6,7 +6,7 @@ parameters:
     default: 2.0.421
 
 jobs:
-  generate-commit:
+  generated-code:
     docker:
       - image: cimg/base:2021.04
     steps:
@@ -64,8 +64,8 @@ jobs:
             else
               echo "No changes detected - nothing to commit"
             fi
-            git tag v<<pipeline.parameters.specgen-version>>
-            git push --tags -f
+            git tag -f -a v<<pipeline.parameters.specgen-version>>
+            git push -f --tags
 
 commands:
   tree:
@@ -87,7 +87,7 @@ commands:
             rm specgen_linux_amd64.zip
 
 workflows:
-  generate-commit:
+  generated-code:
     jobs:
-      - generate-commit:
+      - generated-code:
           context: specgen
