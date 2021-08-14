@@ -43,9 +43,9 @@ jobs:
             rm -R -- ./services/*/
             ./specgen openapi --spec-file ./services/spec.yaml --out-file ./services/openapi/swagger.yaml
             ./specgen service-go --spec-file ./services/spec.yaml --generate-path ./services/go
-            ./specgen service-scala-play --spec-file ./services/spec.yaml --generate-path ./services/scala-play
-            ./specgen service-ts --server express --validation superstruct --spec-file ./services/spec.yaml --generate-path ./services/ts-express-superstruct
-            ./specgen service-ts --server koa --validation superstruct --spec-file ./services/spec.yaml --generate-path ./services/ts-koa-superstruct
+            ./specgen service-scala-play --spec-file ./services/spec.yaml --generate-path ./services/scala-play --services-path ./services/scala-play/services
+            ./specgen service-ts --server express --validation superstruct --spec-file ./services/spec.yaml --generate-path ./services/ts-express-superstruct --services-path ./services/ts-express-superstruct/services
+            ./specgen service-ts --server koa --validation superstruct --spec-file ./services/spec.yaml --generate-path ./services/ts-koa-superstruct --services-path ./services/ts-koa-superstruct/services
       - tree:
           path: ./services
       - run:
@@ -55,16 +55,16 @@ jobs:
           name: Commit changes
           command: |
             git add --all
+            git config --global user.email "vladimir.sapronov@gmail.com"
+            git config --global user.name "vsapronov"
             if [[ `git status --porcelain` ]]; then
-              git config --global user.email "vladimir.sapronov@gmail.com"
-              git config --global user.name "vsapronov"
               git commit -m "[skip ci] Generated code with specgen <<pipeline.parameters.specgen-version>>"
               git remote set-url origin https://vsapronov:$GITHUB_TOKEN@github.com/specgen-io/generated-code.git
-              git tag v<<pipeline.parameters.specgen-version>>
-              git push --tags --force
             else
               echo "No changes detected - nothing to commit"
             fi
+            git tag v<<pipeline.parameters.specgen-version>>
+            git push --tags --force
 
 commands:
   tree:
