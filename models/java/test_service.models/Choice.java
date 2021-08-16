@@ -1,4 +1,4 @@
-package test_service.models.spec;
+package test_service.models;
 
 import java.time.*;
 import java.util.*;

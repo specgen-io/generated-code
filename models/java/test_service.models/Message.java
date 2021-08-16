@@ -1,4 +1,4 @@
-package test_service.models.spec_v2;
+package test_service.models;
 
 import java.time.*;
 import java.util.*;
@@ -9,20 +9,20 @@ import com.fasterxml.jackson.annotation.JsonSubTypes.*;
 
 public class Message {
 	@JsonProperty("field")
-	private String field;
+	private int field;
 
 	public Message() {
 	}
 
-	public Message(String field) {
+	public Message(int field) {
 		this.field = field;
 	}
 
-	public String getField() {
+	public int getField() {
 		return field;
 	}
 
-	public void setField(String field) {
+	public void setField(int field) {
 		this.field = field;
 	}
 }
