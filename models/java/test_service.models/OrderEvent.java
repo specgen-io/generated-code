@@ -11,6 +11,7 @@ import com.fasterxml.jackson.annotation.JsonSubTypes.*;
 	use = JsonTypeInfo.Id.NAME,
 	include = JsonTypeInfo.As.WRAPPER_OBJECT
 )
+)
 @JsonSubTypes({
 	@Type(value = OrderEventCreated.class, name = "created"),
 	@Type(value = OrderEventChanged.class, name = "changed"),
