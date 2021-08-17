@@ -11,7 +11,6 @@ import com.fasterxml.jackson.annotation.JsonSubTypes.*;
 	use = JsonTypeInfo.Id.NAME,
 	include = JsonTypeInfo.As.WRAPPER_OBJECT
 )
-)
 @JsonSubTypes({
 	@Type(value = OrderEventCamelCaseCreatedOrder.class, name = "createdOrder"),
 	@Type(value = OrderEventCamelCaseChangedOrder.class, name = "changedOrder"),
