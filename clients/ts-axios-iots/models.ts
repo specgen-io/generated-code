@@ -2,7 +2,6 @@
 /* eslint-disable @typescript-eslint/no-magic-numbers */
 import * as t from './io-ts'
 
-
 export const TMessage = t.interface({
     int_field: t.number,
     string_field: t.string,

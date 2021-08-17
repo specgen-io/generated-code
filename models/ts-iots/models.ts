@@ -2,20 +2,17 @@
 /* eslint-disable @typescript-eslint/no-magic-numbers */
 import * as t from './io-ts'
 
-
 export const TMessage = t.interface({
     field: t.number,
 })
 
 export type Message = t.TypeOf<typeof TMessage>
 
-
 export const TNested = t.interface({
     field: t.string,
 })
 
 export type Nested = t.TypeOf<typeof TNested>
-
 
 export const TParent = t.interface({
     field: t.string,
@@ -32,13 +29,11 @@ export enum Choice {
 
 export const TChoice = t.enum(Choice)
 
-
 export const TEnumFields = t.interface({
     enum_field: TChoice,
 })
 
 export type EnumFields = t.TypeOf<typeof TEnumFields>
-
 
 export const TNumericFields = t.interface({
     int_field: t.number,
@@ -50,7 +45,6 @@ export const TNumericFields = t.interface({
 
 export type NumericFields = t.TypeOf<typeof TNumericFields>
 
-
 export const TNonNumericFields = t.interface({
     boolean_field: t.boolean,
     string_field: t.string,
@@ -61,14 +55,12 @@ export const TNonNumericFields = t.interface({
 
 export type NonNumericFields = t.TypeOf<typeof TNonNumericFields>
 
-
 export const TArrayFields = t.interface({
     int_array_field: t.array(t.number),
     string_array_field: t.array(t.string),
 })
 
 export type ArrayFields = t.TypeOf<typeof TArrayFields>
-
 
 export const TMapFields = t.interface({
     int_map_field: t.record(t.string, t.number),
@@ -77,7 +69,6 @@ export const TMapFields = t.interface({
 
 export type MapFields = t.TypeOf<typeof TMapFields>
 
-
 export const TOptionalFields = t.partial({
     int_option_field: t.union([t.number, t.null]),
     string_option_field: t.union([t.string, t.null]),
@@ -85,13 +76,11 @@ export const TOptionalFields = t.partial({
 
 export type OptionalFields = t.TypeOf<typeof TOptionalFields>
 
-
 export const TRawJsonField = t.interface({
     json_field: t.unknown,
 })
 
 export type RawJsonField = t.TypeOf<typeof TRawJsonField>
-
 
 export const TOrderCreated = t.interface({
     id: t.string,
@@ -101,14 +90,12 @@ export const TOrderCreated = t.interface({
 
 export type OrderCreated = t.TypeOf<typeof TOrderCreated>
 
-
 export const TOrderChanged = t.interface({
     id: t.string,
     quantity: t.number,
 })
 
 export type OrderChanged = t.TypeOf<typeof TOrderChanged>
-
 
 export const TOrderCanceled = t.interface({
     id: t.string,
@@ -123,7 +110,6 @@ export const TOrderEvent = t.union([
 ])
 
 export type OrderEvent = t.TypeOf<typeof TOrderEvent>
-
 
 export const TMessageCamelCase = t.interface({
     fieldInt: t.number,

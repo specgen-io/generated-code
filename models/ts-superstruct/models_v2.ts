@@ -1,6 +1,6 @@
 import * as t from './superstruct'
 
-export const TMessage = t.object({
+export const TMessage = t.type({
     field: t.string(),
 })
 
