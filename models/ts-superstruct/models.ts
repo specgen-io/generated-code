@@ -1,18 +1,18 @@
 import * as t from './superstruct'
 
-export const TMessage = t.object({
+export const TMessage = t.type({
     field: t.number(),
 })
 
 export type Message = t.Infer<typeof TMessage>
 
-export const TNested = t.object({
+export const TNested = t.type({
     field: t.string(),
 })
 
 export type Nested = t.Infer<typeof TNested>
 
-export const TParent = t.object({
+export const TParent = t.type({
     field: t.string(),
     nested: TNested,
 })
@@ -33,13 +33,13 @@ export const Choice = {
     THIRD_CHOICE: <Choice>"THIRD_CHOICE",
 }
 
-export const TEnumFields = t.object({
+export const TEnumFields = t.type({
     enum_field: TChoice,
 })
 
 export type EnumFields = t.Infer<typeof TEnumFields>
 
-export const TNumericFields = t.object({
+export const TNumericFields = t.type({
     int_field: t.number(),
     long_field: t.number(),
     float_field: t.number(),
@@ -49,7 +49,7 @@ export const TNumericFields = t.object({
 
 export type NumericFields = t.Infer<typeof TNumericFields>
 
-export const TNonNumericFields = t.object({
+export const TNonNumericFields = t.type({
     boolean_field: t.boolean(),
     string_field: t.string(),
     uuid_field: t.string(),
@@ -59,34 +59,34 @@ export const TNonNumericFields = t.object({
 
 export type NonNumericFields = t.Infer<typeof TNonNumericFields>
 
-export const TArrayFields = t.object({
+export const TArrayFields = t.type({
     int_array_field: t.array(t.number()),
     string_array_field: t.array(t.string()),
 })
 
 export type ArrayFields = t.Infer<typeof TArrayFields>
 
-export const TMapFields = t.object({
+export const TMapFields = t.type({
     int_map_field: t.record(t.string(), t.number()),
     string_map_field: t.record(t.string(), t.string()),
 })
 
 export type MapFields = t.Infer<typeof TMapFields>
 
-export const TOptionalFields = t.object({
+export const TOptionalFields = t.type({
     int_option_field: t.optional(t.nullable(t.number())),
     string_option_field: t.optional(t.nullable(t.string())),
 })
 
 export type OptionalFields = t.Infer<typeof TOptionalFields>
 
-export const TRawJsonField = t.object({
+export const TRawJsonField = t.type({
     json_field: t.unknown(),
 })
 
 export type RawJsonField = t.Infer<typeof TRawJsonField>
 
-export const TOrderCreated = t.object({
+export const TOrderCreated = t.type({
     id: t.string(),
     sku: t.string(),
     quantity: t.number(),
@@ -94,14 +94,14 @@ export const TOrderCreated = t.object({
 
 export type OrderCreated = t.Infer<typeof TOrderCreated>
 
-export const TOrderChanged = t.object({
+export const TOrderChanged = t.type({
     id: t.string(),
     quantity: t.number(),
 })
 
 export type OrderChanged = t.Infer<typeof TOrderChanged>
 
-export const TOrderCanceled = t.object({
+export const TOrderCanceled = t.type({
     id: t.string(),
 })
 
@@ -115,7 +115,7 @@ export const TOrderEvent = t.union([
 
 export type OrderEvent = t.Infer<typeof TOrderEvent>
 
-export const TMessageCamelCase = t.object({
+export const TMessageCamelCase = t.type({
     fieldInt: t.number(),
 })
 
