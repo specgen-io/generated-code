@@ -185,6 +185,15 @@ components:
           $ref: '#/components/schemas/OrderChanged'
         canceled:
           $ref: '#/components/schemas/OrderCanceled'
+    OrderEventDiscriminated:
+      type: object
+      properties:
+        created:
+          $ref: '#/components/schemas/OrderCreated'
+        changed:
+          $ref: '#/components/schemas/OrderChanged'
+        canceled:
+          $ref: '#/components/schemas/OrderCanceled'
     MessageCamelCase:
       type: object
       required:

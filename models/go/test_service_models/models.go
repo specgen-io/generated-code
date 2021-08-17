@@ -96,6 +96,12 @@ type OrderEvent struct {
 	Canceled *OrderCanceled `json:"canceled,omitempty"`
 }
 
+type OrderEventDiscriminated struct {
+	Created *OrderCreated `json:"created,omitempty"`
+	Changed *OrderChanged `json:"changed,omitempty"`
+	Canceled *OrderCanceled `json:"canceled,omitempty"`
+}
+
 type MessageCamelCase struct {
 	FieldInt int `json:"fieldInt"`
 }

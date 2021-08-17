@@ -91,6 +91,8 @@ module TestService
 
   OrderEvent = T.union(created: OrderCreated, changed: OrderChanged, canceled: OrderCanceled)
 
+  OrderEventDiscriminated = T.union(created: OrderCreated, changed: OrderChanged, canceled: OrderCanceled)
+
   class MessageCamelCase
     include DataClass
     val :fieldInt, Integer

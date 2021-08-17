@@ -115,6 +115,14 @@ export const TOrderEvent = t.union([
 
 export type OrderEvent = t.Infer<typeof TOrderEvent>
 
+export const TOrderEventDiscriminated = t.union([
+    t.intersection([t.type({_type: t.literal('created')}), TOrderCreated]),
+    t.intersection([t.type({_type: t.literal('changed')}), TOrderChanged]),
+    t.intersection([t.type({_type: t.literal('canceled')}), TOrderCanceled]),
+])
+
+export type OrderEventDiscriminated = t.Infer<typeof TOrderEventDiscriminated>
+
 export const TMessageCamelCase = t.type({
     fieldInt: t.number(),
 })

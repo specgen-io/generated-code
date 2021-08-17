@@ -162,6 +162,19 @@ object OrderEvent {
   implicit val codecCanceled: Codec[OrderEvent.Canceled] = deriveUnwrappedCodec
 }
 
+sealed trait OrderEventDiscriminated
+
+object OrderEventDiscriminated {
+  case class Created(data: testservice.models.OrderCreated) extends OrderEventDiscriminated
+  case class Changed(data: testservice.models.OrderChanged) extends OrderEventDiscriminated
+  case class Canceled(data: testservice.models.OrderCanceled) extends OrderEventDiscriminated
+  implicit val config = Configuration.default.withSnakeCaseConstructorNames
+  implicit val codec: Codec[OrderEventDiscriminated] = deriveConfiguredCodec
+  implicit val codecCreated: Codec[OrderEventDiscriminated.Created] = deriveUnwrappedCodec
+  implicit val codecChanged: Codec[OrderEventDiscriminated.Changed] = deriveUnwrappedCodec
+  implicit val codecCanceled: Codec[OrderEventDiscriminated.Canceled] = deriveUnwrappedCodec
+}
+
 case class MessageCamelCase(
   @JsonKey("fieldInt") fieldInt: Int
 )
