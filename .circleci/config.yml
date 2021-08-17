@@ -18,13 +18,19 @@ jobs:
             rm -R -- ./models/*/
             cd models
             curl -LJO https://raw.githubusercontent.com/specgen-io/test-models/main/spec.yaml
+            mkdir openapi
             cp ./spec.yaml ./openapi/spec.yaml
+            mkdir java
             cp ./spec.yaml ./java/spec.yaml
+            mkdir go
             cp ./spec.yaml ./go/spec.yaml
-            cp ./spec.yaml ./go/spec.yaml
+            mkdir ruby
             cp ./spec.yaml ./ruby/spec.yaml
+            mkdir scala-circe
             cp ./spec.yaml ./scala-circe/spec.yaml
+            mkdir ts-iots
             cp ./spec.yaml ./ts-iots/spec.yaml
+            mkdir ts-superstruct
             cp ./spec.yaml ./ts-superstruct/spec.yaml
             rm spec.yaml
             ./../specgen openapi --spec-file ./openapi/spec.yaml --out-file ./openapi/swagger.yaml
