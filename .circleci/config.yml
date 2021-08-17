@@ -3,7 +3,7 @@ version: 2.1
 parameters:
   specgen-version:
     type: string
-    default: 2.0.421
+    default: 2.0.445
 
 jobs:
   generated-code:
@@ -16,13 +16,24 @@ jobs:
           name: Generate models
           command: |
             rm -R -- ./models/*/
-            ./specgen openapi --spec-file ./models/spec.yaml --out-file ./models/openapi/swagger.yaml
-            ./specgen models-java --spec-file ./models/spec.yaml --generate-path ./models/java
-            ./specgen models-go --spec-file ./models/spec.yaml --generate-path ./models/go
-            ./specgen models-ruby --spec-file ./models/spec.yaml --generate-path ./models/ruby
-            ./specgen models-scala-circe --spec-file ./models/spec.yaml --generate-path ./models/scala-circe
-            ./specgen models-ts --validation io-ts --spec-file ./models/spec.yaml --generate-path ./models/ts-iots
-            ./specgen models-ts --validation superstruct --spec-file ./models/spec.yaml --generate-path ./models/ts-superstruct
+            cd models
+            curl -LJO https://raw.githubusercontent.com/specgen-io/test-models/main/spec.yaml
+            cp ./spec.yaml ./openapi/spec.yaml
+            cp ./spec.yaml ./java/spec.yaml
+            cp ./spec.yaml ./go/spec.yaml
+            cp ./spec.yaml ./go/spec.yaml
+            cp ./spec.yaml ./ruby/spec.yaml
+            cp ./spec.yaml ./scala-circe/spec.yaml
+            cp ./spec.yaml ./ts-iots/spec.yaml
+            cp ./spec.yaml ./ts-superstruct/spec.yaml
+            rm spec.yaml
+            ./../specgen openapi --spec-file ./openapi/spec.yaml --out-file ./openapi/swagger.yaml
+            ./../specgen models-java --spec-file ./java/spec.yaml --generate-path ./java
+            ./../specgen models-go --spec-file ./go/spec.yaml --generate-path ./go
+            ./../specgen models-ruby --spec-file ./ruby/spec.yaml --generate-path ./ruby
+            ./../specgen models-scala-circe --spec-file ./scala-circe/spec.yaml --generate-path ./scala-circe
+            ./../specgen models-ts --validation io-ts --spec-file ./ts-iots/spec.yaml --generate-path ./ts-iots
+            ./../specgen models-ts --validation superstruct --spec-file ./ts-superstruct/spec.yaml --generate-path ./ts-superstruct
       - tree:
           path: ./models
       - run:
