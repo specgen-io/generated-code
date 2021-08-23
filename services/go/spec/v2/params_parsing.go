@@ -1,13 +1,13 @@
-package test_service_service
+package v2
 
 import (
+	"cloud.google.com/go/civil"
 	"fmt"
+	"github.com/google/uuid"
+	"github.com/shopspring/decimal"
 	"strconv"
 	"strings"
 	"time"
-	"cloud.google.com/go/civil"
-	"github.com/google/uuid"
-	"github.com/shopspring/decimal"
 )
 
 type ParamsParser struct {
