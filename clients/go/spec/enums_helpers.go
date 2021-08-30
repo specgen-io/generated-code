@@ -1,4 +1,4 @@
-package test_service_client
+package spec
 
 import (
 	"encoding/json"
