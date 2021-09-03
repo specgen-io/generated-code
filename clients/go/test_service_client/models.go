@@ -1,4 +1,4 @@
-package spec
+package test_service_client
 
 type Message struct {
 	IntField int `json:"int_field"`

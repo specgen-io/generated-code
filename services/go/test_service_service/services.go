@@ -1,4 +1,4 @@
-package spec
+package test_service_service
 
 import "cloud.google.com/go/civil"
 import "github.com/google/uuid"

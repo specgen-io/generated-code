@@ -1,4 +1,4 @@
-package spec
+package test_service_client
 
 import (
 	"cloud.google.com/go/civil"
