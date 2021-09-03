@@ -4,6 +4,8 @@ import "cloud.google.com/go/civil"
 import "encoding/json"
 import "github.com/google/uuid"
 import "github.com/shopspring/decimal"
+import "errors"
+import "fmt"
 
 type Message struct {
 	Field int `json:"field"`
@@ -100,6 +102,66 @@ type OrderEventDiscriminated struct {
 	Created *OrderCreated `json:"created,omitempty"`
 	Changed *OrderChanged `json:"changed,omitempty"`
 	Canceled *OrderCanceled `json:"canceled,omitempty"`
+}
+
+func (u OrderEventDiscriminated) MarshalJSON() ([]byte, error) {
+	if u.Created != nil {
+		return json.Marshal(&struct {
+			Discriminator string `json:"_type"`
+			*OrderCreated
+		}{
+			Discriminator: "created",
+			OrderCreated: u.Created,
+		})
+	}
+	if u.Changed != nil {
+		return json.Marshal(&struct {
+			Discriminator string `json:"_type"`
+			*OrderChanged
+		}{
+			Discriminator: "changed",
+			OrderChanged: u.Changed,
+		})
+	}
+	if u.Canceled != nil {
+		return json.Marshal(&struct {
+			Discriminator string `json:"_type"`
+			*OrderCanceled
+		}{
+			Discriminator: "canceled",
+			OrderCanceled: u.Canceled,
+		})
+	}
+	return nil, errors.New("union case not set")
+}
+
+func (u *OrderEventDiscriminated) UnmarshalJSON(data []byte) error {
+	var discriminator struct {
+		Value string `json:"_type"`
+	}
+	err := json.Unmarshal(data, &discriminator)
+	if err != nil { return err }
+
+	switch discriminator.Value {
+		case "created":
+			unionCase := OrderCreated{}
+			err := json.Unmarshal(data, &unionCase)
+			if err != nil { return err }
+			u.Created = &unionCase
+		case "changed":
+			unionCase := OrderChanged{}
+			err := json.Unmarshal(data, &unionCase)
+			if err != nil { return err }
+			u.Changed = &unionCase
+		case "canceled":
+			unionCase := OrderCanceled{}
+			err := json.Unmarshal(data, &unionCase)
+			if err != nil { return err }
+			u.Canceled = &unionCase
+		default:
+			return errors.New(fmt.Sprintf("unexpected union discriminator field _type value: %s", discriminator.Value))
+	}
+	return nil
 }
 
 type MessageCamelCase struct {
