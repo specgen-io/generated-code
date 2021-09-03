@@ -1,9 +1,11 @@
 package v2
 
-import "encoding/json"
-import "fmt"
-import "github.com/husobee/vestigo"
-import "net/http"
+import (
+	"encoding/json"
+	"fmt"
+	"github.com/husobee/vestigo"
+	"net/http"
+)
 
 func checkErrors(params *ParamsParser, w http.ResponseWriter) bool {
 	if len(params.Errors) > 0 {
