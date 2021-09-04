@@ -131,6 +131,16 @@ paths:
           description: Service will return this if parameters are not provided or couldn't be parsed correctly
         "500":
           description: Service will return this if unexpected internal error happens
+  /check/empty:
+    get:
+      operationId: checkCheckEmpty
+      tags:
+        - check
+      responses:
+        "200":
+          description: ""
+        "500":
+          description: Service will return this if unexpected internal error happens
   /check/query:
     get:
       operationId: checkCheckQuery

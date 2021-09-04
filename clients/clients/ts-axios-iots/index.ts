@@ -77,6 +77,17 @@ export const checkClient = (axiosInstance: AxiosInstance) => {
     return {
         axiosInstance,
 
+        checkEmpty: async (): Promise<CheckEmptyResponse> => {
+            const config: AxiosRequestConfig = {}
+            const response = await axiosInstance.get(`/check/empty`, config)
+            switch (response.status) {
+                case 200:
+                    return Promise.resolve({ status: "ok" })
+                default:
+                    throw new Error(`Unexpected status code ${ response.status }`)
+            }
+        },
+
         checkQuery: async (parameters: {pString: string, pStringArray: string[], pDate: string, pDateArray: string[], pDatetime: Date, pInt: number, pLong: number, pDecimal: number, pEnum: models.Choice, pStringOpt?: string | undefined, pStringDefaulted?: string | undefined}): Promise<CheckQueryResponse> => {
             const params = {
                 "p_string": parameters.pString,
@@ -126,6 +137,9 @@ export const checkClient = (axiosInstance: AxiosInstance) => {
         },
     }
 }
+
+export type CheckEmptyResponse =
+    | { status: "ok" }
 
 export type CheckQueryResponse =
     | { status: "ok" }

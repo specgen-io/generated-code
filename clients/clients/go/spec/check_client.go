@@ -17,6 +17,22 @@ func NewCheckClient(baseUrl string) *checkClient {
 	return &checkClient{baseUrl}
 }
 
+func (client *checkClient) CheckEmpty() (*CheckEmptyResponse, error) {
+	req, err := http.NewRequest("GET", client.baseUrl+"/check/empty", nil)
+	if err != nil { return nil, err }
+
+	resp, err := http.DefaultClient.Do(req)
+	if err != nil { return nil, err }
+
+	if resp.StatusCode == 200 {
+		body := &Empty
+
+		return &CheckEmptyResponse{Ok: body}, nil
+	}
+
+	return nil, errors.New(fmt.Sprintf("Unexpected status code received: %d", resp.StatusCode))
+}
+
 func (client *checkClient) CheckQuery(pString string, pStringOpt *string, pStringArray []string, pDate civil.Date, pDateArray []civil.Date, pDatetime civil.DateTime, pInt int, pLong int64, pDecimal decimal.Decimal, pEnum Choice, pStringDefaulted string) (*CheckQueryResponse, error) {
 	req, err := http.NewRequest("GET", client.baseUrl+"/check/query", nil)
 	if err != nil { return nil, err }
