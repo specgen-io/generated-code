@@ -18,7 +18,7 @@ jobs:
             curl -L https://github.com/specgen-io/specgen/releases/download/v<<pipeline.parameters.specgen-version>>/specgen_linux_amd64.zip > specgen_linux_amd64.zip
             unzip -o specgen_linux_amd64.zip
             rm specgen_linux_amd64.zip
-            /tmp/specgen version
+            /tmp/specgen --help
       - run:
           name: Download models spec
           command: |
