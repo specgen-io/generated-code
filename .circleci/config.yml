@@ -80,27 +80,27 @@ jobs:
 
             mkdir openapi
             cp /tmp/clients/spec.yaml ./openapi/spec.yaml
-            /tmp/specgen openapi --spec-file ./openapi/spec.yaml --out-file ./clients/openapi/swagger.yaml
+            /tmp/specgen openapi --spec-file ./openapi/spec.yaml --out-file ./openapi/swagger.yaml
             
             mkdir go
             cp /tmp/clients/spec.yaml ./go/spec.yaml
-            /tmp/specgen client-go --spec-file ./go/spec.yaml --generate-path ./clients/go
+            /tmp/specgen client-go --spec-file ./go/spec.yaml --generate-path ./go
             
             mkdir ruby
             cp /tmp/clients/spec.yaml ./ruby/spec.yaml
-            /tmp/specgen client-ruby --spec-file ./ruby/spec.yaml --generate-path ./clients/ruby
+            /tmp/specgen client-ruby --spec-file ./ruby/spec.yaml --generate-path ./ruby
             
             mkdir scala-sttp
             cp /tmp/clients/spec.yaml ./scala-sttp/spec.yaml
-            /tmp/specgen client-scala-sttp --spec-file ./scala-sttp/spec.yaml --generate-path ./clients/scala-sttp
+            /tmp/specgen client-scala-sttp --spec-file ./scala-sttp/spec.yaml --generate-path ./scala-sttp
             
             mkdir ts-axios-superstruct
             cp /tmp/clients/spec.yaml ./ts-axios-superstruct/spec.yaml
-            /tmp/specgen client-ts-axios --validation superstruct --spec-file ./ts-axios-superstruct/spec.yaml --generate-path ./clients/ts-axios-superstruct
+            /tmp/specgen client-ts-axios --validation superstruct --spec-file ./ts-axios-superstruct/spec.yaml --generate-path ./ts-axios-superstruct
             
             mkdir ts-axios-iots
             cp /tmp/clients/spec.yaml ./ts-axios-iots/spec.yaml
-            /tmp/specgen client-ts-axios --validation io-ts --spec-file ./ts-axios-iots/spec.yaml --generate-path ./clients/ts-axios-iots
+            /tmp/specgen client-ts-axios --validation io-ts --spec-file ./ts-axios-iots/spec.yaml --generate-path ./ts-axios-iots
       - tree:
           path: ./clients
       - run:
