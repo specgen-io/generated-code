@@ -110,24 +110,24 @@ jobs:
             cd services
 
             mkdir openapi
-            cp /tmp/services/spec.yaml ./services/openapi/spec.yaml
-            /tmp/specgen openapi --spec-file ./services/openapi/spec.yaml --out-file ./services/openapi/swagger.yaml
+            cp /tmp/services/spec.yaml ./openapi/spec.yaml
+            /tmp/specgen openapi --spec-file ./openapi/spec.yaml --out-file ./openapi/swagger.yaml
 
             mkdir go
-            cp /tmp/services/spec.yaml ./services/go/spec.yaml
-            /tmp/specgen service-go --spec-file ./services/go/spec.yaml --generate-path ./services/go
+            cp /tmp/services/spec.yaml ./go/spec.yaml
+            /tmp/specgen service-go --spec-file ./go/spec.yaml --generate-path ./go
 
             mkdir scala-play
-            cp /tmp/services/spec.yaml ./services/scala-play/spec.yaml
-            /tmp/specgen service-scala-play --spec-file ./services/scala-play/spec.yaml --generate-path ./services/scala-play --services-path ./services/scala-play/services
+            cp /tmp/services/spec.yaml ./scala-play/spec.yaml
+            /tmp/specgen service-scala-play --spec-file ./scala-play/spec.yaml --generate-path ./scala-play --services-path ./scala-play/services
 
             mkdir ts-express-superstruct
-            cp /tmp/services/spec.yaml ./services/ts-express-superstruct/spec.yaml
-            /tmp/specgen service-ts --server express --validation superstruct --spec-file ./services/ts-express-superstruct/spec.yaml --generate-path ./services/ts-express-superstruct --services-path ./services/ts-express-superstruct/services
+            cp /tmp/services/spec.yaml ./ts-express-superstruct/spec.yaml
+            /tmp/specgen service-ts --server express --validation superstruct --spec-file ./ts-express-superstruct/spec.yaml --generate-path ./ts-express-superstruct --services-path ./ts-express-superstruct/services
 
             mkdir ts-koa-superstruct
-            cp /tmp/services/spec.yaml ./services/ts-koa-superstruct/spec.yaml
-            /tmp/specgen service-ts --server koa --validation superstruct --spec-file ./services/ts-koa-superstruct/spec.yaml --generate-path ./services/ts-koa-superstruct --services-path ./services/ts-koa-superstruct/services
+            cp /tmp/services/spec.yaml ./ts-koa-superstruct/spec.yaml
+            /tmp/specgen service-ts --server koa --validation superstruct --spec-file ./ts-koa-superstruct/spec.yaml --generate-path ./ts-koa-superstruct --services-path ./ts-koa-superstruct/services
       - tree:
           path: ./services
       - run:
