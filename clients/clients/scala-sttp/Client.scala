@@ -118,6 +118,29 @@ class CheckClient(baseUrl: String)(implicit backend: SttpBackend[Future, Nothing
   import ICheckClient._
   import ExecutionContext.Implicits.global
   private val logger: Logger = LoggerFactory.getLogger(this.getClass)
+  def checkEmpty(): Future[CheckEmptyResponse] = {
+    val url = Uri.parse(baseUrl+s"/check/empty").get
+    logger.debug(s"Request to url: ${url}")
+    val response: Future[Response[String]] =
+      sttp
+        .get(url)
+        .parseResponseIf { status => status < 500 }
+        .send()
+    response.map {
+      response: Response[String] =>
+        response.body match {
+          case Right(body) =>
+            logger.debug(s"Response status: ${response.code}, body: ${body}")
+            response.code match {
+              case 200 => CheckEmptyResponse.Ok()
+            }
+          case Left(errorData) =>
+            val errorMessage = s"Request failed, status code: ${response.code}, body: ${new String(errorData)}"
+            logger.error(errorMessage)
+            throw new RuntimeException(errorMessage)
+        }
+    }
+  }
   def checkQuery(pString: String, pStringOpt: Option[String], pStringArray: List[String], pDate: java.time.LocalDate, pDateArray: List[java.time.LocalDate], pDatetime: java.time.LocalDateTime, pInt: Int, pLong: Long, pDecimal: BigDecimal, pEnum: Choice, pStringDefaulted: String = "the default value"): Future[CheckQueryResponse] = {
     val query = new StringParamsWriter()
     query.write("p_string", pString)

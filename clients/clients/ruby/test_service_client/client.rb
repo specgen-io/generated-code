@@ -67,6 +67,18 @@ module TestService
   end
 
   class CheckClient < TestService::BaseClient
+    def check_empty()
+      url = @base_uri + '/check/empty'
+      request = Net::HTTP::Get.new(url)
+      response = @client.request(request)
+      case response.code
+      when '200'
+        OpenStruct.new(:ok => nil, :ok? => true)
+      else
+        raise StandardError.new("Unexpected HTTP response code #{response.code}")
+      end
+    end
+
     def check_query(p_string:, p_string_opt:, p_string_array:, p_date:, p_date_array:, p_datetime:, p_int:, p_long:, p_decimal:, p_enum:, p_string_defaulted: 'the default value')
       query = TestService::StringParams.new
       query.set('p_string', String, p_string)
