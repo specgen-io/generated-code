@@ -10,13 +10,13 @@ import (
 func AddEchoRoutes(router *vestigo.Router, echoService IEchoService) {
 
 	logEchoBody := log.Fields{"operationId": "echo.echo_body", "method": "POST", "url": "/v2/echo/body"}
-	router.Post("/v2/echo/body", func(w http.ResponseWriter, r *http.Request) {
+	router.Post("/v2/echo/body", func(res http.ResponseWriter, req *http.Request) {
 		log.WithFields(logEchoBody).Info("Received request")
 		var body Message
-		err := json.NewDecoder(r.Body).Decode(&body)
+		err := json.NewDecoder(req.Body).Decode(&body)
 		if err != nil {
 			log.Warnf("Decoding body JSON failed: %s", err.Error())
-			w.WriteHeader(400)
+			res.WriteHeader(400)
 			log.WithFields(logEchoBody).WithField("status", 400).Info("Completed request")
 			return
 		}
@@ -27,18 +27,18 @@ func AddEchoRoutes(router *vestigo.Router, echoService IEchoService) {
 			} else {
 				log.Errorf("No result returned from service implementation")
 			}
-			w.WriteHeader(500)
+			res.WriteHeader(500)
 			log.WithFields(logEchoBody).WithField("status", 500).Info("Completed request")
 			return
 		}
 		if response.Ok != nil {
-			w.WriteHeader(200)
-			json.NewEncoder(w).Encode(response.Ok)
+			res.WriteHeader(200)
+			json.NewEncoder(res).Encode(response.Ok)
 			log.WithFields(logEchoBody).WithField("status", 200).Info("Completed request")
 			return
 		}
 		log.Error("Result from service implementation does not have anything in it")
-		w.WriteHeader(500)
+		res.WriteHeader(500)
 		log.WithFields(logEchoBody).WithField("status", 500).Info("Completed request")
 		return
 	})
