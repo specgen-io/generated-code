@@ -69,4 +69,22 @@ public class NonNumericFields {
 	public void setDatetimeField(LocalDateTime datetimeField) {
 		this.datetimeField = datetimeField;
 	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (!(o instanceof NonNumericFields)) return false;
+		NonNumericFields nonNumericFields = (NonNumericFields) o;
+		return Objects.equals(getBooleanField(), nonNumericFields.getBooleanField()) && Objects.equals(getStringField(), nonNumericFields.getStringField()) && Objects.equals(getUuidField(), nonNumericFields.getUuidField()) && Objects.equals(getDateField(), nonNumericFields.getDateField()) && Objects.equals(getDatetimeField(), nonNumericFields.getDatetimeField());
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(getBooleanField(), getStringField(), getUuidField(), getDateField(), getDatetimeField());
+	}
+
+	@Override
+	public String toString() {
+		return String.format("NonNumericFields{booleanField=%s, stringField=%s, uuidField=%s, dateField=%s, datetimeField=%s}", booleanField, stringField, uuidField, dateField, datetimeField);
+	}
 }

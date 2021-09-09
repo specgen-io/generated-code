@@ -17,4 +17,30 @@ public class OrderEventDiscriminatedCreated implements OrderEventDiscriminated {
 	public OrderEventDiscriminatedCreated(OrderCreated data) {
 		this.data = data;
 	}
+
+	public OrderCreated getData() {
+		return data;
+	}
+
+	public void setData(OrderCreated data) {
+		this.data = data;
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (!(o instanceof OrderEventDiscriminatedCreated)) return false;
+		OrderEventDiscriminatedCreated created = (OrderEventDiscriminatedCreated) o;
+		return Objects.equals(getData(), created.getData());
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(getData());
+	}
+
+	@Override
+	public String toString() {
+		return String.format("OrderCreated{data=%s}", data);
+	}
 }

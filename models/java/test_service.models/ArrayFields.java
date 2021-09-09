@@ -36,4 +36,24 @@ public class ArrayFields {
 	public void setStringArrayField(String[] stringArrayField) {
 		this.stringArrayField = stringArrayField;
 	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (!(o instanceof ArrayFields)) return false;
+		ArrayFields arrayFields = (ArrayFields) o;
+		return Arrays.equals(getIntArrayField(), arrayFields.getIntArrayField()) && Arrays.equals(getStringArrayField(), arrayFields.getStringArrayField());
+	}
+
+	@Override
+	public int hashCode() {
+		int result = Arrays.hashCode(getIntArrayField());
+		result = 31 * result + Arrays.hashCode(getStringArrayField());
+		return result;
+	}
+
+	@Override
+	public String toString() {
+		return String.format("ArrayFields{intArrayField=%s, stringArrayField=%s}", Arrays.toString(intArrayField), Arrays.toString(stringArrayField));
+	}
 }

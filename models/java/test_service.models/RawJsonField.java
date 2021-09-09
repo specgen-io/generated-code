@@ -26,4 +26,22 @@ public class RawJsonField {
 	public void setJsonField(JsonNode node) {
 		this.jsonField = node;
 	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (!(o instanceof RawJsonField)) return false;
+		RawJsonField rawJsonField = (RawJsonField) o;
+		return Objects.equals(getJsonField(), rawJsonField.getJsonField());
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(getJsonField());
+	}
+
+	@Override
+	public String toString() {
+		return String.format("RawJsonField{jsonField=%s}", jsonField);
+	}
 }

@@ -17,4 +17,30 @@ public class OrderEventCamelCaseCanceledOrder implements OrderEventCamelCase {
 	public OrderEventCamelCaseCanceledOrder(OrderCanceled data) {
 		this.data = data;
 	}
+
+	public OrderCanceled getData() {
+		return data;
+	}
+
+	public void setData(OrderCanceled data) {
+		this.data = data;
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (!(o instanceof OrderEventCamelCaseCanceledOrder)) return false;
+		OrderEventCamelCaseCanceledOrder canceledOrder = (OrderEventCamelCaseCanceledOrder) o;
+		return Objects.equals(getData(), canceledOrder.getData());
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(getData());
+	}
+
+	@Override
+	public String toString() {
+		return String.format("OrderCanceled{data=%s}", data);
+	}
 }

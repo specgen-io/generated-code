@@ -25,4 +25,22 @@ public class Message {
 	public void setField(String field) {
 		this.field = field;
 	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (!(o instanceof Message)) return false;
+		Message message = (Message) o;
+		return Objects.equals(getField(), message.getField());
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(getField());
+	}
+
+	@Override
+	public String toString() {
+		return String.format("Message{field=%s}", field);
+	}
 }

@@ -17,4 +17,30 @@ public class OrderEventCanceled implements OrderEvent {
 	public OrderEventCanceled(OrderCanceled data) {
 		this.data = data;
 	}
+
+	public OrderCanceled getData() {
+		return data;
+	}
+
+	public void setData(OrderCanceled data) {
+		this.data = data;
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (!(o instanceof OrderEventCanceled)) return false;
+		OrderEventCanceled canceled = (OrderEventCanceled) o;
+		return Objects.equals(getData(), canceled.getData());
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(getData());
+	}
+
+	@Override
+	public String toString() {
+		return String.format("OrderCanceled{data=%s}", data);
+	}
 }

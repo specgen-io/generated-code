@@ -36,4 +36,22 @@ public class Parent {
 	public void setNested(Nested nested) {
 		this.nested = nested;
 	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (!(o instanceof Parent)) return false;
+		Parent parent = (Parent) o;
+		return Objects.equals(getField(), parent.getField()) && Objects.equals(getNested(), parent.getNested());
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(getField(), getNested());
+	}
+
+	@Override
+	public String toString() {
+		return String.format("Parent{field=%s, nested=%s}", field, nested);
+	}
 }

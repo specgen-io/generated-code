@@ -36,4 +36,22 @@ public class MapFields {
 	public void setStringMapField(Map<String, String> stringMapField) {
 		this.stringMapField = stringMapField;
 	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (!(o instanceof MapFields)) return false;
+		MapFields mapFields = (MapFields) o;
+		return Objects.equals(getIntMapField(), mapFields.getIntMapField()) && Objects.equals(getStringMapField(), mapFields.getStringMapField());
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(getIntMapField(), getStringMapField());
+	}
+
+	@Override
+	public String toString() {
+		return String.format("MapFields{intMapField=%s, stringMapField=%s}", intMapField, stringMapField);
+	}
 }

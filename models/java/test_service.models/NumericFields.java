@@ -69,4 +69,22 @@ public class NumericFields {
 	public void setDecimalField(BigDecimal decimalField) {
 		this.decimalField = decimalField;
 	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (!(o instanceof NumericFields)) return false;
+		NumericFields numericFields = (NumericFields) o;
+		return Objects.equals(getIntField(), numericFields.getIntField()) && Objects.equals(getLongField(), numericFields.getLongField()) && Objects.equals(getFloatField(), numericFields.getFloatField()) && Objects.equals(getDoubleField(), numericFields.getDoubleField()) && Objects.equals(getDecimalField(), numericFields.getDecimalField());
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(getIntField(), getLongField(), getFloatField(), getDoubleField(), getDecimalField());
+	}
+
+	@Override
+	public String toString() {
+		return String.format("NumericFields{intField=%s, longField=%s, floatField=%s, doubleField=%s, decimalField=%s}", intField, longField, floatField, doubleField, decimalField);
+	}
 }

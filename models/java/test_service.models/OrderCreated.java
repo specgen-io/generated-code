@@ -47,4 +47,22 @@ public class OrderCreated {
 	public void setQuantity(int quantity) {
 		this.quantity = quantity;
 	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (!(o instanceof OrderCreated)) return false;
+		OrderCreated orderCreated = (OrderCreated) o;
+		return Objects.equals(getId(), orderCreated.getId()) && Objects.equals(getSku(), orderCreated.getSku()) && Objects.equals(getQuantity(), orderCreated.getQuantity());
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(getId(), getSku(), getQuantity());
+	}
+
+	@Override
+	public String toString() {
+		return String.format("OrderCreated{id=%s, sku=%s, quantity=%s}", id, sku, quantity);
+	}
 }

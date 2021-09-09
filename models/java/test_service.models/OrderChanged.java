@@ -36,4 +36,22 @@ public class OrderChanged {
 	public void setQuantity(int quantity) {
 		this.quantity = quantity;
 	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (!(o instanceof OrderChanged)) return false;
+		OrderChanged orderChanged = (OrderChanged) o;
+		return Objects.equals(getId(), orderChanged.getId()) && Objects.equals(getQuantity(), orderChanged.getQuantity());
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(getId(), getQuantity());
+	}
+
+	@Override
+	public String toString() {
+		return String.format("OrderChanged{id=%s, quantity=%s}", id, quantity);
+	}
 }

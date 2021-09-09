@@ -25,4 +25,22 @@ public class EnumFields {
 	public void setEnumField(Choice enumField) {
 		this.enumField = enumField;
 	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (!(o instanceof EnumFields)) return false;
+		EnumFields enumFields = (EnumFields) o;
+		return Objects.equals(getEnumField(), enumFields.getEnumField());
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(getEnumField());
+	}
+
+	@Override
+	public String toString() {
+		return String.format("EnumFields{enumField=%s}", enumField);
+	}
 }

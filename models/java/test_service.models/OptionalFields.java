@@ -36,4 +36,22 @@ public class OptionalFields {
 	public void setStringOptionField(String stringOptionField) {
 		this.stringOptionField = stringOptionField;
 	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (!(o instanceof OptionalFields)) return false;
+		OptionalFields optionalFields = (OptionalFields) o;
+		return Objects.equals(getIntOptionField(), optionalFields.getIntOptionField()) && Objects.equals(getStringOptionField(), optionalFields.getStringOptionField());
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(getIntOptionField(), getStringOptionField());
+	}
+
+	@Override
+	public String toString() {
+		return String.format("OptionalFields{intOptionField=%s, stringOptionField=%s}", intOptionField, stringOptionField);
+	}
 }

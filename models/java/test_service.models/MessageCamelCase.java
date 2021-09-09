@@ -25,4 +25,22 @@ public class MessageCamelCase {
 	public void setFieldInt(int fieldInt) {
 		this.fieldInt = fieldInt;
 	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (!(o instanceof MessageCamelCase)) return false;
+		MessageCamelCase messageCamelCase = (MessageCamelCase) o;
+		return Objects.equals(getFieldInt(), messageCamelCase.getFieldInt());
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(getFieldInt());
+	}
+
+	@Override
+	public String toString() {
+		return String.format("MessageCamelCase{fieldInt=%s}", fieldInt);
+	}
 }

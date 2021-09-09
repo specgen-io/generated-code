@@ -25,4 +25,22 @@ public class OrderCanceled {
 	public void setId(UUID id) {
 		this.id = id;
 	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (!(o instanceof OrderCanceled)) return false;
+		OrderCanceled orderCanceled = (OrderCanceled) o;
+		return Objects.equals(getId(), orderCanceled.getId());
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(getId());
+	}
+
+	@Override
+	public String toString() {
+		return String.format("OrderCanceled{id=%s}", id);
+	}
 }

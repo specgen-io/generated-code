@@ -25,4 +25,22 @@ public class Nested {
 	public void setField(String field) {
 		this.field = field;
 	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (!(o instanceof Nested)) return false;
+		Nested nested = (Nested) o;
+		return Objects.equals(getField(), nested.getField());
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(getField());
+	}
+
+	@Override
+	public String toString() {
+		return String.format("Nested{field=%s}", field);
+	}
 }

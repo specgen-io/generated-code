@@ -17,4 +17,30 @@ public class OrderEventCamelCaseChangedOrder implements OrderEventCamelCase {
 	public OrderEventCamelCaseChangedOrder(OrderChanged data) {
 		this.data = data;
 	}
+
+	public OrderChanged getData() {
+		return data;
+	}
+
+	public void setData(OrderChanged data) {
+		this.data = data;
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (!(o instanceof OrderEventCamelCaseChangedOrder)) return false;
+		OrderEventCamelCaseChangedOrder changedOrder = (OrderEventCamelCaseChangedOrder) o;
+		return Objects.equals(getData(), changedOrder.getData());
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(getData());
+	}
+
+	@Override
+	public String toString() {
+		return String.format("OrderChanged{data=%s}", data);
+	}
 }
