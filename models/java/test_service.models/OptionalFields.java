@@ -41,8 +41,8 @@ public class OptionalFields {
 	public boolean equals(Object o) {
 		if (this == o) return true;
 		if (!(o instanceof OptionalFields)) return false;
-		OptionalFields optionalFields = (OptionalFields) o;
-		return Objects.equals(getIntOptionField(), optionalFields.getIntOptionField()) && Objects.equals(getStringOptionField(), optionalFields.getStringOptionField());
+		OptionalFields that = (OptionalFields) o;
+		return Objects.equals(getIntOptionField(), that.getIntOptionField()) && Objects.equals(getStringOptionField(), that.getStringOptionField());
 	}
 
 	@Override

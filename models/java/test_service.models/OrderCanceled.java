@@ -30,8 +30,8 @@ public class OrderCanceled {
 	public boolean equals(Object o) {
 		if (this == o) return true;
 		if (!(o instanceof OrderCanceled)) return false;
-		OrderCanceled orderCanceled = (OrderCanceled) o;
-		return Objects.equals(getId(), orderCanceled.getId());
+		OrderCanceled that = (OrderCanceled) o;
+		return Objects.equals(getId(), that.getId());
 	}
 
 	@Override

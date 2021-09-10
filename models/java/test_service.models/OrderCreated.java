@@ -52,8 +52,8 @@ public class OrderCreated {
 	public boolean equals(Object o) {
 		if (this == o) return true;
 		if (!(o instanceof OrderCreated)) return false;
-		OrderCreated orderCreated = (OrderCreated) o;
-		return Objects.equals(getId(), orderCreated.getId()) && Objects.equals(getSku(), orderCreated.getSku()) && Objects.equals(getQuantity(), orderCreated.getQuantity());
+		OrderCreated that = (OrderCreated) o;
+		return Objects.equals(getId(), that.getId()) && Objects.equals(getSku(), that.getSku()) && getQuantity() == that.getQuantity();
 	}
 
 	@Override

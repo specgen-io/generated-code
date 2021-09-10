@@ -30,8 +30,8 @@ public class Message {
 	public boolean equals(Object o) {
 		if (this == o) return true;
 		if (!(o instanceof Message)) return false;
-		Message message = (Message) o;
-		return Objects.equals(getField(), message.getField());
+		Message that = (Message) o;
+		return Objects.equals(getField(), that.getField());
 	}
 
 	@Override

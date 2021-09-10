@@ -41,8 +41,8 @@ public class Parent {
 	public boolean equals(Object o) {
 		if (this == o) return true;
 		if (!(o instanceof Parent)) return false;
-		Parent parent = (Parent) o;
-		return Objects.equals(getField(), parent.getField()) && Objects.equals(getNested(), parent.getNested());
+		Parent that = (Parent) o;
+		return Objects.equals(getField(), that.getField()) && Objects.equals(getNested(), that.getNested());
 	}
 
 	@Override

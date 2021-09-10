@@ -30,8 +30,8 @@ public class OrderEventCreated implements OrderEvent {
 	public boolean equals(Object o) {
 		if (this == o) return true;
 		if (!(o instanceof OrderEventCreated)) return false;
-		OrderEventCreated created = (OrderEventCreated) o;
-		return Objects.equals(getData(), created.getData());
+		OrderEventCreated that = (OrderEventCreated) o;
+		return Objects.equals(getData(), that.getData());
 	}
 
 	@Override

@@ -41,8 +41,8 @@ public class MapFields {
 	public boolean equals(Object o) {
 		if (this == o) return true;
 		if (!(o instanceof MapFields)) return false;
-		MapFields mapFields = (MapFields) o;
-		return Objects.equals(getIntMapField(), mapFields.getIntMapField()) && Objects.equals(getStringMapField(), mapFields.getStringMapField());
+		MapFields that = (MapFields) o;
+		return Objects.equals(getIntMapField(), that.getIntMapField()) && Objects.equals(getStringMapField(), that.getStringMapField());
 	}
 
 	@Override

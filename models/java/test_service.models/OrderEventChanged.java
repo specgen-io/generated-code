@@ -30,8 +30,8 @@ public class OrderEventChanged implements OrderEvent {
 	public boolean equals(Object o) {
 		if (this == o) return true;
 		if (!(o instanceof OrderEventChanged)) return false;
-		OrderEventChanged changed = (OrderEventChanged) o;
-		return Objects.equals(getData(), changed.getData());
+		OrderEventChanged that = (OrderEventChanged) o;
+		return Objects.equals(getData(), that.getData());
 	}
 
 	@Override

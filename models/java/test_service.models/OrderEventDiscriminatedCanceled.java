@@ -30,8 +30,8 @@ public class OrderEventDiscriminatedCanceled implements OrderEventDiscriminated 
 	public boolean equals(Object o) {
 		if (this == o) return true;
 		if (!(o instanceof OrderEventDiscriminatedCanceled)) return false;
-		OrderEventDiscriminatedCanceled canceled = (OrderEventDiscriminatedCanceled) o;
-		return Objects.equals(getData(), canceled.getData());
+		OrderEventDiscriminatedCanceled that = (OrderEventDiscriminatedCanceled) o;
+		return Objects.equals(getData(), that.getData());
 	}
 
 	@Override

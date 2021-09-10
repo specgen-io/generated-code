@@ -41,8 +41,8 @@ public class OrderChanged {
 	public boolean equals(Object o) {
 		if (this == o) return true;
 		if (!(o instanceof OrderChanged)) return false;
-		OrderChanged orderChanged = (OrderChanged) o;
-		return Objects.equals(getId(), orderChanged.getId()) && Objects.equals(getQuantity(), orderChanged.getQuantity());
+		OrderChanged that = (OrderChanged) o;
+		return Objects.equals(getId(), that.getId()) && getQuantity() == that.getQuantity();
 	}
 
 	@Override

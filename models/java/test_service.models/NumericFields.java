@@ -74,8 +74,8 @@ public class NumericFields {
 	public boolean equals(Object o) {
 		if (this == o) return true;
 		if (!(o instanceof NumericFields)) return false;
-		NumericFields numericFields = (NumericFields) o;
-		return Objects.equals(getIntField(), numericFields.getIntField()) && Objects.equals(getLongField(), numericFields.getLongField()) && Objects.equals(getFloatField(), numericFields.getFloatField()) && Objects.equals(getDoubleField(), numericFields.getDoubleField()) && Objects.equals(getDecimalField(), numericFields.getDecimalField());
+		NumericFields that = (NumericFields) o;
+		return getIntField() == that.getIntField() && getLongField() == that.getLongField() && Float.compare(that.getFloatField(), getFloatField()) == 0 && Double.compare(that.getDoubleField(), getDoubleField()) == 0 && Objects.equals(getDecimalField(), that.getDecimalField());
 	}
 
 	@Override

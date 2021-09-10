@@ -30,8 +30,8 @@ public class OrderEventDiscriminatedChanged implements OrderEventDiscriminated {
 	public boolean equals(Object o) {
 		if (this == o) return true;
 		if (!(o instanceof OrderEventDiscriminatedChanged)) return false;
-		OrderEventDiscriminatedChanged changed = (OrderEventDiscriminatedChanged) o;
-		return Objects.equals(getData(), changed.getData());
+		OrderEventDiscriminatedChanged that = (OrderEventDiscriminatedChanged) o;
+		return Objects.equals(getData(), that.getData());
 	}
 
 	@Override

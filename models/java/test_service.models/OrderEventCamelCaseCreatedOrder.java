@@ -30,8 +30,8 @@ public class OrderEventCamelCaseCreatedOrder implements OrderEventCamelCase {
 	public boolean equals(Object o) {
 		if (this == o) return true;
 		if (!(o instanceof OrderEventCamelCaseCreatedOrder)) return false;
-		OrderEventCamelCaseCreatedOrder createdOrder = (OrderEventCamelCaseCreatedOrder) o;
-		return Objects.equals(getData(), createdOrder.getData());
+		OrderEventCamelCaseCreatedOrder that = (OrderEventCamelCaseCreatedOrder) o;
+		return Objects.equals(getData(), that.getData());
 	}
 
 	@Override

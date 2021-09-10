@@ -31,8 +31,8 @@ public class RawJsonField {
 	public boolean equals(Object o) {
 		if (this == o) return true;
 		if (!(o instanceof RawJsonField)) return false;
-		RawJsonField rawJsonField = (RawJsonField) o;
-		return Objects.equals(getJsonField(), rawJsonField.getJsonField());
+		RawJsonField that = (RawJsonField) o;
+		return Objects.equals(getJsonField(), that.getJsonField());
 	}
 
 	@Override

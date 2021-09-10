@@ -30,8 +30,8 @@ public class Nested {
 	public boolean equals(Object o) {
 		if (this == o) return true;
 		if (!(o instanceof Nested)) return false;
-		Nested nested = (Nested) o;
-		return Objects.equals(getField(), nested.getField());
+		Nested that = (Nested) o;
+		return Objects.equals(getField(), that.getField());
 	}
 
 	@Override

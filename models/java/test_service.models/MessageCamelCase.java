@@ -30,8 +30,8 @@ public class MessageCamelCase {
 	public boolean equals(Object o) {
 		if (this == o) return true;
 		if (!(o instanceof MessageCamelCase)) return false;
-		MessageCamelCase messageCamelCase = (MessageCamelCase) o;
-		return Objects.equals(getFieldInt(), messageCamelCase.getFieldInt());
+		MessageCamelCase that = (MessageCamelCase) o;
+		return getFieldInt() == that.getFieldInt();
 	}
 
 	@Override

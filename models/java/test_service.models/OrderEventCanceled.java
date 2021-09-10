@@ -30,8 +30,8 @@ public class OrderEventCanceled implements OrderEvent {
 	public boolean equals(Object o) {
 		if (this == o) return true;
 		if (!(o instanceof OrderEventCanceled)) return false;
-		OrderEventCanceled canceled = (OrderEventCanceled) o;
-		return Objects.equals(getData(), canceled.getData());
+		OrderEventCanceled that = (OrderEventCanceled) o;
+		return Objects.equals(getData(), that.getData());
 	}
 
 	@Override

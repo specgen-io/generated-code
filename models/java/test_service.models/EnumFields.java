@@ -30,8 +30,8 @@ public class EnumFields {
 	public boolean equals(Object o) {
 		if (this == o) return true;
 		if (!(o instanceof EnumFields)) return false;
-		EnumFields enumFields = (EnumFields) o;
-		return Objects.equals(getEnumField(), enumFields.getEnumField());
+		EnumFields that = (EnumFields) o;
+		return Objects.equals(getEnumField(), that.getEnumField());
 	}
 
 	@Override

@@ -74,8 +74,8 @@ public class NonNumericFields {
 	public boolean equals(Object o) {
 		if (this == o) return true;
 		if (!(o instanceof NonNumericFields)) return false;
-		NonNumericFields nonNumericFields = (NonNumericFields) o;
-		return Objects.equals(getBooleanField(), nonNumericFields.getBooleanField()) && Objects.equals(getStringField(), nonNumericFields.getStringField()) && Objects.equals(getUuidField(), nonNumericFields.getUuidField()) && Objects.equals(getDateField(), nonNumericFields.getDateField()) && Objects.equals(getDatetimeField(), nonNumericFields.getDatetimeField());
+		NonNumericFields that = (NonNumericFields) o;
+		return getBooleanField() == that.getBooleanField() && Objects.equals(getStringField(), that.getStringField()) && Objects.equals(getUuidField(), that.getUuidField()) && Objects.equals(getDateField(), that.getDateField()) && Objects.equals(getDatetimeField(), that.getDatetimeField());
 	}
 
 	@Override
