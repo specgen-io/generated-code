@@ -7,6 +7,7 @@ import java.util.UUID
 import io.circe.Codec
 import io.circe.generic.extras.{Configuration, JsonKey}
 import io.circe.generic.extras.semiauto.{deriveConfiguredCodec, deriveUnwrappedCodec}
+import spec.taggedunion._
 
 case class Message(
   @JsonKey("int_field") intField: Int,

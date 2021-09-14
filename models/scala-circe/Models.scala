@@ -7,6 +7,7 @@ import java.util.UUID
 import io.circe.Codec
 import io.circe.generic.extras.{Configuration, JsonKey}
 import io.circe.generic.extras.semiauto.{deriveConfiguredCodec, deriveUnwrappedCodec}
+import spec.taggedunion._
 
 case class Message(
   @JsonKey("field") field: Int
@@ -155,11 +156,16 @@ object OrderEvent {
   case class Created(data: testservice.models.OrderCreated) extends OrderEvent
   case class Changed(data: testservice.models.OrderChanged) extends OrderEvent
   case class Canceled(data: testservice.models.OrderCanceled) extends OrderEvent
-  implicit val config = Configuration.default.withSnakeCaseConstructorNames
-  implicit val codec: Codec[OrderEvent] = deriveConfiguredCodec
-  implicit val codecCreated: Codec[OrderEvent.Created] = deriveUnwrappedCodec
-  implicit val codecChanged: Codec[OrderEvent.Changed] = deriveUnwrappedCodec
-  implicit val codecCanceled: Codec[OrderEvent.Canceled] = deriveUnwrappedCodec
+
+  implicit val codecCreated: Codec[Created] = deriveUnwrappedCodec
+  implicit val tagCreated: Tag[Created] = Tag("created")
+  implicit val codecChanged: Codec[Changed] = deriveUnwrappedCodec
+  implicit val tagChanged: Tag[Changed] = Tag("changed")
+  implicit val codecCanceled: Codec[Canceled] = deriveUnwrappedCodec
+  implicit val tagCanceled: Tag[Canceled] = Tag("canceled")
+
+  implicit val config: Config[OrderEvent] = Config.wrapped
+  implicit val codec: Codec[OrderEvent] = unionCodec
 }
 
 sealed trait OrderEventDiscriminated
@@ -168,11 +174,16 @@ object OrderEventDiscriminated {
   case class Created(data: testservice.models.OrderCreated) extends OrderEventDiscriminated
   case class Changed(data: testservice.models.OrderChanged) extends OrderEventDiscriminated
   case class Canceled(data: testservice.models.OrderCanceled) extends OrderEventDiscriminated
-  implicit val config = Configuration.default.withSnakeCaseConstructorNames
-  implicit val codec: Codec[OrderEventDiscriminated] = deriveConfiguredCodec
-  implicit val codecCreated: Codec[OrderEventDiscriminated.Created] = deriveUnwrappedCodec
-  implicit val codecChanged: Codec[OrderEventDiscriminated.Changed] = deriveUnwrappedCodec
-  implicit val codecCanceled: Codec[OrderEventDiscriminated.Canceled] = deriveUnwrappedCodec
+
+  implicit val codecCreated: Codec[Created] = deriveUnwrappedCodec
+  implicit val tagCreated: Tag[Created] = Tag("created")
+  implicit val codecChanged: Codec[Changed] = deriveUnwrappedCodec
+  implicit val tagChanged: Tag[Changed] = Tag("changed")
+  implicit val codecCanceled: Codec[Canceled] = deriveUnwrappedCodec
+  implicit val tagCanceled: Tag[Canceled] = Tag("canceled")
+
+  implicit val config: Config[OrderEventDiscriminated] = Config.discriminator("_type")
+  implicit val codec: Codec[OrderEventDiscriminated] = unionCodec
 }
 
 case class MessageCamelCase(
@@ -190,9 +201,14 @@ object OrderEventCamelCase {
   case class CreatedOrder(data: testservice.models.OrderCreated) extends OrderEventCamelCase
   case class ChangedOrder(data: testservice.models.OrderChanged) extends OrderEventCamelCase
   case class CanceledOrder(data: testservice.models.OrderCanceled) extends OrderEventCamelCase
-  implicit val config = Configuration.default.withSnakeCaseConstructorNames
-  implicit val codec: Codec[OrderEventCamelCase] = deriveConfiguredCodec
-  implicit val codecCreatedOrder: Codec[OrderEventCamelCase.CreatedOrder] = deriveUnwrappedCodec
-  implicit val codecChangedOrder: Codec[OrderEventCamelCase.ChangedOrder] = deriveUnwrappedCodec
-  implicit val codecCanceledOrder: Codec[OrderEventCamelCase.CanceledOrder] = deriveUnwrappedCodec
+
+  implicit val codecCreatedOrder: Codec[CreatedOrder] = deriveUnwrappedCodec
+  implicit val tagCreatedOrder: Tag[CreatedOrder] = Tag("createdOrder")
+  implicit val codecChangedOrder: Codec[ChangedOrder] = deriveUnwrappedCodec
+  implicit val tagChangedOrder: Tag[ChangedOrder] = Tag("changedOrder")
+  implicit val codecCanceledOrder: Codec[CanceledOrder] = deriveUnwrappedCodec
+  implicit val tagCanceledOrder: Tag[CanceledOrder] = Tag("canceledOrder")
+
+  implicit val config: Config[OrderEventCamelCase] = Config.wrapped
+  implicit val codec: Codec[OrderEventCamelCase] = unionCodec
 }
