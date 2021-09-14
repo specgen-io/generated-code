@@ -3,14 +3,21 @@ version: 2.1
 parameters:
   specgen-version:
     type: string
-    default: 2.0.564
+    default: 2.0.568
+  specgen-version-major:
+    type: string
+    default: v2
 
 jobs:
   generated-code:
     docker:
-      - image: cimg/base:2021.04
+      - image: cimg/go:1.16.4
     steps:
       - checkout
+      - run:
+          name: Install specgen go tool
+          command: |
+            go install github.com/specgen-io/specgen/<<pipeline.parameters.specgen-version-major>>@v<< pipeline.parameters.specgen-version >>
       - run:
           name: Install specgen
           command: |
