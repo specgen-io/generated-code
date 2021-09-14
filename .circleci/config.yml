@@ -18,6 +18,7 @@ jobs:
           name: Install specgen go tool
           command: |
             go install github.com/specgen-io/specgen/<<pipeline.parameters.specgen-version-major>>@v<< pipeline.parameters.specgen-version >>
+            specgen --help
       - run:
           name: Install specgen
           command: |
