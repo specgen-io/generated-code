@@ -68,7 +68,7 @@ module TestService
 
   class RawJsonField
     include DataClass
-    val :json_field, T.hash(String, Untyped)
+    val :json_field, T.hash(String, Unknown)
   end
 
   class OrderCreated
@@ -89,16 +89,32 @@ module TestService
     val :id, UUID
   end
 
-  OrderEvent = T.union(created: OrderCreated, changed: OrderChanged, canceled: OrderCanceled)
+  class OrderEvent
+    include TaggedUnion
+    tag :created, OrderCreated
+    tag :changed, OrderChanged
+    tag :canceled, OrderCanceled
+  end
 
-  OrderEventDiscriminated = T.union(created: OrderCreated, changed: OrderChanged, canceled: OrderCanceled)
+  class OrderEventDiscriminated
+    include TaggedUnion
+    with_discriminator "_type"
+    tag :created, OrderCreated
+    tag :changed, OrderChanged
+    tag :canceled, OrderCanceled
+  end
 
   class MessageCamelCase
     include DataClass
     val :fieldInt, Integer
   end
 
-  OrderEventCamelCase = T.union(createdOrder: OrderCreated, changedOrder: OrderChanged, canceledOrder: OrderCanceled)
+  class OrderEventCamelCase
+    include TaggedUnion
+    tag :createdOrder, OrderCreated
+    tag :changedOrder, OrderChanged
+    tag :canceledOrder, OrderCanceled
+  end
 end
 
 module TestService::V2
