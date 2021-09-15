@@ -19,28 +19,14 @@ jobs:
           command: |
             go install github.com/specgen-io/specgen/<<pipeline.parameters.specgen-version-major>>@v<< pipeline.parameters.specgen-version >>
             specgen --help
-      - run:
-          name: Download clients spec
-          command: |
-            if [ ! -f /tmp/clients/spec.yaml ]; then
-              mkdir -p /tmp/clients/
-              cd /tmp/clients/
-              curl -LJO https://raw.githubusercontent.com/specgen-io/test-clients/main/spec.yaml
-            fi
-      - run:
-          name: Download services spec
-          command: |
-            if [ ! -f /tmp/services/spec.yaml ]; then
-              mkdir -p /tmp/services/
-              cd /tmp/services/
-              curl -LJO https://raw.githubusercontent.com/specgen-io/test-services/main/spec.yaml
-            fi
+      
       - run:
           name: Clean code
           command: |
             rm -R -- ./models/*/
             rm -R -- ./clients/*/
             rm -R -- ./services/*/
+      
       - gen-models:
           path: models/openapi
           specgen: openapi --spec-file ./spec.yaml --out-file ./swagger.yaml
@@ -62,86 +48,49 @@ jobs:
       - gen-models:
           path: models/ts-superstruct
           specgen: models-ts --validation superstruct --spec-file ./spec.yaml --generate-path .
+
+      - gen-client:
+          path: clients/openapi
+          specgen: openapi --spec-file ./spec.yaml --out-file ./swagger.yaml
+      - gen-client:
+          path: clients/go
+          specgen: client-go --spec-file ./spec.yaml --generate-path .
+      - gen-client:
+          path: clients/ruby
+          specgen: client-ruby --spec-file ./spec.yaml --generate-path .
+      - gen-client:
+          path: clients/scala-sttp
+          specgen: client-scala-sttp --spec-file ./spec.yaml --generate-path .
+      - gen-client:
+          path: clients/ts-axios-superstruct
+          specgen: client-ts-axios --validation superstruct --spec-file ./spec.yaml --generate-path .
+      - gen-client:
+          path: clients/ts-axios-iots
+          specgen: client-ts-axios --validation io-ts --spec-file ./spec.yaml --generate-path .
+
+      - gen-service:
+          path: services/openapi
+          specgen: openapi --spec-file ./spec.yaml --out-file ./swagger.yaml
+      - gen-service:
+          path: services/go
+          specgen: service-go --spec-file ./spec.yaml --generate-path .
+      - gen-service:
+          path: services/scala-play
+          specgen: service-scala-play --spec-file ./spec.yaml --generate-path . --services-path ./services
+      - gen-service:
+          path: services/ts-express-superstruct
+          specgen: service-ts --server express --validation superstruct --spec-file ./spec.yaml --generate-path . --services-path ./services
+      - gen-service:
+          path: services/ts-koa-superstruct
+          specgen: service-ts --server koa --validation superstruct --spec-file ./spec.yaml --generate-path . --services-path ./services
+
       - tree:
           path: ./models
-      - run:
-          name: Generate clients code
-          command: |
-            cd clients
-
-            mkdir openapi
-            cd openapi
-            cp /tmp/clients/spec.yaml ./spec.yaml
-            specgen openapi --spec-file ./spec.yaml --out-file ./swagger.yaml
-            cd ..
-            
-            mkdir go
-            cd go
-            cp /tmp/clients/spec.yaml ./spec.yaml
-            specgen client-go --spec-file ./spec.yaml --generate-path .
-            cd ..
-            
-            mkdir ruby
-            cd ruby
-            cp /tmp/clients/spec.yaml ./spec.yaml
-            specgen client-ruby --spec-file ./spec.yaml --generate-path .
-            cd ..
-            
-            mkdir scala-sttp
-            cd scala-sttp
-            cp /tmp/clients/spec.yaml ./spec.yaml
-            specgen client-scala-sttp --spec-file ./spec.yaml --generate-path .
-            cd ..
-            
-            mkdir ts-axios-superstruct
-            cd ts-axios-superstruct
-            cp /tmp/clients/spec.yaml ./spec.yaml
-            specgen client-ts-axios --validation superstruct --spec-file ./spec.yaml --generate-path .
-            cd ..
-            
-            mkdir ts-axios-iots
-            cd ts-axios-iots
-            cp /tmp/clients/spec.yaml ./spec.yaml
-            specgen client-ts-axios --validation io-ts --spec-file ./spec.yaml --generate-path .
-            cd ..
       - tree:
           path: ./clients
-      - run:
-          name: Generate services code
-          command: |
-            cd services
-
-            mkdir openapi
-            cd openapi
-            cp /tmp/services/spec.yaml ./spec.yaml
-            specgen openapi --spec-file ./spec.yaml --out-file ./swagger.yaml
-            cd ..
-
-            mkdir go
-            cd go
-            cp /tmp/services/spec.yaml ./spec.yaml
-            specgen service-go --spec-file ./spec.yaml --generate-path .
-            cd ..
-
-            mkdir scala-play
-            cd scala-play
-            cp /tmp/services/spec.yaml ./spec.yaml
-            specgen service-scala-play --spec-file ./spec.yaml --generate-path . --services-path ./services
-            cd ..
-
-            mkdir ts-express-superstruct
-            cd ts-express-superstruct
-            cp /tmp/services/spec.yaml ./spec.yaml
-            specgen service-ts --server express --validation superstruct --spec-file ./spec.yaml --generate-path . --services-path ./services
-            cd ..
-
-            mkdir ts-koa-superstruct
-            cd ts-koa-superstruct
-            cp /tmp/services/spec.yaml ./spec.yaml
-            specgen service-ts --server koa --validation superstruct --spec-file ./spec.yaml --generate-path . --services-path ./services
-            cd ..
       - tree:
           path: ./services
+      
       - run:
           name: Commit changes
           command: |
@@ -180,6 +129,50 @@ commands:
             mkdir -p <<parameters.path>>
             cd <<parameters.path>>
             cp /tmp/models/spec.yaml ./spec.yaml
+            specgen <<parameters.command>>
+  gen-client:
+    parameters:
+      path:
+        type: string
+      specgen:
+        type: string
+    steps:
+      - run:
+          name: Download clients spec
+          command: |
+            if [ ! -f /tmp/clients/spec.yaml ]; then
+              mkdir -p /tmp/clients/
+              cd /tmp/clients/
+              curl -LJO https://raw.githubusercontent.com/specgen-io/test-clients/main/spec.yaml
+            fi
+      - run:
+          name: Generate client code
+          command: |
+            mkdir -p <<parameters.path>>
+            cd <<parameters.path>>
+            cp /tmp/clients/spec.yaml ./spec.yaml
+            specgen <<parameters.command>>
+  gen-service:
+    parameters:
+      path:
+        type: string
+      specgen:
+        type: string
+    steps:
+      - run:
+          name: Download service spec
+          command: |
+            if [ ! -f /tmp/services/spec.yaml ]; then
+              mkdir -p /tmp/services/
+              cd /tmp/services/
+              curl -LJO https://raw.githubusercontent.com/specgen-io/test-services/main/spec.yaml
+            fi
+      - run:
+          name: Generate service code
+          command: |
+            mkdir -p <<parameters.path>>
+            cd <<parameters.path>>
+            cp /tmp/services/spec.yaml ./spec.yaml
             specgen <<parameters.command>>
 
   tree:
