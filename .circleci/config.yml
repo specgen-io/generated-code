@@ -58,36 +58,43 @@ jobs:
             cd openapi
             cp /tmp/models/spec.yaml ./spec.yaml
             specgen openapi --spec-file ./spec.yaml --out-file ./swagger.yaml
+            cd ..
 
             mkdir java
             cd java
             cp /tmp/models/spec.yaml ./spec.yaml
             specgen models-java --spec-file ./spec.yaml --generate-path .
+            cd ..
 
             mkdir go
             cd go
             cp /tmp/models/spec.yaml ./spec.yaml
             specgen models-go --spec-file ./spec.yaml --generate-path .
+            cd ..
 
             mkdir ruby
             cd ruby
             cp /tmp/models/spec.yaml ./spec.yaml
             specgen models-ruby --spec-file ./spec.yaml --generate-path .
+            cd ..
 
             mkdir scala-circe
             cd scala-circe
             cp /tmp/models/spec.yaml ./spec.yaml
             specgen models-scala-circe --spec-file ./spec.yaml --generate-path .
+            cd ..
 
             mkdir ts-iots
             cd ts-iots
             cp /tmp/models/spec.yaml ./spec.yaml
             specgen models-ts --validation io-ts --spec-file ./spec.yaml --generate-path .
+            cd ..
 
             mkdir ts-superstruct
             cd ts-superstruct
             cp /tmp/models/spec.yaml ./spec.yaml
             specgen models-ts --validation superstruct --spec-file ./spec.yaml --generate-path .
+            cd ..
       - tree:
           path: ./models
       - run:
@@ -99,31 +106,37 @@ jobs:
             cd openapi
             cp /tmp/clients/spec.yaml ./spec.yaml
             specgen openapi --spec-file ./spec.yaml --out-file ./swagger.yaml
+            cd ..
             
             mkdir go
             cd go
             cp /tmp/clients/spec.yaml ./spec.yaml
             specgen client-go --spec-file ./spec.yaml --generate-path .
+            cd ..
             
             mkdir ruby
             cd ruby
             cp /tmp/clients/spec.yaml ./spec.yaml
             specgen client-ruby --spec-file ./spec.yaml --generate-path .
+            cd ..
             
             mkdir scala-sttp
             cd scala-sttp
             cp /tmp/clients/spec.yaml ./spec.yaml
             specgen client-scala-sttp --spec-file ./spec.yaml --generate-path .
+            cd ..
             
             mkdir ts-axios-superstruct
             cd ts-axios-superstruct
             cp /tmp/clients/spec.yaml ./spec.yaml
             specgen client-ts-axios --validation superstruct --spec-file ./spec.yaml --generate-path .
+            cd ..
             
             mkdir ts-axios-iots
             cd ts-axios-iots
             cp /tmp/clients/spec.yaml ./spec.yaml
             specgen client-ts-axios --validation io-ts --spec-file ./spec.yaml --generate-path .
+            cd ..
       - tree:
           path: ./clients
       - run:
@@ -135,26 +148,31 @@ jobs:
             cd openapi
             cp /tmp/services/spec.yaml ./spec.yaml
             specgen openapi --spec-file ./spec.yaml --out-file ./swagger.yaml
+            cd ..
 
             mkdir go
             cd go
             cp /tmp/services/spec.yaml ./spec.yaml
             specgen service-go --spec-file ./spec.yaml --generate-path .
+            cd ..
 
             mkdir scala-play
             cd scala-play
             cp /tmp/services/spec.yaml ./spec.yaml
             specgen service-scala-play --spec-file ./spec.yaml --generate-path . --services-path ./services
+            cd ..
 
             mkdir ts-express-superstruct
             cd ts-express-superstruct
             cp /tmp/services/spec.yaml ./spec.yaml
             specgen service-ts --server express --validation superstruct --spec-file ./spec.yaml --generate-path . --services-path ./services
+            cd ..
 
             mkdir ts-koa-superstruct
             cd ts-koa-superstruct
             cp /tmp/services/spec.yaml ./spec.yaml
             specgen service-ts --server koa --validation superstruct --spec-file ./spec.yaml --generate-path . --services-path ./services
+            cd ..
       - tree:
           path: ./services
       - run:
