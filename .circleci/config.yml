@@ -129,7 +129,7 @@ commands:
             mkdir -p <<parameters.path>>
             cd <<parameters.path>>
             cp /tmp/models/spec.yaml ./spec.yaml
-            specgen <<parameters.command>>
+            specgen <<parameters.specgen>>
   gen-client:
     parameters:
       path:
@@ -151,7 +151,7 @@ commands:
             mkdir -p <<parameters.path>>
             cd <<parameters.path>>
             cp /tmp/clients/spec.yaml ./spec.yaml
-            specgen <<parameters.command>>
+            specgen <<parameters.specgen>>
   gen-service:
     parameters:
       path:
@@ -173,7 +173,7 @@ commands:
             mkdir -p <<parameters.path>>
             cd <<parameters.path>>
             cp /tmp/services/spec.yaml ./spec.yaml
-            specgen <<parameters.command>>
+            specgen <<parameters.specgen>>
 
   tree:
     parameters:
