@@ -22,25 +22,36 @@ jobs:
       - run:
           name: Download models spec
           command: |
-            mkdir -p /tmp/models/
-            cd /tmp/models/
-            curl -LJO https://raw.githubusercontent.com/specgen-io/test-models/main/spec.yaml
+            if [ ! -f /tmp/models/spec.yaml ]; then
+              mkdir -p /tmp/models/
+              cd /tmp/models/
+              curl -LJO https://raw.githubusercontent.com/specgen-io/test-models/main/spec.yaml
+            fi
       - run:
           name: Download clients spec
           command: |
-            mkdir -p /tmp/clients/
-            cd /tmp/clients/
-            curl -LJO https://raw.githubusercontent.com/specgen-io/test-clients/main/spec.yaml
+            if [ ! -f /tmp/clients/spec.yaml ]; then
+              mkdir -p /tmp/clients/
+              cd /tmp/clients/
+              curl -LJO https://raw.githubusercontent.com/specgen-io/test-clients/main/spec.yaml
+            fi
       - run:
           name: Download services spec
           command: |
-            mkdir -p /tmp/services/
-            cd /tmp/services/
-            curl -LJO https://raw.githubusercontent.com/specgen-io/test-services/main/spec.yaml
+            if [ ! -f /tmp/services/spec.yaml ]; then
+              mkdir -p /tmp/services/
+              cd /tmp/services/
+              curl -LJO https://raw.githubusercontent.com/specgen-io/test-services/main/spec.yaml
+            fi
+      - run:
+          name: Clean code
+          command: |
+            rm -R -- ./models/*/
+            rm -R -- ./clients/*/
+            rm -R -- ./services/*/
       - run:
           name: Generate models code
           command: |
-            rm -R -- ./models/*/
             cd models
 
             mkdir openapi
@@ -82,7 +93,6 @@ jobs:
       - run:
           name: Generate clients code
           command: |
-            rm -R -- ./clients/*/
             cd clients
 
             mkdir openapi
@@ -119,7 +129,6 @@ jobs:
       - run:
           name: Generate services code
           command: |
-            rm -R -- ./services/*/
             cd services
 
             mkdir openapi
