@@ -44,32 +44,39 @@ jobs:
             cd models
 
             mkdir openapi
-            cp /tmp/models/spec.yaml ./openapi/spec.yaml
-            specgen openapi --spec-file ./openapi/spec.yaml --out-file ./openapi/swagger.yaml
+            cd openapi
+            cp /tmp/models/spec.yaml ./spec.yaml
+            specgen openapi --spec-file ./spec.yaml --out-file ./swagger.yaml
 
             mkdir java
-            cp /tmp/models/spec.yaml ./java/spec.yaml
-            specgen models-java --spec-file ./java/spec.yaml --generate-path ./java
+            cd java
+            cp /tmp/models/spec.yaml ./spec.yaml
+            specgen models-java --spec-file ./spec.yaml --generate-path .
 
             mkdir go
-            cp /tmp/models/spec.yaml ./go/spec.yaml
-            specgen models-go --spec-file ./go/spec.yaml --generate-path ./go
+            cd go
+            cp /tmp/models/spec.yaml ./spec.yaml
+            specgen models-go --spec-file ./spec.yaml --generate-path .
 
             mkdir ruby
-            cp /tmp/models/spec.yaml ./ruby/spec.yaml
-            specgen models-ruby --spec-file ./ruby/spec.yaml --generate-path ./ruby
+            cd ruby
+            cp /tmp/models/spec.yaml ./spec.yaml
+            specgen models-ruby --spec-file ./spec.yaml --generate-path .
 
             mkdir scala-circe
-            cp /tmp/models/spec.yaml ./scala-circe/spec.yaml
-            specgen models-scala-circe --spec-file ./scala-circe/spec.yaml --generate-path ./scala-circe
+            cd scala-circe
+            cp /tmp/models/spec.yaml ./spec.yaml
+            specgen models-scala-circe --spec-file ./spec.yaml --generate-path .
 
             mkdir ts-iots
-            cp /tmp/models/spec.yaml ./ts-iots/spec.yaml
-            specgen models-ts --validation io-ts --spec-file ./ts-iots/spec.yaml --generate-path ./ts-iots
+            cd ts-iots
+            cp /tmp/models/spec.yaml ./spec.yaml
+            specgen models-ts --validation io-ts --spec-file ./spec.yaml --generate-path .
 
             mkdir ts-superstruct
-            cp /tmp/models/spec.yaml ./ts-superstruct/spec.yaml
-            specgen models-ts --validation superstruct --spec-file ./ts-superstruct/spec.yaml --generate-path ./ts-superstruct
+            cd ts-superstruct
+            cp /tmp/models/spec.yaml ./spec.yaml
+            specgen models-ts --validation superstruct --spec-file ./spec.yaml --generate-path .
       - tree:
           path: ./models
       - run:
@@ -79,28 +86,34 @@ jobs:
             cd clients
 
             mkdir openapi
-            cp /tmp/clients/spec.yaml ./openapi/spec.yaml
-            specgen openapi --spec-file ./openapi/spec.yaml --out-file ./openapi/swagger.yaml
+            cd openapi
+            cp /tmp/clients/spec.yaml ./spec.yaml
+            specgen openapi --spec-file ./spec.yaml --out-file ./swagger.yaml
             
             mkdir go
-            cp /tmp/clients/spec.yaml ./go/spec.yaml
-            specgen client-go --spec-file ./go/spec.yaml --generate-path ./go
+            cd go
+            cp /tmp/clients/spec.yaml ./spec.yaml
+            specgen client-go --spec-file ./spec.yaml --generate-path .
             
             mkdir ruby
-            cp /tmp/clients/spec.yaml ./ruby/spec.yaml
-            specgen client-ruby --spec-file ./ruby/spec.yaml --generate-path ./ruby
+            cd ruby
+            cp /tmp/clients/spec.yaml ./spec.yaml
+            specgen client-ruby --spec-file ./spec.yaml --generate-path .
             
             mkdir scala-sttp
-            cp /tmp/clients/spec.yaml ./scala-sttp/spec.yaml
-            specgen client-scala-sttp --spec-file ./scala-sttp/spec.yaml --generate-path ./scala-sttp
+            cd scala-sttp
+            cp /tmp/clients/spec.yaml ./spec.yaml
+            specgen client-scala-sttp --spec-file ./spec.yaml --generate-path .
             
             mkdir ts-axios-superstruct
-            cp /tmp/clients/spec.yaml ./ts-axios-superstruct/spec.yaml
-            specgen client-ts-axios --validation superstruct --spec-file ./ts-axios-superstruct/spec.yaml --generate-path ./ts-axios-superstruct
+            cd ts-axios-superstruct
+            cp /tmp/clients/spec.yaml ./spec.yaml
+            specgen client-ts-axios --validation superstruct --spec-file ./spec.yaml --generate-path .
             
             mkdir ts-axios-iots
-            cp /tmp/clients/spec.yaml ./ts-axios-iots/spec.yaml
-            specgen client-ts-axios --validation io-ts --spec-file ./ts-axios-iots/spec.yaml --generate-path ./ts-axios-iots
+            cd ts-axios-iots
+            cp /tmp/clients/spec.yaml ./spec.yaml
+            specgen client-ts-axios --validation io-ts --spec-file ./spec.yaml --generate-path .
       - tree:
           path: ./clients
       - run:
@@ -110,24 +123,29 @@ jobs:
             cd services
 
             mkdir openapi
-            cp /tmp/services/spec.yaml ./openapi/spec.yaml
-            specgen openapi --spec-file ./openapi/spec.yaml --out-file ./openapi/swagger.yaml
+            cd openapi
+            cp /tmp/services/spec.yaml ./spec.yaml
+            specgen openapi --spec-file ./spec.yaml --out-file ./swagger.yaml
 
             mkdir go
-            cp /tmp/services/spec.yaml ./go/spec.yaml
-            specgen service-go --spec-file ./go/spec.yaml --generate-path ./go
+            cd go
+            cp /tmp/services/spec.yaml ./spec.yaml
+            specgen service-go --spec-file ./spec.yaml --generate-path .
 
             mkdir scala-play
-            cp /tmp/services/spec.yaml ./scala-play/spec.yaml
-            specgen service-scala-play --spec-file ./scala-play/spec.yaml --generate-path ./scala-play --services-path ./scala-play/services
+            cd scala-play
+            cp /tmp/services/spec.yaml ./spec.yaml
+            specgen service-scala-play --spec-file ./spec.yaml --generate-path . --services-path ./services
 
             mkdir ts-express-superstruct
-            cp /tmp/services/spec.yaml ./ts-express-superstruct/spec.yaml
-            specgen service-ts --server express --validation superstruct --spec-file ./ts-express-superstruct/spec.yaml --generate-path ./ts-express-superstruct --services-path ./ts-express-superstruct/services
+            cd ts-express-superstruct
+            cp /tmp/services/spec.yaml ./spec.yaml
+            specgen service-ts --server express --validation superstruct --spec-file ./spec.yaml --generate-path . --services-path ./services
 
             mkdir ts-koa-superstruct
-            cp /tmp/services/spec.yaml ./ts-koa-superstruct/spec.yaml
-            specgen service-ts --server koa --validation superstruct --spec-file ./ts-koa-superstruct/spec.yaml --generate-path ./ts-koa-superstruct --services-path ./ts-koa-superstruct/services
+            cd ts-koa-superstruct
+            cp /tmp/services/spec.yaml ./spec.yaml
+            specgen service-ts --server koa --validation superstruct --spec-file ./spec.yaml --generate-path . --services-path ./services
       - tree:
           path: ./services
       - run:
