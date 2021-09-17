@@ -165,7 +165,7 @@ object OrderEvent {
   implicit val tagCanceled: Tag[Canceled] = Tag("canceled")
 
   implicit val config: Config[OrderEvent] = Config.wrapped
-  implicit val codec: Codec[OrderEvent] = unionCodec
+  implicit val codec: Codec[OrderEvent] = deriveUnionCodec
 }
 
 sealed trait OrderEventDiscriminated
@@ -183,7 +183,7 @@ object OrderEventDiscriminated {
   implicit val tagCanceled: Tag[Canceled] = Tag("canceled")
 
   implicit val config: Config[OrderEventDiscriminated] = Config.discriminator("_type")
-  implicit val codec: Codec[OrderEventDiscriminated] = unionCodec
+  implicit val codec: Codec[OrderEventDiscriminated] = deriveUnionCodec
 }
 
 case class MessageCamelCase(
@@ -210,5 +210,5 @@ object OrderEventCamelCase {
   implicit val tagCanceledOrder: Tag[CanceledOrder] = Tag("canceledOrder")
 
   implicit val config: Config[OrderEventCamelCase] = Config.wrapped
-  implicit val codec: Codec[OrderEventCamelCase] = unionCodec
+  implicit val codec: Codec[OrderEventCamelCase] = deriveUnionCodec
 }

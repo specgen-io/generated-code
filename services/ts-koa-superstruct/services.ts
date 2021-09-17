@@ -66,6 +66,7 @@ export interface CheckUrlParamsParams {
     uuid_url: string,
     decimal_url: number,
     date_url: string,
+    enum_url: models.Choice,
 }
 
 export type CheckUrlParamsResponse =

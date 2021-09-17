@@ -85,9 +85,9 @@ class CheckController @Inject()(api: ICheckService, cc: ControllerComponents)(im
       }
       response.recover { case _: Exception => InternalServerError }
   }
-  def checkUrlParams(intUrl: Long, stringUrl: String, floatUrl: Float, boolUrl: Boolean, uuidUrl: java.util.UUID, decimalUrl: BigDecimal, dateUrl: java.time.LocalDate) = Action.async {
+  def checkUrlParams(intUrl: Long, stringUrl: String, floatUrl: Float, boolUrl: Boolean, uuidUrl: java.util.UUID, decimalUrl: BigDecimal, dateUrl: java.time.LocalDate, enumUrl: Choice) = Action.async {
     implicit request =>
-      val result = api.checkUrlParams(intUrl, stringUrl, floatUrl, boolUrl, uuidUrl, decimalUrl, dateUrl)
+      val result = api.checkUrlParams(intUrl, stringUrl, floatUrl, boolUrl, uuidUrl, decimalUrl, dateUrl, enumUrl)
       val response = result.map {
         case CheckUrlParamsResponse.Ok() => new Status(200)
       }

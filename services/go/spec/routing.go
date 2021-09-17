@@ -222,8 +222,8 @@ func AddCheckRoutes(router *vestigo.Router, checkService ICheckService) {
 		return
 	})
 
-	logCheckUrlParams := log.Fields{"operationId": "check.check_url_params", "method": "GET", "url": "/check/url_params/:int_url/:string_url/:float_url/:bool_url/:uuid_url/:decimal_url/:date_url"}
-	router.Get("/check/url_params/:int_url/:string_url/:float_url/:bool_url/:uuid_url/:decimal_url/:date_url", func(res http.ResponseWriter, req *http.Request) {
+	logCheckUrlParams := log.Fields{"operationId": "check.check_url_params", "method": "GET", "url": "/check/url_params/:int_url/:string_url/:float_url/:bool_url/:uuid_url/:decimal_url/:date_url/:enum_url"}
+	router.Get("/check/url_params/:int_url/:string_url/:float_url/:bool_url/:uuid_url/:decimal_url/:date_url/:enum_url", func(res http.ResponseWriter, req *http.Request) {
 		log.WithFields(logCheckUrlParams).Info("Received request")
 		urlParams := NewParamsParser(req.URL.Query())
 		intUrl := urlParams.Int64(":int_url")
@@ -233,13 +233,14 @@ func AddCheckRoutes(router *vestigo.Router, checkService ICheckService) {
 		uuidUrl := urlParams.Uuid(":uuid_url")
 		decimalUrl := urlParams.Decimal(":decimal_url")
 		dateUrl := urlParams.Date(":date_url")
+		enumUrl := Choice(urlParams.StringEnum(":enum_url", ChoiceValuesStrings))
 		if len(urlParams.Errors) > 0 {
 			log.Warnf("Can't parse urlParams: %s", urlParams.Errors)
 			res.WriteHeader(400)
 			log.WithFields(logCheckUrlParams).WithField("status", 400).Info("Completed request")
 			return
 		}
-		response, err := checkService.CheckUrlParams(intUrl, stringUrl, floatUrl, boolUrl, uuidUrl, decimalUrl, dateUrl)
+		response, err := checkService.CheckUrlParams(intUrl, stringUrl, floatUrl, boolUrl, uuidUrl, decimalUrl, dateUrl, enumUrl)
 		if response == nil || err != nil {
 			if err != nil {
 				log.Errorf("Error returned from service implementation: %s", err.Error())

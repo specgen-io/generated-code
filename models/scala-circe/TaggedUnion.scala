@@ -2,7 +2,7 @@ package spec
 
 object taggedunion {
   import io.circe._
-  import shapeless.{:+:, CNil, Coproduct, Generic, Inl, Inr, Lazy}
+  import shapeless.{:+:, HNil, CNil, Coproduct, Generic, Inl, Inr, Lazy}
 
   implicit val cnilEncoder: Encoder[CNil] =
     Encoder.instance(cnil => throw new Exception("Inconceivable!"))
@@ -35,15 +35,21 @@ object taggedunion {
     }
   }
 
-  def unionEncoder[A, R](implicit gen: Generic.Aux[A, R], enc: Encoder[R]): Encoder[A] = {
+  implicit val hnilEncoder: Encoder[HNil] =
+    Encoder.instance(hnil => throw new Exception("Inconceivable!"))
+
+  implicit val hnilDecoder: Decoder[HNil] =
+    Decoder.instance(a => Left(DecodingFailure("Inconceivable!", a.history)))
+
+  def deriveUnionEncoder[A, R](implicit gen: Generic.Aux[A, R], enc: Encoder[R]): Encoder[A] = {
     Encoder.instance(a => enc(gen.to(a)))
   }
 
-  def unionDecoder[A, R](implicit gen: Generic.Aux[A, R], dec: Decoder[R]): Decoder[A] = {
+  def deriveUnionDecoder[A, R](implicit gen: Generic.Aux[A, R], dec: Decoder[R]): Decoder[A] = {
     Decoder.instance(a => dec(a).map(gen.from))
   }
 
-  def unionCodec[A, R](
+  def deriveUnionCodec[A, R](
     implicit
     gen: Generic.Aux[A, R],
     enc: Encoder[R],
@@ -82,7 +88,7 @@ object taggedunion {
     }
   }
 
-  def encodeWithConfig[A, H <: A](config: Config[A], tag: Tag[A], encoder: Encoder[H]) = Encoder.instance[H]{ value =>
+  def encodeWithConfig[H](config: Config[H], tag: Tag[H], encoder: Encoder[H]) = Encoder.instance[H]{ value =>
     config.coproduct match {
       case discriminator: Discriminator[H] =>
         encoder(value)

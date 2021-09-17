@@ -9,7 +9,7 @@ trait ICheckService {
   import ICheckService._
   def checkEmpty(): Future[CheckEmptyResponse]
   def checkQuery(pString: String, pStringOpt: Option[String], pStringArray: List[String], pDate: java.time.LocalDate, pDateArray: List[java.time.LocalDate], pDatetime: java.time.LocalDateTime, pInt: Int, pLong: Long, pDecimal: BigDecimal, pEnum: Choice, pStringDefaulted: String): Future[CheckQueryResponse]
-  def checkUrlParams(intUrl: Long, stringUrl: String, floatUrl: Float, boolUrl: Boolean, uuidUrl: java.util.UUID, decimalUrl: BigDecimal, dateUrl: java.time.LocalDate): Future[CheckUrlParamsResponse]
+  def checkUrlParams(intUrl: Long, stringUrl: String, floatUrl: Float, boolUrl: Boolean, uuidUrl: java.util.UUID, decimalUrl: BigDecimal, dateUrl: java.time.LocalDate, enumUrl: Choice): Future[CheckUrlParamsResponse]
   def checkForbidden(): Future[CheckForbiddenResponse]
 }
 

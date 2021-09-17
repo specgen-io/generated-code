@@ -134,6 +134,7 @@ const TCheckUrlParamsUrlParams = t.type({
     uuid_url: t.string(),
     decimal_url: t.StrFloat,
     date_url: t.string(),
+    enum_url: models.TChoice,
 })
 
 type CheckUrlParamsUrlParams = t.Infer<typeof TCheckUrlParamsUrlParams>
@@ -172,7 +173,7 @@ export let checkRouter = (service: services.CheckService) => {
         }
     })
 
-    router.get('/check/url_params/:int_url/:string_url/:float_url/:bool_url/:uuid_url/:decimal_url/:date_url', async (ctx) => {
+    router.get('/check/url_params/:int_url/:string_url/:float_url/:bool_url/:uuid_url/:decimal_url/:date_url/:enum_url', async (ctx) => {
         var urlParams: CheckUrlParamsUrlParams
         try {
             urlParams = t.decode(TCheckUrlParamsUrlParams, ctx.params)

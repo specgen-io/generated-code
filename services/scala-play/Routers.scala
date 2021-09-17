@@ -77,6 +77,8 @@ class CheckRouter @Inject()(Action: DefaultActionBuilder, controller: CheckContr
     DynamicPart("decimal_url", """[^/]+""", true),
     StaticPart("/"),
     DynamicPart("date_url", """[^/]+""", true),
+    StaticPart("/"),
+    DynamicPart("enum_url", """[^/]+""", true),
   )))
   lazy val routeCheckForbidden = Route("GET", PathPattern(List(
     StaticPart("/check/forbidden"),
@@ -114,11 +116,12 @@ class CheckRouter @Inject()(Action: DefaultActionBuilder, controller: CheckContr
           uuidUrl <- params.fromPath[java.util.UUID]("uuid_url").value
           decimalUrl <- params.fromPath[BigDecimal]("decimal_url").value
           dateUrl <- params.fromPath[java.time.LocalDate]("date_url").value
+          enumUrl <- params.fromPath[Choice]("enum_url").value
         }
-        yield (intUrl, stringUrl, floatUrl, boolUrl, uuidUrl, decimalUrl, dateUrl)
+        yield (intUrl, stringUrl, floatUrl, boolUrl, uuidUrl, decimalUrl, dateUrl, enumUrl)
       arguments match{
         case Left(_) => Action { Results.BadRequest }
-        case Right((intUrl, stringUrl, floatUrl, boolUrl, uuidUrl, decimalUrl, dateUrl)) => controller.checkUrlParams(intUrl, stringUrl, floatUrl, boolUrl, uuidUrl, decimalUrl, dateUrl)
+        case Right((intUrl, stringUrl, floatUrl, boolUrl, uuidUrl, decimalUrl, dateUrl, enumUrl)) => controller.checkUrlParams(intUrl, stringUrl, floatUrl, boolUrl, uuidUrl, decimalUrl, dateUrl, enumUrl)
       }
     case routeCheckForbidden(params@_) =>
       controller.checkForbidden()
