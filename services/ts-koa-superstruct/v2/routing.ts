@@ -1,9 +1,9 @@
 import Router from '@koa/router'
-import * as t from './superstruct'
-import * as models from './models_v2'
-import * as services from './services_v2'
+import * as t from './../superstruct'
+import * as models from './models'
+import {EchoService} from './echo_service'
 
-export let echoRouter = (service: services.EchoService) => {
+export let echoRouter = (service: EchoService) => {
     let router = new Router()
 
     router.post('/echo/body', async (ctx) => {

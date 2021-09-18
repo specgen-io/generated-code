@@ -2,7 +2,8 @@ import {Router} from 'express'
 import {Request, Response} from 'express'
 import * as t from './superstruct'
 import * as models from './models'
-import * as services from './services'
+import {EchoService} from './echo_service'
+import {CheckService} from './check_service'
 
 const TEchoQueryQueryParams = t.type({
     int_query: t.StrInteger,
@@ -25,7 +26,7 @@ const TEchoUrlParamsUrlParams = t.type({
 
 type EchoUrlParamsUrlParams = t.Infer<typeof TEchoUrlParamsUrlParams>
 
-export let echoRouter = (service: services.EchoService) => {
+export let echoRouter = (service: EchoService) => {
     let router = Router()
 
     router.post('/echo/body', async (request: Request, response: Response) => {
@@ -136,7 +137,7 @@ const TCheckUrlParamsUrlParams = t.type({
 
 type CheckUrlParamsUrlParams = t.Infer<typeof TCheckUrlParamsUrlParams>
 
-export let checkRouter = (service: services.CheckService) => {
+export let checkRouter = (service: CheckService) => {
     let router = Router()
 
     router.get('/check/empty', async (request: Request, response: Response) => {

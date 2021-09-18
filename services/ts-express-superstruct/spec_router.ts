@@ -1,13 +1,15 @@
 import {Router} from 'express'
-import * as services_v2 from './services_v2'
-import * as routing_v2 from './routing_v2'
-import * as services from './services'
-import * as routing from './routing'
+import {EchoService as EchoServiceV2} from './v2/echo_service'
+import {echoRouter as echoRouterV2} from './v2/routing'
+import {EchoService as EchoService} from './echo_service'
+import {echoRouter as echoRouter} from './routing'
+import {CheckService as CheckService} from './check_service'
+import {checkRouter as checkRouter} from './routing'
 
-export let specRouter = (echoServiceV2: services_v2.EchoService, echoService: services.EchoService, checkService: services.CheckService) => {
+export let specRouter = (echoServiceV2: EchoServiceV2, echoService: EchoService, checkService: CheckService) => {
     let router = Router()
-    router.use('/v2', routing_v2.echoRouter(echoServiceV2))
-    router.use('/', routing.echoRouter(echoService))
-    router.use('/', routing.checkRouter(checkService))
+    router.use('/v2', echoRouterV2(echoServiceV2))
+    router.use('/', echoRouter(echoService))
+    router.use('/', checkRouter(checkService))
     return router
 }

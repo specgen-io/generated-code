@@ -1,10 +1,10 @@
 import {Router} from 'express'
 import {Request, Response} from 'express'
-import * as t from './superstruct'
-import * as models from './models_v2'
-import * as services from './services_v2'
+import * as t from './../superstruct'
+import * as models from './models'
+import {EchoService} from './echo_service'
 
-export let echoRouter = (service: services.EchoService) => {
+export let echoRouter = (service: EchoService) => {
     let router = Router()
 
     router.post('/echo/body', async (request: Request, response: Response) => {

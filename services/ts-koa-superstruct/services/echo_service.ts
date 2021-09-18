@@ -1,19 +1,19 @@
-import * as services from './spec/services'
+import * as service from './../echo_service'
 
-export let echoService = (): services.EchoService => {
-    let echoBody = async (params: services.EchoBodyParams): Promise<services.EchoBodyResponse> => {
+export let echoService = (): service.EchoService => {
+    let echoBody = async (params: service.EchoBodyParams): Promise<service.EchoBodyResponse> => {
         throw new Error('Not Implemented')
     }
 
-    let echoQuery = async (params: services.EchoQueryParams): Promise<services.EchoQueryResponse> => {
+    let echoQuery = async (params: service.EchoQueryParams): Promise<service.EchoQueryResponse> => {
         throw new Error('Not Implemented')
     }
 
-    let echoHeader = async (params: services.EchoHeaderParams): Promise<services.EchoHeaderResponse> => {
+    let echoHeader = async (params: service.EchoHeaderParams): Promise<service.EchoHeaderResponse> => {
         throw new Error('Not Implemented')
     }
 
-    let echoUrlParams = async (params: services.EchoUrlParamsParams): Promise<services.EchoUrlParamsResponse> => {
+    let echoUrlParams = async (params: service.EchoUrlParamsParams): Promise<service.EchoUrlParamsResponse> => {
         throw new Error('Not Implemented')
     }
 

@@ -1,4 +1,4 @@
-import * as models from './models_v2'
+import * as models from './models'
 
 export interface EchoBodyParams {
     body: models.Message,

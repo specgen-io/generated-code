@@ -1,19 +1,19 @@
-import * as services from './spec/services'
+import * as service from './../check_service'
 
-export let checkService = (): services.CheckService => {
-    let checkEmpty = async (): Promise<services.CheckEmptyResponse> => {
+export let checkService = (): service.CheckService => {
+    let checkEmpty = async (): Promise<service.CheckEmptyResponse> => {
         throw new Error('Not Implemented')
     }
 
-    let checkQuery = async (params: services.CheckQueryParams): Promise<services.CheckQueryResponse> => {
+    let checkQuery = async (params: service.CheckQueryParams): Promise<service.CheckQueryResponse> => {
         throw new Error('Not Implemented')
     }
 
-    let checkUrlParams = async (params: services.CheckUrlParamsParams): Promise<services.CheckUrlParamsResponse> => {
+    let checkUrlParams = async (params: service.CheckUrlParamsParams): Promise<service.CheckUrlParamsResponse> => {
         throw new Error('Not Implemented')
     }
 
-    let checkForbidden = async (): Promise<services.CheckForbiddenResponse> => {
+    let checkForbidden = async (): Promise<service.CheckForbiddenResponse> => {
         throw new Error('Not Implemented')
     }
 

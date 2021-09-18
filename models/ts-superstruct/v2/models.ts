@@ -1,4 +1,4 @@
-import * as t from './superstruct'
+import * as t from './../superstruct'
 
 export const TMessage = t.type({
     field: t.string(),
