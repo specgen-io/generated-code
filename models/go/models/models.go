@@ -17,7 +17,7 @@ type Nested struct {
 
 type Parent struct {
 	Field string `json:"field"`
-	Nested models.Nested `json:"nested"`
+	Nested Nested `json:"nested"`
 }
 
 type Choice string
@@ -39,7 +39,7 @@ func (self *Choice) UnmarshalJSON(b []byte) error {
 }
 
 type EnumFields struct {
-	EnumField models.Choice `json:"enum_field"`
+	EnumField Choice `json:"enum_field"`
 }
 
 type NumericFields struct {
@@ -93,43 +93,43 @@ type OrderCanceled struct {
 }
 
 type OrderEvent struct {
-	Created *models.OrderCreated `json:"created,omitempty"`
-	Changed *models.OrderChanged `json:"changed,omitempty"`
-	Canceled *models.OrderCanceled `json:"canceled,omitempty"`
+	Created *OrderCreated `json:"created,omitempty"`
+	Changed *OrderChanged `json:"changed,omitempty"`
+	Canceled *OrderCanceled `json:"canceled,omitempty"`
 }
 
 type OrderEventDiscriminated struct {
-	Created *models.OrderCreated `json:"created,omitempty"`
-	Changed *models.OrderChanged `json:"changed,omitempty"`
-	Canceled *models.OrderCanceled `json:"canceled,omitempty"`
+	Created *OrderCreated `json:"created,omitempty"`
+	Changed *OrderChanged `json:"changed,omitempty"`
+	Canceled *OrderCanceled `json:"canceled,omitempty"`
 }
 
 func (u OrderEventDiscriminated) MarshalJSON() ([]byte, error) {
 	if u.Created != nil {
 		return json.Marshal(&struct {
 			Discriminator string `json:"_type"`
-			*models.OrderCreated
+			*OrderCreated
 		}{
 			Discriminator: "created",
-			models.OrderCreated: u.Created,
+			OrderCreated: u.Created,
 		})
 	}
 	if u.Changed != nil {
 		return json.Marshal(&struct {
 			Discriminator string `json:"_type"`
-			*models.OrderChanged
+			*OrderChanged
 		}{
 			Discriminator: "changed",
-			models.OrderChanged: u.Changed,
+			OrderChanged: u.Changed,
 		})
 	}
 	if u.Canceled != nil {
 		return json.Marshal(&struct {
 			Discriminator string `json:"_type"`
-			*models.OrderCanceled
+			*OrderCanceled
 		}{
 			Discriminator: "canceled",
-			models.OrderCanceled: u.Canceled,
+			OrderCanceled: u.Canceled,
 		})
 	}
 	return nil, errors.New("union case not set")
@@ -144,17 +144,17 @@ func (u *OrderEventDiscriminated) UnmarshalJSON(data []byte) error {
 
 	switch discriminator.Value {
 		case "created":
-			unionCase := models.OrderCreated{}
+			unionCase := OrderCreated{}
 			err := json.Unmarshal(data, &unionCase)
 			if err != nil { return err }
 			u.Created = &unionCase
 		case "changed":
-			unionCase := models.OrderChanged{}
+			unionCase := OrderChanged{}
 			err := json.Unmarshal(data, &unionCase)
 			if err != nil { return err }
 			u.Changed = &unionCase
 		case "canceled":
-			unionCase := models.OrderCanceled{}
+			unionCase := OrderCanceled{}
 			err := json.Unmarshal(data, &unionCase)
 			if err != nil { return err }
 			u.Canceled = &unionCase
@@ -169,7 +169,7 @@ type MessageCamelCase struct {
 }
 
 type OrderEventCamelCase struct {
-	CreatedOrder *models.OrderCreated `json:"createdOrder,omitempty"`
-	ChangedOrder *models.OrderChanged `json:"changedOrder,omitempty"`
-	CanceledOrder *models.OrderCanceled `json:"canceledOrder,omitempty"`
+	CreatedOrder *OrderCreated `json:"createdOrder,omitempty"`
+	ChangedOrder *OrderChanged `json:"changedOrder,omitempty"`
+	CanceledOrder *OrderCanceled `json:"canceledOrder,omitempty"`
 }
