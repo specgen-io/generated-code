@@ -1,18 +1,21 @@
 package spec
 
 import (
+	"/spec/check"
+	"/spec/echo"
 	"encoding/json"
 	"github.com/husobee/vestigo"
-	log "github.com/sirupsen/logrus"
 	"net/http"
+	"spec/models"
+	log "github.com/sirupsen/logrus"
 )
 
-func AddEchoRoutes(router *vestigo.Router, echoService IEchoService) {
+func AddEchoRoutes(router *vestigo.Router, echoService echo.Service) {
 
 	logEchoBody := log.Fields{"operationId": "echo.echo_body", "method": "POST", "url": "/echo/body"}
 	router.Post("/echo/body", func(res http.ResponseWriter, req *http.Request) {
 		log.WithFields(logEchoBody).Info("Received request")
-		var body Message
+		var body models.Message
 		err := json.NewDecoder(req.Body).Decode(&body)
 		if err != nil {
 			log.Warnf("Decoding body JSON failed: %s", err.Error())
@@ -152,7 +155,7 @@ func AddEchoRoutes(router *vestigo.Router, echoService IEchoService) {
 	})
 }
 
-func AddCheckRoutes(router *vestigo.Router, checkService ICheckService) {
+func AddCheckRoutes(router *vestigo.Router, checkService check.Service) {
 
 	logCheckEmpty := log.Fields{"operationId": "check.check_empty", "method": "GET", "url": "/check/empty"}
 	router.Get("/check/empty", func(res http.ResponseWriter, req *http.Request) {
@@ -192,7 +195,7 @@ func AddCheckRoutes(router *vestigo.Router, checkService ICheckService) {
 		pInt := queryParams.Int("p_int")
 		pLong := queryParams.Int64("p_long")
 		pDecimal := queryParams.Decimal("p_decimal")
-		pEnum := Choice(queryParams.StringEnum("p_enum", ChoiceValuesStrings))
+		pEnum := models.Choice(queryParams.StringEnum("p_enum", models.ChoiceValuesStrings))
 		pStringDefaulted := queryParams.StringDefaulted("p_string_defaulted", "the default value")
 		if len(queryParams.Errors) > 0 {
 			log.Warnf("Can't parse queryParams: %s", queryParams.Errors)
@@ -233,7 +236,7 @@ func AddCheckRoutes(router *vestigo.Router, checkService ICheckService) {
 		uuidUrl := urlParams.Uuid(":uuid_url")
 		decimalUrl := urlParams.Decimal(":decimal_url")
 		dateUrl := urlParams.Date(":date_url")
-		enumUrl := Choice(urlParams.StringEnum(":enum_url", ChoiceValuesStrings))
+		enumUrl := models.Choice(urlParams.StringEnum(":enum_url", models.ChoiceValuesStrings))
 		if len(urlParams.Errors) > 0 {
 			log.Warnf("Can't parse urlParams: %s", urlParams.Errors)
 			res.WriteHeader(400)

@@ -9,26 +9,19 @@ type EmptyDef struct{}
 var Empty = EmptyDef{}
 
 type EchoBodyResponse struct {
-	Ok *Message
+	Ok *models.Message
 }
 
 type EchoQueryResponse struct {
-	Ok *Message
+	Ok *models.Message
 }
 
 type EchoHeaderResponse struct {
-	Ok *Message
+	Ok *models.Message
 }
 
 type EchoUrlParamsResponse struct {
-	Ok *Message
-}
-
-type IEchoClient interface {
-	EchoBody(body *Message) (*EchoBodyResponse, error)
-	EchoQuery(intQuery int, stringQuery string) (*EchoQueryResponse, error)
-	EchoHeader(intHeader int, stringHeader string) (*EchoHeaderResponse, error)
-	EchoUrlParams(intUrl int, stringUrl string) (*EchoUrlParamsResponse, error)
+	Ok *models.Message
 }
 
 type CheckEmptyResponse struct {
@@ -44,13 +37,6 @@ type CheckUrlParamsResponse struct {
 }
 
 type CheckForbiddenResponse struct {
-	Ok *Message
+	Ok *models.Message
 	Forbidden *EmptyDef
-}
-
-type ICheckClient interface {
-	CheckEmpty() (*CheckEmptyResponse, error)
-	CheckQuery(pString string, pStringOpt *string, pStringArray []string, pDate civil.Date, pDateArray []civil.Date, pDatetime civil.DateTime, pInt int, pLong int64, pDecimal decimal.Decimal, pEnum Choice, pStringDefaulted string) (*CheckQueryResponse, error)
-	CheckUrlParams(intUrl int64, stringUrl string, floatUrl float32, boolUrl bool, uuidUrl uuid.UUID, decimalUrl decimal.Decimal, dateUrl civil.Date) (*CheckUrlParamsResponse, error)
-	CheckForbidden() (*CheckForbiddenResponse, error)
 }

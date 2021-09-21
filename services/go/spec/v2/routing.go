@@ -1,18 +1,20 @@
 package v2
 
 import (
+	"/spec/v2/echo"
 	"encoding/json"
 	"github.com/husobee/vestigo"
-	log "github.com/sirupsen/logrus"
 	"net/http"
+	"spec/v2/models"
+	log "github.com/sirupsen/logrus"
 )
 
-func AddEchoRoutes(router *vestigo.Router, echoService IEchoService) {
+func AddEchoRoutes(router *vestigo.Router, echoService echo.Service) {
 
 	logEchoBody := log.Fields{"operationId": "echo.echo_body", "method": "POST", "url": "/v2/echo/body"}
 	router.Post("/v2/echo/body", func(res http.ResponseWriter, req *http.Request) {
 		log.WithFields(logEchoBody).Info("Received request")
-		var body Message
+		var body models.Message
 		err := json.NewDecoder(req.Body).Decode(&body)
 		if err != nil {
 			log.Warnf("Decoding body JSON failed: %s", err.Error())

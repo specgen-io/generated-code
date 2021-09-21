@@ -1,4 +1,4 @@
-package test_service_models
+package models
 
 import (
 	"encoding/json"

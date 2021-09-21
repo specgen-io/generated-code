@@ -15,7 +15,7 @@ func NewEchoClient(baseUrl string) *echoClient {
 	return &echoClient{baseUrl}
 }
 
-func (client *echoClient) EchoBody(body *Message) (*EchoBodyResponse, error) {
+func (client *echoClient) EchoBody(body *models.Message) (*EchoBodyResponse, error) {
 	bodyJSON, err := json.Marshal(body)
 	req, err := http.NewRequest("POST", client.baseUrl+"/echo/body", bytes.NewBuffer(bodyJSON))
 	if err != nil { return nil, err }

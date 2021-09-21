@@ -5,7 +5,7 @@ import "/spec"
 
 type EchoService struct{}
 
-func (service *EchoService) EchoBody(body *spec.Message) (*spec.EchoBodyResponse, error) {
+func (service *EchoService) EchoBody(body *spec.models.Message) (*spec.EchoBodyResponse, error) {
 	return nil, errors.New("implementation has not added yet")
 }
 func (service *EchoService) EchoQuery(intQuery int, stringQuery string) (*spec.EchoQueryResponse, error) {

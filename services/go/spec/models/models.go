@@ -1,4 +1,4 @@
-package spec
+package models
 
 type Message struct {
 	IntField int `json:"int_field"`

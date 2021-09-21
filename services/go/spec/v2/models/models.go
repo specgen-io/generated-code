@@ -1,4 +1,4 @@
-package v2
+package models
 
 type Message struct {
 	BoolField bool `json:"bool_field"`

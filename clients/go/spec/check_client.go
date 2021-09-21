@@ -33,7 +33,7 @@ func (client *checkClient) CheckEmpty() (*CheckEmptyResponse, error) {
 	return nil, errors.New(fmt.Sprintf("Unexpected status code received: %d", resp.StatusCode))
 }
 
-func (client *checkClient) CheckQuery(pString string, pStringOpt *string, pStringArray []string, pDate civil.Date, pDateArray []civil.Date, pDatetime civil.DateTime, pInt int, pLong int64, pDecimal decimal.Decimal, pEnum Choice, pStringDefaulted string) (*CheckQueryResponse, error) {
+func (client *checkClient) CheckQuery(pString string, pStringOpt *string, pStringArray []string, pDate civil.Date, pDateArray []civil.Date, pDatetime civil.DateTime, pInt int, pLong int64, pDecimal decimal.Decimal, pEnum models.Choice, pStringDefaulted string) (*CheckQueryResponse, error) {
 	req, err := http.NewRequest("GET", client.baseUrl+"/check/query", nil)
 	if err != nil { return nil, err }
 
