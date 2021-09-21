@@ -6,6 +6,7 @@ import "io/ioutil"
 import "net/http"
 import "encoding/json"
 import "bytes"
+import "spec/models"
 
 type echoClient struct {
 	baseUrl string
@@ -53,7 +54,7 @@ func (client *echoClient) EchoQuery(intQuery int, stringQuery string) (*EchoQuer
 		responseBody, err := ioutil.ReadAll(resp.Body)
 		err = resp.Body.Close()
 
-		var body *Message
+		var body *models.Message
 		err = json.Unmarshal(responseBody, &body)
 		if err != nil { return nil, err }
 
@@ -79,7 +80,7 @@ func (client *echoClient) EchoHeader(intHeader int, stringHeader string) (*EchoH
 		responseBody, err := ioutil.ReadAll(resp.Body)
 		err = resp.Body.Close()
 
-		var body *Message
+		var body *models.Message
 		err = json.Unmarshal(responseBody, &body)
 		if err != nil { return nil, err }
 
@@ -100,7 +101,7 @@ func (client *echoClient) EchoUrlParams(intUrl int, stringUrl string) (*EchoUrlP
 		responseBody, err := ioutil.ReadAll(resp.Body)
 		err = resp.Body.Close()
 
-		var body *Message
+		var body *models.Message
 		err = json.Unmarshal(responseBody, &body)
 		if err != nil { return nil, err }
 

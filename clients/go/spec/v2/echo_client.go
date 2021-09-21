@@ -6,6 +6,7 @@ import "io/ioutil"
 import "net/http"
 import "encoding/json"
 import "bytes"
+import "spec/v2/models"
 
 type echoClient struct {
 	baseUrl string

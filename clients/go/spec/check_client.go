@@ -8,6 +8,7 @@ import "encoding/json"
 import "cloud.google.com/go/civil"
 import "github.com/google/uuid"
 import "github.com/shopspring/decimal"
+import "spec/models"
 
 type checkClient struct {
 	baseUrl string
@@ -91,7 +92,7 @@ func (client *checkClient) CheckForbidden() (*CheckForbiddenResponse, error) {
 		responseBody, err := ioutil.ReadAll(resp.Body)
 		err = resp.Body.Close()
 
-		var body *Message
+		var body *models.Message
 		err = json.Unmarshal(responseBody, &body)
 		if err != nil { return nil, err }
 

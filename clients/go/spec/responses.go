@@ -1,8 +1,6 @@
 package spec
 
-import "cloud.google.com/go/civil"
-import "github.com/google/uuid"
-import "github.com/shopspring/decimal"
+import "spec/models"
 
 type EmptyDef struct{}
 
