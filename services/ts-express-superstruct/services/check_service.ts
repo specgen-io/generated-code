@@ -17,5 +17,9 @@ export let checkService = (): service.CheckService => {
         throw new Error('Not Implemented')
     }
 
-    return {checkEmpty, checkQuery, checkUrlParams, checkForbidden}
+    let sameOperationName = async (): Promise<service.SameOperationNameResponse> => {
+        throw new Error('Not Implemented')
+    }
+
+    return {checkEmpty, checkQuery, checkUrlParams, checkForbidden, sameOperationName}
 }

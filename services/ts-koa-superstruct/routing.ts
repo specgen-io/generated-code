@@ -108,6 +108,18 @@ export let echoRouter = (service: EchoService) => {
         }
     })
 
+    router.get('/echo/same_operation_name', async (ctx) => {
+        try {
+            let result = await service.sameOperationName()
+            switch (result.status) {
+                case 'ok':
+                    ctx.status = 200
+            }
+        } catch (error) {
+            ctx.throw(500)
+        }
+    })
+
     return router
 }
 
@@ -202,6 +214,18 @@ export let checkRouter = (service: CheckService) => {
         ctx.body = t.encode(models.TMessage, result.data)
                 case 'forbidden':
                     ctx.status = 403
+            }
+        } catch (error) {
+            ctx.throw(500)
+        }
+    })
+
+    router.get('/check/same_operation_name', async (ctx) => {
+        try {
+            let result = await service.sameOperationName()
+            switch (result.status) {
+                case 'ok':
+                    ctx.status = 200
             }
         } catch (error) {
             ctx.throw(500)

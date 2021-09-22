@@ -11,6 +11,7 @@ trait IEchoService {
   def echoQuery(intQuery: Int, stringQuery: String): Future[EchoQueryResponse]
   def echoHeader(intHeader: Int, stringHeader: String): Future[EchoHeaderResponse]
   def echoUrlParams(intUrl: Int, stringUrl: String): Future[EchoUrlParamsResponse]
+  def sameOperationName(): Future[SameOperationNameResponse]
 }
 
 object IEchoService {
@@ -29,5 +30,9 @@ object IEchoService {
   sealed trait EchoUrlParamsResponse
   object EchoUrlParamsResponse {
     case class Ok(body: Message) extends EchoUrlParamsResponse
+  }
+  sealed trait SameOperationNameResponse
+  object SameOperationNameResponse {
+    case class Ok() extends SameOperationNameResponse
   }
 }

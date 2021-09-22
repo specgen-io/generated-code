@@ -1,6 +1,8 @@
 package v2
 
-import "spec/v2/models"
+import (
+	"spec/v2/models"
+)
 
 type EmptyDef struct{}
 

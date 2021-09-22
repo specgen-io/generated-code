@@ -1,11 +1,13 @@
 package models
 
-import "cloud.google.com/go/civil"
-import "encoding/json"
-import "github.com/google/uuid"
-import "github.com/shopspring/decimal"
-import "errors"
-import "fmt"
+import (
+	"cloud.google.com/go/civil"
+	"encoding/json"
+	"errors"
+	"fmt"
+	"github.com/google/uuid"
+	"github.com/shopspring/decimal"
+)
 
 type Message struct {
 	Field int `json:"field"`

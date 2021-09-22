@@ -1,12 +1,14 @@
 package spec
 
-import "fmt"
-import "errors"
-import "io/ioutil"
-import "net/http"
-import "encoding/json"
-import "bytes"
-import "spec/models"
+import (
+	"bytes"
+	"encoding/json"
+	"errors"
+	"fmt"
+	"io/ioutil"
+	"net/http"
+	"spec/models"
+)
 
 type echoClient struct {
 	baseUrl string

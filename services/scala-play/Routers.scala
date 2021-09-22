@@ -25,6 +25,9 @@ class EchoRouter @Inject()(Action: DefaultActionBuilder, controller: EchoControl
     StaticPart("/"),
     DynamicPart("string_url", """[^/]+""", true),
   )))
+  lazy val routeSameOperationName = Route("GET", PathPattern(List(
+    StaticPart("/echo/same_operation_name"),
+  )))
   def routes: Router.Routes = {
     case routeEchoBody(params@_) =>
       controller.echoBody()
@@ -52,6 +55,8 @@ class EchoRouter @Inject()(Action: DefaultActionBuilder, controller: EchoControl
         case Left(_) => Action { Results.BadRequest }
         case Right((intUrl, stringUrl)) => controller.echoUrlParams(intUrl, stringUrl)
       }
+    case routeSameOperationName(params@_) =>
+      controller.sameOperationName()
   }
 }
 
@@ -82,6 +87,9 @@ class CheckRouter @Inject()(Action: DefaultActionBuilder, controller: CheckContr
   )))
   lazy val routeCheckForbidden = Route("GET", PathPattern(List(
     StaticPart("/check/forbidden"),
+  )))
+  lazy val routeSameOperationName = Route("GET", PathPattern(List(
+    StaticPart("/check/same_operation_name"),
   )))
   def routes: Router.Routes = {
     case routeCheckEmpty(params@_) =>
@@ -125,5 +133,7 @@ class CheckRouter @Inject()(Action: DefaultActionBuilder, controller: CheckContr
       }
     case routeCheckForbidden(params@_) =>
       controller.checkForbidden()
+    case routeSameOperationName(params@_) =>
+      controller.sameOperationName()
   }
 }

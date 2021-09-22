@@ -38,9 +38,13 @@ export type CheckForbiddenResponse =
     | { status: "ok", data: models.Message }
     | { status: "forbidden" }
 
+export type SameOperationNameResponse =
+    | { status: "ok" }
+
 export interface CheckService {
     checkEmpty(): Promise<CheckEmptyResponse>
     checkQuery(params: CheckQueryParams): Promise<CheckQueryResponse>
     checkUrlParams(params: CheckUrlParamsParams): Promise<CheckUrlParamsResponse>
     checkForbidden(): Promise<CheckForbiddenResponse>
+    sameOperationName(): Promise<SameOperationNameResponse>
 }

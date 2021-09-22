@@ -1,14 +1,16 @@
 package spec
 
-import "fmt"
-import "errors"
-import "io/ioutil"
-import "net/http"
-import "encoding/json"
-import "cloud.google.com/go/civil"
-import "github.com/google/uuid"
-import "github.com/shopspring/decimal"
-import "spec/models"
+import (
+	"cloud.google.com/go/civil"
+	"encoding/json"
+	"errors"
+	"fmt"
+	"github.com/google/uuid"
+	"github.com/shopspring/decimal"
+	"io/ioutil"
+	"net/http"
+	"spec/models"
+)
 
 type checkClient struct {
 	baseUrl string

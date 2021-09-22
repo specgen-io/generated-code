@@ -1,4 +1,5 @@
 package echo
+
 import (
 	"spec/models"
 )
@@ -23,9 +24,14 @@ type EchoUrlParamsResponse struct {
 	Ok *models.Message
 }
 
+type SameOperationNameResponse struct {
+	Ok *EmptyDef
+}
+
 type Service interface {
 	EchoBody(body *models.Message) (*EchoBodyResponse, error)
 	EchoQuery(intQuery int, stringQuery string) (*EchoQueryResponse, error)
 	EchoHeader(intHeader int, stringHeader string) (*EchoHeaderResponse, error)
 	EchoUrlParams(intUrl int, stringUrl string) (*EchoUrlParamsResponse, error)
+	SameOperationName() (*SameOperationNameResponse, error)
 }

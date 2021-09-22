@@ -1,16 +1,15 @@
 package v2
 
 import (
-	"/spec/v2/echo"
 	"encoding/json"
 	"github.com/husobee/vestigo"
-	"net/http"
-	"spec/v2/models"
 	log "github.com/sirupsen/logrus"
+	"net/http"
+	"spec/v2/echo"
+	"spec/v2/models"
 )
 
 func AddEchoRoutes(router *vestigo.Router, echoService echo.Service) {
-
 	logEchoBody := log.Fields{"operationId": "echo.echo_body", "method": "POST", "url": "/v2/echo/body"}
 	router.Post("/v2/echo/body", func(res http.ResponseWriter, req *http.Request) {
 		log.WithFields(logEchoBody).Info("Received request")

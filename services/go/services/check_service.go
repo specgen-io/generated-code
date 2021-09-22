@@ -1,22 +1,28 @@
 package services
 
-import "errors"
-import "cloud.google.com/go/civil"
-import "github.com/google/uuid"
-import "github.com/shopspring/decimal"
-import "/spec"
+import (
+	"cloud.google.com/go/civil"
+	"errors"
+	"github.com/google/uuid"
+	"github.com/shopspring/decimal"
+	"spec/check"
+	"spec/models"
+)
 
 type CheckService struct{}
 
-func (service *CheckService) CheckEmpty() (*spec.CheckEmptyResponse, error) {
+func (service *CheckService) CheckEmpty() (*check.CheckEmptyResponse, error) {
 	return nil, errors.New("implementation has not added yet")
 }
-func (service *CheckService) CheckQuery(pString string, pStringOpt *string, pStringArray []string, pDate civil.Date, pDateArray []civil.Date, pDatetime civil.DateTime, pInt int, pLong int64, pDecimal decimal.Decimal, pEnum spec.models.Choice, pStringDefaulted string) (*spec.CheckQueryResponse, error) {
+func (service *CheckService) CheckQuery(pString string, pStringOpt *string, pStringArray []string, pDate civil.Date, pDateArray []civil.Date, pDatetime civil.DateTime, pInt int, pLong int64, pDecimal decimal.Decimal, pEnum models.Choice, pStringDefaulted string) (*check.CheckQueryResponse, error) {
 	return nil, errors.New("implementation has not added yet")
 }
-func (service *CheckService) CheckUrlParams(intUrl int64, stringUrl string, floatUrl float32, boolUrl bool, uuidUrl uuid.UUID, decimalUrl decimal.Decimal, dateUrl civil.Date, enumUrl spec.models.Choice) (*spec.CheckUrlParamsResponse, error) {
+func (service *CheckService) CheckUrlParams(intUrl int64, stringUrl string, floatUrl float32, boolUrl bool, uuidUrl uuid.UUID, decimalUrl decimal.Decimal, dateUrl civil.Date, enumUrl models.Choice) (*check.CheckUrlParamsResponse, error) {
 	return nil, errors.New("implementation has not added yet")
 }
-func (service *CheckService) CheckForbidden() (*spec.CheckForbiddenResponse, error) {
+func (service *CheckService) CheckForbidden() (*check.CheckForbiddenResponse, error) {
+	return nil, errors.New("implementation has not added yet")
+}
+func (service *CheckService) SameOperationName() (*check.SameOperationNameResponse, error) {
 	return nil, errors.New("implementation has not added yet")
 }

@@ -31,9 +31,13 @@ export interface EchoUrlParamsParams {
 export type EchoUrlParamsResponse =
     | { status: "ok", data: models.Message }
 
+export type SameOperationNameResponse =
+    | { status: "ok" }
+
 export interface EchoService {
     echoBody(params: EchoBodyParams): Promise<EchoBodyResponse>
     echoQuery(params: EchoQueryParams): Promise<EchoQueryResponse>
     echoHeader(params: EchoHeaderParams): Promise<EchoHeaderResponse>
     echoUrlParams(params: EchoUrlParamsParams): Promise<EchoUrlParamsResponse>
+    sameOperationName(): Promise<SameOperationNameResponse>
 }

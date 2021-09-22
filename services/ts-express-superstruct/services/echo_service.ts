@@ -17,5 +17,9 @@ export let echoService = (): service.EchoService => {
         throw new Error('Not Implemented')
     }
 
-    return {echoBody, echoQuery, echoHeader, echoUrlParams}
+    let sameOperationName = async (): Promise<service.SameOperationNameResponse> => {
+        throw new Error('Not Implemented')
+    }
+
+    return {echoBody, echoQuery, echoHeader, echoUrlParams, sameOperationName}
 }
