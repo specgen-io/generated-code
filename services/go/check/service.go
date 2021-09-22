@@ -1,10 +1,10 @@
 package check
 
 import (
+	"./models"
 	"cloud.google.com/go/civil"
 	"github.com/google/uuid"
 	"github.com/shopspring/decimal"
-	"spec/models"
 )
 
 type EmptyDef struct{}

@@ -1,7 +1,7 @@
-package spec
+package .
 
 import (
-	"spec/models"
+	"./models"
 )
 
 type EmptyDef struct{}

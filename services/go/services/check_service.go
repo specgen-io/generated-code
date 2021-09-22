@@ -1,12 +1,12 @@
 package services
 
 import (
+	"./check"
+	"./models"
 	"cloud.google.com/go/civil"
 	"errors"
 	"github.com/google/uuid"
 	"github.com/shopspring/decimal"
-	"spec/check"
-	"spec/models"
 )
 
 type CheckService struct{}

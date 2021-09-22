@@ -1,4 +1,4 @@
-package spec
+package .
 
 import (
 	"cloud.google.com/go/civil"

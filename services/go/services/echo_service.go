@@ -1,9 +1,9 @@
 package services
 
 import (
+	"./echo"
+	"./models"
 	"errors"
-	"spec/echo"
-	"spec/models"
 )
 
 type EchoService struct{}

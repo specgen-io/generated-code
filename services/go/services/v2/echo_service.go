@@ -2,8 +2,8 @@ package v2
 
 import (
 	"errors"
-	"spec/v2/echo"
-	"spec/v2/models"
+	"v2/echo"
+	"v2/models"
 )
 
 type EchoService struct{}

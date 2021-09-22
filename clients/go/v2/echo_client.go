@@ -7,7 +7,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
-	"spec/v2/models"
+	"v2/models"
 )
 
 type echoClient struct {

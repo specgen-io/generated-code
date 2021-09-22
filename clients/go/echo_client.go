@@ -1,13 +1,13 @@
-package spec
+package .
 
 import (
+	"./models"
 	"bytes"
 	"encoding/json"
 	"errors"
 	"fmt"
 	"io/ioutil"
 	"net/http"
-	"spec/models"
 )
 
 type echoClient struct {

@@ -1,7 +1,7 @@
 package echo
 
 import (
-	"spec/v2/models"
+	"v2/models"
 )
 
 type EmptyDef struct{}
