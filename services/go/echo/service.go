@@ -1,7 +1,7 @@
 package echo
 
 import (
-	"./models"
+	"test-service/models"
 )
 
 type EmptyDef struct{}

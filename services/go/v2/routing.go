@@ -5,8 +5,8 @@ import (
 	"github.com/husobee/vestigo"
 	log "github.com/sirupsen/logrus"
 	"net/http"
-	"v2/echo"
-	"v2/models"
+	"test-service/v2/echo"
+	"test-service/v2/models"
 )
 
 func AddEchoRoutes(router *vestigo.Router, echoService echo.Service) {

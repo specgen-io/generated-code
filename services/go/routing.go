@@ -1,13 +1,13 @@
 package .
 
 import (
-	"./check"
-	"./echo"
-	"./models"
 	"encoding/json"
 	"github.com/husobee/vestigo"
 	log "github.com/sirupsen/logrus"
 	"net/http"
+	"test-service/check"
+	"test-service/echo"
+	"test-service/models"
 )
 
 func AddEchoRoutes(router *vestigo.Router, echoService echo.Service) {

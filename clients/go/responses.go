@@ -1,7 +1,7 @@
 package .
 
 import (
-	"./models"
+	"test-client/models"
 )
 
 type EmptyDef struct{}

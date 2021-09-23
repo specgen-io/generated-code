@@ -1,7 +1,6 @@
 package .
 
 import (
-	"./models"
 	"cloud.google.com/go/civil"
 	"encoding/json"
 	"errors"
@@ -10,6 +9,7 @@ import (
 	"github.com/shopspring/decimal"
 	"io/ioutil"
 	"net/http"
+	"test-client/models"
 )
 
 type checkClient struct {
