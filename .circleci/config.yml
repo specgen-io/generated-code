@@ -3,7 +3,7 @@ version: 2.1
 parameters:
   specgen-version:
     type: string
-    default: 2.0.571
+    default: 2.0.600
   specgen-version-major:
     type: string
     default: v2
@@ -35,7 +35,7 @@ jobs:
           specgen: models-java --spec-file ./spec.yaml --generate-path .
       - gen-models:
           path: models/go
-          specgen: models-go --spec-file ./spec.yaml --generate-path .
+          specgen: models-go --spec-file ./spec.yaml --module-name test-models --generate-path .
       - gen-models:
           path: models/ruby
           specgen: models-ruby --spec-file ./spec.yaml --generate-path .
@@ -54,7 +54,7 @@ jobs:
           specgen: openapi --spec-file ./spec.yaml --out-file ./swagger.yaml
       - gen-client:
           path: clients/go
-          specgen: client-go --spec-file ./spec.yaml --generate-path .
+          specgen: client-go --spec-file ./spec.yaml --module-name test-client --generate-path .
       - gen-client:
           path: clients/ruby
           specgen: client-ruby --spec-file ./spec.yaml --generate-path .
@@ -73,7 +73,7 @@ jobs:
           specgen: openapi --spec-file ./spec.yaml --out-file ./swagger.yaml
       - gen-service:
           path: services/go
-          specgen: service-go --spec-file ./spec.yaml --generate-path .
+          specgen: service-go --spec-file ./spec.yaml --module-name test-service --generate-path .
       - gen-service:
           path: services/scala-play
           specgen: service-scala-play --spec-file ./spec.yaml --generate-path . --services-path ./services
