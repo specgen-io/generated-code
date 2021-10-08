@@ -1,4 +1,4 @@
-package .
+package echo
 
 import (
 	"bytes"
@@ -10,15 +10,35 @@ import (
 	"test-client/models"
 )
 
-type echoClient struct {
+type EmptyDef struct{}
+
+var Empty = EmptyDef{}
+
+type EchoBodyResponse struct {
+	Ok *models.Message
+}
+
+type EchoQueryResponse struct {
+	Ok *models.Message
+}
+
+type EchoHeaderResponse struct {
+	Ok *models.Message
+}
+
+type EchoUrlParamsResponse struct {
+	Ok *models.Message
+}
+
+type Client struct {
 	baseUrl string
 }
 
-func NewEchoClient(baseUrl string) *echoClient {
-	return &echoClient{baseUrl}
+func NewClient(baseUrl string) *Client {
+	return &Client{baseUrl}
 }
 
-func (client *echoClient) EchoBody(body *models.Message) (*EchoBodyResponse, error) {
+func (client *Client) EchoBody(body *models.Message) (*EchoBodyResponse, error) {
 	bodyJSON, err := json.Marshal(body)
 	req, err := http.NewRequest("POST", client.baseUrl+"/echo/body", bytes.NewBuffer(bodyJSON))
 	if err != nil { return nil, err }
@@ -39,7 +59,7 @@ func (client *echoClient) EchoBody(body *models.Message) (*EchoBodyResponse, err
 	return nil, errors.New(fmt.Sprintf("Unexpected status code received: %d", resp.StatusCode))
 }
 
-func (client *echoClient) EchoQuery(intQuery int, stringQuery string) (*EchoQueryResponse, error) {
+func (client *Client) EchoQuery(intQuery int, stringQuery string) (*EchoQueryResponse, error) {
 	req, err := http.NewRequest("GET", client.baseUrl+"/echo/query", nil)
 	if err != nil { return nil, err }
 
@@ -66,7 +86,7 @@ func (client *echoClient) EchoQuery(intQuery int, stringQuery string) (*EchoQuer
 	return nil, errors.New(fmt.Sprintf("Unexpected status code received: %d", resp.StatusCode))
 }
 
-func (client *echoClient) EchoHeader(intHeader int, stringHeader string) (*EchoHeaderResponse, error) {
+func (client *Client) EchoHeader(intHeader int, stringHeader string) (*EchoHeaderResponse, error) {
 	req, err := http.NewRequest("GET", client.baseUrl+"/echo/header", nil)
 	if err != nil { return nil, err }
 
@@ -92,7 +112,7 @@ func (client *echoClient) EchoHeader(intHeader int, stringHeader string) (*EchoH
 	return nil, errors.New(fmt.Sprintf("Unexpected status code received: %d", resp.StatusCode))
 }
 
-func (client *echoClient) EchoUrlParams(intUrl int, stringUrl string) (*EchoUrlParamsResponse, error) {
+func (client *Client) EchoUrlParams(intUrl int, stringUrl string) (*EchoUrlParamsResponse, error) {
 	req, err := http.NewRequest("GET", client.baseUrl+fmt.Sprintf("/echo/url_params/%s/%s", convertInt(intUrl), stringUrl), nil)
 	if err != nil { return nil, err }
 

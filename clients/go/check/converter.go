@@ -1,4 +1,4 @@
-package v2
+package check
 
 import (
 	"cloud.google.com/go/civil"

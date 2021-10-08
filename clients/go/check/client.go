@@ -1,4 +1,4 @@
-package .
+package check
 
 import (
 	"cloud.google.com/go/civil"
@@ -12,15 +12,36 @@ import (
 	"test-client/models"
 )
 
-type checkClient struct {
+type EmptyDef struct{}
+
+var Empty = EmptyDef{}
+
+type CheckEmptyResponse struct {
+	Ok *EmptyDef
+}
+
+type CheckQueryResponse struct {
+	Ok *EmptyDef
+}
+
+type CheckUrlParamsResponse struct {
+	Ok *EmptyDef
+}
+
+type CheckForbiddenResponse struct {
+	Ok *models.Message
+	Forbidden *EmptyDef
+}
+
+type Client struct {
 	baseUrl string
 }
 
-func NewCheckClient(baseUrl string) *checkClient {
-	return &checkClient{baseUrl}
+func NewClient(baseUrl string) *Client {
+	return &Client{baseUrl}
 }
 
-func (client *checkClient) CheckEmpty() (*CheckEmptyResponse, error) {
+func (client *Client) CheckEmpty() (*CheckEmptyResponse, error) {
 	req, err := http.NewRequest("GET", client.baseUrl+"/check/empty", nil)
 	if err != nil { return nil, err }
 
@@ -36,7 +57,7 @@ func (client *checkClient) CheckEmpty() (*CheckEmptyResponse, error) {
 	return nil, errors.New(fmt.Sprintf("Unexpected status code received: %d", resp.StatusCode))
 }
 
-func (client *checkClient) CheckQuery(pString string, pStringOpt *string, pStringArray []string, pDate civil.Date, pDateArray []civil.Date, pDatetime civil.DateTime, pInt int, pLong int64, pDecimal decimal.Decimal, pEnum models.Choice, pStringDefaulted string) (*CheckQueryResponse, error) {
+func (client *Client) CheckQuery(pString string, pStringOpt *string, pStringArray []string, pDate civil.Date, pDateArray []civil.Date, pDatetime civil.DateTime, pInt int, pLong int64, pDecimal decimal.Decimal, pEnum models.Choice, pStringDefaulted string) (*CheckQueryResponse, error) {
 	req, err := http.NewRequest("GET", client.baseUrl+"/check/query", nil)
 	if err != nil { return nil, err }
 
@@ -67,7 +88,7 @@ func (client *checkClient) CheckQuery(pString string, pStringOpt *string, pStrin
 	return nil, errors.New(fmt.Sprintf("Unexpected status code received: %d", resp.StatusCode))
 }
 
-func (client *checkClient) CheckUrlParams(intUrl int64, stringUrl string, floatUrl float32, boolUrl bool, uuidUrl uuid.UUID, decimalUrl decimal.Decimal, dateUrl civil.Date) (*CheckUrlParamsResponse, error) {
+func (client *Client) CheckUrlParams(intUrl int64, stringUrl string, floatUrl float32, boolUrl bool, uuidUrl uuid.UUID, decimalUrl decimal.Decimal, dateUrl civil.Date) (*CheckUrlParamsResponse, error) {
 	req, err := http.NewRequest("GET", client.baseUrl+fmt.Sprintf("/check/url_params/%s/%s/%s/%s/%s/%s/%s", convertInt64(intUrl), stringUrl, convertFloat32(floatUrl), convertBool(boolUrl), convertUuid(uuidUrl), convertDecimal(decimalUrl), convertDate(dateUrl)), nil)
 	if err != nil { return nil, err }
 
@@ -83,7 +104,7 @@ func (client *checkClient) CheckUrlParams(intUrl int64, stringUrl string, floatU
 	return nil, errors.New(fmt.Sprintf("Unexpected status code received: %d", resp.StatusCode))
 }
 
-func (client *checkClient) CheckForbidden() (*CheckForbiddenResponse, error) {
+func (client *Client) CheckForbidden() (*CheckForbiddenResponse, error) {
 	req, err := http.NewRequest("GET", client.baseUrl+"/check/forbidden", nil)
 	if err != nil { return nil, err }
 

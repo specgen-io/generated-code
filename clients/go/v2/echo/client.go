@@ -1,4 +1,4 @@
-package v2
+package echo
 
 import (
 	"bytes"
@@ -10,15 +10,23 @@ import (
 	"test-client/v2/models"
 )
 
-type echoClient struct {
+type EmptyDef struct{}
+
+var Empty = EmptyDef{}
+
+type EchoBodyResponse struct {
+	Ok *models.Message
+}
+
+type Client struct {
 	baseUrl string
 }
 
-func NewEchoClient(baseUrl string) *echoClient {
-	return &echoClient{baseUrl}
+func NewClient(baseUrl string) *Client {
+	return &Client{baseUrl}
 }
 
-func (client *echoClient) EchoBody(body *models.Message) (*EchoBodyResponse, error) {
+func (client *Client) EchoBody(body *models.Message) (*EchoBodyResponse, error) {
 	bodyJSON, err := json.Marshal(body)
 	req, err := http.NewRequest("POST", client.baseUrl+"/echo/body", bytes.NewBuffer(bodyJSON))
 	if err != nil { return nil, err }
