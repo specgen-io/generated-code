@@ -1,8 +1,8 @@
 import { AxiosInstance, AxiosRequestConfig } from 'axios'
-import * as t from './../superstruct'
+import * as t from './../io-ts'
 import * as models from './models'
 
-export const echoClient = (axiosInstance: AxiosInstance) => {
+export const client = (axiosInstance: AxiosInstance) => {
     return {
         axiosInstance,
 
