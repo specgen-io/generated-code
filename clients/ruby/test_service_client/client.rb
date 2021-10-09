@@ -64,6 +64,20 @@ module TestService
         raise StandardError.new("Unexpected HTTP response code #{response.code}")
       end
     end
+
+    def same_operation_name()
+      url = @base_uri + '/echo/same_operation_name'
+      request = Net::HTTP::Get.new(url)
+      response = @client.request(request)
+      case response.code
+      when '200'
+        OpenStruct.new(:ok => nil, :ok? => true, :forbidden? => false)
+      when '403'
+        OpenStruct.new(:forbidden => nil, :ok? => false, :forbidden? => true)
+      else
+        raise StandardError.new("Unexpected HTTP response code #{response.code}")
+      end
+    end
   end
 
   class CheckClient < TestService::BaseClient
@@ -130,6 +144,20 @@ module TestService
       case response.code
       when '200'
         OpenStruct.new(:ok => Jsoner.from_json(Message, response.body), :ok? => true, :forbidden? => false)
+      when '403'
+        OpenStruct.new(:forbidden => nil, :ok? => false, :forbidden? => true)
+      else
+        raise StandardError.new("Unexpected HTTP response code #{response.code}")
+      end
+    end
+
+    def same_operation_name()
+      url = @base_uri + '/check/same_operation_name'
+      request = Net::HTTP::Get.new(url)
+      response = @client.request(request)
+      case response.code
+      when '200'
+        OpenStruct.new(:ok => nil, :ok? => true, :forbidden? => false)
       when '403'
         OpenStruct.new(:forbidden => nil, :ok? => false, :forbidden? => true)
       else

@@ -33,6 +33,11 @@ type CheckForbiddenResponse struct {
 	Forbidden *EmptyDef
 }
 
+type SameOperationNameResponse struct {
+	Ok *EmptyDef
+	Forbidden *EmptyDef
+}
+
 type Client struct {
 	baseUrl string
 }
@@ -126,6 +131,28 @@ func (client *Client) CheckForbidden() (*CheckForbiddenResponse, error) {
 		body := &Empty
 
 		return &CheckForbiddenResponse{Forbidden: body}, nil
+	}
+
+	return nil, errors.New(fmt.Sprintf("Unexpected status code received: %d", resp.StatusCode))
+}
+
+func (client *Client) SameOperationName() (*SameOperationNameResponse, error) {
+	req, err := http.NewRequest("GET", client.baseUrl+"/check/same_operation_name", nil)
+	if err != nil { return nil, err }
+
+	resp, err := http.DefaultClient.Do(req)
+	if err != nil { return nil, err }
+
+	if resp.StatusCode == 200 {
+		body := &Empty
+
+		return &SameOperationNameResponse{Ok: body}, nil
+	}
+
+	if resp.StatusCode == 403 {
+		body := &Empty
+
+		return &SameOperationNameResponse{Forbidden: body}, nil
 	}
 
 	return nil, errors.New(fmt.Sprintf("Unexpected status code received: %d", resp.StatusCode))

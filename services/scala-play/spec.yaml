@@ -48,6 +48,7 @@ http:
       endpoint: GET /echo/same_operation_name
       response:
         ok: empty
+        forbidden: empty
 
   check:
     check_empty:
@@ -87,6 +88,7 @@ http:
       endpoint: GET /check/same_operation_name
       response:
         ok: empty
+        forbidden: empty
 
 models:
   Message:

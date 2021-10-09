@@ -11,5 +11,5 @@ public interface ICheckService {
 	void checkQuery(String pString, String pStringOpt, String[] pStringArray, LocalDate pDate, LocalDate[] pDateArray, LocalDateTime pDatetime, int pInt, long pLong, BigDecimal pDecimal, Choice pEnum, String pStringDefaulted);
 	void checkUrlParams(long intUrl, String stringUrl, float floatUrl, boolean boolUrl, UUID uuidUrl, BigDecimal decimalUrl, LocalDate dateUrl, Choice enumUrl);
 	CheckForbiddenResponse checkForbidden();
-	void sameOperationName();
+	SameOperationNameResponse sameOperationName();
 }

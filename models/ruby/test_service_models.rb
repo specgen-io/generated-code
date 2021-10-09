@@ -20,9 +20,9 @@ module TestService
 
   class Choice
     include Enum
-    define :first_choice, 'FIRST_CHOICE'
-    define :second_choice, 'SECOND_CHOICE'
-    define :third_choice, 'THIRD_CHOICE'
+    define :first_choice, 'One'
+    define :second_choice, 'Two'
+    define :third_choice, 'Three'
   end
 
   class EnumFields

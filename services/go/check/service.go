@@ -30,6 +30,7 @@ type CheckForbiddenResponse struct {
 
 type SameOperationNameResponse struct {
 	Ok *EmptyDef
+	Forbidden *EmptyDef
 }
 
 type Service interface {

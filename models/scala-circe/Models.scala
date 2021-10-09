@@ -40,9 +40,9 @@ object Parent {
 sealed abstract class Choice(val value: String) extends StringEnumEntry
 
 case object Choice extends StringEnum[Choice] with StringCirceEnum[Choice] {
-  case object FirstChoice extends Choice("FIRST_CHOICE")
-  case object SecondChoice extends Choice("SECOND_CHOICE")
-  case object ThirdChoice extends Choice("THIRD_CHOICE")
+  case object FirstChoice extends Choice("One")
+  case object SecondChoice extends Choice("Two")
+  case object ThirdChoice extends Choice("Three")
   val values = findValues
 }
 

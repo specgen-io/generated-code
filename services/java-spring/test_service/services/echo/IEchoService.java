@@ -11,5 +11,5 @@ public interface IEchoService {
 	Message echoQuery(int intQuery, String stringQuery);
 	Message echoHeader(int intHeader, String stringHeader);
 	Message echoUrlParams(int intUrl, String stringUrl);
-	void sameOperationName();
+	SameOperationNameResponse sameOperationName();
 }

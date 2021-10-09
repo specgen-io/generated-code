@@ -40,6 +40,7 @@ export type CheckForbiddenResponse =
 
 export type SameOperationNameResponse =
     | { status: "ok" }
+    | { status: "forbidden" }
 
 export interface CheckService {
     checkEmpty(): Promise<CheckEmptyResponse>

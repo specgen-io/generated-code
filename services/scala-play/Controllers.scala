@@ -69,6 +69,7 @@ class EchoController @Inject()(api: IEchoService, cc: ControllerComponents)(impl
       val result = api.sameOperationName()
       val response = result.map {
         case SameOperationNameResponse.Ok() => new Status(200)
+        case SameOperationNameResponse.Forbidden() => new Status(403)
       }
       response.recover { case _: Exception => InternalServerError }
   }
@@ -115,6 +116,7 @@ class CheckController @Inject()(api: ICheckService, cc: ControllerComponents)(im
       val result = api.sameOperationName()
       val response = result.map {
         case SameOperationNameResponse.Ok() => new Status(200)
+        case SameOperationNameResponse.Forbidden() => new Status(403)
       }
       response.recover { case _: Exception => InternalServerError }
   }

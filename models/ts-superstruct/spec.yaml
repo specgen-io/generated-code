@@ -21,9 +21,9 @@ models:
 
   Choice:
     enum:
-      first_choice: FIRST_CHOICE
-      second_choice: SECOND_CHOICE
-      third_choice: THIRD_CHOICE
+      first_choice: One
+      second_choice: Two
+      third_choice: Three
 
   EnumFields:
     enum_field: Choice

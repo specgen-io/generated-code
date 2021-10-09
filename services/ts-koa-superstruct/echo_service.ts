@@ -33,6 +33,7 @@ export type EchoUrlParamsResponse =
 
 export type SameOperationNameResponse =
     | { status: "ok" }
+    | { status: "forbidden" }
 
 export interface EchoService {
     echoBody(params: EchoBodyParams): Promise<EchoBodyResponse>

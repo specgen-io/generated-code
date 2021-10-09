@@ -8,7 +8,7 @@ import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.annotation.JsonSubTypes.*;
 
 public enum Choice {
-	FIRST_CHOICE,
-	SECOND_CHOICE,
-	THIRD_CHOICE,
+	@JsonProperty("FIRST_CHOICE") FIRST_CHOICE,
+	@JsonProperty("SECOND_CHOICE") SECOND_CHOICE,
+	@JsonProperty("THIRD_CHOICE") THIRD_CHOICE,
 }

@@ -28,7 +28,7 @@ public class CheckService implements ICheckService {
 		throw new UnsupportedOperationException("Implementation has not added yet");
 	}
 	@Override
-	public void sameOperationName() {
+	public SameOperationNameResponse sameOperationName() {
 		throw new UnsupportedOperationException("Implementation has not added yet");
 	}
 }

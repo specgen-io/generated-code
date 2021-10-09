@@ -114,6 +114,8 @@ export let echoRouter = (service: EchoService) => {
             switch (result.status) {
                 case 'ok':
                     ctx.status = 200
+                case 'forbidden':
+                    ctx.status = 403
             }
         } catch (error) {
             ctx.throw(500)
@@ -226,6 +228,8 @@ export let checkRouter = (service: CheckService) => {
             switch (result.status) {
                 case 'ok':
                     ctx.status = 200
+                case 'forbidden':
+                    ctx.status = 403
             }
         } catch (error) {
             ctx.throw(500)

@@ -35,5 +35,6 @@ object ICheckService {
   sealed trait SameOperationNameResponse
   object SameOperationNameResponse {
     case class Ok() extends SameOperationNameResponse
+    case class Forbidden() extends SameOperationNameResponse
   }
 }

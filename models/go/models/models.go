@@ -25,9 +25,9 @@ type Parent struct {
 type Choice string
 
 const (
-	ChoiceFirstChoice Choice = "FIRST_CHOICE"
-	ChoiceSecondChoice Choice = "SECOND_CHOICE"
-	ChoiceThirdChoice Choice = "THIRD_CHOICE"
+	ChoiceFirstChoice Choice = "One"
+	ChoiceSecondChoice Choice = "Two"
+	ChoiceThirdChoice Choice = "Three"
 )
 
 var ChoiceValuesStrings = []string{string(ChoiceFirstChoice), string(ChoiceSecondChoice), string(ChoiceThirdChoice)}

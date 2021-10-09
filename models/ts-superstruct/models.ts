@@ -20,17 +20,17 @@ export const TParent = t.type({
 export type Parent = t.Infer<typeof TParent>
 
 export const TChoice = t.enums ([
-    "FIRST_CHOICE",
-    "SECOND_CHOICE",
-    "THIRD_CHOICE",
+    "One",
+    "Two",
+    "Three",
 ])
 
 export type Choice = t.Infer<typeof TChoice>
 
 export const Choice = {
-    FIRST_CHOICE: <Choice>"FIRST_CHOICE",
-    SECOND_CHOICE: <Choice>"SECOND_CHOICE",
-    THIRD_CHOICE: <Choice>"THIRD_CHOICE",
+    FIRST_CHOICE: <Choice>"One",
+    SECOND_CHOICE: <Choice>"Two",
+    THIRD_CHOICE: <Choice>"Three",
 }
 
 export const TEnumFields = t.type({

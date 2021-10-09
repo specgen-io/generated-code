@@ -64,6 +64,19 @@ export const client = (axiosInstance: AxiosInstance) => {
                     throw new Error(`Unexpected status code ${ response.status }`)
             }
         },
+
+        sameOperationName: async (): Promise<SameOperationNameResponse> => {
+            const config: AxiosRequestConfig = {}
+            const response = await axiosInstance.get(`/check/same_operation_name`, config)
+            switch (response.status) {
+                case 200:
+                    return Promise.resolve({ status: "ok" })
+                case 403:
+                    return Promise.resolve({ status: "forbidden" })
+                default:
+                    throw new Error(`Unexpected status code ${ response.status }`)
+            }
+        },
     }
 }
 
@@ -78,4 +91,8 @@ export type CheckUrlParamsResponse =
 
 export type CheckForbiddenResponse =
     | { status: "ok", data: models.Message }
+    | { status: "forbidden" }
+
+export type SameOperationNameResponse =
+    | { status: "ok" }
     | { status: "forbidden" }

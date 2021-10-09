@@ -72,8 +72,15 @@ public class EchoController {
 
 	@GetMapping("/echo/same_operation_name")
 	public ResponseEntity<String> sameOperationNameController() throws IOException {
-		echoService.sameOperationName();
+		var result = echoService.sameOperationName();
 
-		return new ResponseEntity<>(HttpStatus.OK);
+		if (result instanceof SameOperationNameResponseOk) {
+			return new ResponseEntity<>(HttpStatus.OK);
+		}
+		if (result instanceof SameOperationNameResponseForbidden) {
+			return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+		}
+
+		return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 }

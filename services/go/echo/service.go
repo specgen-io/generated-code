@@ -26,6 +26,7 @@ type EchoUrlParamsResponse struct {
 
 type SameOperationNameResponse struct {
 	Ok *EmptyDef
+	Forbidden *EmptyDef
 }
 
 type Service interface {

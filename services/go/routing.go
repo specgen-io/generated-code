@@ -172,6 +172,11 @@ func AddEchoRoutes(router *vestigo.Router, echoService echo.Service) {
 			log.WithFields(logSameOperationName).WithField("status", 200).Info("Completed request")
 			return
 		}
+		if response.Forbidden != nil {
+			res.WriteHeader(403)
+			log.WithFields(logSameOperationName).WithField("status", 403).Info("Completed request")
+			return
+		}
 		log.Error("Result from service implementation does not have anything in it")
 		res.WriteHeader(500)
 		log.WithFields(logSameOperationName).WithField("status", 500).Info("Completed request")
@@ -336,6 +341,11 @@ func AddCheckRoutes(router *vestigo.Router, checkService check.Service) {
 		if response.Ok != nil {
 			res.WriteHeader(200)
 			log.WithFields(logSameOperationName).WithField("status", 200).Info("Completed request")
+			return
+		}
+		if response.Forbidden != nil {
+			res.WriteHeader(403)
+			log.WithFields(logSameOperationName).WithField("status", 403).Info("Completed request")
 			return
 		}
 		log.Error("Result from service implementation does not have anything in it")

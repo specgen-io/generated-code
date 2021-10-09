@@ -112,6 +112,30 @@ class EchoClient(baseUrl: String)(implicit backend: SttpBackend[Future, Nothing]
         }
     }
   }
+  def sameOperationName(): Future[SameOperationNameResponse] = {
+    val url = Uri.parse(baseUrl+s"/echo/same_operation_name").get
+    logger.debug(s"Request to url: ${url}")
+    val response: Future[Response[String]] =
+      sttp
+        .get(url)
+        .parseResponseIf { status => status < 500 }
+        .send()
+    response.map {
+      response: Response[String] =>
+        response.body match {
+          case Right(body) =>
+            logger.debug(s"Response status: ${response.code}, body: ${body}")
+            response.code match {
+              case 200 => SameOperationNameResponse.Ok()
+              case 403 => SameOperationNameResponse.Forbidden()
+            }
+          case Left(errorData) =>
+            val errorMessage = s"Request failed, status code: ${response.code}, body: ${new String(errorData)}"
+            logger.error(errorMessage)
+            throw new RuntimeException(errorMessage)
+        }
+    }
+  }
 }
 
 class CheckClient(baseUrl: String)(implicit backend: SttpBackend[Future, Nothing]) extends ICheckClient {
@@ -215,6 +239,30 @@ class CheckClient(baseUrl: String)(implicit backend: SttpBackend[Future, Nothing
             response.code match {
               case 200 => CheckForbiddenResponse.Ok(Jsoner.readThrowing[Message](body))
               case 403 => CheckForbiddenResponse.Forbidden()
+            }
+          case Left(errorData) =>
+            val errorMessage = s"Request failed, status code: ${response.code}, body: ${new String(errorData)}"
+            logger.error(errorMessage)
+            throw new RuntimeException(errorMessage)
+        }
+    }
+  }
+  def sameOperationName(): Future[SameOperationNameResponse] = {
+    val url = Uri.parse(baseUrl+s"/check/same_operation_name").get
+    logger.debug(s"Request to url: ${url}")
+    val response: Future[Response[String]] =
+      sttp
+        .get(url)
+        .parseResponseIf { status => status < 500 }
+        .send()
+    response.map {
+      response: Response[String] =>
+        response.body match {
+          case Right(body) =>
+            logger.debug(s"Response status: ${response.code}, body: ${body}")
+            response.code match {
+              case 200 => SameOperationNameResponse.Ok()
+              case 403 => SameOperationNameResponse.Forbidden()
             }
           case Left(errorData) =>
             val errorMessage = s"Request failed, status code: ${response.code}, body: ${new String(errorData)}"

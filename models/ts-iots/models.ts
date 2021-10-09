@@ -22,9 +22,9 @@ export const TParent = t.interface({
 export type Parent = t.TypeOf<typeof TParent>
 
 export enum Choice {
-    FIRST_CHOICE = "FIRST_CHOICE",
-    SECOND_CHOICE = "SECOND_CHOICE",
-    THIRD_CHOICE = "THIRD_CHOICE",
+    FIRST_CHOICE = "One",
+    SECOND_CHOICE = "Two",
+    THIRD_CHOICE = "Three",
 }
 
 export const TChoice = t.enum(Choice)

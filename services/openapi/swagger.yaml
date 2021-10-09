@@ -139,6 +139,8 @@ paths:
       responses:
         "200":
           description: ""
+        "403":
+          description: ""
         "500":
           description: Service will return this if unexpected internal error happens
   /check/empty:
@@ -311,6 +313,8 @@ paths:
         - check
       responses:
         "200":
+          description: ""
+        "403":
           description: ""
         "500":
           description: Service will return this if unexpected internal error happens
