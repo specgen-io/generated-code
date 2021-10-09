@@ -19,11 +19,13 @@ import test_service.services.check.*;
 public class CheckController {
 	final ICheckService checkService;
 
+	ObjectMapper objectMapper;
+
 	public CheckController(ICheckService checkService) {
 		this.checkService = checkService;
+		this.objectMapper = new ObjectMapper();
+		Jsoner.setupObjectMapper(this.objectMapper);
 	}
-
-	ObjectMapper objectMapper = new ObjectMapper();
 
 	@GetMapping("/check/empty")
 	public ResponseEntity<String> checkEmptyController() throws IOException {

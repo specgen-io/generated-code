@@ -19,11 +19,13 @@ import test_service.v2.services.echo.*;
 public class EchoController {
 	final IEchoService echoService;
 
+	ObjectMapper objectMapper;
+
 	public EchoController(IEchoService echoService) {
 		this.echoService = echoService;
+		this.objectMapper = new ObjectMapper();
+		Jsoner.setupObjectMapper(this.objectMapper);
 	}
-
-	ObjectMapper objectMapper = new ObjectMapper();
 
 	@PostMapping("v2/echo/body")
 	public ResponseEntity<String> echoBodyController(@RequestBody String jsonStr) throws IOException {
