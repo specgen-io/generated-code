@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import static org.apache.tomcat.util.http.fileupload.FileUploadBase.CONTENT_TYPE;
 
-import test_service.models.Jsoner;
+import test_service.models.Json;
 import test_service.v2.models.*;
 import test_service.v2.services.echo.*;
 
@@ -24,17 +24,17 @@ public class EchoController {
 	public EchoController(IEchoService echoService) {
 		this.echoService = echoService;
 		this.objectMapper = new ObjectMapper();
-		Jsoner.setupObjectMapper(this.objectMapper);
+		Json.setupObjectMapper(this.objectMapper);
 	}
 
 	@PostMapping("v2/echo/body")
 	public ResponseEntity<String> echoBodyController(@RequestBody String jsonStr) throws IOException {
-		var requestBody = Jsoner.deserialize(objectMapper, jsonStr, Message.class);
+		var requestBody = objectMapper.readValue(jsonStr, Message.class);
 		var result = echoService.echoBody(requestBody);
 
 		HttpHeaders headers = new HttpHeaders();
 		headers.add(CONTENT_TYPE, "application/json");
-		String responseJson = Jsoner.serialize(objectMapper, result);
+		String responseJson = objectMapper.writeValueAsString(result);
 
 		return new ResponseEntity<>(responseJson, headers, HttpStatus.OK);
 	}

@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import static org.apache.tomcat.util.http.fileupload.FileUploadBase.CONTENT_TYPE;
 
-import test_service.models.Jsoner;
+import test_service.models.Json;
 import test_service.models.*;
 import test_service.services.check.*;
 
@@ -24,7 +24,7 @@ public class CheckController {
 	public CheckController(ICheckService checkService) {
 		this.checkService = checkService;
 		this.objectMapper = new ObjectMapper();
-		Jsoner.setupObjectMapper(this.objectMapper);
+		Json.setupObjectMapper(this.objectMapper);
 	}
 
 	@GetMapping("/check/empty")
