@@ -25,16 +25,16 @@ public class Message {
 		return intField;
 	}
 
-	public void setIntField(int intField) {
-		this.intField = intField;
+	public void setIntField(int value) {
+		this.intField = value;
 	}
 
 	public String getStringField() {
 		return stringField;
 	}
 
-	public void setStringField(String stringField) {
-		this.stringField = stringField;
+	public void setStringField(String value) {
+		this.stringField = value;
 	}
 
 	@Override

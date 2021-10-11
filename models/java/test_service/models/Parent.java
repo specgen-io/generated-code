@@ -25,16 +25,16 @@ public class Parent {
 		return field;
 	}
 
-	public void setField(String field) {
-		this.field = field;
+	public void setField(String value) {
+		this.field = value;
 	}
 
 	public Nested getNested() {
 		return nested;
 	}
 
-	public void setNested(Nested nested) {
-		this.nested = nested;
+	public void setNested(Nested value) {
+		this.nested = value;
 	}
 
 	@Override

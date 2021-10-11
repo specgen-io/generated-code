@@ -25,16 +25,16 @@ public class ArrayFields {
 		return intArrayField;
 	}
 
-	public void setIntArrayField(int[] intArrayField) {
-		this.intArrayField = intArrayField;
+	public void setIntArrayField(int[] value) {
+		this.intArrayField = value;
 	}
 
 	public String[] getStringArrayField() {
 		return stringArrayField;
 	}
 
-	public void setStringArrayField(String[] stringArrayField) {
-		this.stringArrayField = stringArrayField;
+	public void setStringArrayField(String[] value) {
+		this.stringArrayField = value;
 	}
 
 	@Override

@@ -22,8 +22,8 @@ public class OrderCanceled {
 		return id;
 	}
 
-	public void setId(UUID id) {
-		this.id = id;
+	public void setId(UUID value) {
+		this.id = value;
 	}
 
 	@Override

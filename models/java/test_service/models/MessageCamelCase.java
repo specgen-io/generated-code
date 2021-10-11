@@ -22,8 +22,8 @@ public class MessageCamelCase {
 		return fieldInt;
 	}
 
-	public void setFieldInt(int fieldInt) {
-		this.fieldInt = fieldInt;
+	public void setFieldInt(int value) {
+		this.fieldInt = value;
 	}
 
 	@Override

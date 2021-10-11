@@ -34,40 +34,40 @@ public class NumericFields {
 		return intField;
 	}
 
-	public void setIntField(int intField) {
-		this.intField = intField;
+	public void setIntField(int value) {
+		this.intField = value;
 	}
 
 	public long getLongField() {
 		return longField;
 	}
 
-	public void setLongField(long longField) {
-		this.longField = longField;
+	public void setLongField(long value) {
+		this.longField = value;
 	}
 
 	public float getFloatField() {
 		return floatField;
 	}
 
-	public void setFloatField(float floatField) {
-		this.floatField = floatField;
+	public void setFloatField(float value) {
+		this.floatField = value;
 	}
 
 	public double getDoubleField() {
 		return doubleField;
 	}
 
-	public void setDoubleField(double doubleField) {
-		this.doubleField = doubleField;
+	public void setDoubleField(double value) {
+		this.doubleField = value;
 	}
 
 	public BigDecimal getDecimalField() {
 		return decimalField;
 	}
 
-	public void setDecimalField(BigDecimal decimalField) {
-		this.decimalField = decimalField;
+	public void setDecimalField(BigDecimal value) {
+		this.decimalField = value;
 	}
 
 	@Override

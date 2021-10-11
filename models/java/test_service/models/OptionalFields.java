@@ -25,16 +25,16 @@ public class OptionalFields {
 		return intOptionField;
 	}
 
-	public void setIntOptionField(Integer intOptionField) {
-		this.intOptionField = intOptionField;
+	public void setIntOptionField(Integer value) {
+		this.intOptionField = value;
 	}
 
 	public String getStringOptionField() {
 		return stringOptionField;
 	}
 
-	public void setStringOptionField(String stringOptionField) {
-		this.stringOptionField = stringOptionField;
+	public void setStringOptionField(String value) {
+		this.stringOptionField = value;
 	}
 
 	@Override

@@ -25,16 +25,16 @@ public class MapFields {
 		return intMapField;
 	}
 
-	public void setIntMapField(Map<String, Integer> intMapField) {
-		this.intMapField = intMapField;
+	public void setIntMapField(Map<String, Integer> value) {
+		this.intMapField = value;
 	}
 
 	public Map<String, String> getStringMapField() {
 		return stringMapField;
 	}
 
-	public void setStringMapField(Map<String, String> stringMapField) {
-		this.stringMapField = stringMapField;
+	public void setStringMapField(Map<String, String> value) {
+		this.stringMapField = value;
 	}
 
 	@Override

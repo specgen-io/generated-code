@@ -10,21 +10,21 @@ import com.fasterxml.jackson.annotation.JsonSubTypes.*;
 public class RawJsonField {
 	@JsonProperty("json_field")
 	@JsonRawValue
-	private Object jsonField;
+	private JsonNode jsonField;
 
 	public RawJsonField() {
 	}
 
-	public RawJsonField(String jsonField) {
+	public RawJsonField(JsonNode jsonField) {
 		this.jsonField = jsonField;
 	}
 
-	public String getJsonField() {
-		return  jsonField == null ? null : jsonField.toString();
+	public JsonNode getJsonField() {
+		return jsonField;
 	}
 
-	public void setJsonField(JsonNode node) {
-		this.jsonField = node;
+	public void setJsonField(JsonNode value) {
+		this.jsonField = value;
 	}
 
 	@Override

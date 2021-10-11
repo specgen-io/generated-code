@@ -22,8 +22,8 @@ public class Nested {
 		return field;
 	}
 
-	public void setField(String field) {
-		this.field = field;
+	public void setField(String value) {
+		this.field = value;
 	}
 
 	@Override

@@ -22,8 +22,8 @@ public class Message {
 		return field;
 	}
 
-	public void setField(int field) {
-		this.field = field;
+	public void setField(int value) {
+		this.field = value;
 	}
 
 	@Override

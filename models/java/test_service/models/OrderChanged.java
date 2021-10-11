@@ -25,16 +25,16 @@ public class OrderChanged {
 		return id;
 	}
 
-	public void setId(UUID id) {
-		this.id = id;
+	public void setId(UUID value) {
+		this.id = value;
 	}
 
 	public int getQuantity() {
 		return quantity;
 	}
 
-	public void setQuantity(int quantity) {
-		this.quantity = quantity;
+	public void setQuantity(int value) {
+		this.quantity = value;
 	}
 
 	@Override

@@ -22,8 +22,8 @@ public class EnumFields {
 		return enumField;
 	}
 
-	public void setEnumField(Choice enumField) {
-		this.enumField = enumField;
+	public void setEnumField(Choice value) {
+		this.enumField = value;
 	}
 
 	@Override

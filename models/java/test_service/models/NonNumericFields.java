@@ -34,40 +34,40 @@ public class NonNumericFields {
 		return booleanField;
 	}
 
-	public void setBooleanField(boolean booleanField) {
-		this.booleanField = booleanField;
+	public void setBooleanField(boolean value) {
+		this.booleanField = value;
 	}
 
 	public String getStringField() {
 		return stringField;
 	}
 
-	public void setStringField(String stringField) {
-		this.stringField = stringField;
+	public void setStringField(String value) {
+		this.stringField = value;
 	}
 
 	public UUID getUuidField() {
 		return uuidField;
 	}
 
-	public void setUuidField(UUID uuidField) {
-		this.uuidField = uuidField;
+	public void setUuidField(UUID value) {
+		this.uuidField = value;
 	}
 
 	public LocalDate getDateField() {
 		return dateField;
 	}
 
-	public void setDateField(LocalDate dateField) {
-		this.dateField = dateField;
+	public void setDateField(LocalDate value) {
+		this.dateField = value;
 	}
 
 	public LocalDateTime getDatetimeField() {
 		return datetimeField;
 	}
 
-	public void setDatetimeField(LocalDateTime datetimeField) {
-		this.datetimeField = datetimeField;
+	public void setDatetimeField(LocalDateTime value) {
+		this.datetimeField = value;
 	}
 
 	@Override

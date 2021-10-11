@@ -25,16 +25,16 @@ public class Message {
 		return boolField;
 	}
 
-	public void setBoolField(boolean boolField) {
-		this.boolField = boolField;
+	public void setBoolField(boolean value) {
+		this.boolField = value;
 	}
 
 	public String getStringField() {
 		return stringField;
 	}
 
-	public void setStringField(String stringField) {
-		this.stringField = stringField;
+	public void setStringField(String value) {
+		this.stringField = value;
 	}
 
 	@Override

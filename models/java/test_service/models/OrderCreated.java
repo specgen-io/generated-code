@@ -28,24 +28,24 @@ public class OrderCreated {
 		return id;
 	}
 
-	public void setId(UUID id) {
-		this.id = id;
+	public void setId(UUID value) {
+		this.id = value;
 	}
 
 	public String getSku() {
 		return sku;
 	}
 
-	public void setSku(String sku) {
-		this.sku = sku;
+	public void setSku(String value) {
+		this.sku = value;
 	}
 
 	public int getQuantity() {
 		return quantity;
 	}
 
-	public void setQuantity(int quantity) {
-		this.quantity = quantity;
+	public void setQuantity(int value) {
+		this.quantity = value;
 	}
 
 	@Override
