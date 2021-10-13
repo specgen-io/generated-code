@@ -8,33 +8,38 @@ import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.annotation.JsonSubTypes.*;
 
 public class Parent {
-	@JsonProperty("field")
-	private String field;
-	@JsonProperty("nested")
-	private Nested nested;
-
 	public Parent() {
 	}
 
 	public Parent(String field, Nested nested) {
+		if (field == null) { throw new IllegalArgumentException("null value is not allowed"); }
 		this.field = field;
+		if (nested == null) { throw new IllegalArgumentException("null value is not allowed"); }
 		this.nested = nested;
 	}
+
+	@JsonProperty("field")
+	private String field;
+
+	@JsonProperty("nested")
+	private Nested nested;
 
 	public String getField() {
 		return field;
 	}
 
-	public void setField(String value) {
-		this.field = value;
+	public void setField(String field) {
+		if (field == null) { throw new IllegalArgumentException("null value is not allowed"); }
+		this.field = field;
 	}
 
 	public Nested getNested() {
 		return nested;
 	}
 
-	public void setNested(Nested value) {
-		this.nested = value;
+	public void setNested(Nested nested) {
+		if (nested == null) { throw new IllegalArgumentException("null value is not allowed"); }
+		this.nested = nested;
 	}
 
 	@Override

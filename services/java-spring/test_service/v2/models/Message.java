@@ -8,33 +8,36 @@ import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.annotation.JsonSubTypes.*;
 
 public class Message {
-	@JsonProperty("bool_field")
-	private boolean boolField;
-	@JsonProperty("string_field")
-	private String stringField;
-
 	public Message() {
 	}
 
 	public Message(boolean boolField, String stringField) {
 		this.boolField = boolField;
+		if (stringField == null) { throw new IllegalArgumentException("null value is not allowed"); }
 		this.stringField = stringField;
 	}
+
+	@JsonProperty("bool_field")
+	private boolean boolField;
+
+	@JsonProperty("string_field")
+	private String stringField;
 
 	public boolean getBoolField() {
 		return boolField;
 	}
 
-	public void setBoolField(boolean value) {
-		this.boolField = value;
+	public void setBoolField(boolean boolField) {
+		this.boolField = boolField;
 	}
 
 	public String getStringField() {
 		return stringField;
 	}
 
-	public void setStringField(String value) {
-		this.stringField = value;
+	public void setStringField(String stringField) {
+		if (stringField == null) { throw new IllegalArgumentException("null value is not allowed"); }
+		this.stringField = stringField;
 	}
 
 	@Override

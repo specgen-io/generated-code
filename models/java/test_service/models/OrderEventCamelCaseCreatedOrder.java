@@ -15,6 +15,7 @@ public class OrderEventCamelCaseCreatedOrder implements OrderEventCamelCase {
 	}
 
 	public OrderEventCamelCaseCreatedOrder(OrderCreated data) {
+		if (data == null) { throw new IllegalArgumentException("null value is not allowed"); }
 		this.data = data;
 	}
 
@@ -23,6 +24,7 @@ public class OrderEventCamelCaseCreatedOrder implements OrderEventCamelCase {
 	}
 
 	public void setData(OrderCreated data) {
+		if (data == null) { throw new IllegalArgumentException("null value is not allowed"); }
 		this.data = data;
 	}
 

@@ -8,11 +8,6 @@ import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.annotation.JsonSubTypes.*;
 
 public class OptionalFields {
-	@JsonProperty("int_option_field")
-	private Integer intOptionField;
-	@JsonProperty("string_option_field")
-	private String stringOptionField;
-
 	public OptionalFields() {
 	}
 
@@ -21,20 +16,26 @@ public class OptionalFields {
 		this.stringOptionField = stringOptionField;
 	}
 
+	@JsonProperty("int_option_field")
+	private Integer intOptionField;
+
+	@JsonProperty("string_option_field")
+	private String stringOptionField;
+
 	public Integer getIntOptionField() {
 		return intOptionField;
 	}
 
-	public void setIntOptionField(Integer value) {
-		this.intOptionField = value;
+	public void setIntOptionField(Integer intOptionField) {
+		this.intOptionField = intOptionField;
 	}
 
 	public String getStringOptionField() {
 		return stringOptionField;
 	}
 
-	public void setStringOptionField(String value) {
-		this.stringOptionField = value;
+	public void setStringOptionField(String stringOptionField) {
+		this.stringOptionField = stringOptionField;
 	}
 
 	@Override

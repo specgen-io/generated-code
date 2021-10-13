@@ -15,6 +15,7 @@ public class OrderEventDiscriminatedCanceled implements OrderEventDiscriminated 
 	}
 
 	public OrderEventDiscriminatedCanceled(OrderCanceled data) {
+		if (data == null) { throw new IllegalArgumentException("null value is not allowed"); }
 		this.data = data;
 	}
 
@@ -23,6 +24,7 @@ public class OrderEventDiscriminatedCanceled implements OrderEventDiscriminated 
 	}
 
 	public void setData(OrderCanceled data) {
+		if (data == null) { throw new IllegalArgumentException("null value is not allowed"); }
 		this.data = data;
 	}
 

@@ -8,33 +8,38 @@ import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.annotation.JsonSubTypes.*;
 
 public class MapFields {
-	@JsonProperty("int_map_field")
-	private Map<String, Integer> intMapField;
-	@JsonProperty("string_map_field")
-	private Map<String, String> stringMapField;
-
 	public MapFields() {
 	}
 
 	public MapFields(Map<String, Integer> intMapField, Map<String, String> stringMapField) {
+		if (intMapField == null) { throw new IllegalArgumentException("null value is not allowed"); }
 		this.intMapField = intMapField;
+		if (stringMapField == null) { throw new IllegalArgumentException("null value is not allowed"); }
 		this.stringMapField = stringMapField;
 	}
+
+	@JsonProperty("int_map_field")
+	private Map<String, Integer> intMapField;
+
+	@JsonProperty("string_map_field")
+	private Map<String, String> stringMapField;
 
 	public Map<String, Integer> getIntMapField() {
 		return intMapField;
 	}
 
-	public void setIntMapField(Map<String, Integer> value) {
-		this.intMapField = value;
+	public void setIntMapField(Map<String, Integer> intMapField) {
+		if (intMapField == null) { throw new IllegalArgumentException("null value is not allowed"); }
+		this.intMapField = intMapField;
 	}
 
 	public Map<String, String> getStringMapField() {
 		return stringMapField;
 	}
 
-	public void setStringMapField(Map<String, String> value) {
-		this.stringMapField = value;
+	public void setStringMapField(Map<String, String> stringMapField) {
+		if (stringMapField == null) { throw new IllegalArgumentException("null value is not allowed"); }
+		this.stringMapField = stringMapField;
 	}
 
 	@Override

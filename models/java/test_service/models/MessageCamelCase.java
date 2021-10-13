@@ -8,9 +8,6 @@ import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.annotation.JsonSubTypes.*;
 
 public class MessageCamelCase {
-	@JsonProperty("field_int")
-	private int fieldInt;
-
 	public MessageCamelCase() {
 	}
 
@@ -18,12 +15,15 @@ public class MessageCamelCase {
 		this.fieldInt = fieldInt;
 	}
 
+	@JsonProperty("field_int")
+	private int fieldInt;
+
 	public int getFieldInt() {
 		return fieldInt;
 	}
 
-	public void setFieldInt(int value) {
-		this.fieldInt = value;
+	public void setFieldInt(int fieldInt) {
+		this.fieldInt = fieldInt;
 	}
 
 	@Override

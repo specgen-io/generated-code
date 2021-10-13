@@ -15,6 +15,7 @@ public class OrderEventChanged implements OrderEvent {
 	}
 
 	public OrderEventChanged(OrderChanged data) {
+		if (data == null) { throw new IllegalArgumentException("null value is not allowed"); }
 		this.data = data;
 	}
 
@@ -23,6 +24,7 @@ public class OrderEventChanged implements OrderEvent {
 	}
 
 	public void setData(OrderChanged data) {
+		if (data == null) { throw new IllegalArgumentException("null value is not allowed"); }
 		this.data = data;
 	}
 

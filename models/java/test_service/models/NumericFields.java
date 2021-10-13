@@ -8,17 +8,6 @@ import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.annotation.JsonSubTypes.*;
 
 public class NumericFields {
-	@JsonProperty("int_field")
-	private int intField;
-	@JsonProperty("long_field")
-	private long longField;
-	@JsonProperty("float_field")
-	private float floatField;
-	@JsonProperty("double_field")
-	private double doubleField;
-	@JsonProperty("decimal_field")
-	private BigDecimal decimalField;
-
 	public NumericFields() {
 	}
 
@@ -27,47 +16,64 @@ public class NumericFields {
 		this.longField = longField;
 		this.floatField = floatField;
 		this.doubleField = doubleField;
+		if (decimalField == null) { throw new IllegalArgumentException("null value is not allowed"); }
 		this.decimalField = decimalField;
 	}
+
+	@JsonProperty("int_field")
+	private int intField;
+
+	@JsonProperty("long_field")
+	private long longField;
+
+	@JsonProperty("float_field")
+	private float floatField;
+
+	@JsonProperty("double_field")
+	private double doubleField;
+
+	@JsonProperty("decimal_field")
+	private BigDecimal decimalField;
 
 	public int getIntField() {
 		return intField;
 	}
 
-	public void setIntField(int value) {
-		this.intField = value;
+	public void setIntField(int intField) {
+		this.intField = intField;
 	}
 
 	public long getLongField() {
 		return longField;
 	}
 
-	public void setLongField(long value) {
-		this.longField = value;
+	public void setLongField(long longField) {
+		this.longField = longField;
 	}
 
 	public float getFloatField() {
 		return floatField;
 	}
 
-	public void setFloatField(float value) {
-		this.floatField = value;
+	public void setFloatField(float floatField) {
+		this.floatField = floatField;
 	}
 
 	public double getDoubleField() {
 		return doubleField;
 	}
 
-	public void setDoubleField(double value) {
-		this.doubleField = value;
+	public void setDoubleField(double doubleField) {
+		this.doubleField = doubleField;
 	}
 
 	public BigDecimal getDecimalField() {
 		return decimalField;
 	}
 
-	public void setDecimalField(BigDecimal value) {
-		this.decimalField = value;
+	public void setDecimalField(BigDecimal decimalField) {
+		if (decimalField == null) { throw new IllegalArgumentException("null value is not allowed"); }
+		this.decimalField = decimalField;
 	}
 
 	@Override

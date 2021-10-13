@@ -8,44 +8,50 @@ import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.annotation.JsonSubTypes.*;
 
 public class OrderCreated {
-	@JsonProperty("id")
-	private UUID id;
-	@JsonProperty("sku")
-	private String sku;
-	@JsonProperty("quantity")
-	private int quantity;
-
 	public OrderCreated() {
 	}
 
 	public OrderCreated(UUID id, String sku, int quantity) {
+		if (id == null) { throw new IllegalArgumentException("null value is not allowed"); }
 		this.id = id;
+		if (sku == null) { throw new IllegalArgumentException("null value is not allowed"); }
 		this.sku = sku;
 		this.quantity = quantity;
 	}
+
+	@JsonProperty("id")
+	private UUID id;
+
+	@JsonProperty("sku")
+	private String sku;
+
+	@JsonProperty("quantity")
+	private int quantity;
 
 	public UUID getId() {
 		return id;
 	}
 
-	public void setId(UUID value) {
-		this.id = value;
+	public void setId(UUID id) {
+		if (id == null) { throw new IllegalArgumentException("null value is not allowed"); }
+		this.id = id;
 	}
 
 	public String getSku() {
 		return sku;
 	}
 
-	public void setSku(String value) {
-		this.sku = value;
+	public void setSku(String sku) {
+		if (sku == null) { throw new IllegalArgumentException("null value is not allowed"); }
+		this.sku = sku;
 	}
 
 	public int getQuantity() {
 		return quantity;
 	}
 
-	public void setQuantity(int value) {
-		this.quantity = value;
+	public void setQuantity(int quantity) {
+		this.quantity = quantity;
 	}
 
 	@Override

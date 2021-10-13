@@ -8,33 +8,38 @@ import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.annotation.JsonSubTypes.*;
 
 public class ArrayFields {
-	@JsonProperty("int_array_field")
-	private int[] intArrayField;
-	@JsonProperty("string_array_field")
-	private String[] stringArrayField;
-
 	public ArrayFields() {
 	}
 
 	public ArrayFields(int[] intArrayField, String[] stringArrayField) {
+		if (intArrayField == null) { throw new IllegalArgumentException("null value is not allowed"); }
 		this.intArrayField = intArrayField;
+		if (stringArrayField == null) { throw new IllegalArgumentException("null value is not allowed"); }
 		this.stringArrayField = stringArrayField;
 	}
+
+	@JsonProperty("int_array_field")
+	private int[] intArrayField;
+
+	@JsonProperty("string_array_field")
+	private String[] stringArrayField;
 
 	public int[] getIntArrayField() {
 		return intArrayField;
 	}
 
-	public void setIntArrayField(int[] value) {
-		this.intArrayField = value;
+	public void setIntArrayField(int[] intArrayField) {
+		if (intArrayField == null) { throw new IllegalArgumentException("null value is not allowed"); }
+		this.intArrayField = intArrayField;
 	}
 
 	public String[] getStringArrayField() {
 		return stringArrayField;
 	}
 
-	public void setStringArrayField(String[] value) {
-		this.stringArrayField = value;
+	public void setStringArrayField(String[] stringArrayField) {
+		if (stringArrayField == null) { throw new IllegalArgumentException("null value is not allowed"); }
+		this.stringArrayField = stringArrayField;
 	}
 
 	@Override

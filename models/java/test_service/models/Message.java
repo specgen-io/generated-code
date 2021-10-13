@@ -8,9 +8,6 @@ import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.annotation.JsonSubTypes.*;
 
 public class Message {
-	@JsonProperty("field")
-	private int field;
-
 	public Message() {
 	}
 
@@ -18,12 +15,15 @@ public class Message {
 		this.field = field;
 	}
 
+	@JsonProperty("field")
+	private int field;
+
 	public int getField() {
 		return field;
 	}
 
-	public void setField(int value) {
-		this.field = value;
+	public void setField(int field) {
+		this.field = field;
 	}
 
 	@Override
