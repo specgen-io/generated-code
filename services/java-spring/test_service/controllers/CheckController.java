@@ -17,11 +17,11 @@ import test_service.services.check.*;
 
 @RestController("CheckController")
 public class CheckController {
-	final ICheckService checkService;
+	final CheckService checkService;
 
 	ObjectMapper objectMapper;
 
-	public CheckController(ICheckService checkService) {
+	public CheckController(CheckService checkService) {
 		this.checkService = checkService;
 		this.objectMapper = new ObjectMapper();
 		Json.setupObjectMapper(this.objectMapper);

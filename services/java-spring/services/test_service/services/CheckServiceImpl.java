@@ -1,4 +1,4 @@
-package test_service.services_implementations;
+package test_service.services;
 
 import java.math.BigDecimal;
 import java.time.*;
@@ -10,7 +10,7 @@ import test_service.models.*;
 import test_service.services.check.*;
 
 @Service("CheckService")
-public class CheckService implements ICheckService {
+public class CheckServiceImpl implements CheckService {
 	@Override
 	public void checkEmpty() {
 		throw new UnsupportedOperationException("Implementation has not added yet");

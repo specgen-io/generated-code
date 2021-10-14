@@ -17,11 +17,11 @@ import test_service.v2.services.echo.*;
 
 @RestController("EchoControllerV2")
 public class EchoController {
-	final IEchoService echoService;
+	final EchoService echoService;
 
 	ObjectMapper objectMapper;
 
-	public EchoController(IEchoService echoService) {
+	public EchoController(EchoService echoService) {
 		this.echoService = echoService;
 		this.objectMapper = new ObjectMapper();
 		Json.setupObjectMapper(this.objectMapper);

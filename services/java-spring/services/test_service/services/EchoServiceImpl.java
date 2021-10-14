@@ -1,4 +1,4 @@
-package test_service.services_implementations;
+package test_service.services;
 
 import java.math.BigDecimal;
 import java.time.*;
@@ -10,7 +10,7 @@ import test_service.models.*;
 import test_service.services.echo.*;
 
 @Service("EchoService")
-public class EchoService implements IEchoService {
+public class EchoServiceImpl implements EchoService {
 	@Override
 	public Message echoBody(Message body) {
 		throw new UnsupportedOperationException("Implementation has not added yet");
