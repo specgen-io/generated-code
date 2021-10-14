@@ -35,14 +35,14 @@ public class CheckController {
 	}
 
 	@GetMapping("/check/query")
-	public ResponseEntity<String> checkQueryController(@RequestParam("p_string") String pString, @RequestParam("p_string_opt") String pStringOpt, @RequestParam("p_string_array") String[] pStringArray, @RequestParam("p_date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate pDate, @RequestParam("p_date_array") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate[] pDateArray, @RequestParam("p_datetime") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime pDatetime, @RequestParam("p_int") int pInt, @RequestParam("p_long") long pLong, @RequestParam("p_decimal") BigDecimal pDecimal, @RequestParam("p_enum") Choice pEnum, @RequestParam("p_string_defaulted") String pStringDefaulted) throws IOException {
+	public ResponseEntity<String> checkQueryController(@RequestParam(name = "p_string") String pString, @RequestParam(name = "p_string_opt", required = false) String pStringOpt, @RequestParam(name = "p_string_array") String[] pStringArray, @RequestParam(name = "p_date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate pDate, @RequestParam(name = "p_date_array") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate[] pDateArray, @RequestParam(name = "p_datetime") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime pDatetime, @RequestParam(name = "p_int") int pInt, @RequestParam(name = "p_long") long pLong, @RequestParam(name = "p_decimal") BigDecimal pDecimal, @RequestParam(name = "p_enum") Choice pEnum, @RequestParam(name = "p_string_defaulted") String pStringDefaulted) throws IOException {
 		checkService.checkQuery(pString, pStringOpt, pStringArray, pDate, pDateArray, pDatetime, pInt, pLong, pDecimal, pEnum, pStringDefaulted);
 
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
 	@GetMapping("/check/url_params/{int_url}/{string_url}/{float_url}/{bool_url}/{uuid_url}/{decimal_url}/{date_url}/{enum_url}")
-	public ResponseEntity<String> checkUrlParamsController(@PathVariable("int_url") long intUrl, @PathVariable("string_url") String stringUrl, @PathVariable("float_url") float floatUrl, @PathVariable("bool_url") boolean boolUrl, @PathVariable("uuid_url") UUID uuidUrl, @PathVariable("decimal_url") BigDecimal decimalUrl, @PathVariable("date_url") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dateUrl, @PathVariable("enum_url") Choice enumUrl) throws IOException {
+	public ResponseEntity<String> checkUrlParamsController(@PathVariable(name = "int_url") long intUrl, @PathVariable(name = "string_url") String stringUrl, @PathVariable(name = "float_url") float floatUrl, @PathVariable(name = "bool_url") boolean boolUrl, @PathVariable(name = "uuid_url") UUID uuidUrl, @PathVariable(name = "decimal_url") BigDecimal decimalUrl, @PathVariable(name = "date_url") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dateUrl, @PathVariable(name = "enum_url") Choice enumUrl) throws IOException {
 		checkService.checkUrlParams(intUrl, stringUrl, floatUrl, boolUrl, uuidUrl, decimalUrl, dateUrl, enumUrl);
 
 		return new ResponseEntity<>(HttpStatus.OK);
