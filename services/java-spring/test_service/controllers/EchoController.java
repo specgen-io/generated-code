@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 import java.io.IOException;
 import java.time.*;
 import java.util.UUID;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
@@ -17,15 +18,12 @@ import test_service.services.echo.*;
 
 @RestController("EchoController")
 public class EchoController {
-	final EchoService echoService;
 
-	ObjectMapper objectMapper;
+	@Autowired
+	private EchoService echoService;
 
-	public EchoController(EchoService echoService) {
-		this.echoService = echoService;
-		this.objectMapper = new ObjectMapper();
-		Json.setupObjectMapper(this.objectMapper);
-	}
+	@Autowired
+	private ObjectMapper objectMapper;
 
 	@PostMapping("/echo/body")
 	public ResponseEntity<String> echoBodyController(@RequestBody String jsonStr) throws IOException {

@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 import java.io.IOException;
 import java.time.*;
 import java.util.UUID;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
@@ -17,15 +18,12 @@ import test_service.services.check.*;
 
 @RestController("CheckController")
 public class CheckController {
-	final CheckService checkService;
 
-	ObjectMapper objectMapper;
+	@Autowired
+	private CheckService checkService;
 
-	public CheckController(CheckService checkService) {
-		this.checkService = checkService;
-		this.objectMapper = new ObjectMapper();
-		Json.setupObjectMapper(this.objectMapper);
-	}
+	@Autowired
+	private ObjectMapper objectMapper;
 
 	@GetMapping("/check/empty")
 	public ResponseEntity<String> checkEmptyController() throws IOException {
