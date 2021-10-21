@@ -8,15 +8,16 @@ import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.annotation.JsonSubTypes.*;
 
 public class OrderCanceled {
-	public OrderCanceled() {
-	}
-
-	public OrderCanceled(UUID id) {
+	@JsonCreator
+	public OrderCanceled(
+		@JsonProperty(value = "id", required = true)
+		UUID id
+	) {
 		if (id == null) { throw new IllegalArgumentException("null value is not allowed"); }
 		this.id = id;
 	}
 
-	@JsonProperty("id")
+	@JsonProperty(value = "id", required = true)
 	private UUID id;
 
 	public UUID getId() {

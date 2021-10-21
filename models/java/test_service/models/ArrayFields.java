@@ -8,20 +8,23 @@ import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.annotation.JsonSubTypes.*;
 
 public class ArrayFields {
-	public ArrayFields() {
-	}
-
-	public ArrayFields(int[] intArrayField, String[] stringArrayField) {
+	@JsonCreator
+	public ArrayFields(
+		@JsonProperty(value = "int_array_field", required = true)
+		int[] intArrayField,
+		@JsonProperty(value = "string_array_field", required = true)
+		String[] stringArrayField
+	) {
 		if (intArrayField == null) { throw new IllegalArgumentException("null value is not allowed"); }
 		this.intArrayField = intArrayField;
 		if (stringArrayField == null) { throw new IllegalArgumentException("null value is not allowed"); }
 		this.stringArrayField = stringArrayField;
 	}
 
-	@JsonProperty("int_array_field")
+	@JsonProperty(value = "int_array_field", required = true)
 	private int[] intArrayField;
 
-	@JsonProperty("string_array_field")
+	@JsonProperty(value = "string_array_field", required = true)
 	private String[] stringArrayField;
 
 	public int[] getIntArrayField() {

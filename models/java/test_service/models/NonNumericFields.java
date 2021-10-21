@@ -8,10 +8,19 @@ import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.annotation.JsonSubTypes.*;
 
 public class NonNumericFields {
-	public NonNumericFields() {
-	}
-
-	public NonNumericFields(boolean booleanField, String stringField, UUID uuidField, LocalDate dateField, LocalDateTime datetimeField) {
+	@JsonCreator
+	public NonNumericFields(
+		@JsonProperty(value = "boolean_field", required = true)
+		boolean booleanField,
+		@JsonProperty(value = "string_field", required = true)
+		String stringField,
+		@JsonProperty(value = "uuid_field", required = true)
+		UUID uuidField,
+		@JsonProperty(value = "date_field", required = true)
+		LocalDate dateField,
+		@JsonProperty(value = "datetime_field", required = true)
+		LocalDateTime datetimeField
+	) {
 		this.booleanField = booleanField;
 		if (stringField == null) { throw new IllegalArgumentException("null value is not allowed"); }
 		this.stringField = stringField;
@@ -23,19 +32,19 @@ public class NonNumericFields {
 		this.datetimeField = datetimeField;
 	}
 
-	@JsonProperty("boolean_field")
+	@JsonProperty(value = "boolean_field", required = true)
 	private boolean booleanField;
 
-	@JsonProperty("string_field")
+	@JsonProperty(value = "string_field", required = true)
 	private String stringField;
 
-	@JsonProperty("uuid_field")
+	@JsonProperty(value = "uuid_field", required = true)
 	private UUID uuidField;
 
-	@JsonProperty("date_field")
+	@JsonProperty(value = "date_field", required = true)
 	private LocalDate dateField;
 
-	@JsonProperty("datetime_field")
+	@JsonProperty(value = "datetime_field", required = true)
 	private LocalDateTime datetimeField;
 
 	public boolean getBooleanField() {

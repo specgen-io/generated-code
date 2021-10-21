@@ -8,15 +8,16 @@ import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.annotation.JsonSubTypes.*;
 
 public class RawJsonField {
-	public RawJsonField() {
-	}
-
-	public RawJsonField(JsonNode jsonField) {
+	@JsonCreator
+	public RawJsonField(
+		@JsonProperty(value = "json_field", required = true)
+		JsonNode jsonField
+	) {
 		if (jsonField == null) { throw new IllegalArgumentException("null value is not allowed"); }
 		this.jsonField = jsonField;
 	}
 
-	@JsonProperty("json_field")
+	@JsonProperty(value = "json_field", required = true)
 	private JsonNode jsonField;
 
 	public JsonNode getJsonField() {

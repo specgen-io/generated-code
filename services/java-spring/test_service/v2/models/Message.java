@@ -8,19 +8,22 @@ import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.annotation.JsonSubTypes.*;
 
 public class Message {
-	public Message() {
-	}
-
-	public Message(boolean boolField, String stringField) {
+	@JsonCreator
+	public Message(
+		@JsonProperty(value = "bool_field", required = true)
+		boolean boolField,
+		@JsonProperty(value = "string_field", required = true)
+		String stringField
+	) {
 		this.boolField = boolField;
 		if (stringField == null) { throw new IllegalArgumentException("null value is not allowed"); }
 		this.stringField = stringField;
 	}
 
-	@JsonProperty("bool_field")
+	@JsonProperty(value = "bool_field", required = true)
 	private boolean boolField;
 
-	@JsonProperty("string_field")
+	@JsonProperty(value = "string_field", required = true)
 	private String stringField;
 
 	public boolean getBoolField() {

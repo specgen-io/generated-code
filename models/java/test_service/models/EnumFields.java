@@ -8,15 +8,16 @@ import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.annotation.JsonSubTypes.*;
 
 public class EnumFields {
-	public EnumFields() {
-	}
-
-	public EnumFields(Choice enumField) {
+	@JsonCreator
+	public EnumFields(
+		@JsonProperty(value = "enum_field", required = true)
+		Choice enumField
+	) {
 		if (enumField == null) { throw new IllegalArgumentException("null value is not allowed"); }
 		this.enumField = enumField;
 	}
 
-	@JsonProperty("enum_field")
+	@JsonProperty(value = "enum_field", required = true)
 	private Choice enumField;
 
 	public Choice getEnumField() {

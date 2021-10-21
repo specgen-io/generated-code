@@ -8,15 +8,16 @@ import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.annotation.JsonSubTypes.*;
 
 public class Message {
-	public Message() {
-	}
-
-	public Message(String field) {
+	@JsonCreator
+	public Message(
+		@JsonProperty(value = "field", required = true)
+		String field
+	) {
 		if (field == null) { throw new IllegalArgumentException("null value is not allowed"); }
 		this.field = field;
 	}
 
-	@JsonProperty("field")
+	@JsonProperty(value = "field", required = true)
 	private String field;
 
 	public String getField() {
