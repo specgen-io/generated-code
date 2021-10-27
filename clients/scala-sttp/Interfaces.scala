@@ -1,4 +1,4 @@
-package testservice.client
+package testservice.models
 
 import scala.concurrent._
 
