@@ -32,9 +32,9 @@ func AddEchoRoutes(router *vestigo.Router, echoService echo.Service) {
 			log.WithFields(logEchoBody).WithField("status", 500).Info("Completed request")
 			return
 		}
-		if response != nil {
+		if response.Ok != nil {
 			res.WriteHeader(200)
-			json.NewEncoder(res).Encode(response)
+			json.NewEncoder(res).Encode(response.Ok)
 			log.WithFields(logEchoBody).WithField("status", 200).Info("Completed request")
 			return
 		}
