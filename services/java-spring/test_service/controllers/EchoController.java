@@ -20,7 +20,7 @@ import test_service.services.echo.*;
 
 @RestController("EchoController")
 public class EchoController {
-	private static final Logger LOG = LogManager.getLogger(EchoController.class);
+	private static final Logger logger = LogManager.getLogger(EchoController.class);
 
 	@Autowired
 	private EchoService echoService;
@@ -30,7 +30,7 @@ public class EchoController {
 
 	@PostMapping("/echo/body")
 	public ResponseEntity<String> echoBodyController(@RequestBody String jsonStr) throws IOException {
-		LOG.info("Received request, operationId: echo.echo_body, method: POST, url: /echo/body");
+		logger.info("Received request, operationId: echo.echo_body, method: POST, url: /echo/body");
 		HttpHeaders headers = new HttpHeaders();
 		headers.add(CONTENT_TYPE, "application/json");
 
@@ -38,73 +38,73 @@ public class EchoController {
 		try {
 			requestBody = objectMapper.readValue(jsonStr, Message.class);
 		} catch (Exception e) {
-			LOG.error("Completed request with status code: {}", HttpStatus.BAD_REQUEST);
+			logger.error("Completed request with status code: {}", HttpStatus.BAD_REQUEST);
 			return new ResponseEntity<>(headers, HttpStatus.BAD_REQUEST);
 		}
 		var result = echoService.echoBody(requestBody);
 		String responseJson = objectMapper.writeValueAsString(result);
 
-		LOG.info("Completed request with status code: {}", HttpStatus.OK);
+		logger.info("Completed request with status code: {}", HttpStatus.OK);
 		return new ResponseEntity<>(responseJson, headers, HttpStatus.OK);
 	}
 
 	@GetMapping("/echo/query")
 	public ResponseEntity<String> echoQueryController(@RequestParam(name = "int_query") int intQuery, @RequestParam(name = "string_query") String stringQuery) throws IOException {
-		LOG.info("Received request, operationId: echo.echo_query, method: GET, url: /echo/query");
+		logger.info("Received request, operationId: echo.echo_query, method: GET, url: /echo/query");
 		HttpHeaders headers = new HttpHeaders();
 		headers.add(CONTENT_TYPE, "application/json");
 
 		var result = echoService.echoQuery(intQuery, stringQuery);
 		String responseJson = objectMapper.writeValueAsString(result);
 
-		LOG.info("Completed request with status code: {}", HttpStatus.OK);
+		logger.info("Completed request with status code: {}", HttpStatus.OK);
 		return new ResponseEntity<>(responseJson, headers, HttpStatus.OK);
 	}
 
 	@GetMapping("/echo/header")
 	public ResponseEntity<String> echoHeaderController(@RequestHeader(name = "Int-Header") int intHeader, @RequestHeader(name = "String-Header") String stringHeader) throws IOException {
-		LOG.info("Received request, operationId: echo.echo_header, method: GET, url: /echo/header");
+		logger.info("Received request, operationId: echo.echo_header, method: GET, url: /echo/header");
 		HttpHeaders headers = new HttpHeaders();
 		headers.add(CONTENT_TYPE, "application/json");
 
 		var result = echoService.echoHeader(intHeader, stringHeader);
 		String responseJson = objectMapper.writeValueAsString(result);
 
-		LOG.info("Completed request with status code: {}", HttpStatus.OK);
+		logger.info("Completed request with status code: {}", HttpStatus.OK);
 		return new ResponseEntity<>(responseJson, headers, HttpStatus.OK);
 	}
 
 	@GetMapping("/echo/url_params/{int_url}/{string_url}")
 	public ResponseEntity<String> echoUrlParamsController(@PathVariable(name = "int_url") int intUrl, @PathVariable(name = "string_url") String stringUrl) throws IOException {
-		LOG.info("Received request, operationId: echo.echo_url_params, method: GET, url: /echo/url_params/{int_url}/{string_url}");
+		logger.info("Received request, operationId: echo.echo_url_params, method: GET, url: /echo/url_params/{int_url}/{string_url}");
 		HttpHeaders headers = new HttpHeaders();
 		headers.add(CONTENT_TYPE, "application/json");
 
 		var result = echoService.echoUrlParams(intUrl, stringUrl);
 		String responseJson = objectMapper.writeValueAsString(result);
 
-		LOG.info("Completed request with status code: {}", HttpStatus.OK);
+		logger.info("Completed request with status code: {}", HttpStatus.OK);
 		return new ResponseEntity<>(responseJson, headers, HttpStatus.OK);
 	}
 
 	@GetMapping("/echo/same_operation_name")
 	public ResponseEntity<String> sameOperationNameController() throws IOException {
-		LOG.info("Received request, operationId: echo.same_operation_name, method: GET, url: /echo/same_operation_name");
+		logger.info("Received request, operationId: echo.same_operation_name, method: GET, url: /echo/same_operation_name");
 		HttpHeaders headers = new HttpHeaders();
 		headers.add(CONTENT_TYPE, "application/json");
 
 		var result = echoService.sameOperationName();
 
 		if (result instanceof SameOperationNameResponseOk) {
-			LOG.info("Completed request with status code: {}", HttpStatus.OK);
+			logger.info("Completed request with status code: {}", HttpStatus.OK);
 			return new ResponseEntity<>(HttpStatus.OK);
 		}
 		if (result instanceof SameOperationNameResponseForbidden) {
-			LOG.info("Completed request with status code: {}", HttpStatus.FORBIDDEN);
+			logger.info("Completed request with status code: {}", HttpStatus.FORBIDDEN);
 			return new ResponseEntity<>(HttpStatus.FORBIDDEN);
 		}
 
-		LOG.error("Completed request with status code: {}", HttpStatus.INTERNAL_SERVER_ERROR);
+		logger.error("Completed request with status code: {}", HttpStatus.INTERNAL_SERVER_ERROR);
 		return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 }

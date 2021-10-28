@@ -20,7 +20,7 @@ import test_service.v2.services.echo.*;
 
 @RestController("EchoControllerV2")
 public class EchoController {
-	private static final Logger LOG = LogManager.getLogger(EchoController.class);
+	private static final Logger logger = LogManager.getLogger(EchoController.class);
 
 	@Autowired
 	private EchoService echoService;
@@ -30,7 +30,7 @@ public class EchoController {
 
 	@PostMapping("/v2/echo/body")
 	public ResponseEntity<String> echoBodyController(@RequestBody String jsonStr) throws IOException {
-		LOG.info("Received request, operationId: echo.echo_body, method: POST, url: /v2/echo/body");
+		logger.info("Received request, operationId: echo.echo_body, method: POST, url: /v2/echo/body");
 		HttpHeaders headers = new HttpHeaders();
 		headers.add(CONTENT_TYPE, "application/json");
 
@@ -38,13 +38,13 @@ public class EchoController {
 		try {
 			requestBody = objectMapper.readValue(jsonStr, Message.class);
 		} catch (Exception e) {
-			LOG.error("Completed request with status code: {}", HttpStatus.BAD_REQUEST);
+			logger.error("Completed request with status code: {}", HttpStatus.BAD_REQUEST);
 			return new ResponseEntity<>(headers, HttpStatus.BAD_REQUEST);
 		}
 		var result = echoService.echoBody(requestBody);
 		String responseJson = objectMapper.writeValueAsString(result);
 
-		LOG.info("Completed request with status code: {}", HttpStatus.OK);
+		logger.info("Completed request with status code: {}", HttpStatus.OK);
 		return new ResponseEntity<>(responseJson, headers, HttpStatus.OK);
 	}
 }
