@@ -16,7 +16,7 @@ func AddEchoRoutes(router *vestigo.Router, echoService echo.Service) {
 		var body models.Message
 		err := json.NewDecoder(req.Body).Decode(&body)
 		if err != nil {
-			log.Warnf("Decoding body JSON failed: %s", err.Error())
+			log.WithFields(logEchoBody).Warnf("Decoding body JSON failed: %s", err.Error())
 			res.WriteHeader(400)
 			log.WithFields(logEchoBody).WithField("status", 400).Info("Completed request")
 			return
@@ -24,9 +24,9 @@ func AddEchoRoutes(router *vestigo.Router, echoService echo.Service) {
 		response, err := echoService.EchoBody(&body)
 		if response == nil || err != nil {
 			if err != nil {
-				log.Errorf("Error returned from service implementation: %s", err.Error())
+				log.WithFields(logEchoBody).Errorf("Error returned from service implementation: %s", err.Error())
 			} else {
-				log.Errorf("No result returned from service implementation")
+				log.WithFields(logEchoBody).Errorf("No result returned from service implementation")
 			}
 			res.WriteHeader(500)
 			log.WithFields(logEchoBody).WithField("status", 500).Info("Completed request")
@@ -38,7 +38,7 @@ func AddEchoRoutes(router *vestigo.Router, echoService echo.Service) {
 			log.WithFields(logEchoBody).WithField("status", 200).Info("Completed request")
 			return
 		}
-		log.Error("Result from service implementation does not have anything in it")
+		log.WithFields(logEchoBody).Error("Result from service implementation does not have anything in it")
 		res.WriteHeader(500)
 		log.WithFields(logEchoBody).WithField("status", 500).Info("Completed request")
 		return
