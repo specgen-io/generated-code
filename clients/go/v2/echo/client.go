@@ -13,12 +13,6 @@ import (
 
 type EmptyDef struct{}
 
-var Empty = EmptyDef{}
-
-type EchoBodyResponse struct {
-	Ok *models.Message
-}
-
 type Client struct {
 	baseUrl string
 }
@@ -28,7 +22,7 @@ func NewClient(baseUrl string) *Client {
 }
 
 var logEchoBody = log.Fields{"operationId": "echo.echo_body", "method": "POST", "url": "/v2/echo/body"}
-func (client *Client) EchoBody(body *models.Message) (*EchoBodyResponse, error) {
+func (client *Client) EchoBody(body *models.Message) (*models.Message, error) {
 	bodyJSON, err := json.Marshal(body)
 	req, err := http.NewRequest("POST", client.baseUrl+"/echo/body", bytes.NewBuffer(bodyJSON))
 	if err != nil {
@@ -53,11 +47,11 @@ func (client *Client) EchoBody(body *models.Message) (*EchoBodyResponse, error) 
 			log.WithFields(logEchoBody).Error("Failed to parse response JSON", err.Error())
 			return nil, err
 		}
-
-		return &EchoBodyResponse{Ok: body}, nil
+		return body, nil
 	}
 
 	msg := fmt.Sprintf("Unexpected status code received: %d", resp.StatusCode)
 	log.WithFields(logEchoBody).Error(msg)
-	return nil, errors.New(msg)
+	err = errors.New(msg)
+	return nil, err
 }

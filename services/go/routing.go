@@ -33,9 +33,9 @@ func AddEchoRoutes(router *vestigo.Router, echoService echo.Service) {
 			log.WithFields(logEchoBody).WithField("status", 500).Info("Completed request")
 			return
 		}
-		if response.Ok != nil {
+		if response != nil {
 			res.WriteHeader(200)
-			json.NewEncoder(res).Encode(response.Ok)
+			json.NewEncoder(res).Encode(response)
 			log.WithFields(logEchoBody).WithField("status", 200).Info("Completed request")
 			return
 		}
@@ -68,9 +68,9 @@ func AddEchoRoutes(router *vestigo.Router, echoService echo.Service) {
 			log.WithFields(logEchoQuery).WithField("status", 500).Info("Completed request")
 			return
 		}
-		if response.Ok != nil {
+		if response != nil {
 			res.WriteHeader(200)
-			json.NewEncoder(res).Encode(response.Ok)
+			json.NewEncoder(res).Encode(response)
 			log.WithFields(logEchoQuery).WithField("status", 200).Info("Completed request")
 			return
 		}
@@ -103,9 +103,9 @@ func AddEchoRoutes(router *vestigo.Router, echoService echo.Service) {
 			log.WithFields(logEchoHeader).WithField("status", 500).Info("Completed request")
 			return
 		}
-		if response.Ok != nil {
+		if response != nil {
 			res.WriteHeader(200)
-			json.NewEncoder(res).Encode(response.Ok)
+			json.NewEncoder(res).Encode(response)
 			log.WithFields(logEchoHeader).WithField("status", 200).Info("Completed request")
 			return
 		}
@@ -141,9 +141,9 @@ func AddEchoRoutes(router *vestigo.Router, echoService echo.Service) {
 			log.WithFields(logEchoUrlParams).WithField("status", 500).Info("Completed request")
 			return
 		}
-		if response.Ok != nil {
+		if response != nil {
 			res.WriteHeader(200)
-			json.NewEncoder(res).Encode(response.Ok)
+			json.NewEncoder(res).Encode(response)
 			log.WithFields(logEchoUrlParams).WithField("status", 200).Info("Completed request")
 			return
 		}
@@ -199,7 +199,7 @@ func AddCheckRoutes(router *vestigo.Router, checkService check.Service) {
 			log.WithFields(logCheckEmpty).WithField("status", 500).Info("Completed request")
 			return
 		}
-		if response.Ok != nil {
+		if response != nil {
 			res.WriteHeader(200)
 			log.WithFields(logCheckEmpty).WithField("status", 200).Info("Completed request")
 			return
@@ -242,7 +242,7 @@ func AddCheckRoutes(router *vestigo.Router, checkService check.Service) {
 			log.WithFields(logCheckQuery).WithField("status", 500).Info("Completed request")
 			return
 		}
-		if response.Ok != nil {
+		if response != nil {
 			res.WriteHeader(200)
 			log.WithFields(logCheckQuery).WithField("status", 200).Info("Completed request")
 			return
@@ -282,7 +282,7 @@ func AddCheckRoutes(router *vestigo.Router, checkService check.Service) {
 			log.WithFields(logCheckUrlParams).WithField("status", 500).Info("Completed request")
 			return
 		}
-		if response.Ok != nil {
+		if response != nil {
 			res.WriteHeader(200)
 			log.WithFields(logCheckUrlParams).WithField("status", 200).Info("Completed request")
 			return
