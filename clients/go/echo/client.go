@@ -13,6 +13,24 @@ import (
 
 type EmptyDef struct{}
 
+var Empty = EmptyDef{}
+
+type EchoBodyResponse struct {
+	Ok *models.Message
+}
+
+type EchoQueryResponse struct {
+	Ok *models.Message
+}
+
+type EchoHeaderResponse struct {
+	Ok *models.Message
+}
+
+type EchoUrlParamsResponse struct {
+	Ok *models.Message
+}
+
 type SameOperationNameResponse struct {
 	Ok *EmptyDef
 	Forbidden *EmptyDef
@@ -27,7 +45,7 @@ func NewClient(baseUrl string) *Client {
 }
 
 var logEchoBody = log.Fields{"operationId": "echo.echo_body", "method": "POST", "url": "/echo/body"}
-func (client *Client) EchoBody(body *models.Message) (*models.Message, error) {
+func (client *Client) EchoBody(body *models.Message) (*EchoBodyResponse, error) {
 	bodyJSON, err := json.Marshal(body)
 	req, err := http.NewRequest("POST", client.baseUrl+"/echo/body", bytes.NewBuffer(bodyJSON))
 	if err != nil {
@@ -52,17 +70,17 @@ func (client *Client) EchoBody(body *models.Message) (*models.Message, error) {
 			log.WithFields(logEchoBody).Error("Failed to parse response JSON", err.Error())
 			return nil, err
 		}
-		return body, nil
+
+		return &EchoBodyResponse{Ok: body}, nil
 	}
 
 	msg := fmt.Sprintf("Unexpected status code received: %d", resp.StatusCode)
 	log.WithFields(logEchoBody).Error(msg)
-	err = errors.New(msg)
-	return nil, err
+	return nil, errors.New(msg)
 }
 
 var logEchoQuery = log.Fields{"operationId": "echo.echo_query", "method": "GET", "url": "/echo/query"}
-func (client *Client) EchoQuery(intQuery int, stringQuery string) (*models.Message, error) {
+func (client *Client) EchoQuery(intQuery int, stringQuery string) (*EchoQueryResponse, error) {
 	req, err := http.NewRequest("GET", client.baseUrl+"/echo/query", nil)
 	if err != nil {
 		log.WithFields(logEchoQuery).Error("Failed to create HTTP request", err.Error())
@@ -93,17 +111,17 @@ func (client *Client) EchoQuery(intQuery int, stringQuery string) (*models.Messa
 			log.WithFields(logEchoQuery).Error("Failed to parse response JSON", err.Error())
 			return nil, err
 		}
-		return body, nil
+
+		return &EchoQueryResponse{Ok: body}, nil
 	}
 
 	msg := fmt.Sprintf("Unexpected status code received: %d", resp.StatusCode)
 	log.WithFields(logEchoQuery).Error(msg)
-	err = errors.New(msg)
-	return nil, err
+	return nil, errors.New(msg)
 }
 
 var logEchoHeader = log.Fields{"operationId": "echo.echo_header", "method": "GET", "url": "/echo/header"}
-func (client *Client) EchoHeader(intHeader int, stringHeader string) (*models.Message, error) {
+func (client *Client) EchoHeader(intHeader int, stringHeader string) (*EchoHeaderResponse, error) {
 	req, err := http.NewRequest("GET", client.baseUrl+"/echo/header", nil)
 	if err != nil {
 		log.WithFields(logEchoHeader).Error("Failed to create HTTP request", err.Error())
@@ -133,17 +151,17 @@ func (client *Client) EchoHeader(intHeader int, stringHeader string) (*models.Me
 			log.WithFields(logEchoHeader).Error("Failed to parse response JSON", err.Error())
 			return nil, err
 		}
-		return body, nil
+
+		return &EchoHeaderResponse{Ok: body}, nil
 	}
 
 	msg := fmt.Sprintf("Unexpected status code received: %d", resp.StatusCode)
 	log.WithFields(logEchoHeader).Error(msg)
-	err = errors.New(msg)
-	return nil, err
+	return nil, errors.New(msg)
 }
 
 var logEchoUrlParams = log.Fields{"operationId": "echo.echo_url_params", "method": "GET", "url": "/echo/url_params/{int_url}/{string_url}"}
-func (client *Client) EchoUrlParams(intUrl int, stringUrl string) (*models.Message, error) {
+func (client *Client) EchoUrlParams(intUrl int, stringUrl string) (*EchoUrlParamsResponse, error) {
 	req, err := http.NewRequest("GET", client.baseUrl+fmt.Sprintf("/echo/url_params/%s/%s", convertInt(intUrl), stringUrl), nil)
 	if err != nil {
 		log.WithFields(logEchoUrlParams).Error("Failed to create HTTP request", err.Error())
@@ -168,13 +186,13 @@ func (client *Client) EchoUrlParams(intUrl int, stringUrl string) (*models.Messa
 			log.WithFields(logEchoUrlParams).Error("Failed to parse response JSON", err.Error())
 			return nil, err
 		}
-		return body, nil
+
+		return &EchoUrlParamsResponse{Ok: body}, nil
 	}
 
 	msg := fmt.Sprintf("Unexpected status code received: %d", resp.StatusCode)
 	log.WithFields(logEchoUrlParams).Error(msg)
-	err = errors.New(msg)
-	return nil, err
+	return nil, errors.New(msg)
 }
 
 var logSameOperationName = log.Fields{"operationId": "echo.same_operation_name", "method": "GET", "url": "/echo/same_operation_name"}
@@ -194,16 +212,19 @@ func (client *Client) SameOperationName() (*SameOperationNameResponse, error) {
 
 	if resp.StatusCode == 200 {
 		log.WithFields(logSameOperationName).WithField("status", 200).Info("Received response")
-		return &SameOperationNameResponse{Ok: &EmptyDef{}}, nil
+		body := &Empty
+
+		return &SameOperationNameResponse{Ok: body}, nil
 	}
 
 	if resp.StatusCode == 403 {
 		log.WithFields(logSameOperationName).WithField("status", 403).Info("Received response")
-		return &SameOperationNameResponse{Forbidden: &EmptyDef{}}, nil
+		body := &Empty
+
+		return &SameOperationNameResponse{Forbidden: body}, nil
 	}
 
 	msg := fmt.Sprintf("Unexpected status code received: %d", resp.StatusCode)
 	log.WithFields(logSameOperationName).Error(msg)
-	err = errors.New(msg)
-	return nil, err
+	return nil, errors.New(msg)
 }

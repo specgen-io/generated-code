@@ -22,21 +22,25 @@ func AddEchoRoutes(router *vestigo.Router, echoService echo.Service) {
 			return
 		}
 		response, err := echoService.EchoBody(&body)
-		if err != nil {
-			log.WithFields(logEchoBody).Errorf("Error returned from service implementation: %s", err.Error())
+		if response == nil || err != nil {
+			if err != nil {
+				log.WithFields(logEchoBody).Errorf("Error returned from service implementation: %s", err.Error())
+			} else {
+				log.WithFields(logEchoBody).Errorf("No result returned from service implementation")
+			}
 			res.WriteHeader(500)
 			log.WithFields(logEchoBody).WithField("status", 500).Info("Completed request")
 			return
 		}
-		if response == nil {
-			log.WithFields(logEchoBody).Errorf("No result returned from service implementation")
-			res.WriteHeader(500)
-			log.WithFields(logEchoBody).WithField("status", 500).Info("Completed request")
+		if response.Ok != nil {
+			res.WriteHeader(200)
+			json.NewEncoder(res).Encode(response.Ok)
+			log.WithFields(logEchoBody).WithField("status", 200).Info("Completed request")
 			return
 		}
-		res.WriteHeader(200)
-		json.NewEncoder(res).Encode(response)
-		log.WithFields(logEchoBody).WithField("status", 200).Info("Completed request")
+		log.WithFields(logEchoBody).Error("Result from service implementation does not have anything in it")
+		res.WriteHeader(500)
+		log.WithFields(logEchoBody).WithField("status", 500).Info("Completed request")
 		return
 	})
 }
