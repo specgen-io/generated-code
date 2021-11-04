@@ -23,25 +23,21 @@ func AddEchoRoutes(router *vestigo.Router, echoService echo.Service) {
 			return
 		}
 		response, err := echoService.EchoBody(&body)
-		if response == nil || err != nil {
-			if err != nil {
-				log.WithFields(logEchoBody).Errorf("Error returned from service implementation: %s", err.Error())
-			} else {
-				log.WithFields(logEchoBody).Errorf("No result returned from service implementation")
-			}
+		if err != nil {
+			log.WithFields(logEchoBody).Errorf("Error returned from service implementation: %s", err.Error())
 			res.WriteHeader(500)
 			log.WithFields(logEchoBody).WithField("status", 500).Info("Completed request")
 			return
 		}
-		if response.Ok != nil {
-			res.WriteHeader(200)
-			json.NewEncoder(res).Encode(response.Ok)
-			log.WithFields(logEchoBody).WithField("status", 200).Info("Completed request")
+		if response == nil {
+			log.WithFields(logEchoBody).Errorf("No result returned from service implementation")
+			res.WriteHeader(500)
+			log.WithFields(logEchoBody).WithField("status", 500).Info("Completed request")
 			return
 		}
-		log.WithFields(logEchoBody).Error("Result from service implementation does not have anything in it")
-		res.WriteHeader(500)
-		log.WithFields(logEchoBody).WithField("status", 500).Info("Completed request")
+		res.WriteHeader(200)
+		json.NewEncoder(res).Encode(response)
+		log.WithFields(logEchoBody).WithField("status", 200).Info("Completed request")
 		return
 	})
 
@@ -58,25 +54,21 @@ func AddEchoRoutes(router *vestigo.Router, echoService echo.Service) {
 			return
 		}
 		response, err := echoService.EchoQuery(intQuery, stringQuery)
-		if response == nil || err != nil {
-			if err != nil {
-				log.WithFields(logEchoQuery).Errorf("Error returned from service implementation: %s", err.Error())
-			} else {
-				log.WithFields(logEchoQuery).Errorf("No result returned from service implementation")
-			}
+		if err != nil {
+			log.WithFields(logEchoQuery).Errorf("Error returned from service implementation: %s", err.Error())
 			res.WriteHeader(500)
 			log.WithFields(logEchoQuery).WithField("status", 500).Info("Completed request")
 			return
 		}
-		if response.Ok != nil {
-			res.WriteHeader(200)
-			json.NewEncoder(res).Encode(response.Ok)
-			log.WithFields(logEchoQuery).WithField("status", 200).Info("Completed request")
+		if response == nil {
+			log.WithFields(logEchoQuery).Errorf("No result returned from service implementation")
+			res.WriteHeader(500)
+			log.WithFields(logEchoQuery).WithField("status", 500).Info("Completed request")
 			return
 		}
-		log.WithFields(logEchoQuery).Error("Result from service implementation does not have anything in it")
-		res.WriteHeader(500)
-		log.WithFields(logEchoQuery).WithField("status", 500).Info("Completed request")
+		res.WriteHeader(200)
+		json.NewEncoder(res).Encode(response)
+		log.WithFields(logEchoQuery).WithField("status", 200).Info("Completed request")
 		return
 	})
 
@@ -93,25 +85,21 @@ func AddEchoRoutes(router *vestigo.Router, echoService echo.Service) {
 			return
 		}
 		response, err := echoService.EchoHeader(intHeader, stringHeader)
-		if response == nil || err != nil {
-			if err != nil {
-				log.WithFields(logEchoHeader).Errorf("Error returned from service implementation: %s", err.Error())
-			} else {
-				log.WithFields(logEchoHeader).Errorf("No result returned from service implementation")
-			}
+		if err != nil {
+			log.WithFields(logEchoHeader).Errorf("Error returned from service implementation: %s", err.Error())
 			res.WriteHeader(500)
 			log.WithFields(logEchoHeader).WithField("status", 500).Info("Completed request")
 			return
 		}
-		if response.Ok != nil {
-			res.WriteHeader(200)
-			json.NewEncoder(res).Encode(response.Ok)
-			log.WithFields(logEchoHeader).WithField("status", 200).Info("Completed request")
+		if response == nil {
+			log.WithFields(logEchoHeader).Errorf("No result returned from service implementation")
+			res.WriteHeader(500)
+			log.WithFields(logEchoHeader).WithField("status", 500).Info("Completed request")
 			return
 		}
-		log.WithFields(logEchoHeader).Error("Result from service implementation does not have anything in it")
-		res.WriteHeader(500)
-		log.WithFields(logEchoHeader).WithField("status", 500).Info("Completed request")
+		res.WriteHeader(200)
+		json.NewEncoder(res).Encode(response)
+		log.WithFields(logEchoHeader).WithField("status", 200).Info("Completed request")
 		return
 	})
 	router.SetCors("/echo/header", &vestigo.CorsAccessControl{
@@ -131,25 +119,21 @@ func AddEchoRoutes(router *vestigo.Router, echoService echo.Service) {
 			return
 		}
 		response, err := echoService.EchoUrlParams(intUrl, stringUrl)
-		if response == nil || err != nil {
-			if err != nil {
-				log.WithFields(logEchoUrlParams).Errorf("Error returned from service implementation: %s", err.Error())
-			} else {
-				log.WithFields(logEchoUrlParams).Errorf("No result returned from service implementation")
-			}
+		if err != nil {
+			log.WithFields(logEchoUrlParams).Errorf("Error returned from service implementation: %s", err.Error())
 			res.WriteHeader(500)
 			log.WithFields(logEchoUrlParams).WithField("status", 500).Info("Completed request")
 			return
 		}
-		if response.Ok != nil {
-			res.WriteHeader(200)
-			json.NewEncoder(res).Encode(response.Ok)
-			log.WithFields(logEchoUrlParams).WithField("status", 200).Info("Completed request")
+		if response == nil {
+			log.WithFields(logEchoUrlParams).Errorf("No result returned from service implementation")
+			res.WriteHeader(500)
+			log.WithFields(logEchoUrlParams).WithField("status", 500).Info("Completed request")
 			return
 		}
-		log.WithFields(logEchoUrlParams).Error("Result from service implementation does not have anything in it")
-		res.WriteHeader(500)
-		log.WithFields(logEchoUrlParams).WithField("status", 500).Info("Completed request")
+		res.WriteHeader(200)
+		json.NewEncoder(res).Encode(response)
+		log.WithFields(logEchoUrlParams).WithField("status", 200).Info("Completed request")
 		return
 	})
 
@@ -157,12 +141,14 @@ func AddEchoRoutes(router *vestigo.Router, echoService echo.Service) {
 	router.Get("/echo/same_operation_name", func(res http.ResponseWriter, req *http.Request) {
 		log.WithFields(logSameOperationName).Info("Received request")
 		response, err := echoService.SameOperationName()
-		if response == nil || err != nil {
-			if err != nil {
-				log.WithFields(logSameOperationName).Errorf("Error returned from service implementation: %s", err.Error())
-			} else {
-				log.WithFields(logSameOperationName).Errorf("No result returned from service implementation")
-			}
+		if err != nil {
+			log.WithFields(logSameOperationName).Errorf("Error returned from service implementation: %s", err.Error())
+			res.WriteHeader(500)
+			log.WithFields(logSameOperationName).WithField("status", 500).Info("Completed request")
+			return
+		}
+		if response == nil {
+			log.WithFields(logSameOperationName).Errorf("No result returned from service implementation")
 			res.WriteHeader(500)
 			log.WithFields(logSameOperationName).WithField("status", 500).Info("Completed request")
 			return
@@ -188,25 +174,15 @@ func AddCheckRoutes(router *vestigo.Router, checkService check.Service) {
 	logCheckEmpty := log.Fields{"operationId": "check.check_empty", "method": "GET", "url": "/check/empty"}
 	router.Get("/check/empty", func(res http.ResponseWriter, req *http.Request) {
 		log.WithFields(logCheckEmpty).Info("Received request")
-		response, err := checkService.CheckEmpty()
-		if response == nil || err != nil {
-			if err != nil {
-				log.WithFields(logCheckEmpty).Errorf("Error returned from service implementation: %s", err.Error())
-			} else {
-				log.WithFields(logCheckEmpty).Errorf("No result returned from service implementation")
-			}
+		err := checkService.CheckEmpty()
+		if err != nil {
+			log.WithFields(logCheckEmpty).Errorf("Error returned from service implementation: %s", err.Error())
 			res.WriteHeader(500)
 			log.WithFields(logCheckEmpty).WithField("status", 500).Info("Completed request")
 			return
 		}
-		if response.Ok != nil {
-			res.WriteHeader(200)
-			log.WithFields(logCheckEmpty).WithField("status", 200).Info("Completed request")
-			return
-		}
-		log.WithFields(logCheckEmpty).Error("Result from service implementation does not have anything in it")
-		res.WriteHeader(500)
-		log.WithFields(logCheckEmpty).WithField("status", 500).Info("Completed request")
+		res.WriteHeader(200)
+		log.WithFields(logCheckEmpty).WithField("status", 200).Info("Completed request")
 		return
 	})
 
@@ -231,25 +207,15 @@ func AddCheckRoutes(router *vestigo.Router, checkService check.Service) {
 			log.WithFields(logCheckQuery).WithField("status", 400).Info("Completed request")
 			return
 		}
-		response, err := checkService.CheckQuery(pString, pStringOpt, pStringArray, pDate, pDateArray, pDatetime, pInt, pLong, pDecimal, pEnum, pStringDefaulted)
-		if response == nil || err != nil {
-			if err != nil {
-				log.WithFields(logCheckQuery).Errorf("Error returned from service implementation: %s", err.Error())
-			} else {
-				log.WithFields(logCheckQuery).Errorf("No result returned from service implementation")
-			}
+		err := checkService.CheckQuery(pString, pStringOpt, pStringArray, pDate, pDateArray, pDatetime, pInt, pLong, pDecimal, pEnum, pStringDefaulted)
+		if err != nil {
+			log.WithFields(logCheckQuery).Errorf("Error returned from service implementation: %s", err.Error())
 			res.WriteHeader(500)
 			log.WithFields(logCheckQuery).WithField("status", 500).Info("Completed request")
 			return
 		}
-		if response.Ok != nil {
-			res.WriteHeader(200)
-			log.WithFields(logCheckQuery).WithField("status", 200).Info("Completed request")
-			return
-		}
-		log.WithFields(logCheckQuery).Error("Result from service implementation does not have anything in it")
-		res.WriteHeader(500)
-		log.WithFields(logCheckQuery).WithField("status", 500).Info("Completed request")
+		res.WriteHeader(200)
+		log.WithFields(logCheckQuery).WithField("status", 200).Info("Completed request")
 		return
 	})
 
@@ -271,25 +237,15 @@ func AddCheckRoutes(router *vestigo.Router, checkService check.Service) {
 			log.WithFields(logCheckUrlParams).WithField("status", 400).Info("Completed request")
 			return
 		}
-		response, err := checkService.CheckUrlParams(intUrl, stringUrl, floatUrl, boolUrl, uuidUrl, decimalUrl, dateUrl, enumUrl)
-		if response == nil || err != nil {
-			if err != nil {
-				log.WithFields(logCheckUrlParams).Errorf("Error returned from service implementation: %s", err.Error())
-			} else {
-				log.WithFields(logCheckUrlParams).Errorf("No result returned from service implementation")
-			}
+		err := checkService.CheckUrlParams(intUrl, stringUrl, floatUrl, boolUrl, uuidUrl, decimalUrl, dateUrl, enumUrl)
+		if err != nil {
+			log.WithFields(logCheckUrlParams).Errorf("Error returned from service implementation: %s", err.Error())
 			res.WriteHeader(500)
 			log.WithFields(logCheckUrlParams).WithField("status", 500).Info("Completed request")
 			return
 		}
-		if response.Ok != nil {
-			res.WriteHeader(200)
-			log.WithFields(logCheckUrlParams).WithField("status", 200).Info("Completed request")
-			return
-		}
-		log.WithFields(logCheckUrlParams).Error("Result from service implementation does not have anything in it")
-		res.WriteHeader(500)
-		log.WithFields(logCheckUrlParams).WithField("status", 500).Info("Completed request")
+		res.WriteHeader(200)
+		log.WithFields(logCheckUrlParams).WithField("status", 200).Info("Completed request")
 		return
 	})
 
@@ -297,12 +253,14 @@ func AddCheckRoutes(router *vestigo.Router, checkService check.Service) {
 	router.Get("/check/forbidden", func(res http.ResponseWriter, req *http.Request) {
 		log.WithFields(logCheckForbidden).Info("Received request")
 		response, err := checkService.CheckForbidden()
-		if response == nil || err != nil {
-			if err != nil {
-				log.WithFields(logCheckForbidden).Errorf("Error returned from service implementation: %s", err.Error())
-			} else {
-				log.WithFields(logCheckForbidden).Errorf("No result returned from service implementation")
-			}
+		if err != nil {
+			log.WithFields(logCheckForbidden).Errorf("Error returned from service implementation: %s", err.Error())
+			res.WriteHeader(500)
+			log.WithFields(logCheckForbidden).WithField("status", 500).Info("Completed request")
+			return
+		}
+		if response == nil {
+			log.WithFields(logCheckForbidden).Errorf("No result returned from service implementation")
 			res.WriteHeader(500)
 			log.WithFields(logCheckForbidden).WithField("status", 500).Info("Completed request")
 			return
@@ -328,12 +286,14 @@ func AddCheckRoutes(router *vestigo.Router, checkService check.Service) {
 	router.Get("/check/same_operation_name", func(res http.ResponseWriter, req *http.Request) {
 		log.WithFields(logSameOperationName).Info("Received request")
 		response, err := checkService.SameOperationName()
-		if response == nil || err != nil {
-			if err != nil {
-				log.WithFields(logSameOperationName).Errorf("Error returned from service implementation: %s", err.Error())
-			} else {
-				log.WithFields(logSameOperationName).Errorf("No result returned from service implementation")
-			}
+		if err != nil {
+			log.WithFields(logSameOperationName).Errorf("Error returned from service implementation: %s", err.Error())
+			res.WriteHeader(500)
+			log.WithFields(logSameOperationName).WithField("status", 500).Info("Completed request")
+			return
+		}
+		if response == nil {
+			log.WithFields(logSameOperationName).Errorf("No result returned from service implementation")
 			res.WriteHeader(500)
 			log.WithFields(logSameOperationName).WithField("status", 500).Info("Completed request")
 			return
