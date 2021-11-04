@@ -1,4 +1,4 @@
-spec: 2
+spec: 2.1
 name: test-service
 version: 1
 
@@ -12,8 +12,9 @@ v2:
           ok: Message
   models:
     Message:
-      bool_field: boolean
-      string_field: string
+      object:
+        bool_field: boolean
+        string_field: string
 
 http:
   echo:
@@ -92,8 +93,9 @@ http:
 
 models:
   Message:
-    int_field: int
-    string_field: string
+    object:
+      int_field: int
+      string_field: string
 
   Choice:
     enum:

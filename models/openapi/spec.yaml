@@ -1,23 +1,27 @@
-spec: 2
+spec: 2.1
 name: test-service
 version: 1
 
 v2:
   models:
     Message:
-      field: string
+      object:
+        field: string
 
 
 models:
   Message:
-    field: int
+    object:
+      field: int
 
   Parent:
-    field: string
-    nested: Nested
+    object:
+      field: string
+      nested: Nested
 
   Nested:
-    field: string
+    object:
+      field: string
 
   Choice:
     enum:
@@ -26,48 +30,58 @@ models:
       third_choice: Three
 
   EnumFields:
-    enum_field: Choice
+    object:
+      enum_field: Choice
 
   NumericFields:
-    int_field: int
-    long_field: long
-    float_field: float
-    double_field: double
-    decimal_field: decimal
+    object:
+      int_field: int
+      long_field: long
+      float_field: float
+      double_field: double
+      decimal_field: decimal
 
   NonNumericFields:
-    boolean_field: boolean
-    string_field: string
-    uuid_field: uuid
-    date_field: date
-    datetime_field: datetime
+    object:
+      boolean_field: boolean
+      string_field: string
+      uuid_field: uuid
+      date_field: date
+      datetime_field: datetime
 
   ArrayFields:
-    int_array_field: int[]
-    string_array_field: string[]
+    object:
+      int_array_field: int[]
+      string_array_field: string[]
 
   MapFields:
-    int_map_field: int{}
-    string_map_field: string{}
+    object:
+      int_map_field: int{}
+      string_map_field: string{}
 
   OptionalFields:
-    int_option_field: int?
-    string_option_field: string?
+    object:
+      int_option_field: int?
+      string_option_field: string?
 
   RawJsonField:
-    json_field: json
+    object:
+      json_field: json
 
   OrderCreated:
-    id: uuid
-    sku: string
-    quantity: int
+    object:
+      id: uuid
+      sku: string
+      quantity: int
 
   OrderChanged:
-    id: uuid
-    quantity: int
+    object:
+      id: uuid
+      quantity: int
 
   OrderCanceled:
-    id: uuid
+    object:
+      id: uuid
 
   OrderEvent:
     oneOf:
@@ -83,7 +97,8 @@ models:
       canceled: OrderCanceled
 
   MessageCamelCase:
-    fieldInt: int
+    object:
+      fieldInt: int
 
   OrderEventCamelCase:
     oneOf:
