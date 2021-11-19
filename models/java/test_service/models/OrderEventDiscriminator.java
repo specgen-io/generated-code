@@ -13,9 +13,9 @@ import com.fasterxml.jackson.annotation.JsonSubTypes.*;
 	property = "_type"
 )
 @JsonSubTypes({
-	@Type(value = OrderEventDiscriminatedCreated.class, name = "created"),
-	@Type(value = OrderEventDiscriminatedChanged.class, name = "changed"),
-	@Type(value = OrderEventDiscriminatedCanceled.class, name = "canceled"),
+	@Type(value = OrderEventDiscriminatorCreated.class, name = "created"),
+	@Type(value = OrderEventDiscriminatorChanged.class, name = "changed"),
+	@Type(value = OrderEventDiscriminatorCanceled.class, name = "canceled"),
 })
-public interface OrderEventDiscriminated {
+public interface OrderEventDiscriminator {
 }

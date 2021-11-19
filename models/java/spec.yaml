@@ -14,14 +14,15 @@ models:
     object:
       field: int
 
+  MessageCases:
+    object:
+      snake_case: string
+      camelCase: string
+
   Parent:
     object:
       field: string
-      nested: Nested
-
-  Nested:
-    object:
-      field: string
+      nested: Message
 
   Choice:
     enum:
@@ -83,25 +84,15 @@ models:
     object:
       id: uuid
 
-  OrderEvent:
+  OrderEventWrapper:
     oneOf:
       created: OrderCreated
       changed: OrderChanged
       canceled: OrderCanceled
 
-  OrderEventDiscriminated:
+  OrderEventDiscriminator:
     discriminator: _type
     oneOf:
       created: OrderCreated
       changed: OrderChanged
       canceled: OrderCanceled
-
-  MessageCamelCase:
-    object:
-      fieldInt: int
-
-  OrderEventCamelCase:
-    oneOf:
-      createdOrder: OrderCreated
-      changedOrder: OrderChanged
-      canceledOrder: OrderCanceled

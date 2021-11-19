@@ -13,13 +13,14 @@ type Message struct {
 	Field int `json:"field"`
 }
 
-type Nested struct {
-	Field string `json:"field"`
+type MessageCases struct {
+	SnakeCase string `json:"snake_case"`
+	CamelCase string `json:"camelCase"`
 }
 
 type Parent struct {
 	Field string `json:"field"`
-	Nested Nested `json:"nested"`
+	Nested Message `json:"nested"`
 }
 
 type Choice string
@@ -94,19 +95,19 @@ type OrderCanceled struct {
 	Id uuid.UUID `json:"id"`
 }
 
-type OrderEvent struct {
+type OrderEventWrapper struct {
 	Created *OrderCreated `json:"created,omitempty"`
 	Changed *OrderChanged `json:"changed,omitempty"`
 	Canceled *OrderCanceled `json:"canceled,omitempty"`
 }
 
-type OrderEventDiscriminated struct {
+type OrderEventDiscriminator struct {
 	Created *OrderCreated `json:"created,omitempty"`
 	Changed *OrderChanged `json:"changed,omitempty"`
 	Canceled *OrderCanceled `json:"canceled,omitempty"`
 }
 
-func (u OrderEventDiscriminated) MarshalJSON() ([]byte, error) {
+func (u OrderEventDiscriminator) MarshalJSON() ([]byte, error) {
 	if u.Created != nil {
 		return json.Marshal(&struct {
 			Discriminator string `json:"_type"`
@@ -137,7 +138,7 @@ func (u OrderEventDiscriminated) MarshalJSON() ([]byte, error) {
 	return nil, errors.New("union case not set")
 }
 
-func (u *OrderEventDiscriminated) UnmarshalJSON(data []byte) error {
+func (u *OrderEventDiscriminator) UnmarshalJSON(data []byte) error {
 	var discriminator struct {
 		Value string `json:"_type"`
 	}
@@ -164,14 +165,4 @@ func (u *OrderEventDiscriminated) UnmarshalJSON(data []byte) error {
 			return errors.New(fmt.Sprintf("unexpected union discriminator field _type value: %s", discriminator.Value))
 	}
 	return nil
-}
-
-type MessageCamelCase struct {
-	FieldInt int `json:"fieldInt"`
-}
-
-type OrderEventCamelCase struct {
-	CreatedOrder *OrderCreated `json:"createdOrder,omitempty"`
-	ChangedOrder *OrderChanged `json:"changedOrder,omitempty"`
-	CanceledOrder *OrderCanceled `json:"canceledOrder,omitempty"`
 }

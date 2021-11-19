@@ -7,14 +7,14 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.annotation.JsonSubTypes.*;
 
-public class OrderEventChanged implements OrderEvent {
+public class OrderEventDiscriminatorChanged implements OrderEventDiscriminator {
 	@JsonUnwrapped
 	public OrderChanged data;
 
-	public OrderEventChanged() {
+	public OrderEventDiscriminatorChanged() {
 	}
 
-	public OrderEventChanged(OrderChanged data) {
+	public OrderEventDiscriminatorChanged(OrderChanged data) {
 		if (data == null) { throw new IllegalArgumentException("null value is not allowed"); }
 		this.data = data;
 	}
@@ -31,8 +31,8 @@ public class OrderEventChanged implements OrderEvent {
 	@Override
 	public boolean equals(Object o) {
 		if (this == o) return true;
-		if (!(o instanceof OrderEventChanged)) return false;
-		OrderEventChanged that = (OrderEventChanged) o;
+		if (!(o instanceof OrderEventDiscriminatorChanged)) return false;
+		OrderEventDiscriminatorChanged that = (OrderEventDiscriminatorChanged) o;
 		return Objects.equals(getData(), that.getData());
 	}
 

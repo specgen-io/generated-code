@@ -7,15 +7,16 @@ module TestService
     val :field, Integer
   end
 
-  class Nested
+  class MessageCases
     include DataClass
-    val :field, String
+    val :snake_case, String
+    val :camelCase, String
   end
 
   class Parent
     include DataClass
     val :field, String
-    val :nested, Nested
+    val :nested, Message
   end
 
   class Choice
@@ -89,31 +90,19 @@ module TestService
     val :id, UUID
   end
 
-  class OrderEvent
+  class OrderEventWrapper
     include TaggedUnion
     tag :created, OrderCreated
     tag :changed, OrderChanged
     tag :canceled, OrderCanceled
   end
 
-  class OrderEventDiscriminated
+  class OrderEventDiscriminator
     include TaggedUnion
     with_discriminator "_type"
     tag :created, OrderCreated
     tag :changed, OrderChanged
     tag :canceled, OrderCanceled
-  end
-
-  class MessageCamelCase
-    include DataClass
-    val :fieldInt, Integer
-  end
-
-  class OrderEventCamelCase
-    include TaggedUnion
-    tag :createdOrder, OrderCreated
-    tag :changedOrder, OrderChanged
-    tag :canceledOrder, OrderCanceled
   end
 end
 

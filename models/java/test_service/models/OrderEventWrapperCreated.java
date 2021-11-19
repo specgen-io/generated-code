@@ -7,23 +7,23 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.annotation.JsonSubTypes.*;
 
-public class OrderEventDiscriminatedChanged implements OrderEventDiscriminated {
+public class OrderEventWrapperCreated implements OrderEventWrapper {
 	@JsonUnwrapped
-	public OrderChanged data;
+	public OrderCreated data;
 
-	public OrderEventDiscriminatedChanged() {
+	public OrderEventWrapperCreated() {
 	}
 
-	public OrderEventDiscriminatedChanged(OrderChanged data) {
+	public OrderEventWrapperCreated(OrderCreated data) {
 		if (data == null) { throw new IllegalArgumentException("null value is not allowed"); }
 		this.data = data;
 	}
 
-	public OrderChanged getData() {
+	public OrderCreated getData() {
 		return data;
 	}
 
-	public void setData(OrderChanged data) {
+	public void setData(OrderCreated data) {
 		if (data == null) { throw new IllegalArgumentException("null value is not allowed"); }
 		this.data = data;
 	}
@@ -31,8 +31,8 @@ public class OrderEventDiscriminatedChanged implements OrderEventDiscriminated {
 	@Override
 	public boolean equals(Object o) {
 		if (this == o) return true;
-		if (!(o instanceof OrderEventDiscriminatedChanged)) return false;
-		OrderEventDiscriminatedChanged that = (OrderEventDiscriminatedChanged) o;
+		if (!(o instanceof OrderEventWrapperCreated)) return false;
+		OrderEventWrapperCreated that = (OrderEventWrapperCreated) o;
 		return Objects.equals(getData(), that.getData());
 	}
 
@@ -43,6 +43,6 @@ public class OrderEventDiscriminatedChanged implements OrderEventDiscriminated {
 
 	@Override
 	public String toString() {
-		return String.format("OrderChanged{data=%s}", data);
+		return String.format("OrderCreated{data=%s}", data);
 	}
 }

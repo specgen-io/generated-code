@@ -7,14 +7,14 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.annotation.JsonSubTypes.*;
 
-public class OrderEventCanceled implements OrderEvent {
+public class OrderEventDiscriminatorCanceled implements OrderEventDiscriminator {
 	@JsonUnwrapped
 	public OrderCanceled data;
 
-	public OrderEventCanceled() {
+	public OrderEventDiscriminatorCanceled() {
 	}
 
-	public OrderEventCanceled(OrderCanceled data) {
+	public OrderEventDiscriminatorCanceled(OrderCanceled data) {
 		if (data == null) { throw new IllegalArgumentException("null value is not allowed"); }
 		this.data = data;
 	}
@@ -31,8 +31,8 @@ public class OrderEventCanceled implements OrderEvent {
 	@Override
 	public boolean equals(Object o) {
 		if (this == o) return true;
-		if (!(o instanceof OrderEventCanceled)) return false;
-		OrderEventCanceled that = (OrderEventCanceled) o;
+		if (!(o instanceof OrderEventDiscriminatorCanceled)) return false;
+		OrderEventDiscriminatorCanceled that = (OrderEventDiscriminatorCanceled) o;
 		return Objects.equals(getData(), that.getData());
 	}
 

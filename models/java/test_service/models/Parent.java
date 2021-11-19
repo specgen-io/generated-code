@@ -13,7 +13,7 @@ public class Parent {
 		@JsonProperty(value = "field", required = true)
 		String field,
 		@JsonProperty(value = "nested", required = true)
-		Nested nested
+		Message nested
 	) {
 		if (field == null) { throw new IllegalArgumentException("null value is not allowed"); }
 		this.field = field;
@@ -25,7 +25,7 @@ public class Parent {
 	private String field;
 
 	@JsonProperty(value = "nested", required = true)
-	private Nested nested;
+	private Message nested;
 
 	public String getField() {
 		return field;
@@ -36,11 +36,11 @@ public class Parent {
 		this.field = field;
 	}
 
-	public Nested getNested() {
+	public Message getNested() {
 		return nested;
 	}
 
-	public void setNested(Nested nested) {
+	public void setNested(Message nested) {
 		if (nested == null) { throw new IllegalArgumentException("null value is not allowed"); }
 		this.nested = nested;
 	}

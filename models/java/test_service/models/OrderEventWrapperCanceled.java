@@ -7,23 +7,23 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.annotation.JsonSubTypes.*;
 
-public class OrderEventCamelCaseCreatedOrder implements OrderEventCamelCase {
+public class OrderEventWrapperCanceled implements OrderEventWrapper {
 	@JsonUnwrapped
-	public OrderCreated data;
+	public OrderCanceled data;
 
-	public OrderEventCamelCaseCreatedOrder() {
+	public OrderEventWrapperCanceled() {
 	}
 
-	public OrderEventCamelCaseCreatedOrder(OrderCreated data) {
+	public OrderEventWrapperCanceled(OrderCanceled data) {
 		if (data == null) { throw new IllegalArgumentException("null value is not allowed"); }
 		this.data = data;
 	}
 
-	public OrderCreated getData() {
+	public OrderCanceled getData() {
 		return data;
 	}
 
-	public void setData(OrderCreated data) {
+	public void setData(OrderCanceled data) {
 		if (data == null) { throw new IllegalArgumentException("null value is not allowed"); }
 		this.data = data;
 	}
@@ -31,8 +31,8 @@ public class OrderEventCamelCaseCreatedOrder implements OrderEventCamelCase {
 	@Override
 	public boolean equals(Object o) {
 		if (this == o) return true;
-		if (!(o instanceof OrderEventCamelCaseCreatedOrder)) return false;
-		OrderEventCamelCaseCreatedOrder that = (OrderEventCamelCaseCreatedOrder) o;
+		if (!(o instanceof OrderEventWrapperCanceled)) return false;
+		OrderEventWrapperCanceled that = (OrderEventWrapperCanceled) o;
 		return Objects.equals(getData(), that.getData());
 	}
 
@@ -43,6 +43,6 @@ public class OrderEventCamelCaseCreatedOrder implements OrderEventCamelCase {
 
 	@Override
 	public String toString() {
-		return String.format("OrderCreated{data=%s}", data);
+		return String.format("OrderCanceled{data=%s}", data);
 	}
 }
