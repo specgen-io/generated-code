@@ -10,13 +10,13 @@ import com.fasterxml.jackson.annotation.JsonSubTypes.*;
 public class MessageCamelCase {
 	@JsonCreator
 	public MessageCamelCase(
-		@JsonProperty(value = "field_int", required = true)
+		@JsonProperty(value = "fieldInt", required = true)
 		int fieldInt
 	) {
 		this.fieldInt = fieldInt;
 	}
 
-	@JsonProperty(value = "field_int", required = true)
+	@JsonProperty(value = "fieldInt", required = true)
 	private int fieldInt;
 
 	public int getFieldInt() {
