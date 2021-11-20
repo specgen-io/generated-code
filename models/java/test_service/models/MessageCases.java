@@ -12,7 +12,7 @@ public class MessageCases {
 	public MessageCases(
 		@JsonProperty(value = "snake_case", required = true)
 		String snakeCase,
-		@JsonProperty(value = "camel_case", required = true)
+		@JsonProperty(value = "camelCase", required = true)
 		String camelCase
 	) {
 		if (snakeCase == null) { throw new IllegalArgumentException("null value is not allowed"); }
@@ -24,7 +24,7 @@ public class MessageCases {
 	@JsonProperty(value = "snake_case", required = true)
 	private String snakeCase;
 
-	@JsonProperty(value = "camel_case", required = true)
+	@JsonProperty(value = "camelCase", required = true)
 	private String camelCase;
 
 	public String getSnakeCase() {
