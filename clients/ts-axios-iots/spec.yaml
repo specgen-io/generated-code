@@ -1,4 +1,4 @@
-spec: 2
+spec: 2.1
 name: test-service
 version: 1
 
@@ -12,8 +12,9 @@ v2:
           ok: Message
   models:
     Message:
-      bool_field: boolean
-      string_field: string
+      object:
+        bool_field: boolean
+        string_field: string
 
 http:
   echo:
@@ -43,6 +44,12 @@ http:
       endpoint: GET /echo/url_params/{int_url:int}/{string_url:string}
       response:
         ok: Message
+
+    same_operation_name:
+      endpoint: GET /echo/same_operation_name
+      response:
+        ok: empty
+        forbidden: empty
 
   check:
     check_empty:
@@ -78,10 +85,17 @@ http:
         ok: Message
         forbidden: empty
 
+    same_operation_name:
+      endpoint: GET /check/same_operation_name
+      response:
+        ok: empty
+        forbidden: empty
+
 models:
   Message:
-    int_field: int
-    string_field: string
+    object:
+      int_field: int
+      string_field: string
 
   Choice:
     enum:

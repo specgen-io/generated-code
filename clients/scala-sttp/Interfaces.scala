@@ -8,6 +8,7 @@ trait IEchoClient {
   def echoQuery(intQuery: Int, stringQuery: String): Future[EchoQueryResponse]
   def echoHeader(intHeader: Int, stringHeader: String): Future[EchoHeaderResponse]
   def echoUrlParams(intUrl: Int, stringUrl: String): Future[EchoUrlParamsResponse]
+  def sameOperationName(): Future[SameOperationNameResponse]
 }
 
 trait ICheckClient {
@@ -16,6 +17,7 @@ trait ICheckClient {
   def checkQuery(pString: String, pStringOpt: Option[String], pStringArray: List[String], pDate: java.time.LocalDate, pDateArray: List[java.time.LocalDate], pDatetime: java.time.LocalDateTime, pInt: Int, pLong: Long, pDecimal: BigDecimal, pEnum: Choice, pStringDefaulted: String = "the default value"): Future[CheckQueryResponse]
   def checkUrlParams(intUrl: Long, stringUrl: String, floatUrl: Float, boolUrl: Boolean, uuidUrl: java.util.UUID, decimalUrl: BigDecimal, dateUrl: java.time.LocalDate): Future[CheckUrlParamsResponse]
   def checkForbidden(): Future[CheckForbiddenResponse]
+  def sameOperationName(): Future[SameOperationNameResponse]
 }
 
 object IEchoClient {
@@ -34,6 +36,11 @@ object IEchoClient {
   sealed trait EchoUrlParamsResponse
   object EchoUrlParamsResponse {
     case class Ok(body: Message) extends EchoUrlParamsResponse
+  }
+  sealed trait SameOperationNameResponse
+  object SameOperationNameResponse {
+    case class Ok() extends SameOperationNameResponse
+    case class Forbidden() extends SameOperationNameResponse
   }
 }
 
@@ -54,5 +61,10 @@ object ICheckClient {
   object CheckForbiddenResponse {
     case class Ok(body: Message) extends CheckForbiddenResponse
     case class Forbidden() extends CheckForbiddenResponse
+  }
+  sealed trait SameOperationNameResponse
+  object SameOperationNameResponse {
+    case class Ok() extends SameOperationNameResponse
+    case class Forbidden() extends SameOperationNameResponse
   }
 }

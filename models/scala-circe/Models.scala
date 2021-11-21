@@ -18,18 +18,19 @@ object Message {
   implicit val codec: Codec[Message] = deriveConfiguredCodec
 }
 
-case class Nested(
-  @JsonKey("field") field: String
+case class MessageCases(
+  @JsonKey("snake_case") snakeCase: String,
+  @JsonKey("camelCase") camelCase: String
 )
 
-object Nested {
+object MessageCases {
   implicit val config = Configuration.default
-  implicit val codec: Codec[Nested] = deriveConfiguredCodec
+  implicit val codec: Codec[MessageCases] = deriveConfiguredCodec
 }
 
 case class Parent(
   @JsonKey("field") field: String,
-  @JsonKey("nested") nested: Nested
+  @JsonKey("nested") nested: Message
 )
 
 object Parent {
@@ -40,9 +41,9 @@ object Parent {
 sealed abstract class Choice(val value: String) extends StringEnumEntry
 
 case object Choice extends StringEnum[Choice] with StringCirceEnum[Choice] {
-  case object FirstChoice extends Choice("FIRST_CHOICE")
-  case object SecondChoice extends Choice("SECOND_CHOICE")
-  case object ThirdChoice extends Choice("THIRD_CHOICE")
+  case object FirstChoice extends Choice("One")
+  case object SecondChoice extends Choice("Two")
+  case object ThirdChoice extends Choice("Three")
   val values = findValues
 }
 
@@ -150,30 +151,12 @@ object OrderCanceled {
   implicit val codec: Codec[OrderCanceled] = deriveConfiguredCodec
 }
 
-sealed trait OrderEvent
+sealed trait OrderEventWrapper
 
-object OrderEvent {
-  case class Created(data: testservice.models.OrderCreated) extends OrderEvent
-  case class Changed(data: testservice.models.OrderChanged) extends OrderEvent
-  case class Canceled(data: testservice.models.OrderCanceled) extends OrderEvent
-
-  implicit val codecCreated: Codec[Created] = deriveUnwrappedCodec
-  implicit val tagCreated: Tag[Created] = Tag("created")
-  implicit val codecChanged: Codec[Changed] = deriveUnwrappedCodec
-  implicit val tagChanged: Tag[Changed] = Tag("changed")
-  implicit val codecCanceled: Codec[Canceled] = deriveUnwrappedCodec
-  implicit val tagCanceled: Tag[Canceled] = Tag("canceled")
-
-  implicit val config: Config[OrderEvent] = Config.wrapped
-  implicit val codec: Codec[OrderEvent] = unionCodec
-}
-
-sealed trait OrderEventDiscriminated
-
-object OrderEventDiscriminated {
-  case class Created(data: testservice.models.OrderCreated) extends OrderEventDiscriminated
-  case class Changed(data: testservice.models.OrderChanged) extends OrderEventDiscriminated
-  case class Canceled(data: testservice.models.OrderCanceled) extends OrderEventDiscriminated
+object OrderEventWrapper {
+  case class Created(data: testservice.models.OrderCreated) extends OrderEventWrapper
+  case class Changed(data: testservice.models.OrderChanged) extends OrderEventWrapper
+  case class Canceled(data: testservice.models.OrderCanceled) extends OrderEventWrapper
 
   implicit val codecCreated: Codec[Created] = deriveUnwrappedCodec
   implicit val tagCreated: Tag[Created] = Tag("created")
@@ -182,33 +165,24 @@ object OrderEventDiscriminated {
   implicit val codecCanceled: Codec[Canceled] = deriveUnwrappedCodec
   implicit val tagCanceled: Tag[Canceled] = Tag("canceled")
 
-  implicit val config: Config[OrderEventDiscriminated] = Config.discriminator("_type")
-  implicit val codec: Codec[OrderEventDiscriminated] = unionCodec
+  implicit val config: Config[OrderEventWrapper] = Config.wrapped
+  implicit val codec: Codec[OrderEventWrapper] = deriveUnionCodec
 }
 
-case class MessageCamelCase(
-  @JsonKey("fieldInt") fieldInt: Int
-)
+sealed trait OrderEventDiscriminator
 
-object MessageCamelCase {
-  implicit val config = Configuration.default
-  implicit val codec: Codec[MessageCamelCase] = deriveConfiguredCodec
-}
+object OrderEventDiscriminator {
+  case class Created(data: testservice.models.OrderCreated) extends OrderEventDiscriminator
+  case class Changed(data: testservice.models.OrderChanged) extends OrderEventDiscriminator
+  case class Canceled(data: testservice.models.OrderCanceled) extends OrderEventDiscriminator
 
-sealed trait OrderEventCamelCase
+  implicit val codecCreated: Codec[Created] = deriveUnwrappedCodec
+  implicit val tagCreated: Tag[Created] = Tag("created")
+  implicit val codecChanged: Codec[Changed] = deriveUnwrappedCodec
+  implicit val tagChanged: Tag[Changed] = Tag("changed")
+  implicit val codecCanceled: Codec[Canceled] = deriveUnwrappedCodec
+  implicit val tagCanceled: Tag[Canceled] = Tag("canceled")
 
-object OrderEventCamelCase {
-  case class CreatedOrder(data: testservice.models.OrderCreated) extends OrderEventCamelCase
-  case class ChangedOrder(data: testservice.models.OrderChanged) extends OrderEventCamelCase
-  case class CanceledOrder(data: testservice.models.OrderCanceled) extends OrderEventCamelCase
-
-  implicit val codecCreatedOrder: Codec[CreatedOrder] = deriveUnwrappedCodec
-  implicit val tagCreatedOrder: Tag[CreatedOrder] = Tag("createdOrder")
-  implicit val codecChangedOrder: Codec[ChangedOrder] = deriveUnwrappedCodec
-  implicit val tagChangedOrder: Tag[ChangedOrder] = Tag("changedOrder")
-  implicit val codecCanceledOrder: Codec[CanceledOrder] = deriveUnwrappedCodec
-  implicit val tagCanceledOrder: Tag[CanceledOrder] = Tag("canceledOrder")
-
-  implicit val config: Config[OrderEventCamelCase] = Config.wrapped
-  implicit val codec: Codec[OrderEventCamelCase] = unionCodec
+  implicit val config: Config[OrderEventDiscriminator] = Config.discriminator("_type")
+  implicit val codec: Codec[OrderEventDiscriminator] = deriveUnionCodec
 }

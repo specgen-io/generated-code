@@ -11,4 +11,5 @@ class EchoService @Inject()()(implicit ec: ExecutionContext) extends IEchoServic
   override def echoQuery(intQuery: Int, stringQuery: String): Future[EchoQueryResponse] = Future { ??? }
   override def echoHeader(intHeader: Int, stringHeader: String): Future[EchoHeaderResponse] = Future { ??? }
   override def echoUrlParams(intUrl: Int, stringUrl: String): Future[EchoUrlParamsResponse] = Future { ??? }
+  override def sameOperationName(): Future[SameOperationNameResponse] = Future { ??? }
 }

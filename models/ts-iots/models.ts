@@ -8,23 +8,24 @@ export const TMessage = t.interface({
 
 export type Message = t.TypeOf<typeof TMessage>
 
-export const TNested = t.interface({
-    field: t.string,
+export const TMessageCases = t.interface({
+    snake_case: t.string,
+    camelCase: t.string,
 })
 
-export type Nested = t.TypeOf<typeof TNested>
+export type MessageCases = t.TypeOf<typeof TMessageCases>
 
 export const TParent = t.interface({
     field: t.string,
-    nested: TNested,
+    nested: TMessage,
 })
 
 export type Parent = t.TypeOf<typeof TParent>
 
 export enum Choice {
-    FIRST_CHOICE = "FIRST_CHOICE",
-    SECOND_CHOICE = "SECOND_CHOICE",
-    THIRD_CHOICE = "THIRD_CHOICE",
+    FIRST_CHOICE = "One",
+    SECOND_CHOICE = "Two",
+    THIRD_CHOICE = "Three",
 }
 
 export const TChoice = t.enum(Choice)
@@ -103,32 +104,18 @@ export const TOrderCanceled = t.interface({
 
 export type OrderCanceled = t.TypeOf<typeof TOrderCanceled>
 
-export const TOrderEvent = t.union([
+export const TOrderEventWrapper = t.union([
     t.interface({created: TOrderCreated}),
     t.interface({changed: TOrderChanged}),
     t.interface({canceled: TOrderCanceled}),
 ])
 
-export type OrderEvent = t.TypeOf<typeof TOrderEvent>
+export type OrderEventWrapper = t.TypeOf<typeof TOrderEventWrapper>
 
-export const TOrderEventDiscriminated = t.union([
+export const TOrderEventDiscriminator = t.union([
     t.intersection([t.type({_type: t.literal('created')}), TOrderCreated]),
     t.intersection([t.type({_type: t.literal('changed')}), TOrderChanged]),
     t.intersection([t.type({_type: t.literal('canceled')}), TOrderCanceled]),
 ])
 
-export type OrderEventDiscriminated = t.TypeOf<typeof TOrderEventDiscriminated>
-
-export const TMessageCamelCase = t.interface({
-    fieldInt: t.number,
-})
-
-export type MessageCamelCase = t.TypeOf<typeof TMessageCamelCase>
-
-export const TOrderEventCamelCase = t.union([
-    t.interface({createdOrder: TOrderCreated}),
-    t.interface({changedOrder: TOrderChanged}),
-    t.interface({canceledOrder: TOrderCanceled}),
-])
-
-export type OrderEventCamelCase = t.TypeOf<typeof TOrderEventCamelCase>
+export type OrderEventDiscriminator = t.TypeOf<typeof TOrderEventDiscriminator>

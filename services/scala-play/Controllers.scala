@@ -64,6 +64,15 @@ class EchoController @Inject()(api: IEchoService, cc: ControllerComponents)(impl
       }
       response.recover { case _: Exception => InternalServerError }
   }
+  def sameOperationName() = Action.async {
+    implicit request =>
+      val result = api.sameOperationName()
+      val response = result.map {
+        case SameOperationNameResponse.Ok() => new Status(200)
+        case SameOperationNameResponse.Forbidden() => new Status(403)
+      }
+      response.recover { case _: Exception => InternalServerError }
+  }
 }
 
 @Singleton
@@ -85,9 +94,9 @@ class CheckController @Inject()(api: ICheckService, cc: ControllerComponents)(im
       }
       response.recover { case _: Exception => InternalServerError }
   }
-  def checkUrlParams(intUrl: Long, stringUrl: String, floatUrl: Float, boolUrl: Boolean, uuidUrl: java.util.UUID, decimalUrl: BigDecimal, dateUrl: java.time.LocalDate) = Action.async {
+  def checkUrlParams(intUrl: Long, stringUrl: String, floatUrl: Float, boolUrl: Boolean, uuidUrl: java.util.UUID, decimalUrl: BigDecimal, dateUrl: java.time.LocalDate, enumUrl: Choice) = Action.async {
     implicit request =>
-      val result = api.checkUrlParams(intUrl, stringUrl, floatUrl, boolUrl, uuidUrl, decimalUrl, dateUrl)
+      val result = api.checkUrlParams(intUrl, stringUrl, floatUrl, boolUrl, uuidUrl, decimalUrl, dateUrl, enumUrl)
       val response = result.map {
         case CheckUrlParamsResponse.Ok() => new Status(200)
       }
@@ -99,6 +108,15 @@ class CheckController @Inject()(api: ICheckService, cc: ControllerComponents)(im
       val response = result.map {
         case CheckForbiddenResponse.Ok(body) => new Status(200)(Jsoner.write(body))
         case CheckForbiddenResponse.Forbidden() => new Status(403)
+      }
+      response.recover { case _: Exception => InternalServerError }
+  }
+  def sameOperationName() = Action.async {
+    implicit request =>
+      val result = api.sameOperationName()
+      val response = result.map {
+        case SameOperationNameResponse.Ok() => new Status(200)
+        case SameOperationNameResponse.Forbidden() => new Status(403)
       }
       response.recover { case _: Exception => InternalServerError }
   }

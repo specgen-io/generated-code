@@ -1,7 +1,8 @@
 import Router from '@koa/router'
 import * as t from './superstruct'
 import * as models from './models'
-import * as services from './services'
+import {EchoService} from './echo_service'
+import {CheckService} from './check_service'
 
 const TEchoQueryQueryParams = t.type({
     int_query: t.StrInteger,
@@ -24,7 +25,7 @@ const TEchoUrlParamsUrlParams = t.type({
 
 type EchoUrlParamsUrlParams = t.Infer<typeof TEchoUrlParamsUrlParams>
 
-export let echoRouter = (service: services.EchoService) => {
+export let echoRouter = (service: EchoService) => {
     let router = new Router()
 
     router.post('/echo/body', async (ctx) => {
@@ -107,6 +108,20 @@ export let echoRouter = (service: services.EchoService) => {
         }
     })
 
+    router.get('/echo/same_operation_name', async (ctx) => {
+        try {
+            let result = await service.sameOperationName()
+            switch (result.status) {
+                case 'ok':
+                    ctx.status = 200
+                case 'forbidden':
+                    ctx.status = 403
+            }
+        } catch (error) {
+            ctx.throw(500)
+        }
+    })
+
     return router
 }
 
@@ -134,11 +149,12 @@ const TCheckUrlParamsUrlParams = t.type({
     uuid_url: t.string(),
     decimal_url: t.StrFloat,
     date_url: t.string(),
+    enum_url: models.TChoice,
 })
 
 type CheckUrlParamsUrlParams = t.Infer<typeof TCheckUrlParamsUrlParams>
 
-export let checkRouter = (service: services.CheckService) => {
+export let checkRouter = (service: CheckService) => {
     let router = new Router()
 
     router.get('/check/empty', async (ctx) => {
@@ -172,7 +188,7 @@ export let checkRouter = (service: services.CheckService) => {
         }
     })
 
-    router.get('/check/url_params/:int_url/:string_url/:float_url/:bool_url/:uuid_url/:decimal_url/:date_url', async (ctx) => {
+    router.get('/check/url_params/:int_url/:string_url/:float_url/:bool_url/:uuid_url/:decimal_url/:date_url/:enum_url', async (ctx) => {
         var urlParams: CheckUrlParamsUrlParams
         try {
             urlParams = t.decode(TCheckUrlParamsUrlParams, ctx.params)
@@ -198,6 +214,20 @@ export let checkRouter = (service: services.CheckService) => {
                 case 'ok':
                     ctx.status = 200
         ctx.body = t.encode(models.TMessage, result.data)
+                case 'forbidden':
+                    ctx.status = 403
+            }
+        } catch (error) {
+            ctx.throw(500)
+        }
+    })
+
+    router.get('/check/same_operation_name', async (ctx) => {
+        try {
+            let result = await service.sameOperationName()
+            switch (result.status) {
+                case 'ok':
+                    ctx.status = 200
                 case 'forbidden':
                     ctx.status = 403
             }

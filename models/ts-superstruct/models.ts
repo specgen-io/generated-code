@@ -6,31 +6,32 @@ export const TMessage = t.type({
 
 export type Message = t.Infer<typeof TMessage>
 
-export const TNested = t.type({
-    field: t.string(),
+export const TMessageCases = t.type({
+    snake_case: t.string(),
+    camelCase: t.string(),
 })
 
-export type Nested = t.Infer<typeof TNested>
+export type MessageCases = t.Infer<typeof TMessageCases>
 
 export const TParent = t.type({
     field: t.string(),
-    nested: TNested,
+    nested: TMessage,
 })
 
 export type Parent = t.Infer<typeof TParent>
 
 export const TChoice = t.enums ([
-    "FIRST_CHOICE",
-    "SECOND_CHOICE",
-    "THIRD_CHOICE",
+    "One",
+    "Two",
+    "Three",
 ])
 
 export type Choice = t.Infer<typeof TChoice>
 
 export const Choice = {
-    FIRST_CHOICE: <Choice>"FIRST_CHOICE",
-    SECOND_CHOICE: <Choice>"SECOND_CHOICE",
-    THIRD_CHOICE: <Choice>"THIRD_CHOICE",
+    FIRST_CHOICE: <Choice>"One",
+    SECOND_CHOICE: <Choice>"Two",
+    THIRD_CHOICE: <Choice>"Three",
 }
 
 export const TEnumFields = t.type({
@@ -107,32 +108,18 @@ export const TOrderCanceled = t.type({
 
 export type OrderCanceled = t.Infer<typeof TOrderCanceled>
 
-export const TOrderEvent = t.union([
+export const TOrderEventWrapper = t.union([
     t.object({created: TOrderCreated}),
     t.object({changed: TOrderChanged}),
     t.object({canceled: TOrderCanceled}),
 ])
 
-export type OrderEvent = t.Infer<typeof TOrderEvent>
+export type OrderEventWrapper = t.Infer<typeof TOrderEventWrapper>
 
-export const TOrderEventDiscriminated = t.union([
+export const TOrderEventDiscriminator = t.union([
     t.intersection([t.type({_type: t.literal('created')}), TOrderCreated]),
     t.intersection([t.type({_type: t.literal('changed')}), TOrderChanged]),
     t.intersection([t.type({_type: t.literal('canceled')}), TOrderCanceled]),
 ])
 
-export type OrderEventDiscriminated = t.Infer<typeof TOrderEventDiscriminated>
-
-export const TMessageCamelCase = t.type({
-    fieldInt: t.number(),
-})
-
-export type MessageCamelCase = t.Infer<typeof TMessageCamelCase>
-
-export const TOrderEventCamelCase = t.union([
-    t.object({createdOrder: TOrderCreated}),
-    t.object({changedOrder: TOrderChanged}),
-    t.object({canceledOrder: TOrderCanceled}),
-])
-
-export type OrderEventCamelCase = t.Infer<typeof TOrderEventCamelCase>
+export type OrderEventDiscriminator = t.Infer<typeof TOrderEventDiscriminator>

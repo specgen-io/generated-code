@@ -20,6 +20,16 @@ components:
         field:
           type: integer
           format: int32
+    MessageCases:
+      type: object
+      required:
+        - snake_case
+        - camelCase
+      properties:
+        snake_case:
+          type: string
+        camelCase:
+          type: string
     Parent:
       type: object
       required:
@@ -29,14 +39,7 @@ components:
         field:
           type: string
         nested:
-          $ref: '#/components/schemas/Nested'
-    Nested:
-      type: object
-      required:
-        - field
-      properties:
-        field:
-          type: string
+          $ref: '#/components/schemas/Message'
     Choice:
       type: string
       enum:
@@ -176,7 +179,7 @@ components:
         id:
           type: string
           format: uuid
-    OrderEvent:
+    OrderEventWrapper:
       type: object
       properties:
         created:
@@ -185,7 +188,7 @@ components:
           $ref: '#/components/schemas/OrderChanged'
         canceled:
           $ref: '#/components/schemas/OrderCanceled'
-    OrderEventDiscriminated:
+    OrderEventDiscriminator:
       type: object
       properties:
         created:
@@ -193,21 +196,4 @@ components:
         changed:
           $ref: '#/components/schemas/OrderChanged'
         canceled:
-          $ref: '#/components/schemas/OrderCanceled'
-    MessageCamelCase:
-      type: object
-      required:
-        - fieldInt
-      properties:
-        fieldInt:
-          type: integer
-          format: int32
-    OrderEventCamelCase:
-      type: object
-      properties:
-        createdOrder:
-          $ref: '#/components/schemas/OrderCreated'
-        changedOrder:
-          $ref: '#/components/schemas/OrderChanged'
-        canceledOrder:
           $ref: '#/components/schemas/OrderCanceled'

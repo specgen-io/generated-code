@@ -25,6 +25,9 @@ class EchoRouter @Inject()(Action: DefaultActionBuilder, controller: EchoControl
     StaticPart("/"),
     DynamicPart("string_url", """[^/]+""", true),
   )))
+  lazy val routeSameOperationName = Route("GET", PathPattern(List(
+    StaticPart("/echo/same_operation_name"),
+  )))
   def routes: Router.Routes = {
     case routeEchoBody(params@_) =>
       controller.echoBody()
@@ -52,6 +55,8 @@ class EchoRouter @Inject()(Action: DefaultActionBuilder, controller: EchoControl
         case Left(_) => Action { Results.BadRequest }
         case Right((intUrl, stringUrl)) => controller.echoUrlParams(intUrl, stringUrl)
       }
+    case routeSameOperationName(params@_) =>
+      controller.sameOperationName()
   }
 }
 
@@ -77,9 +82,14 @@ class CheckRouter @Inject()(Action: DefaultActionBuilder, controller: CheckContr
     DynamicPart("decimal_url", """[^/]+""", true),
     StaticPart("/"),
     DynamicPart("date_url", """[^/]+""", true),
+    StaticPart("/"),
+    DynamicPart("enum_url", """[^/]+""", true),
   )))
   lazy val routeCheckForbidden = Route("GET", PathPattern(List(
     StaticPart("/check/forbidden"),
+  )))
+  lazy val routeSameOperationName = Route("GET", PathPattern(List(
+    StaticPart("/check/same_operation_name"),
   )))
   def routes: Router.Routes = {
     case routeCheckEmpty(params@_) =>
@@ -114,13 +124,16 @@ class CheckRouter @Inject()(Action: DefaultActionBuilder, controller: CheckContr
           uuidUrl <- params.fromPath[java.util.UUID]("uuid_url").value
           decimalUrl <- params.fromPath[BigDecimal]("decimal_url").value
           dateUrl <- params.fromPath[java.time.LocalDate]("date_url").value
+          enumUrl <- params.fromPath[Choice]("enum_url").value
         }
-        yield (intUrl, stringUrl, floatUrl, boolUrl, uuidUrl, decimalUrl, dateUrl)
+        yield (intUrl, stringUrl, floatUrl, boolUrl, uuidUrl, decimalUrl, dateUrl, enumUrl)
       arguments match{
         case Left(_) => Action { Results.BadRequest }
-        case Right((intUrl, stringUrl, floatUrl, boolUrl, uuidUrl, decimalUrl, dateUrl)) => controller.checkUrlParams(intUrl, stringUrl, floatUrl, boolUrl, uuidUrl, decimalUrl, dateUrl)
+        case Right((intUrl, stringUrl, floatUrl, boolUrl, uuidUrl, decimalUrl, dateUrl, enumUrl)) => controller.checkUrlParams(intUrl, stringUrl, floatUrl, boolUrl, uuidUrl, decimalUrl, dateUrl, enumUrl)
       }
     case routeCheckForbidden(params@_) =>
       controller.checkForbidden()
+    case routeSameOperationName(params@_) =>
+      controller.sameOperationName()
   }
 }

@@ -131,6 +131,18 @@ paths:
           description: Service will return this if parameters are not provided or couldn't be parsed correctly
         "500":
           description: Service will return this if unexpected internal error happens
+  /echo/same_operation_name:
+    get:
+      operationId: echoSameOperationName
+      tags:
+        - echo
+      responses:
+        "200":
+          description: ""
+        "403":
+          description: ""
+        "500":
+          description: Service will return this if unexpected internal error happens
   /check/empty:
     get:
       operationId: checkCheckEmpty
@@ -285,6 +297,18 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Message'
+        "403":
+          description: ""
+        "500":
+          description: Service will return this if unexpected internal error happens
+  /check/same_operation_name:
+    get:
+      operationId: checkSameOperationName
+      tags:
+        - check
+      responses:
+        "200":
+          description: ""
         "403":
           description: ""
         "500":

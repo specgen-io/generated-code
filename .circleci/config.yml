@@ -19,14 +19,12 @@ jobs:
           command: |
             go install github.com/specgen-io/specgen/<<pipeline.parameters.specgen-version-major>>@v<< pipeline.parameters.specgen-version >>
             specgen --help
-      
       - run:
           name: Clean code
           command: |
             rm -R -- ./models/*/
             rm -R -- ./clients/*/
             rm -R -- ./services/*/
-      
       - gen-models:
           path: models/openapi
           specgen: openapi --spec-file ./spec.yaml --out-file ./swagger.yaml
@@ -38,7 +36,7 @@ jobs:
           specgen: models-kotlin --spec-file ./spec.yaml --generate-path .
       - gen-models:
           path: models/go
-          specgen: models-go --spec-file ./spec.yaml --generate-path .
+          specgen: models-go --spec-file ./spec.yaml --module-name test-models --generate-path .
       - gen-models:
           path: models/ruby
           specgen: models-ruby --spec-file ./spec.yaml --generate-path .
@@ -57,7 +55,7 @@ jobs:
           specgen: openapi --spec-file ./spec.yaml --out-file ./swagger.yaml
       - gen-client:
           path: clients/go
-          specgen: client-go --spec-file ./spec.yaml --generate-path .
+          specgen: client-go --spec-file ./spec.yaml --module-name test-client --generate-path .
       - gen-client:
           path: clients/ruby
           specgen: client-ruby --spec-file ./spec.yaml --generate-path .
@@ -75,8 +73,11 @@ jobs:
           path: services/openapi
           specgen: openapi --spec-file ./spec.yaml --out-file ./swagger.yaml
       - gen-service:
+          path: services/java-spring
+          specgen: service-java-spring --spec-file ./spec.yaml --package-name test_service --generate-path . --services-path ./services
+      - gen-service:
           path: services/go
-          specgen: service-go --spec-file ./spec.yaml --generate-path .
+          specgen: service-go --spec-file ./spec.yaml --module-name test-service --generate-path .
       - gen-service:
           path: services/scala-play
           specgen: service-scala-play --spec-file ./spec.yaml --generate-path . --services-path ./services
@@ -93,7 +94,7 @@ jobs:
           path: ./clients
       - tree:
           path: ./services
-      
+
       - run:
           name: Commit changes
           command: |

@@ -28,6 +28,10 @@ class EchoClient(baseUrl: String)(implicit backend: SttpBackend[Future, Nothing]
             logger.debug(s"Response status: ${response.code}, body: ${body}")
             response.code match {
               case 200 => EchoBodyResponse.Ok(Jsoner.readThrowing[Message](body))
+              case _ => 
+                val errorMessage = s"Request returned unexpected status code: ${response.code}, body: ${new String(body)}"
+                logger.error(errorMessage)
+                throw new RuntimeException(errorMessage)
             }
           case Left(errorData) =>
             val errorMessage = s"Request failed, status code: ${response.code}, body: ${new String(errorData)}"
@@ -54,6 +58,10 @@ class EchoClient(baseUrl: String)(implicit backend: SttpBackend[Future, Nothing]
             logger.debug(s"Response status: ${response.code}, body: ${body}")
             response.code match {
               case 200 => EchoQueryResponse.Ok(Jsoner.readThrowing[Message](body))
+              case _ => 
+                val errorMessage = s"Request returned unexpected status code: ${response.code}, body: ${new String(body)}"
+                logger.error(errorMessage)
+                throw new RuntimeException(errorMessage)
             }
           case Left(errorData) =>
             val errorMessage = s"Request failed, status code: ${response.code}, body: ${new String(errorData)}"
@@ -81,6 +89,10 @@ class EchoClient(baseUrl: String)(implicit backend: SttpBackend[Future, Nothing]
             logger.debug(s"Response status: ${response.code}, body: ${body}")
             response.code match {
               case 200 => EchoHeaderResponse.Ok(Jsoner.readThrowing[Message](body))
+              case _ => 
+                val errorMessage = s"Request returned unexpected status code: ${response.code}, body: ${new String(body)}"
+                logger.error(errorMessage)
+                throw new RuntimeException(errorMessage)
             }
           case Left(errorData) =>
             val errorMessage = s"Request failed, status code: ${response.code}, body: ${new String(errorData)}"
@@ -104,6 +116,42 @@ class EchoClient(baseUrl: String)(implicit backend: SttpBackend[Future, Nothing]
             logger.debug(s"Response status: ${response.code}, body: ${body}")
             response.code match {
               case 200 => EchoUrlParamsResponse.Ok(Jsoner.readThrowing[Message](body))
+              case _ => 
+                val errorMessage = s"Request returned unexpected status code: ${response.code}, body: ${new String(body)}"
+                logger.error(errorMessage)
+                throw new RuntimeException(errorMessage)
+            }
+          case Left(errorData) =>
+            val errorMessage = s"Request failed, status code: ${response.code}, body: ${new String(errorData)}"
+            logger.error(errorMessage)
+            throw new RuntimeException(errorMessage)
+        }
+    }
+  }
+  def sameOperationName(): Future[SameOperationNameResponse] = {
+    val url = Uri.parse(baseUrl+s"/echo/same_operation_name").get
+    logger.debug(s"Request to url: ${url}")
+    val response: Future[Response[String]] =
+      sttp
+        .get(url)
+        .parseResponseIf { status => status < 500 }
+        .send()
+    response.map {
+      response: Response[String] =>
+        response.body match {
+          case Right(body) =>
+            logger.debug(s"Response status: ${response.code}, body: ${body}")
+            response.code match {
+              case 200 => SameOperationNameResponse.Ok()
+              case _ => 
+                val errorMessage = s"Request returned unexpected status code: ${response.code}, body: ${new String(body)}"
+                logger.error(errorMessage)
+                throw new RuntimeException(errorMessage)
+              case 403 => SameOperationNameResponse.Forbidden()
+              case _ => 
+                val errorMessage = s"Request returned unexpected status code: ${response.code}, body: ${new String(body)}"
+                logger.error(errorMessage)
+                throw new RuntimeException(errorMessage)
             }
           case Left(errorData) =>
             val errorMessage = s"Request failed, status code: ${response.code}, body: ${new String(errorData)}"
@@ -133,6 +181,10 @@ class CheckClient(baseUrl: String)(implicit backend: SttpBackend[Future, Nothing
             logger.debug(s"Response status: ${response.code}, body: ${body}")
             response.code match {
               case 200 => CheckEmptyResponse.Ok()
+              case _ => 
+                val errorMessage = s"Request returned unexpected status code: ${response.code}, body: ${new String(body)}"
+                logger.error(errorMessage)
+                throw new RuntimeException(errorMessage)
             }
           case Left(errorData) =>
             val errorMessage = s"Request failed, status code: ${response.code}, body: ${new String(errorData)}"
@@ -168,6 +220,10 @@ class CheckClient(baseUrl: String)(implicit backend: SttpBackend[Future, Nothing
             logger.debug(s"Response status: ${response.code}, body: ${body}")
             response.code match {
               case 200 => CheckQueryResponse.Ok()
+              case _ => 
+                val errorMessage = s"Request returned unexpected status code: ${response.code}, body: ${new String(body)}"
+                logger.error(errorMessage)
+                throw new RuntimeException(errorMessage)
             }
           case Left(errorData) =>
             val errorMessage = s"Request failed, status code: ${response.code}, body: ${new String(errorData)}"
@@ -191,6 +247,10 @@ class CheckClient(baseUrl: String)(implicit backend: SttpBackend[Future, Nothing
             logger.debug(s"Response status: ${response.code}, body: ${body}")
             response.code match {
               case 200 => CheckUrlParamsResponse.Ok()
+              case _ => 
+                val errorMessage = s"Request returned unexpected status code: ${response.code}, body: ${new String(body)}"
+                logger.error(errorMessage)
+                throw new RuntimeException(errorMessage)
             }
           case Left(errorData) =>
             val errorMessage = s"Request failed, status code: ${response.code}, body: ${new String(errorData)}"
@@ -214,7 +274,47 @@ class CheckClient(baseUrl: String)(implicit backend: SttpBackend[Future, Nothing
             logger.debug(s"Response status: ${response.code}, body: ${body}")
             response.code match {
               case 200 => CheckForbiddenResponse.Ok(Jsoner.readThrowing[Message](body))
+              case _ => 
+                val errorMessage = s"Request returned unexpected status code: ${response.code}, body: ${new String(body)}"
+                logger.error(errorMessage)
+                throw new RuntimeException(errorMessage)
               case 403 => CheckForbiddenResponse.Forbidden()
+              case _ => 
+                val errorMessage = s"Request returned unexpected status code: ${response.code}, body: ${new String(body)}"
+                logger.error(errorMessage)
+                throw new RuntimeException(errorMessage)
+            }
+          case Left(errorData) =>
+            val errorMessage = s"Request failed, status code: ${response.code}, body: ${new String(errorData)}"
+            logger.error(errorMessage)
+            throw new RuntimeException(errorMessage)
+        }
+    }
+  }
+  def sameOperationName(): Future[SameOperationNameResponse] = {
+    val url = Uri.parse(baseUrl+s"/check/same_operation_name").get
+    logger.debug(s"Request to url: ${url}")
+    val response: Future[Response[String]] =
+      sttp
+        .get(url)
+        .parseResponseIf { status => status < 500 }
+        .send()
+    response.map {
+      response: Response[String] =>
+        response.body match {
+          case Right(body) =>
+            logger.debug(s"Response status: ${response.code}, body: ${body}")
+            response.code match {
+              case 200 => SameOperationNameResponse.Ok()
+              case _ => 
+                val errorMessage = s"Request returned unexpected status code: ${response.code}, body: ${new String(body)}"
+                logger.error(errorMessage)
+                throw new RuntimeException(errorMessage)
+              case 403 => SameOperationNameResponse.Forbidden()
+              case _ => 
+                val errorMessage = s"Request returned unexpected status code: ${response.code}, body: ${new String(body)}"
+                logger.error(errorMessage)
+                throw new RuntimeException(errorMessage)
             }
           case Left(errorData) =>
             val errorMessage = s"Request failed, status code: ${response.code}, body: ${new String(errorData)}"
