@@ -180,20 +180,60 @@ components:
           type: string
           format: uuid
     OrderEventWrapper:
-      type: object
-      properties:
-        created:
-          $ref: '#/components/schemas/OrderCreated'
-        changed:
-          $ref: '#/components/schemas/OrderChanged'
-        canceled:
-          $ref: '#/components/schemas/OrderCanceled'
+      oneOf:
+        - type: object
+          required:
+            - created
+          properties:
+            created:
+              $ref: '#/components/schemas/OrderCreated'
+        - type: object
+          required:
+            - changed
+          properties:
+            changed:
+              $ref: '#/components/schemas/OrderChanged'
+        - type: object
+          required:
+            - canceled
+          properties:
+            canceled:
+              $ref: '#/components/schemas/OrderCanceled'
     OrderEventDiscriminator:
-      type: object
-      properties:
-        created:
-          $ref: '#/components/schemas/OrderCreated'
-        changed:
-          $ref: '#/components/schemas/OrderChanged'
-        canceled:
-          $ref: '#/components/schemas/OrderCanceled'
+      anyOf:
+        - $ref: '#/components/schemas/OrderEventDiscriminatorCreated'
+        - $ref: '#/components/schemas/OrderEventDiscriminatorChanged'
+        - $ref: '#/components/schemas/OrderEventDiscriminatorCanceled'
+      discriminator:
+        propertyName: _type
+        mapping:
+          created: '#/components/schemas/OrderEventDiscriminatorCreated'
+          changed: '#/components/schemas/OrderEventDiscriminatorChanged'
+          canceled: '#/components/schemas/OrderEventDiscriminatorCanceled'
+    OrderEventDiscriminatorCreated:
+      allOf:
+        - $ref: '#/components/schemas/OrderCreated'
+        - type: object
+          required:
+            - _type
+          properties:
+            _type:
+              type: string
+    OrderEventDiscriminatorChanged:
+      allOf:
+        - $ref: '#/components/schemas/OrderChanged'
+        - type: object
+          required:
+            - _type
+          properties:
+            _type:
+              type: string
+    OrderEventDiscriminatorCanceled:
+      allOf:
+        - $ref: '#/components/schemas/OrderCanceled'
+        - type: object
+          required:
+            - _type
+          properties:
+            _type:
+              type: string
