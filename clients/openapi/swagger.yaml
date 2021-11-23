@@ -232,7 +232,7 @@ paths:
           description: Service will return this if parameters are not provided or couldn't be parsed correctly
         "500":
           description: Service will return this if unexpected internal error happens
-  /check/url_params/{int_url}/{string_url}/{float_url}/{bool_url}/{uuid_url}/{decimal_url}/{date_url}:
+  /check/url_params/{int_url}/{string_url}/{float_url}/{bool_url}/{uuid_url}/{decimal_url}/{date_url}/{enum_url}:
     get:
       operationId: checkCheckUrlParams
       tags:
@@ -278,6 +278,11 @@ paths:
           schema:
             type: string
             format: date
+        - in: path
+          name: enum_url
+          required: true
+          schema:
+            $ref: '#/components/schemas/Choice'
       responses:
         "200":
           description: ""

@@ -117,7 +117,7 @@ module TestService
       end
     end
 
-    def check_url_params(int_url:, string_url:, float_url:, bool_url:, uuid_url:, decimal_url:, date_url:)
+    def check_url_params(int_url:, string_url:, float_url:, bool_url:, uuid_url:, decimal_url:, date_url:, enum_url:)
       url_params = TestService::StringParams.new
       url_params.set('int_url', Integer, int_url)
       url_params.set('string_url', String, string_url)
@@ -126,7 +126,8 @@ module TestService
       url_params.set('uuid_url', UUID, uuid_url)
       url_params.set('decimal_url', Float, decimal_url)
       url_params.set('date_url', Date, date_url)
-      url = @base_uri + url_params.set_to_url('/check/url_params/{int_url}/{string_url}/{float_url}/{bool_url}/{uuid_url}/{decimal_url}/{date_url}')
+      url_params.set('enum_url', Choice, enum_url)
+      url = @base_uri + url_params.set_to_url('/check/url_params/{int_url}/{string_url}/{float_url}/{bool_url}/{uuid_url}/{decimal_url}/{date_url}/{enum_url}')
       request = Net::HTTP::Get.new(url)
       response = @client.request(request)
       case response.code

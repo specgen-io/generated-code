@@ -100,9 +100,9 @@ func (client *Client) CheckQuery(pString string, pStringOpt *string, pStringArra
 	return err
 }
 
-var logCheckUrlParams = log.Fields{"operationId": "check.check_url_params", "method": "GET", "url": "/check/url_params/{int_url}/{string_url}/{float_url}/{bool_url}/{uuid_url}/{decimal_url}/{date_url}"}
-func (client *Client) CheckUrlParams(intUrl int64, stringUrl string, floatUrl float32, boolUrl bool, uuidUrl uuid.UUID, decimalUrl decimal.Decimal, dateUrl civil.Date) error {
-	req, err := http.NewRequest("GET", client.baseUrl+fmt.Sprintf("/check/url_params/%s/%s/%s/%s/%s/%s/%s", convertInt64(intUrl), stringUrl, convertFloat32(floatUrl), convertBool(boolUrl), convertUuid(uuidUrl), convertDecimal(decimalUrl), convertDate(dateUrl)), nil)
+var logCheckUrlParams = log.Fields{"operationId": "check.check_url_params", "method": "GET", "url": "/check/url_params/{int_url}/{string_url}/{float_url}/{bool_url}/{uuid_url}/{decimal_url}/{date_url}/{enum_url}"}
+func (client *Client) CheckUrlParams(intUrl int64, stringUrl string, floatUrl float32, boolUrl bool, uuidUrl uuid.UUID, decimalUrl decimal.Decimal, dateUrl civil.Date, enumUrl models.Choice) error {
+	req, err := http.NewRequest("GET", client.baseUrl+fmt.Sprintf("/check/url_params/%s/%s/%s/%s/%s/%s/%s/%s", convertInt64(intUrl), stringUrl, convertFloat32(floatUrl), convertBool(boolUrl), convertUuid(uuidUrl), convertDecimal(decimalUrl), convertDate(dateUrl), convertStringEnum(enumUrl)), nil)
 	if err != nil {
 		log.WithFields(logCheckUrlParams).Error("Failed to create HTTP request", err.Error())
 		return err

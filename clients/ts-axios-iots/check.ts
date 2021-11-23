@@ -41,9 +41,9 @@ export const client = (axiosInstance: AxiosInstance) => {
             }
         },
 
-        checkUrlParams: async (parameters: {intUrl: number, stringUrl: string, floatUrl: number, boolUrl: boolean, uuidUrl: string, decimalUrl: number, dateUrl: string}): Promise<CheckUrlParamsResponse> => {
+        checkUrlParams: async (parameters: {intUrl: number, stringUrl: string, floatUrl: number, boolUrl: boolean, uuidUrl: string, decimalUrl: number, dateUrl: string, enumUrl: models.Choice}): Promise<CheckUrlParamsResponse> => {
             const config: AxiosRequestConfig = {}
-            const response = await axiosInstance.get(`/check/url_params/${parameters.intUrl}/${parameters.stringUrl}/${parameters.floatUrl}/${parameters.boolUrl}/${parameters.uuidUrl}/${parameters.decimalUrl}/${parameters.dateUrl}`, config)
+            const response = await axiosInstance.get(`/check/url_params/${parameters.intUrl}/${parameters.stringUrl}/${parameters.floatUrl}/${parameters.boolUrl}/${parameters.uuidUrl}/${parameters.decimalUrl}/${parameters.dateUrl}/${parameters.enumUrl}`, config)
             switch (response.status) {
                 case 200:
                     return Promise.resolve({ status: "ok" })

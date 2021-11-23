@@ -232,8 +232,8 @@ class CheckClient(baseUrl: String)(implicit backend: SttpBackend[Future, Nothing
         }
     }
   }
-  def checkUrlParams(intUrl: Long, stringUrl: String, floatUrl: Float, boolUrl: Boolean, uuidUrl: java.util.UUID, decimalUrl: BigDecimal, dateUrl: java.time.LocalDate): Future[CheckUrlParamsResponse] = {
-    val url = Uri.parse(baseUrl+s"/check/url_params/$intUrl/$stringUrl/$floatUrl/$boolUrl/$uuidUrl/$decimalUrl/$dateUrl").get
+  def checkUrlParams(intUrl: Long, stringUrl: String, floatUrl: Float, boolUrl: Boolean, uuidUrl: java.util.UUID, decimalUrl: BigDecimal, dateUrl: java.time.LocalDate, enumUrl: Choice): Future[CheckUrlParamsResponse] = {
+    val url = Uri.parse(baseUrl+s"/check/url_params/$intUrl/$stringUrl/$floatUrl/$boolUrl/$uuidUrl/$decimalUrl/$dateUrl/$enumUrl").get
     logger.debug(s"Request to url: ${url}")
     val response: Future[Response[String]] =
       sttp
