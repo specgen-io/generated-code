@@ -6,19 +6,16 @@ export const client = (axiosInstance: AxiosInstance) => {
     return {
         axiosInstance,
 
-        echoBody: async (parameters: {body: models.Message}): Promise<EchoBodyResponse> => {
+        echoBody: async (parameters: {body: models.Message}): Promise<models.Message> => {
             const config: AxiosRequestConfig = {}
             const bodyJson = t.encode(models.TMessage, parameters.body)
             const response = await axiosInstance.post(`/echo/body`, bodyJson, config)
             switch (response.status) {
                 case 200:
-                    return Promise.resolve({ status: "ok", data: t.decode(models.TMessage, response.data) })
+                    return Promise.resolve(t.decode(models.TMessage, response.data))
                 default:
                     throw new Error(`Unexpected status code ${ response.status }`)
             }
         },
     }
 }
-
-export type EchoBodyResponse =
-    | { status: "ok", data: models.Message }

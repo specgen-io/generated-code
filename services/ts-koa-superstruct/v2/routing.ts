@@ -11,16 +11,13 @@ export let echoRouter = (service: EchoService) => {
         try {
             body = t.decode(models.TMessage, ctx.request.body)
         } catch (error) {
-            ctx.throw(400, error)
+            ctx.throw(400)
             return
         }
         try {
             let result = await service.echoBody({body})
-            switch (result.status) {
-                case 'ok':
-                    ctx.status = 200
-        ctx.body = t.encode(models.TMessage, result.data)
-            }
+            ctx.status = 200
+            ctx.body = t.encode(models.TMessage, result)
         } catch (error) {
             ctx.throw(500)
         }

@@ -1,15 +1,16 @@
 import * as service from './../check_service'
+import * as models from './../models'
 
 export let checkService = (): service.CheckService => {
-    let checkEmpty = async (): Promise<service.CheckEmptyResponse> => {
+    let checkEmpty = async (): Promise<void> => {
         throw new Error('Not Implemented')
     }
 
-    let checkQuery = async (params: service.CheckQueryParams): Promise<service.CheckQueryResponse> => {
+    let checkQuery = async (params: service.CheckQueryParams): Promise<void> => {
         throw new Error('Not Implemented')
     }
 
-    let checkUrlParams = async (params: service.CheckUrlParamsParams): Promise<service.CheckUrlParamsResponse> => {
+    let checkUrlParams = async (params: service.CheckUrlParamsParams): Promise<void> => {
         throw new Error('Not Implemented')
     }
 

@@ -39,10 +39,7 @@ export let echoRouter = (service: EchoService) => {
         }
         try {
             let result = await service.echoBody({body})
-            switch (result.status) {
-                case 'ok':
-                    response.status(200).type('json').send(JSON.stringify(t.encode(models.TMessage, result.data)))
-            }
+            response.status(200).type('json').send(JSON.stringify(t.encode(models.TMessage, result)))
         } catch (error) {
             response.status(500).send()
         }
@@ -58,10 +55,7 @@ export let echoRouter = (service: EchoService) => {
         }
         try {
             let result = await service.echoQuery({...queryParams})
-            switch (result.status) {
-                case 'ok':
-                    response.status(200).type('json').send(JSON.stringify(t.encode(models.TMessage, result.data)))
-            }
+            response.status(200).type('json').send(JSON.stringify(t.encode(models.TMessage, result)))
         } catch (error) {
             response.status(500).send()
         }
@@ -77,10 +71,7 @@ export let echoRouter = (service: EchoService) => {
         }
         try {
             let result = await service.echoHeader({...headerParams})
-            switch (result.status) {
-                case 'ok':
-                    response.status(200).type('json').send(JSON.stringify(t.encode(models.TMessage, result.data)))
-            }
+            response.status(200).type('json').send(JSON.stringify(t.encode(models.TMessage, result)))
         } catch (error) {
             response.status(500).send()
         }
@@ -96,10 +87,7 @@ export let echoRouter = (service: EchoService) => {
         }
         try {
             let result = await service.echoUrlParams({...urlParams})
-            switch (result.status) {
-                case 'ok':
-                    response.status(200).type('json').send(JSON.stringify(t.encode(models.TMessage, result.data)))
-            }
+            response.status(200).type('json').send(JSON.stringify(t.encode(models.TMessage, result)))
         } catch (error) {
             response.status(500).send()
         }
@@ -156,11 +144,8 @@ export let checkRouter = (service: CheckService) => {
 
     router.get('/check/empty', async (request: Request, response: Response) => {
         try {
-            let result = await service.checkEmpty()
-            switch (result.status) {
-                case 'ok':
-                    response.status(200).send()
-            }
+            await service.checkEmpty()
+            response.status(200).send()
         } catch (error) {
             response.status(500).send()
         }
@@ -175,11 +160,8 @@ export let checkRouter = (service: CheckService) => {
             return
         }
         try {
-            let result = await service.checkQuery({...queryParams})
-            switch (result.status) {
-                case 'ok':
-                    response.status(200).send()
-            }
+            await service.checkQuery({...queryParams})
+            response.status(200).send()
         } catch (error) {
             response.status(500).send()
         }
@@ -194,11 +176,8 @@ export let checkRouter = (service: CheckService) => {
             return
         }
         try {
-            let result = await service.checkUrlParams({...urlParams})
-            switch (result.status) {
-                case 'ok':
-                    response.status(200).send()
-            }
+            await service.checkUrlParams({...urlParams})
+            response.status(200).send()
         } catch (error) {
             response.status(500).send()
         }

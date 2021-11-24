@@ -33,16 +33,13 @@ export let echoRouter = (service: EchoService) => {
         try {
             body = t.decode(models.TMessage, ctx.request.body)
         } catch (error) {
-            ctx.throw(400, error)
+            ctx.throw(400)
             return
         }
         try {
             let result = await service.echoBody({body})
-            switch (result.status) {
-                case 'ok':
-                    ctx.status = 200
-        ctx.body = t.encode(models.TMessage, result.data)
-            }
+            ctx.status = 200
+            ctx.body = t.encode(models.TMessage, result)
         } catch (error) {
             ctx.throw(500)
         }
@@ -53,16 +50,13 @@ export let echoRouter = (service: EchoService) => {
         try {
             queryParams = t.decode(TEchoQueryQueryParams, ctx.request.query)
         } catch (error) {
-            ctx.throw(400, error)
+            ctx.throw(400)
             return
         }
         try {
             let result = await service.echoQuery({...queryParams})
-            switch (result.status) {
-                case 'ok':
-                    ctx.status = 200
-        ctx.body = t.encode(models.TMessage, result.data)
-            }
+            ctx.status = 200
+            ctx.body = t.encode(models.TMessage, result)
         } catch (error) {
             ctx.throw(500)
         }
@@ -73,16 +67,13 @@ export let echoRouter = (service: EchoService) => {
         try {
             headerParams = t.decode(TEchoHeaderHeaderParams, ctx.request.headers)
         } catch (error) {
-            ctx.throw(400, error)
+            ctx.throw(400)
             return
         }
         try {
             let result = await service.echoHeader({...headerParams})
-            switch (result.status) {
-                case 'ok':
-                    ctx.status = 200
-        ctx.body = t.encode(models.TMessage, result.data)
-            }
+            ctx.status = 200
+            ctx.body = t.encode(models.TMessage, result)
         } catch (error) {
             ctx.throw(500)
         }
@@ -93,16 +84,13 @@ export let echoRouter = (service: EchoService) => {
         try {
             urlParams = t.decode(TEchoUrlParamsUrlParams, ctx.params)
         } catch (error) {
-            ctx.throw(400, error)
+            ctx.throw(400)
             return
         }
         try {
             let result = await service.echoUrlParams({...urlParams})
-            switch (result.status) {
-                case 'ok':
-                    ctx.status = 200
-        ctx.body = t.encode(models.TMessage, result.data)
-            }
+            ctx.status = 200
+            ctx.body = t.encode(models.TMessage, result)
         } catch (error) {
             ctx.throw(500)
         }
@@ -159,11 +147,8 @@ export let checkRouter = (service: CheckService) => {
 
     router.get('/check/empty', async (ctx) => {
         try {
-            let result = await service.checkEmpty()
-            switch (result.status) {
-                case 'ok':
-                    ctx.status = 200
-            }
+            await service.checkEmpty()
+            ctx.status = 200
         } catch (error) {
             ctx.throw(500)
         }
@@ -174,15 +159,12 @@ export let checkRouter = (service: CheckService) => {
         try {
             queryParams = t.decode(TCheckQueryQueryParams, ctx.request.query)
         } catch (error) {
-            ctx.throw(400, error)
+            ctx.throw(400)
             return
         }
         try {
-            let result = await service.checkQuery({...queryParams})
-            switch (result.status) {
-                case 'ok':
-                    ctx.status = 200
-            }
+            await service.checkQuery({...queryParams})
+            ctx.status = 200
         } catch (error) {
             ctx.throw(500)
         }
@@ -193,15 +175,12 @@ export let checkRouter = (service: CheckService) => {
         try {
             urlParams = t.decode(TCheckUrlParamsUrlParams, ctx.params)
         } catch (error) {
-            ctx.throw(400, error)
+            ctx.throw(400)
             return
         }
         try {
-            let result = await service.checkUrlParams({...urlParams})
-            switch (result.status) {
-                case 'ok':
-                    ctx.status = 200
-            }
+            await service.checkUrlParams({...urlParams})
+            ctx.status = 200
         } catch (error) {
             ctx.throw(500)
         }
@@ -213,7 +192,7 @@ export let checkRouter = (service: CheckService) => {
             switch (result.status) {
                 case 'ok':
                     ctx.status = 200
-        ctx.body = t.encode(models.TMessage, result.data)
+                    ctx.body = t.encode(models.TMessage, result.data)
                 case 'forbidden':
                     ctx.status = 403
             }

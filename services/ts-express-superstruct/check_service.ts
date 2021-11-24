@@ -1,8 +1,5 @@
 import * as models from './models'
 
-export type CheckEmptyResponse =
-    | { status: "ok" }
-
 export interface CheckQueryParams {
     p_string: string,
     p_string_opt?: string | undefined,
@@ -17,9 +14,6 @@ export interface CheckQueryParams {
     p_string_defaulted: string,
 }
 
-export type CheckQueryResponse =
-    | { status: "ok" }
-
 export interface CheckUrlParamsParams {
     int_url: number,
     string_url: string,
@@ -31,9 +25,6 @@ export interface CheckUrlParamsParams {
     enum_url: models.Choice,
 }
 
-export type CheckUrlParamsResponse =
-    | { status: "ok" }
-
 export type CheckForbiddenResponse =
     | { status: "ok", data: models.Message }
     | { status: "forbidden" }
@@ -43,9 +34,9 @@ export type SameOperationNameResponse =
     | { status: "forbidden" }
 
 export interface CheckService {
-    checkEmpty(): Promise<CheckEmptyResponse>
-    checkQuery(params: CheckQueryParams): Promise<CheckQueryResponse>
-    checkUrlParams(params: CheckUrlParamsParams): Promise<CheckUrlParamsResponse>
+    checkEmpty(): Promise<void>
+    checkQuery(params: CheckQueryParams): Promise<void>
+    checkUrlParams(params: CheckUrlParamsParams): Promise<void>
     checkForbidden(): Promise<CheckForbiddenResponse>
     sameOperationName(): Promise<SameOperationNameResponse>
 }
