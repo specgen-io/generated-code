@@ -3,7 +3,7 @@ version: 2.1
 parameters:
   specgen-version:
     type: string
-    default: 2.1.872
+    default: 2.1.920
   specgen-version-major:
     type: string
     default: v2
@@ -53,6 +53,9 @@ jobs:
       - gen-client:
           path: clients/openapi
           specgen: openapi --spec-file ./spec.yaml --out-file ./swagger.yaml
+      - gen-client:
+          path: clients/java-okhttp
+          specgen: client-java-okhttp --spec-file ./spec.yaml --package-name test_client --generate-path .
       - gen-client:
           path: clients/go
           specgen: client-go --spec-file ./spec.yaml --module-name test-client --generate-path .
