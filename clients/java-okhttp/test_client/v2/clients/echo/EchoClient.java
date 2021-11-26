@@ -68,6 +68,6 @@ public class EchoClient {
 				var errorMessage = "Unexpected status code received: " + response.code();
 				logger.error(errorMessage);
 				throw new ClientException(errorMessage);
-			}
 		}
+	}
 }

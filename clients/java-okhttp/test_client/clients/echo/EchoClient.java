@@ -68,8 +68,8 @@ public class EchoClient {
 				var errorMessage = "Unexpected status code received: " + response.code();
 				logger.error(errorMessage);
 				throw new ClientException(errorMessage);
-			}
 		}
+	}
 
 	public Message echoQuery(int intQuery, String stringQuery) {
 		var url = new UrlBuilder(baseUrl);
@@ -103,8 +103,8 @@ public class EchoClient {
 				var errorMessage = "Unexpected status code received: " + response.code();
 				logger.error(errorMessage);
 				throw new ClientException(errorMessage);
-			}
 		}
+	}
 
 	public Message echoHeader(int intHeader, String stringHeader) {
 		var url = new UrlBuilder(baseUrl);
@@ -138,8 +138,8 @@ public class EchoClient {
 				var errorMessage = "Unexpected status code received: " + response.code();
 				logger.error(errorMessage);
 				throw new ClientException(errorMessage);
-			}
 		}
+	}
 
 	public Message echoUrlParams(int intUrl, String stringUrl) {
 		var url = new UrlBuilder(baseUrl);
@@ -173,8 +173,8 @@ public class EchoClient {
 				var errorMessage = "Unexpected status code received: " + response.code();
 				logger.error(errorMessage);
 				throw new ClientException(errorMessage);
-			}
 		}
+	}
 
 	public SameOperationNameResponse sameOperationName() {
 		var url = new UrlBuilder(baseUrl);
@@ -203,6 +203,6 @@ public class EchoClient {
 			var errorMessage = "Unexpected status code received: " + response.code();
 			logger.error(errorMessage);
 			throw new ClientException(errorMessage);
-		}
 	}
+}
 }

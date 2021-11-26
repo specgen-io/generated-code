@@ -52,8 +52,8 @@ public class CheckClient {
 			var errorMessage = "Unexpected status code received: " + response.code();
 			logger.error(errorMessage);
 			throw new ClientException(errorMessage);
-		}
 	}
+}
 
 	public void checkQuery(String pString, String pStringOpt, String[] pStringArray, LocalDate pDate, LocalDate[] pDateArray, LocalDateTime pDatetime, int pInt, long pLong, BigDecimal pDecimal, Choice pEnum, String pStringDefaulted) {
 		var url = new UrlBuilder(baseUrl);
@@ -90,8 +90,8 @@ public class CheckClient {
 			var errorMessage = "Unexpected status code received: " + response.code();
 			logger.error(errorMessage);
 			throw new ClientException(errorMessage);
-		}
 	}
+}
 
 	public void checkUrlParams(long intUrl, String stringUrl, float floatUrl, boolean boolUrl, UUID uuidUrl, BigDecimal decimalUrl, LocalDate dateUrl, Choice enumUrl) {
 		var url = new UrlBuilder(baseUrl);
@@ -125,8 +125,8 @@ public class CheckClient {
 			var errorMessage = "Unexpected status code received: " + response.code();
 			logger.error(errorMessage);
 			throw new ClientException(errorMessage);
-		}
 	}
+}
 
 	public CheckForbiddenResponse checkForbidden() {
 		var url = new UrlBuilder(baseUrl);
@@ -161,8 +161,8 @@ public class CheckClient {
 				var errorMessage = "Unexpected status code received: " + response.code();
 				logger.error(errorMessage);
 				throw new ClientException(errorMessage);
-			}
 		}
+	}
 
 	public SameOperationNameResponse sameOperationName() {
 		var url = new UrlBuilder(baseUrl);
@@ -191,6 +191,6 @@ public class CheckClient {
 			var errorMessage = "Unexpected status code received: " + response.code();
 			logger.error(errorMessage);
 			throw new ClientException(errorMessage);
-		}
 	}
+}
 }
