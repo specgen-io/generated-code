@@ -39,21 +39,21 @@ public class CheckClient {
 		try {
 			response = client.newCall(request.build()).execute();
 		} catch (IOException e) {
-			var errorMessage = "Failed to execute the request " + e.getMessage();
+			var errorMessage = "Failed to execute the request ";
 			logger.error(errorMessage);
-			throw new ClientException(errorMessage, e);
+			throw new ClientException(errorMessage + e.getMessage(), e);
 		}
 
 		switch (response.code()) {
 			case 200:
-				logger.info("Received response with status code {}", response.code());
-				return;
-			default:
-				var errorMessage = "Unexpected status code received: " + response.code();
-				logger.error(errorMessage);
-				throw new ClientException(errorMessage);
-		}
+			logger.info("Received response with status code {}", response.code());
+			return;
+		default:
+			var errorMessage = "Unexpected status code received: " + response.code();
+			logger.error(errorMessage);
+			throw new ClientException(errorMessage);
 	}
+}
 
 	public void checkQuery(String pString, String pStringOpt, String[] pStringArray, LocalDate pDate, LocalDate[] pDateArray, LocalDateTime pDatetime, int pInt, long pLong, BigDecimal pDecimal, Choice pEnum, String pStringDefaulted) {
 		var url = new UrlBuilder(baseUrl);
@@ -77,21 +77,21 @@ public class CheckClient {
 		try {
 			response = client.newCall(request.build()).execute();
 		} catch (IOException e) {
-			var errorMessage = "Failed to execute the request " + e.getMessage();
+			var errorMessage = "Failed to execute the request ";
 			logger.error(errorMessage);
-			throw new ClientException(errorMessage, e);
+			throw new ClientException(errorMessage + e.getMessage(), e);
 		}
 
 		switch (response.code()) {
 			case 200:
-				logger.info("Received response with status code {}", response.code());
-				return;
-			default:
-				var errorMessage = "Unexpected status code received: " + response.code();
-				logger.error(errorMessage);
-				throw new ClientException(errorMessage);
-		}
+			logger.info("Received response with status code {}", response.code());
+			return;
+		default:
+			var errorMessage = "Unexpected status code received: " + response.code();
+			logger.error(errorMessage);
+			throw new ClientException(errorMessage);
 	}
+}
 
 	public void checkUrlParams(long intUrl, String stringUrl, float floatUrl, boolean boolUrl, UUID uuidUrl, BigDecimal decimalUrl, LocalDate dateUrl, Choice enumUrl) {
 		var url = new UrlBuilder(baseUrl);
@@ -112,21 +112,21 @@ public class CheckClient {
 		try {
 			response = client.newCall(request.build()).execute();
 		} catch (IOException e) {
-			var errorMessage = "Failed to execute the request " + e.getMessage();
+			var errorMessage = "Failed to execute the request ";
 			logger.error(errorMessage);
-			throw new ClientException(errorMessage, e);
+			throw new ClientException(errorMessage + e.getMessage(), e);
 		}
 
 		switch (response.code()) {
 			case 200:
-				logger.info("Received response with status code {}", response.code());
-				return;
-			default:
-				var errorMessage = "Unexpected status code received: " + response.code();
-				logger.error(errorMessage);
-				throw new ClientException(errorMessage);
-		}
+			logger.info("Received response with status code {}", response.code());
+			return;
+		default:
+			var errorMessage = "Unexpected status code received: " + response.code();
+			logger.error(errorMessage);
+			throw new ClientException(errorMessage);
 	}
+}
 
 	public CheckForbiddenResponse checkForbidden() {
 		var url = new UrlBuilder(baseUrl);
@@ -139,24 +139,22 @@ public class CheckClient {
 		try {
 			response = client.newCall(request.build()).execute();
 		} catch (IOException e) {
-			var errorMessage = "Failed to execute the request " + e.getMessage();
+			var errorMessage = "Failed to execute the request ";
 			logger.error(errorMessage);
-			throw new ClientException(errorMessage, e);
+			throw new ClientException(errorMessage + e.getMessage(), e);
 		}
 
 		switch (response.code()) {
 			case 200:
-				logger.info("Received response with status code {}", response.code());
-				Message responseBody;
 				try {
-					responseBody = objectMapper.readValue(response.body().string(), Message.class);
+					logger.info("Received response with status code {}", response.code());
+					return new CheckForbiddenResponseOk(objectMapper.readValue(response.body().string(), Message.class));
 				} catch (IOException e) {
-					var errorMessage = "Failed to deserialize response body " + e.getMessage();
+					var errorMessage = "Failed to deserialize response body ";
 					logger.error(errorMessage);
-					throw new ClientException(errorMessage, e);
+					throw new ClientException(errorMessage + e.getMessage(), e);
 				}
-				return new CheckForbiddenResponseOk(responseBody);
-			case 403:
+				case 403:
 				logger.info("Received response with status code {}", response.code());
 				return new CheckForbiddenResponseForbidden();
 			default:
@@ -177,22 +175,22 @@ public class CheckClient {
 		try {
 			response = client.newCall(request.build()).execute();
 		} catch (IOException e) {
-			var errorMessage = "Failed to execute the request " + e.getMessage();
+			var errorMessage = "Failed to execute the request ";
 			logger.error(errorMessage);
-			throw new ClientException(errorMessage, e);
+			throw new ClientException(errorMessage + e.getMessage(), e);
 		}
 
 		switch (response.code()) {
 			case 200:
-				logger.info("Received response with status code {}", response.code());
-				return new SameOperationNameResponseOk();
+			logger.info("Received response with status code {}", response.code());
+			return new SameOperationNameResponseOk();
 			case 403:
-				logger.info("Received response with status code {}", response.code());
-				return new SameOperationNameResponseForbidden();
-			default:
-				var errorMessage = "Unexpected status code received: " + response.code();
-				logger.error(errorMessage);
-				throw new ClientException(errorMessage);
-		}
+			logger.info("Received response with status code {}", response.code());
+			return new SameOperationNameResponseForbidden();
+		default:
+			var errorMessage = "Unexpected status code received: " + response.code();
+			logger.error(errorMessage);
+			throw new ClientException(errorMessage);
 	}
+}
 }

@@ -33,9 +33,9 @@ public class EchoClient {
 		try {
 			bodyJson = objectMapper.writeValueAsString(body);
 		} catch (JsonProcessingException e) {
-			var errorMessage = "Failed to serialize JSON " + e.getMessage();
+			var errorMessage = "Failed to serialize JSON ";
 			logger.error(errorMessage);
-			throw new ClientException(errorMessage, e);
+			throw new ClientException(errorMessage + e.getMessage(), e);
 		}
 
 		var requestBody = RequestBody.create(bodyJson, MediaType.parse("application/json"));
@@ -49,23 +49,21 @@ public class EchoClient {
 		try {
 			response = client.newCall(request.build()).execute();
 		} catch (IOException e) {
-			var errorMessage = "Failed to execute the request " + e.getMessage();
+			var errorMessage = "Failed to execute the request ";
 			logger.error(errorMessage);
-			throw new ClientException(errorMessage, e);
+			throw new ClientException(errorMessage + e.getMessage(), e);
 		}
 
 		switch (response.code()) {
 			case 200:
-				logger.info("Received response with status code {}", response.code());
-				Message responseBody;
 				try {
-					responseBody = objectMapper.readValue(response.body().string(), Message.class);
+					logger.info("Received response with status code {}", response.code());
+					return objectMapper.readValue(response.body().string(), Message.class);
 				} catch (IOException e) {
-					var errorMessage = "Failed to deserialize response body " + e.getMessage();
+					var errorMessage = "Failed to deserialize response body ";
 					logger.error(errorMessage);
-					throw new ClientException(errorMessage, e);
+					throw new ClientException(errorMessage + e.getMessage(), e);
 				}
-				return responseBody;
 			default:
 				var errorMessage = "Unexpected status code received: " + response.code();
 				logger.error(errorMessage);
