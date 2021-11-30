@@ -29,14 +29,14 @@ public class EchoController {
 	private ObjectMapper objectMapper;
 
 	@PostMapping("/echo/body")
-	public ResponseEntity<String> echoBodyController(@RequestBody String jsonStr) throws IOException {
+	public ResponseEntity<String> echoBodyController(@RequestBody String bodyStr) throws IOException {
 		logger.info("Received request, operationId: echo.echo_body, method: POST, url: /echo/body");
 		HttpHeaders headers = new HttpHeaders();
 		headers.add(CONTENT_TYPE, "application/json");
 
 		Message requestBody;
 		try {
-			requestBody = objectMapper.readValue(jsonStr, Message.class);
+			requestBody = objectMapper.readValue(bodyStr, Message.class);
 		} catch (Exception e) {
 			logger.error("Completed request with status code: {}", HttpStatus.BAD_REQUEST);
 			return new ResponseEntity<>(headers, HttpStatus.BAD_REQUEST);
