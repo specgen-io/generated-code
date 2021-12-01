@@ -7,6 +7,7 @@ import models._
 @Singleton
 class EchoService @Inject()()(implicit ec: ExecutionContext) extends IEchoService {
   import IEchoService._
+  override def echoBodyString(body: String): Future[EchoBodyStringResponse] = Future { ??? }
   override def echoBody(body: Message): Future[EchoBodyResponse] = Future { ??? }
   override def echoQuery(intQuery: Int, stringQuery: String): Future[EchoQueryResponse] = Future { ??? }
   override def echoHeader(intHeader: Int, stringHeader: String): Future[EchoHeaderResponse] = Future { ??? }

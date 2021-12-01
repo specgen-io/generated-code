@@ -29,6 +29,21 @@ type EchoUrlParamsUrlParams = t.Infer<typeof TEchoUrlParamsUrlParams>
 export let echoRouter = (service: EchoService) => {
     let router = Router()
 
+    router.post('/echo/body_string', async (request: Request, response: Response) => {
+        const body: string = request.body
+        try {
+        } catch (error) {
+            response.status(400).send()
+            return
+        }
+        try {
+            let result = await service.echoBodyString({body})
+            response.status(200).type('text').send(result)
+        } catch (error) {
+            response.status(500).send()
+        }
+    })
+
     router.post('/echo/body', async (request: Request, response: Response) => {
         var body: models.Message
         try {

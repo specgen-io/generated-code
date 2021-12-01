@@ -25,6 +25,28 @@ paths:
           description: Service will return this if parameters are not provided or couldn't be parsed correctly
         "500":
           description: Service will return this if unexpected internal error happens
+  /echo/body_string:
+    post:
+      operationId: echoEchoBodyString
+      tags:
+        - echo
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: string
+      responses:
+        "200":
+          description: ""
+          content:
+            application/json:
+              schema:
+                type: string
+        "400":
+          description: Service will return this if parameters are not provided or couldn't be parsed correctly
+        "500":
+          description: Service will return this if unexpected internal error happens
   /echo/body:
     post:
       operationId: echoEchoBody

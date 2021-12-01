@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"github.com/husobee/vestigo"
 	log "github.com/sirupsen/logrus"
+	"io/ioutil"
 	"net/http"
 	"test-service/check"
 	"test-service/echo"
@@ -11,6 +12,36 @@ import (
 )
 
 func AddEchoRoutes(router *vestigo.Router, echoService echo.Service) {
+	logEchoBodyString := log.Fields{"operationId": "echo.echo_body_string", "method": "POST", "url": "/echo/body_string"}
+	router.Post("/echo/body_string", func(res http.ResponseWriter, req *http.Request) {
+		log.WithFields(logEchoBodyString).Info("Received request")
+		bodyData, err := ioutil.ReadAll(req.Body)
+		if err != nil {
+			log.WithFields(logEchoBodyString).Warnf("Reading request body failed: %s", err.Error())
+			res.WriteHeader(400)
+			log.WithFields(logEchoBodyString).WithField("status", 400).Info("Completed request")
+			return
+		}
+		body := string(bodyData)
+		response, err := echoService.EchoBodyString(&body)
+		if err != nil {
+			log.WithFields(logEchoBodyString).Errorf("Error returned from service implementation: %s", err.Error())
+			res.WriteHeader(500)
+			log.WithFields(logEchoBodyString).WithField("status", 500).Info("Completed request")
+			return
+		}
+		if response == nil {
+			log.WithFields(logEchoBodyString).Errorf("No result returned from service implementation")
+			res.WriteHeader(500)
+			log.WithFields(logEchoBodyString).WithField("status", 500).Info("Completed request")
+			return
+		}
+		res.WriteHeader(200)
+		res.Write([]byte(*response))
+		log.WithFields(logEchoBodyString).WithField("status", 200).Info("Completed request")
+		return
+	})
+
 	logEchoBody := log.Fields{"operationId": "echo.echo_body", "method": "POST", "url": "/echo/body"}
 	router.Post("/echo/body", func(res http.ResponseWriter, req *http.Request) {
 		log.WithFields(logEchoBody).Info("Received request")

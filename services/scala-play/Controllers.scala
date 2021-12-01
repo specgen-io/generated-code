@@ -12,6 +12,23 @@ import models._
 @Singleton
 class EchoController @Inject()(api: IEchoService, cc: ControllerComponents)(implicit ec: ExecutionContext) extends AbstractController(cc) {
   import IEchoService._
+  def echoBodyString() = Action(parse.byteString).async {
+    implicit request =>
+      val params = Try {
+        val body = request.body.utf8String
+        (body)
+      }
+      params match {
+        case Failure(ex) => Future { BadRequest }
+        case Success(params) => 
+          val (body) = params
+          val result = api.echoBodyString(body)
+          val response = result.map {
+            case EchoBodyStringResponse.Ok(body) => new Status(200)(body)
+          }
+          response.recover { case _: Exception => InternalServerError }
+      }
+  }
   def echoBody() = Action(parse.byteString).async {
     implicit request =>
       val params = Try {

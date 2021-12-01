@@ -7,6 +7,7 @@ import java.util.*;
 import test_service.models.*;
 
 public interface EchoService {
+	String echoBodyString(String body);
 	Message echoBody(Message body);
 	Message echoQuery(int intQuery, String stringQuery);
 	Message echoHeader(int intHeader, String stringHeader);

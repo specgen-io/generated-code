@@ -2,6 +2,10 @@ import * as service from './../echo_service'
 import * as models from './../models'
 
 export let echoService = (): service.EchoService => {
+    let echoBodyString = async (params: service.EchoBodyStringParams): Promise<string> => {
+        throw new Error('Not Implemented')
+    }
+
     let echoBody = async (params: service.EchoBodyParams): Promise<models.Message> => {
         throw new Error('Not Implemented')
     }
@@ -22,5 +26,5 @@ export let echoService = (): service.EchoService => {
         throw new Error('Not Implemented')
     }
 
-    return {echoBody, echoQuery, echoHeader, echoUrlParams, sameOperationName}
+    return {echoBodyString, echoBody, echoQuery, echoHeader, echoUrlParams, sameOperationName}
 }

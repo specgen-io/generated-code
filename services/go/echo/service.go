@@ -14,6 +14,7 @@ type SameOperationNameResponse struct {
 }
 
 type Service interface {
+	EchoBodyString(body *string) (*string, error)
 	EchoBody(body *models.Message) (*models.Message, error)
 	EchoQuery(intQuery int, stringQuery string) (*models.Message, error)
 	EchoHeader(intHeader int, stringHeader string) (*models.Message, error)

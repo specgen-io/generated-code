@@ -28,6 +28,18 @@ public class EchoController {
 	@Autowired
 	private ObjectMapper objectMapper;
 
+	@PostMapping("/echo/body_string")
+	public ResponseEntity<String> echoBodyStringController(@RequestBody String bodyStr) throws IOException {
+		logger.info("Received request, operationId: echo.echo_body_string, method: POST, url: /echo/body_string");
+		HttpHeaders headers = new HttpHeaders();
+		headers.add(CONTENT_TYPE, "application/json");
+
+		var result = echoService.echoBodyString(bodyStr);
+
+		logger.info("Completed request with status code: {}", HttpStatus.OK);
+		return new ResponseEntity<>(result, headers, HttpStatus.OK);
+	}
+
 	@PostMapping("/echo/body")
 	public ResponseEntity<String> echoBodyController(@RequestBody String bodyStr) throws IOException {
 		logger.info("Received request, operationId: echo.echo_body, method: POST, url: /echo/body");

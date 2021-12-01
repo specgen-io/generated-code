@@ -7,6 +7,7 @@ import models._
 @ImplementedBy(classOf[EchoService])
 trait IEchoService {
   import IEchoService._
+  def echoBodyString(body: String): Future[EchoBodyStringResponse]
   def echoBody(body: Message): Future[EchoBodyResponse]
   def echoQuery(intQuery: Int, stringQuery: String): Future[EchoQueryResponse]
   def echoHeader(intHeader: Int, stringHeader: String): Future[EchoHeaderResponse]
@@ -15,6 +16,10 @@ trait IEchoService {
 }
 
 object IEchoService {
+  sealed trait EchoBodyStringResponse
+  object EchoBodyStringResponse {
+    case class Ok(body: String) extends EchoBodyStringResponse
+  }
   sealed trait EchoBodyResponse
   object EchoBodyResponse {
     case class Ok(body: Message) extends EchoBodyResponse

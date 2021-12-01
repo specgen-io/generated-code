@@ -1,5 +1,9 @@
 import * as models from './models'
 
+export interface EchoBodyStringParams {
+    body: string,
+}
+
 export interface EchoBodyParams {
     body: models.Message,
 }
@@ -24,6 +28,7 @@ export type SameOperationNameResponse =
     | { status: "forbidden" }
 
 export interface EchoService {
+    echoBodyString(params: EchoBodyStringParams): Promise<string>
     echoBody(params: EchoBodyParams): Promise<models.Message>
     echoQuery(params: EchoQueryParams): Promise<models.Message>
     echoHeader(params: EchoHeaderParams): Promise<models.Message>
