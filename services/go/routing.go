@@ -23,7 +23,7 @@ func AddEchoRoutes(router *vestigo.Router, echoService echo.Service) {
 			return
 		}
 		body := string(bodyData)
-		response, err := echoService.EchoBodyString(&body)
+		response, err := echoService.EchoBodyString(body)
 		if err != nil {
 			log.WithFields(logEchoBodyString).Errorf("Error returned from service implementation: %s", err.Error())
 			res.WriteHeader(500)
