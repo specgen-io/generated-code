@@ -152,7 +152,7 @@ func (client *Client) CheckForbidden() (*CheckForbiddenResponse, error) {
 			log.WithFields(logCheckForbidden).Error("Failed to parse response JSON", err.Error())
 			return nil, err
 		}
-		return &CheckForbiddenResponse{Ok: result}, nil
+		return &CheckForbiddenResponse{Ok: &result}, nil
 	}
 
 	if resp.StatusCode == 403 {
