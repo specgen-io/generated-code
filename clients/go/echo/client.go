@@ -28,8 +28,8 @@ func NewClient(baseUrl string) *Client {
 
 var logEchoBody = log.Fields{"operationId": "echo.echo_body", "method": "POST", "url": "/echo/body"}
 func (client *Client) EchoBody(body *models.Message) (*models.Message, error) {
-	bodyJSON, err := json.Marshal(body)
-	req, err := http.NewRequest("POST", client.baseUrl+"/echo/body", bytes.NewBuffer(bodyJSON))
+	bodyData, err := json.Marshal(body)
+	req, err := http.NewRequest("POST", client.baseUrl+"/echo/body", bytes.NewBuffer(bodyData))
 	if err != nil {
 		log.WithFields(logEchoBody).Error("Failed to create HTTP request", err.Error())
 		return nil, err
@@ -47,12 +47,13 @@ func (client *Client) EchoBody(body *models.Message) (*models.Message, error) {
 		responseBody, err := ioutil.ReadAll(resp.Body)
 		err = resp.Body.Close()
 
-		err = json.Unmarshal(responseBody, &body)
+		var result models.Message
+		err = json.Unmarshal(responseBody, &result)
 		if err != nil {
 			log.WithFields(logEchoBody).Error("Failed to parse response JSON", err.Error())
 			return nil, err
 		}
-		return body, nil
+		return &result, nil
 	}
 
 	msg := fmt.Sprintf("Unexpected status code received: %d", resp.StatusCode)
@@ -87,13 +88,13 @@ func (client *Client) EchoQuery(intQuery int, stringQuery string) (*models.Messa
 		responseBody, err := ioutil.ReadAll(resp.Body)
 		err = resp.Body.Close()
 
-		var body *models.Message
-		err = json.Unmarshal(responseBody, &body)
+		var result models.Message
+		err = json.Unmarshal(responseBody, &result)
 		if err != nil {
 			log.WithFields(logEchoQuery).Error("Failed to parse response JSON", err.Error())
 			return nil, err
 		}
-		return body, nil
+		return &result, nil
 	}
 
 	msg := fmt.Sprintf("Unexpected status code received: %d", resp.StatusCode)
@@ -127,13 +128,13 @@ func (client *Client) EchoHeader(intHeader int, stringHeader string) (*models.Me
 		responseBody, err := ioutil.ReadAll(resp.Body)
 		err = resp.Body.Close()
 
-		var body *models.Message
-		err = json.Unmarshal(responseBody, &body)
+		var result models.Message
+		err = json.Unmarshal(responseBody, &result)
 		if err != nil {
 			log.WithFields(logEchoHeader).Error("Failed to parse response JSON", err.Error())
 			return nil, err
 		}
-		return body, nil
+		return &result, nil
 	}
 
 	msg := fmt.Sprintf("Unexpected status code received: %d", resp.StatusCode)
@@ -162,13 +163,13 @@ func (client *Client) EchoUrlParams(intUrl int, stringUrl string) (*models.Messa
 		responseBody, err := ioutil.ReadAll(resp.Body)
 		err = resp.Body.Close()
 
-		var body *models.Message
-		err = json.Unmarshal(responseBody, &body)
+		var result models.Message
+		err = json.Unmarshal(responseBody, &result)
 		if err != nil {
 			log.WithFields(logEchoUrlParams).Error("Failed to parse response JSON", err.Error())
 			return nil, err
 		}
-		return body, nil
+		return &result, nil
 	}
 
 	msg := fmt.Sprintf("Unexpected status code received: %d", resp.StatusCode)

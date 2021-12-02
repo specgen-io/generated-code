@@ -146,13 +146,13 @@ func (client *Client) CheckForbidden() (*CheckForbiddenResponse, error) {
 		responseBody, err := ioutil.ReadAll(resp.Body)
 		err = resp.Body.Close()
 
-		var body *models.Message
-		err = json.Unmarshal(responseBody, &body)
+		var result models.Message
+		err = json.Unmarshal(responseBody, &result)
 		if err != nil {
 			log.WithFields(logCheckForbidden).Error("Failed to parse response JSON", err.Error())
 			return nil, err
 		}
-		return &CheckForbiddenResponse{Ok: body}, nil
+		return &CheckForbiddenResponse{Ok: result}, nil
 	}
 
 	if resp.StatusCode == 403 {
