@@ -32,7 +32,7 @@ public class EchoController {
 	public ResponseEntity<String> echoBodyStringController(@RequestBody String bodyStr) throws IOException {
 		logger.info("Received request, operationId: echo.echo_body_string, method: POST, url: /echo/body_string");
 		HttpHeaders headers = new HttpHeaders();
-		headers.add(CONTENT_TYPE, "application/json");
+		headers.add(CONTENT_TYPE, "text/plain");
 
 		var result = echoService.echoBodyString(bodyStr);
 
