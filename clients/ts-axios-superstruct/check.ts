@@ -8,8 +8,7 @@ export const client = (axiosInstance: AxiosInstance) => {
         axiosInstance,
 
         checkEmpty: async (): Promise<void> => {
-            const config: AxiosRequestConfig = {}
-            const response = await axiosInstance.get(`/check/empty`, config)
+            const response = await axiosInstance.get(`/check/empty`, {})
             switch (response.status) {
                 case 200:
                     return Promise.resolve()
@@ -32,8 +31,7 @@ export const client = (axiosInstance: AxiosInstance) => {
                 "p_enum": parameters.pEnum,
                 "p_string_defaulted": parameters.pStringDefaulted,
             }
-            const config: AxiosRequestConfig = {params: params,}
-            const response = await axiosInstance.get(`/check/query`, config)
+            const response = await axiosInstance.get(`/check/query`, {params: params})
             switch (response.status) {
                 case 200:
                     return Promise.resolve()
@@ -43,8 +41,7 @@ export const client = (axiosInstance: AxiosInstance) => {
         },
 
         checkUrlParams: async (parameters: {intUrl: number, stringUrl: string, floatUrl: number, boolUrl: boolean, uuidUrl: string, decimalUrl: number, dateUrl: string, enumUrl: models.Choice}): Promise<void> => {
-            const config: AxiosRequestConfig = {}
-            const response = await axiosInstance.get(`/check/url_params/${stringify(parameters.intUrl)}/${stringify(parameters.stringUrl)}/${stringify(parameters.floatUrl)}/${stringify(parameters.boolUrl)}/${stringify(parameters.uuidUrl)}/${stringify(parameters.decimalUrl)}/${stringify(parameters.dateUrl)}/${stringify(parameters.enumUrl)}`, config)
+            const response = await axiosInstance.get(`/check/url_params/${stringify(parameters.intUrl)}/${stringify(parameters.stringUrl)}/${stringify(parameters.floatUrl)}/${stringify(parameters.boolUrl)}/${stringify(parameters.uuidUrl)}/${stringify(parameters.decimalUrl)}/${stringify(parameters.dateUrl)}/${stringify(parameters.enumUrl)}`, {})
             switch (response.status) {
                 case 200:
                     return Promise.resolve()
@@ -54,8 +51,7 @@ export const client = (axiosInstance: AxiosInstance) => {
         },
 
         checkForbidden: async (): Promise<CheckForbiddenResponse> => {
-            const config: AxiosRequestConfig = {}
-            const response = await axiosInstance.get(`/check/forbidden`, config)
+            const response = await axiosInstance.get(`/check/forbidden`, {})
             switch (response.status) {
                 case 200:
                     return Promise.resolve({ status: "ok", data: t.decode(models.TMessage, response.data) })
@@ -67,8 +63,7 @@ export const client = (axiosInstance: AxiosInstance) => {
         },
 
         sameOperationName: async (): Promise<SameOperationNameResponse> => {
-            const config: AxiosRequestConfig = {}
-            const response = await axiosInstance.get(`/check/same_operation_name`, config)
+            const response = await axiosInstance.get(`/check/same_operation_name`, {})
             switch (response.status) {
                 case 200:
                     return Promise.resolve({ status: "ok" })

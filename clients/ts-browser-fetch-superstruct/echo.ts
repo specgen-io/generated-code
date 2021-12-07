@@ -6,11 +6,10 @@ export const client = (config: {baseURL: string}) => {
     return {
         echoBodyString: async (parameters: {body: string}): Promise<string> => {
             const url = config.baseURL+`/echo/body_string`
-            const bodyJson = t.encode(models.t.string(), parameters.body)
-            const response = await fetch(url, {method: 'POST', body: JSON.stringify(bodyJson)})
+            const response = await fetch(url, {method: 'POST', body: parameters.body})
             switch (response.status) {
                 case 200:
-                    return Promise.resolve(await response.json())
+                    return Promise.resolve(await response.text())
                 default:
                     throw new Error(`Unexpected status code ${ response.status }`)
             }
