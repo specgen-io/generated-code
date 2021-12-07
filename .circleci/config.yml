@@ -67,13 +67,13 @@ jobs:
           specgen: client-scala-sttp --spec-file ./spec.yaml --generate-path .
       - gen-client:
           path: clients/ts-axios-superstruct
-          specgen: client-ts ---client axios --validation superstruct --spec-file ./spec.yaml --generate-path .
+          specgen: client-ts --client axios --validation superstruct --spec-file ./spec.yaml --generate-path .
       - gen-client:
           path: clients/ts-axios-iots
-          specgen: client-ts-axios --validation io-ts --spec-file ./spec.yaml --generate-path .
+          specgen: client-ts --client axios --validation io-ts --spec-file ./spec.yaml --generate-path .
       - gen-client:
           path: clients/ts-browser-fetch-superstruct
-          specgen: client-ts ---client browser-fetch --validation superstruct --spec-file ./spec.yaml --generate-path .
+          specgen: client-ts --client browser-fetch --validation superstruct --spec-file ./spec.yaml --generate-path .
 
       - gen-service:
           path: services/openapi
