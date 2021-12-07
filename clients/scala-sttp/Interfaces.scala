@@ -4,6 +4,7 @@ import scala.concurrent._
 
 trait IEchoClient {
   import IEchoClient._
+  def echoBodyString(body: String): Future[EchoBodyStringResponse]
   def echoBody(body: Message): Future[EchoBodyResponse]
   def echoQuery(intQuery: Int, stringQuery: String): Future[EchoQueryResponse]
   def echoHeader(intHeader: Int, stringHeader: String): Future[EchoHeaderResponse]
@@ -21,6 +22,10 @@ trait ICheckClient {
 }
 
 object IEchoClient {
+  sealed trait EchoBodyStringResponse
+  object EchoBodyStringResponse {
+    case class Ok(body: String) extends EchoBodyStringResponse
+  }
   sealed trait EchoBodyResponse
   object EchoBodyResponse {
     case class Ok(body: Message) extends EchoBodyResponse

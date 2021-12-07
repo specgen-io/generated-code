@@ -1,4 +1,5 @@
 import { AxiosInstance, AxiosRequestConfig } from 'axios'
+import { params, stringify } from './params'
 import * as t from './io-ts'
 import * as models from './models'
 
@@ -43,7 +44,7 @@ export const client = (axiosInstance: AxiosInstance) => {
 
         checkUrlParams: async (parameters: {intUrl: number, stringUrl: string, floatUrl: number, boolUrl: boolean, uuidUrl: string, decimalUrl: number, dateUrl: string, enumUrl: models.Choice}): Promise<void> => {
             const config: AxiosRequestConfig = {}
-            const response = await axiosInstance.get(`/check/url_params/${parameters.intUrl}/${parameters.stringUrl}/${parameters.floatUrl}/${parameters.boolUrl}/${parameters.uuidUrl}/${parameters.decimalUrl}/${parameters.dateUrl}/${parameters.enumUrl}`, config)
+            const response = await axiosInstance.get(`/check/url_params/${stringify(parameters.intUrl)}/${stringify(parameters.stringUrl)}/${stringify(parameters.floatUrl)}/${stringify(parameters.boolUrl)}/${stringify(parameters.uuidUrl)}/${stringify(parameters.decimalUrl)}/${stringify(parameters.dateUrl)}/${stringify(parameters.enumUrl)}`, config)
             switch (response.status) {
                 case 200:
                     return Promise.resolve()

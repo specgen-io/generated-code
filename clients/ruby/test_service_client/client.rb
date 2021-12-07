@@ -5,6 +5,19 @@ require "emery"
 
 module TestService
   class EchoClient < TestService::BaseClient
+    def echo_body_string(body:)
+      url = @base_uri + '/echo/body_string'
+      request = Net::HTTP::Post.new(url)
+      request.body = T.check_var('body', String, body)
+      response = @client.request(request)
+      case response.code
+      when '200'
+        OpenStruct.new(:ok => response.body, :ok? => true)
+      else
+        raise StandardError.new("Unexpected HTTP response code #{response.code}")
+      end
+    end
+
     def echo_body(body:)
       url = @base_uri + '/echo/body'
       request = Net::HTTP::Post.new(url)

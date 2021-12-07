@@ -18,6 +18,12 @@ v2:
 
 http:
   echo:
+    echo_body_string:
+      endpoint: POST /echo/body_string
+      body: string
+      response:
+        ok: string
+  
     echo_body:
       endpoint: POST /echo/body
       body: Message

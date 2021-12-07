@@ -1,79 +1,77 @@
-import { AxiosInstance, AxiosRequestConfig } from 'axios'
 import { params, stringify } from './params'
-import * as t from './io-ts'
+import * as t from './superstruct'
 import * as models from './models'
 
-export const client = (axiosInstance: AxiosInstance) => {
+export const client = (config: {baseURL: string}) => {
     return {
-        axiosInstance,
-
         echoBodyString: async (parameters: {body: string}): Promise<string> => {
-            const config: AxiosRequestConfig = {}
-            const response = await axiosInstance.post(`/echo/body_string`, parameters.body, config)
+            const url = config.baseURL+`/echo/body_string`
+            const bodyJson = t.encode(models.t.string(), parameters.body)
+            const response = await fetch(url, {method: 'POST', body: JSON.stringify(bodyJson)})
             switch (response.status) {
                 case 200:
-                    return Promise.resolve(response.data)
+                    return Promise.resolve(await response.json())
                 default:
                     throw new Error(`Unexpected status code ${ response.status }`)
             }
         },
 
         echoBody: async (parameters: {body: models.Message}): Promise<models.Message> => {
-            const config: AxiosRequestConfig = {}
+            const url = config.baseURL+`/echo/body`
             const bodyJson = t.encode(models.TMessage, parameters.body)
-            const response = await axiosInstance.post(`/echo/body`, bodyJson, config)
+            const response = await fetch(url, {method: 'POST', body: JSON.stringify(bodyJson)})
             switch (response.status) {
                 case 200:
-                    return Promise.resolve(t.decode(models.TMessage, response.data))
+                    return Promise.resolve(t.decode(models.TMessage, await response.json()))
                 default:
                     throw new Error(`Unexpected status code ${ response.status }`)
             }
         },
 
         echoQuery: async (parameters: {intQuery: number, stringQuery: string}): Promise<models.Message> => {
-            const params = {
+            const query = params({
                 "int_query": parameters.intQuery,
                 "string_query": parameters.stringQuery,
-            }
-            const config: AxiosRequestConfig = {params: params,}
-            const response = await axiosInstance.get(`/echo/query`, config)
+            })
+            const url = config.baseURL+`/echo/query?${new URLSearchParams(query)}`
+            const response = await fetch(url, {method: 'GET'})
             switch (response.status) {
                 case 200:
-                    return Promise.resolve(t.decode(models.TMessage, response.data))
+                    return Promise.resolve(t.decode(models.TMessage, await response.json()))
                 default:
                     throw new Error(`Unexpected status code ${ response.status }`)
             }
         },
 
         echoHeader: async (parameters: {intHeader: number, stringHeader: string}): Promise<models.Message> => {
-            const headers = {
+            const headers = params({
                 "Int-Header": parameters.intHeader,
                 "String-Header": parameters.stringHeader,
-            }
-            const config: AxiosRequestConfig = {headers: headers,}
-            const response = await axiosInstance.get(`/echo/header`, config)
+            })
+            const url = config.baseURL+`/echo/header`
+            const response = await fetch(url, {method: 'GET', headers: headers})
             switch (response.status) {
                 case 200:
-                    return Promise.resolve(t.decode(models.TMessage, response.data))
+                    return Promise.resolve(t.decode(models.TMessage, await response.json()))
                 default:
                     throw new Error(`Unexpected status code ${ response.status }`)
             }
         },
 
         echoUrlParams: async (parameters: {intUrl: number, stringUrl: string}): Promise<models.Message> => {
-            const config: AxiosRequestConfig = {}
-            const response = await axiosInstance.get(`/echo/url_params/${stringify(parameters.intUrl)}/${stringify(parameters.stringUrl)}`, config)
+            const url = config.baseURL+`/echo/url_params/${stringify(parameters.intUrl)}/${stringify(parameters.stringUrl)}`
+            const response = await fetch(url, {method: 'GET'})
             switch (response.status) {
                 case 200:
-                    return Promise.resolve(t.decode(models.TMessage, response.data))
+                    return Promise.resolve(t.decode(models.TMessage, await response.json()))
                 default:
                     throw new Error(`Unexpected status code ${ response.status }`)
             }
         },
 
         sameOperationName: async (): Promise<SameOperationNameResponse> => {
-            const config: AxiosRequestConfig = {}
-            const response = await axiosInstance.get(`/echo/same_operation_name`, config)
+            const url = config.baseURL+`/echo/same_operation_name`
+            const response = await fetch(url, {method: 'GET'})
             switch (response.status) {
                 case 200:
                     return Promise.resolve({ status: "ok" })

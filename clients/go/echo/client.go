@@ -26,6 +26,40 @@ func NewClient(baseUrl string) *Client {
 	return &Client{baseUrl}
 }
 
+var logEchoBodyString = log.Fields{"operationId": "echo.echo_body_string", "method": "POST", "url": "/echo/body_string"}
+func (client *Client) EchoBodyString(body string) (*string, error) {
+	bodyData := []byte(body)
+	req, err := http.NewRequest("POST", client.baseUrl+"/echo/body_string", bytes.NewBuffer(bodyData))
+	if err != nil {
+		log.WithFields(logEchoBodyString).Error("Failed to create HTTP request", err.Error())
+		return nil, err
+	}
+
+	log.WithFields(logEchoBodyString).Info("Sending request")
+	resp, err := http.DefaultClient.Do(req)
+	if err != nil {
+		log.WithFields(logEchoBodyString).Error("Request failed", err.Error())
+		return nil, err
+	}
+
+	if resp.StatusCode == 200 {
+		log.WithFields(logEchoBodyString).WithField("status", 200).Info("Received response")
+		responseBody, err := ioutil.ReadAll(resp.Body)
+		err = resp.Body.Close()
+		if err != nil {
+			log.WithFields(logEchoBodyString).Error("Reading request body failed", err.Error())
+			return nil, err
+		}
+		result := string(responseBody)
+		return &result, nil
+	}
+
+	msg := fmt.Sprintf("Unexpected status code received: %d", resp.StatusCode)
+	log.WithFields(logEchoBodyString).Error(msg)
+	err = errors.New(msg)
+	return nil, err
+}
+
 var logEchoBody = log.Fields{"operationId": "echo.echo_body", "method": "POST", "url": "/echo/body"}
 func (client *Client) EchoBody(body *models.Message) (*models.Message, error) {
 	bodyData, err := json.Marshal(body)

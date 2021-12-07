@@ -1,19 +1,16 @@
-import { AxiosInstance, AxiosRequestConfig } from 'axios'
 import { params, stringify } from './../params'
 import * as t from './../superstruct'
 import * as models from './models'
 
-export const client = (axiosInstance: AxiosInstance) => {
+export const client = (config: {baseURL: string}) => {
     return {
-        axiosInstance,
-
         echoBody: async (parameters: {body: models.Message}): Promise<models.Message> => {
-            const config: AxiosRequestConfig = {}
+            const url = config.baseURL+`/echo/body`
             const bodyJson = t.encode(models.TMessage, parameters.body)
-            const response = await axiosInstance.post(`/echo/body`, bodyJson, config)
+            const response = await fetch(url, {method: 'POST', body: JSON.stringify(bodyJson)})
             switch (response.status) {
                 case 200:
-                    return Promise.resolve(t.decode(models.TMessage, response.data))
+                    return Promise.resolve(t.decode(models.TMessage, await response.json()))
                 default:
                     throw new Error(`Unexpected status code ${ response.status }`)
             }

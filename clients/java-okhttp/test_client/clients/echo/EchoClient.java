@@ -28,6 +28,42 @@ public class EchoClient {
 		this.client = new OkHttpClient();
 	}
 
+	public String echoBodyString(String body) {
+		var requestBody = RequestBody.create(body, MediaType.parse("text/plain"));
+		var url = new UrlBuilder(baseUrl);
+		url.addPathSegment("echo/body_string");
+
+		var request = new RequestBuilder("POST", url.build(), requestBody);
+
+		logger.info("Sending request, operationId: echo.echo_body_string, method: POST, url: /echo/body_string");
+		Response response;
+		try {
+			response = client.newCall(request.build()).execute();
+		} catch (IOException e) {
+			var errorMessage = "Failed to execute the request " + e.getMessage();
+			logger.error(errorMessage);
+			throw new ClientException(errorMessage, e);
+		}
+
+		switch (response.code()) {
+			case 200:
+				logger.info("Received response with status code {}", response.code());
+				String responseBody;
+				try {
+					responseBody = response.body().string();
+				} catch (IOException e) {
+					var errorMessage = "Failed to deserialize response body " + e.getMessage();
+					logger.error(errorMessage);
+					throw new ClientException(errorMessage, e);
+				}
+				return responseBody;
+			default:
+				var errorMessage = "Unexpected status code received: " + response.code();
+				logger.error(errorMessage);
+				throw new ClientException(errorMessage);
+		}
+	}
+
 	public Message echoBody(Message body) {
 		String bodyJson;
 		try {

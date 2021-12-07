@@ -10,6 +10,35 @@ class EchoClient(baseUrl: String)(implicit backend: SttpBackend[Future, Nothing]
   import IEchoClient._
   import ExecutionContext.Implicits.global
   private val logger: Logger = LoggerFactory.getLogger(this.getClass)
+  def echoBodyString(body: String): Future[EchoBodyStringResponse] = {
+    val url = Uri.parse(baseUrl+s"/echo/body_string").get
+    logger.debug(s"Request to url: ${url}, body: ${body}")
+    val response: Future[Response[String]] =
+      sttp
+        .post(url)
+        .header("Content-Type", "application/text")
+        .body(body)
+        .parseResponseIf { status => status < 500 }
+        .send()
+    response.map {
+      response: Response[String] =>
+        response.body match {
+          case Right(body) =>
+            logger.debug(s"Response status: ${response.code}, body: ${body}")
+            response.code match {
+              case 200 => EchoBodyStringResponse.Ok(body)
+              case _ => 
+                val errorMessage = s"Request returned unexpected status code: ${response.code}, body: ${new String(body)}"
+                logger.error(errorMessage)
+                throw new RuntimeException(errorMessage)
+            }
+          case Left(errorData) =>
+            val errorMessage = s"Request failed, status code: ${response.code}, body: ${new String(errorData)}"
+            logger.error(errorMessage)
+            throw new RuntimeException(errorMessage)
+        }
+    }
+  }
   def echoBody(body: Message): Future[EchoBodyResponse] = {
     val url = Uri.parse(baseUrl+s"/echo/body").get
     val bodyJson = Jsoner.write(body)

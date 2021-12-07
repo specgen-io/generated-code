@@ -1,10 +1,22 @@
 import { AxiosInstance, AxiosRequestConfig } from 'axios'
+import { params, stringify } from './params'
 import * as t from './superstruct'
 import * as models from './models'
 
 export const client = (axiosInstance: AxiosInstance) => {
     return {
         axiosInstance,
+
+        echoBodyString: async (parameters: {body: string}): Promise<string> => {
+            const config: AxiosRequestConfig = {}
+            const response = await axiosInstance.post(`/echo/body_string`, parameters.body, config)
+            switch (response.status) {
+                case 200:
+                    return Promise.resolve(response.data)
+                default:
+                    throw new Error(`Unexpected status code ${ response.status }`)
+            }
+        },
 
         echoBody: async (parameters: {body: models.Message}): Promise<models.Message> => {
             const config: AxiosRequestConfig = {}
@@ -50,7 +62,7 @@ export const client = (axiosInstance: AxiosInstance) => {
 
         echoUrlParams: async (parameters: {intUrl: number, stringUrl: string}): Promise<models.Message> => {
             const config: AxiosRequestConfig = {}
-            const response = await axiosInstance.get(`/echo/url_params/${parameters.intUrl}/${parameters.stringUrl}`, config)
+            const response = await axiosInstance.get(`/echo/url_params/${stringify(parameters.intUrl)}/${stringify(parameters.stringUrl)}`, config)
             switch (response.status) {
                 case 200:
                     return Promise.resolve(t.decode(models.TMessage, response.data))

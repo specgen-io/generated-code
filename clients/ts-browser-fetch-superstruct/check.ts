@@ -1,15 +1,12 @@
-import { AxiosInstance, AxiosRequestConfig } from 'axios'
 import { params, stringify } from './params'
 import * as t from './superstruct'
 import * as models from './models'
 
-export const client = (axiosInstance: AxiosInstance) => {
+export const client = (config: {baseURL: string}) => {
     return {
-        axiosInstance,
-
         checkEmpty: async (): Promise<void> => {
-            const config: AxiosRequestConfig = {}
-            const response = await axiosInstance.get(`/check/empty`, config)
+            const url = config.baseURL+`/check/empty`
+            const response = await fetch(url, {method: 'GET'})
             switch (response.status) {
                 case 200:
                     return Promise.resolve()
@@ -19,7 +16,7 @@ export const client = (axiosInstance: AxiosInstance) => {
         },
 
         checkQuery: async (parameters: {pString: string, pStringArray: string[], pDate: string, pDateArray: string[], pDatetime: Date, pInt: number, pLong: number, pDecimal: number, pEnum: models.Choice, pStringOpt?: string | undefined, pStringDefaulted?: string | undefined}): Promise<void> => {
-            const params = {
+            const query = params({
                 "p_string": parameters.pString,
                 "p_string_opt": parameters.pStringOpt,
                 "p_string_array": parameters.pStringArray,
@@ -31,9 +28,9 @@ export const client = (axiosInstance: AxiosInstance) => {
                 "p_decimal": parameters.pDecimal,
                 "p_enum": parameters.pEnum,
                 "p_string_defaulted": parameters.pStringDefaulted,
-            }
-            const config: AxiosRequestConfig = {params: params,}
-            const response = await axiosInstance.get(`/check/query`, config)
+            })
+            const url = config.baseURL+`/check/query?${new URLSearchParams(query)}`
+            const response = await fetch(url, {method: 'GET'})
             switch (response.status) {
                 case 200:
                     return Promise.resolve()
@@ -43,8 +40,8 @@ export const client = (axiosInstance: AxiosInstance) => {
         },
 
         checkUrlParams: async (parameters: {intUrl: number, stringUrl: string, floatUrl: number, boolUrl: boolean, uuidUrl: string, decimalUrl: number, dateUrl: string, enumUrl: models.Choice}): Promise<void> => {
-            const config: AxiosRequestConfig = {}
-            const response = await axiosInstance.get(`/check/url_params/${stringify(parameters.intUrl)}/${stringify(parameters.stringUrl)}/${stringify(parameters.floatUrl)}/${stringify(parameters.boolUrl)}/${stringify(parameters.uuidUrl)}/${stringify(parameters.decimalUrl)}/${stringify(parameters.dateUrl)}/${stringify(parameters.enumUrl)}`, config)
+            const url = config.baseURL+`/check/url_params/${stringify(parameters.intUrl)}/${stringify(parameters.stringUrl)}/${stringify(parameters.floatUrl)}/${stringify(parameters.boolUrl)}/${stringify(parameters.uuidUrl)}/${stringify(parameters.decimalUrl)}/${stringify(parameters.dateUrl)}/${stringify(parameters.enumUrl)}`
+            const response = await fetch(url, {method: 'GET'})
             switch (response.status) {
                 case 200:
                     return Promise.resolve()
@@ -54,11 +51,11 @@ export const client = (axiosInstance: AxiosInstance) => {
         },
 
         checkForbidden: async (): Promise<CheckForbiddenResponse> => {
-            const config: AxiosRequestConfig = {}
-            const response = await axiosInstance.get(`/check/forbidden`, config)
+            const url = config.baseURL+`/check/forbidden`
+            const response = await fetch(url, {method: 'GET'})
             switch (response.status) {
                 case 200:
-                    return Promise.resolve({ status: "ok", data: t.decode(models.TMessage, response.data) })
+                    return Promise.resolve({ status: "ok", data: t.decode(models.TMessage, await response.json()) })
                 case 403:
                     return Promise.resolve({ status: "forbidden" })
                 default:
@@ -67,8 +64,8 @@ export const client = (axiosInstance: AxiosInstance) => {
         },
 
         sameOperationName: async (): Promise<SameOperationNameResponse> => {
-            const config: AxiosRequestConfig = {}
-            const response = await axiosInstance.get(`/check/same_operation_name`, config)
+            const url = config.baseURL+`/check/same_operation_name`
+            const response = await fetch(url, {method: 'GET'})
             switch (response.status) {
                 case 200:
                     return Promise.resolve({ status: "ok" })
