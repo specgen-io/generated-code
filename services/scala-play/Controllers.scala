@@ -57,7 +57,7 @@ class EchoController @Inject()(api: IEchoService, cc: ControllerComponents)(impl
   def echoHeader() = Action.async {
     implicit request =>
       val params = Try {
-        val header = new StringParamsReader(request.headers.get)
+        val header = new StringParamsReader(request.headers.toMap)
         val intHeader = header.read[Int]("Int-Header").get
         val stringHeader = header.read[String]("String-Header").get
         (intHeader, stringHeader)
