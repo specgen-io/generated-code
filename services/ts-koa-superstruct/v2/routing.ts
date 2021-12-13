@@ -1,4 +1,5 @@
 import Router from '@koa/router'
+import {zipHeaders} from './../params'
 import * as t from './../superstruct'
 import * as models from './models'
 import {EchoService} from './echo_service'

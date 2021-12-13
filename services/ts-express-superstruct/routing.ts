@@ -1,5 +1,6 @@
 import {Router} from 'express'
 import {Request, Response} from 'express'
+import {zipHeaders} from './params'
 import * as t from './superstruct'
 import * as models from './models'
 import {EchoService} from './echo_service'
@@ -13,8 +14,8 @@ const TEchoQueryQueryParams = t.type({
 type EchoQueryQueryParams = t.Infer<typeof TEchoQueryQueryParams>
 
 const TEchoHeaderHeaderParams = t.type({
-    'int-header': t.StrInteger,
-    'string-header': t.string(),
+    'Int-Header': t.StrInteger,
+    'String-Header': t.string(),
 })
 
 type EchoHeaderHeaderParams = t.Infer<typeof TEchoHeaderHeaderParams>
@@ -79,7 +80,7 @@ export let echoRouter = (service: EchoService) => {
     router.get('/echo/header', async (request: Request, response: Response) => {
         var headerParams: EchoHeaderHeaderParams
         try {
-            headerParams = t.decode(TEchoHeaderHeaderParams, request.headers)
+            headerParams = t.decode(TEchoHeaderHeaderParams, zipHeaders(request.rawHeaders))
         } catch (error) {
             response.status(400).send()
             return

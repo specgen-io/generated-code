@@ -14,8 +14,8 @@ export interface EchoQueryParams {
 }
 
 export interface EchoHeaderParams {
-    'int-header': number,
-    'string-header': string,
+    'Int-Header': number,
+    'String-Header': string,
 }
 
 export interface EchoUrlParamsParams {
