@@ -131,12 +131,12 @@ public class EchoController {
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 
-		if (result instanceof SameOperationNameResponseOk) {
+		if (result instanceof SameOperationNameResponse.Ok) {
 			logger.info("Completed request with status code: {}", HttpStatus.OK);
 			return new ResponseEntity<>(HttpStatus.OK);
 		}
 
-		if (result instanceof SameOperationNameResponseForbidden) {
+		if (result instanceof SameOperationNameResponse.Forbidden) {
 			logger.info("Completed request with status code: {}", HttpStatus.FORBIDDEN);
 			return new ResponseEntity<>(HttpStatus.FORBIDDEN);
 		}
