@@ -51,7 +51,7 @@ export const TNonNumericFields = t.interface({
     string_field: t.string,
     uuid_field: t.string,
     date_field: t.string,
-    datetime_field: t.DateFromISOString,
+    datetime_field: t.DateISOStringNoTimezone,
 })
 
 export type NonNumericFields = t.TypeOf<typeof TNonNumericFields>
