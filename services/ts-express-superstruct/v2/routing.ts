@@ -19,7 +19,6 @@ export let echoRouter = (service: EchoService) => {
         try {
             let result = await service.echoBody({body})
             response.status(200).type('json').send(JSON.stringify(t.encode(models.TMessage, result)))
-            return
         } catch (error) {
             response.status(500).send()
         }

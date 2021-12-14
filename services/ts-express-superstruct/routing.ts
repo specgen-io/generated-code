@@ -40,7 +40,6 @@ export let echoRouter = (service: EchoService) => {
         try {
             let result = await service.echoBodyString({body})
             response.status(200).type('text').send(result)
-            return
         } catch (error) {
             response.status(500).send()
         }
@@ -57,7 +56,6 @@ export let echoRouter = (service: EchoService) => {
         try {
             let result = await service.echoBody({body})
             response.status(200).type('json').send(JSON.stringify(t.encode(models.TMessage, result)))
-            return
         } catch (error) {
             response.status(500).send()
         }
@@ -74,7 +72,6 @@ export let echoRouter = (service: EchoService) => {
         try {
             let result = await service.echoQuery({...queryParams})
             response.status(200).type('json').send(JSON.stringify(t.encode(models.TMessage, result)))
-            return
         } catch (error) {
             response.status(500).send()
         }
@@ -91,7 +88,6 @@ export let echoRouter = (service: EchoService) => {
         try {
             let result = await service.echoHeader({...headerParams})
             response.status(200).type('json').send(JSON.stringify(t.encode(models.TMessage, result)))
-            return
         } catch (error) {
             response.status(500).send()
         }
@@ -108,7 +104,6 @@ export let echoRouter = (service: EchoService) => {
         try {
             let result = await service.echoUrlParams({...urlParams})
             response.status(200).type('json').send(JSON.stringify(t.encode(models.TMessage, result)))
-            return
         } catch (error) {
             response.status(500).send()
         }
@@ -120,10 +115,8 @@ export let echoRouter = (service: EchoService) => {
             switch (result.status) {
                 case 'ok':
                     response.status(200).send()
-                    return
                 case 'forbidden':
                     response.status(403).send()
-                    return
             }
         } catch (error) {
             response.status(500).send()
@@ -169,7 +162,6 @@ export let checkRouter = (service: CheckService) => {
         try {
             await service.checkEmpty()
             response.status(200).send()
-            return
         } catch (error) {
             response.status(500).send()
         }
@@ -186,7 +178,6 @@ export let checkRouter = (service: CheckService) => {
         try {
             await service.checkQuery({...queryParams})
             response.status(200).send()
-            return
         } catch (error) {
             response.status(500).send()
         }
@@ -203,7 +194,6 @@ export let checkRouter = (service: CheckService) => {
         try {
             await service.checkUrlParams({...urlParams})
             response.status(200).send()
-            return
         } catch (error) {
             response.status(500).send()
         }
@@ -215,10 +205,8 @@ export let checkRouter = (service: CheckService) => {
             switch (result.status) {
                 case 'ok':
                     response.status(200).type('json').send(JSON.stringify(t.encode(models.TMessage, result.data)))
-                    return
                 case 'forbidden':
                     response.status(403).send()
-                    return
             }
         } catch (error) {
             response.status(500).send()
@@ -231,10 +219,8 @@ export let checkRouter = (service: CheckService) => {
             switch (result.status) {
                 case 'ok':
                     response.status(200).send()
-                    return
                 case 'forbidden':
                     response.status(403).send()
-                    return
             }
         } catch (error) {
             response.status(500).send()

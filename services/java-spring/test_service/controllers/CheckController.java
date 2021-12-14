@@ -73,9 +73,11 @@ public class CheckController {
 		var result = checkService.checkForbidden();
 
 		if (result instanceof CheckForbiddenResponseOk) {
+			String responseJson = objectMapper.writeValueAsString(((CheckForbiddenResponseOk) result).ok);
 			logger.info("Completed request with status code: {}", HttpStatus.OK);
-			return new ResponseEntity<>(HttpStatus.OK);
+			return new ResponseEntity<>(responseJson, headers, HttpStatus.OK);
 		}
+
 		if (result instanceof CheckForbiddenResponseForbidden) {
 			logger.info("Completed request with status code: {}", HttpStatus.FORBIDDEN);
 			return new ResponseEntity<>(HttpStatus.FORBIDDEN);
@@ -97,6 +99,7 @@ public class CheckController {
 			logger.info("Completed request with status code: {}", HttpStatus.OK);
 			return new ResponseEntity<>(HttpStatus.OK);
 		}
+
 		if (result instanceof SameOperationNameResponseForbidden) {
 			logger.info("Completed request with status code: {}", HttpStatus.FORBIDDEN);
 			return new ResponseEntity<>(HttpStatus.FORBIDDEN);

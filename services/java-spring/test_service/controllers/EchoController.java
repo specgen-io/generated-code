@@ -111,6 +111,7 @@ public class EchoController {
 			logger.info("Completed request with status code: {}", HttpStatus.OK);
 			return new ResponseEntity<>(HttpStatus.OK);
 		}
+
 		if (result instanceof SameOperationNameResponseForbidden) {
 			logger.info("Completed request with status code: {}", HttpStatus.FORBIDDEN);
 			return new ResponseEntity<>(HttpStatus.FORBIDDEN);
