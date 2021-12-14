@@ -155,10 +155,10 @@ public class CheckClient {
 					logger.error(errorMessage);
 					throw new ClientException(errorMessage, e);
 				}
-				return new CheckForbiddenResponseOk(responseBody);
+				return new CheckForbiddenResponse.Ok(responseBody);
 			case 403:
 				logger.info("Received response with status code {}", response.code());
-				return new CheckForbiddenResponseForbidden();
+				return new CheckForbiddenResponse.Forbidden();
 			default:
 				var errorMessage = "Unexpected status code received: " + response.code();
 				logger.error(errorMessage);
@@ -185,10 +185,10 @@ public class CheckClient {
 		switch (response.code()) {
 			case 200:
 				logger.info("Received response with status code {}", response.code());
-				return new SameOperationNameResponseOk();
+				return new SameOperationNameResponse.Ok();
 			case 403:
 				logger.info("Received response with status code {}", response.code());
-				return new SameOperationNameResponseForbidden();
+				return new SameOperationNameResponse.Forbidden();
 			default:
 				var errorMessage = "Unexpected status code received: " + response.code();
 				logger.error(errorMessage);

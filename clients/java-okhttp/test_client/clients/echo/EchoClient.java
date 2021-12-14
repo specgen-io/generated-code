@@ -239,10 +239,10 @@ public class EchoClient {
 		switch (response.code()) {
 			case 200:
 				logger.info("Received response with status code {}", response.code());
-				return new SameOperationNameResponseOk();
+				return new SameOperationNameResponse.Ok();
 			case 403:
 				logger.info("Received response with status code {}", response.code());
-				return new SameOperationNameResponseForbidden();
+				return new SameOperationNameResponse.Forbidden();
 			default:
 				var errorMessage = "Unexpected status code received: " + response.code();
 				logger.error(errorMessage);
