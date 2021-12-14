@@ -42,6 +42,10 @@ public class EchoController {
 			return new ResponseEntity<>(headers, HttpStatus.BAD_REQUEST);
 		}
 		var result = echoService.echoBody(requestBody);
+		if (result == null) {
+			logger.error("Completed request with status code: {}", HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 		String responseJson = objectMapper.writeValueAsString(result);
 
 		logger.info("Completed request with status code: {}", HttpStatus.OK);

@@ -71,6 +71,10 @@ public class CheckController {
 		headers.add(CONTENT_TYPE, "application/json");
 
 		var result = checkService.checkForbidden();
+		if (result == null) {
+			logger.error("Completed request with status code: {}", HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 
 		if (result instanceof CheckForbiddenResponseOk) {
 			String responseJson = objectMapper.writeValueAsString(((CheckForbiddenResponseOk) result).ok);
@@ -94,6 +98,10 @@ public class CheckController {
 		headers.add(CONTENT_TYPE, "application/json");
 
 		var result = checkService.sameOperationName();
+		if (result == null) {
+			logger.error("Completed request with status code: {}", HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 
 		if (result instanceof SameOperationNameResponseOk) {
 			logger.info("Completed request with status code: {}", HttpStatus.OK);

@@ -35,6 +35,10 @@ public class EchoController {
 		headers.add(CONTENT_TYPE, "text/plain");
 
 		var result = echoService.echoBodyString(bodyStr);
+		if (result == null) {
+			logger.error("Completed request with status code: {}", HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 
 		logger.info("Completed request with status code: {}", HttpStatus.OK);
 		return new ResponseEntity<>(result, headers, HttpStatus.OK);
@@ -54,6 +58,10 @@ public class EchoController {
 			return new ResponseEntity<>(headers, HttpStatus.BAD_REQUEST);
 		}
 		var result = echoService.echoBody(requestBody);
+		if (result == null) {
+			logger.error("Completed request with status code: {}", HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 		String responseJson = objectMapper.writeValueAsString(result);
 
 		logger.info("Completed request with status code: {}", HttpStatus.OK);
@@ -67,6 +75,10 @@ public class EchoController {
 		headers.add(CONTENT_TYPE, "application/json");
 
 		var result = echoService.echoQuery(intQuery, stringQuery);
+		if (result == null) {
+			logger.error("Completed request with status code: {}", HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 		String responseJson = objectMapper.writeValueAsString(result);
 
 		logger.info("Completed request with status code: {}", HttpStatus.OK);
@@ -80,6 +92,10 @@ public class EchoController {
 		headers.add(CONTENT_TYPE, "application/json");
 
 		var result = echoService.echoHeader(intHeader, stringHeader);
+		if (result == null) {
+			logger.error("Completed request with status code: {}", HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 		String responseJson = objectMapper.writeValueAsString(result);
 
 		logger.info("Completed request with status code: {}", HttpStatus.OK);
@@ -93,6 +109,10 @@ public class EchoController {
 		headers.add(CONTENT_TYPE, "application/json");
 
 		var result = echoService.echoUrlParams(intUrl, stringUrl);
+		if (result == null) {
+			logger.error("Completed request with status code: {}", HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 		String responseJson = objectMapper.writeValueAsString(result);
 
 		logger.info("Completed request with status code: {}", HttpStatus.OK);
@@ -106,6 +126,10 @@ public class EchoController {
 		headers.add(CONTENT_TYPE, "application/json");
 
 		var result = echoService.sameOperationName();
+		if (result == null) {
+			logger.error("Completed request with status code: {}", HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 
 		if (result instanceof SameOperationNameResponseOk) {
 			logger.info("Completed request with status code: {}", HttpStatus.OK);
