@@ -46,9 +46,9 @@ class EchoController @Inject()(api: IEchoService, cc: ControllerComponents)(impl
           response.recover { case _: Exception => InternalServerError }
       }
   }
-  def echoQuery(int_query: Int, string_query: String) = Action.async {
+  def echoQuery(int_query: Int, long_query: Long, float_query: Float, double_query: Double, decimal_query: BigDecimal, bool_query: Boolean, string_query: String, string_opt_query: Option[String], string_defaulted_query: String, string_array_query: List[String], uuid_query: java.util.UUID, date_query: java.time.LocalDate, date_array_query: List[java.time.LocalDate], datetime_query: java.time.LocalDateTime, enum_query: Choice) = Action.async {
     implicit request =>
-      val result = api.echoQuery(int_query, string_query)
+      val result = api.echoQuery(int_query, long_query, float_query, double_query, decimal_query, bool_query, string_query, string_opt_query, string_defaulted_query, string_array_query, uuid_query, date_query, date_array_query, datetime_query, enum_query)
       val response = result.map {
         case EchoQueryResponse.Ok(body) => new Status(200)(Jsoner.write(body))
       }
@@ -59,27 +59,61 @@ class EchoController @Inject()(api: IEchoService, cc: ControllerComponents)(impl
       val params = Try {
         val header = new StringParamsReader(request.headers.toMap)
         val intHeader = header.read[Int]("Int-Header").get
+        val longHeader = header.read[Long]("Long-Header").get
+        val floatHeader = header.read[Float]("Float-Header").get
+        val doubleHeader = header.read[Double]("Double-Header").get
+        val decimalHeader = header.read[BigDecimal]("Decimal-Header").get
+        val boolHeader = header.read[Boolean]("Bool-Header").get
         val stringHeader = header.read[String]("String-Header").get
-        (intHeader, stringHeader)
+        val stringOptHeader = header.read[String]("String-Opt-Header")
+        val stringDefaultedHeader = header.read[String]("String-Defaulted-Header").getOrElse("the default value")
+        val stringArrayHeader = header.readList[String]("String-Array-Header").get
+        val uuidHeader = header.read[java.util.UUID]("Uuid-Header").get
+        val dateHeader = header.read[java.time.LocalDate]("Date-Header").get
+        val dateArrayHeader = header.readList[java.time.LocalDate]("Date-Array-Header").get
+        val datetimeHeader = header.read[java.time.LocalDateTime]("Datetime-Header").get
+        val enumHeader = header.read[Choice]("Enum-Header").get
+        (intHeader, longHeader, floatHeader, doubleHeader, decimalHeader, boolHeader, stringHeader, stringOptHeader, stringDefaultedHeader, stringArrayHeader, uuidHeader, dateHeader, dateArrayHeader, datetimeHeader, enumHeader)
       }
       params match {
         case Failure(ex) => Future { BadRequest }
         case Success(params) => 
-          val (intHeader, stringHeader) = params
-          val result = api.echoHeader(intHeader, stringHeader)
+          val (intHeader, longHeader, floatHeader, doubleHeader, decimalHeader, boolHeader, stringHeader, stringOptHeader, stringDefaultedHeader, stringArrayHeader, uuidHeader, dateHeader, dateArrayHeader, datetimeHeader, enumHeader) = params
+          val result = api.echoHeader(intHeader, longHeader, floatHeader, doubleHeader, decimalHeader, boolHeader, stringHeader, stringOptHeader, stringDefaultedHeader, stringArrayHeader, uuidHeader, dateHeader, dateArrayHeader, datetimeHeader, enumHeader)
           val response = result.map {
             case EchoHeaderResponse.Ok(body) => new Status(200)(Jsoner.write(body))
           }
           response.recover { case _: Exception => InternalServerError }
       }
   }
-  def echoUrlParams(intUrl: Int, stringUrl: String) = Action.async {
+  def echoUrlParams(intUrl: Int, longUrl: Long, floatUrl: Float, doubleUrl: Double, decimalUrl: BigDecimal, boolUrl: Boolean, stringUrl: String, uuidUrl: java.util.UUID, dateUrl: java.time.LocalDate, datetimeUrl: java.time.LocalDateTime, enumUrl: Choice) = Action.async {
     implicit request =>
-      val result = api.echoUrlParams(intUrl, stringUrl)
+      val result = api.echoUrlParams(intUrl, longUrl, floatUrl, doubleUrl, decimalUrl, boolUrl, stringUrl, uuidUrl, dateUrl, datetimeUrl, enumUrl)
       val response = result.map {
         case EchoUrlParamsResponse.Ok(body) => new Status(200)(Jsoner.write(body))
       }
       response.recover { case _: Exception => InternalServerError }
+  }
+  def echoEverything(dateUrl: java.time.LocalDate, decimalUrl: BigDecimal, float_query: Float, bool_query: Boolean) = Action(parse.byteString).async {
+    implicit request =>
+      val params = Try {
+        val header = new StringParamsReader(request.headers.toMap)
+        val uuidHeader = header.read[java.util.UUID]("Uuid-Header").get
+        val datetimeHeader = header.read[java.time.LocalDateTime]("Datetime-Header").get
+        val body = Jsoner.readThrowing[Message](request.body.utf8String)
+        (uuidHeader, datetimeHeader, body)
+      }
+      params match {
+        case Failure(ex) => Future { BadRequest }
+        case Success(params) => 
+          val (uuidHeader, datetimeHeader, body) = params
+          val result = api.echoEverything(uuidHeader, datetimeHeader, body, dateUrl, decimalUrl, float_query, bool_query)
+          val response = result.map {
+            case EchoEverythingResponse.Ok(body) => new Status(200)(Jsoner.write(body))
+            case EchoEverythingResponse.Forbidden() => new Status(403)
+          }
+          response.recover { case _: Exception => InternalServerError }
+      }
   }
   def sameOperationName() = Action.async {
     implicit request =>
@@ -100,22 +134,6 @@ class CheckController @Inject()(api: ICheckService, cc: ControllerComponents)(im
       val result = api.checkEmpty()
       val response = result.map {
         case CheckEmptyResponse.Ok() => new Status(200)
-      }
-      response.recover { case _: Exception => InternalServerError }
-  }
-  def checkQuery(p_string: String, p_string_opt: Option[String], p_string_array: List[String], p_date: java.time.LocalDate, p_date_array: List[java.time.LocalDate], p_datetime: java.time.LocalDateTime, p_int: Int, p_long: Long, p_decimal: BigDecimal, p_enum: Choice, p_string_defaulted: String) = Action.async {
-    implicit request =>
-      val result = api.checkQuery(p_string, p_string_opt, p_string_array, p_date, p_date_array, p_datetime, p_int, p_long, p_decimal, p_enum, p_string_defaulted)
-      val response = result.map {
-        case CheckQueryResponse.Ok() => new Status(200)
-      }
-      response.recover { case _: Exception => InternalServerError }
-  }
-  def checkUrlParams(intUrl: Long, stringUrl: String, floatUrl: Float, boolUrl: Boolean, uuidUrl: java.util.UUID, decimalUrl: BigDecimal, dateUrl: java.time.LocalDate, enumUrl: Choice) = Action.async {
-    implicit request =>
-      val result = api.checkUrlParams(intUrl, stringUrl, floatUrl, boolUrl, uuidUrl, decimalUrl, dateUrl, enumUrl)
-      val response = result.map {
-        case CheckUrlParamsResponse.Ok() => new Status(200)
       }
       response.recover { case _: Exception => InternalServerError }
   }

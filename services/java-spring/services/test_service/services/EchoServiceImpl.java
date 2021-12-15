@@ -20,15 +20,19 @@ public class EchoServiceImpl implements EchoService {
 		throw new UnsupportedOperationException("Implementation has not added yet");
 	}
 	@Override
-	public Message echoQuery(int intQuery, String stringQuery) {
+	public Parameters echoQuery(int intQuery, long longQuery, float floatQuery, double doubleQuery, BigDecimal decimalQuery, boolean boolQuery, String stringQuery, String stringOptQuery, String stringDefaultedQuery, String[] stringArrayQuery, UUID uuidQuery, LocalDate dateQuery, LocalDate[] dateArrayQuery, LocalDateTime datetimeQuery, Choice enumQuery) {
 		throw new UnsupportedOperationException("Implementation has not added yet");
 	}
 	@Override
-	public Message echoHeader(int intHeader, String stringHeader) {
+	public Parameters echoHeader(int intHeader, long longHeader, float floatHeader, double doubleHeader, BigDecimal decimalHeader, boolean boolHeader, String stringHeader, String stringOptHeader, String stringDefaultedHeader, String[] stringArrayHeader, UUID uuidHeader, LocalDate dateHeader, LocalDate[] dateArrayHeader, LocalDateTime datetimeHeader, Choice enumHeader) {
 		throw new UnsupportedOperationException("Implementation has not added yet");
 	}
 	@Override
-	public Message echoUrlParams(int intUrl, String stringUrl) {
+	public UrlParameters echoUrlParams(int intUrl, long longUrl, float floatUrl, double doubleUrl, BigDecimal decimalUrl, boolean boolUrl, String stringUrl, UUID uuidUrl, LocalDate dateUrl, LocalDateTime datetimeUrl, Choice enumUrl) {
+		throw new UnsupportedOperationException("Implementation has not added yet");
+	}
+	@Override
+	public EchoEverythingResponse echoEverything(Message body, float floatQuery, boolean boolQuery, UUID uuidHeader, LocalDateTime datetimeHeader, LocalDate dateUrl, BigDecimal decimalUrl) {
 		throw new UnsupportedOperationException("Implementation has not added yet");
 	}
 	@Override

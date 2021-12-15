@@ -10,15 +10,19 @@ export let echoService = (): service.EchoService => {
         throw new Error('Not Implemented')
     }
 
-    let echoQuery = async (params: service.EchoQueryParams): Promise<models.Message> => {
+    let echoQuery = async (params: service.EchoQueryParams): Promise<models.Parameters> => {
         throw new Error('Not Implemented')
     }
 
-    let echoHeader = async (params: service.EchoHeaderParams): Promise<models.Message> => {
+    let echoHeader = async (params: service.EchoHeaderParams): Promise<models.Parameters> => {
         throw new Error('Not Implemented')
     }
 
-    let echoUrlParams = async (params: service.EchoUrlParamsParams): Promise<models.Message> => {
+    let echoUrlParams = async (params: service.EchoUrlParamsParams): Promise<models.UrlParameters> => {
+        throw new Error('Not Implemented')
+    }
+
+    let echoEverything = async (params: service.EchoEverythingParams): Promise<service.EchoEverythingResponse> => {
         throw new Error('Not Implemented')
     }
 
@@ -26,5 +30,5 @@ export let echoService = (): service.EchoService => {
         throw new Error('Not Implemented')
     }
 
-    return {echoBodyString, echoBody, echoQuery, echoHeader, echoUrlParams, sameOperationName}
+    return {echoBodyString, echoBody, echoQuery, echoHeader, echoUrlParams, echoEverything, sameOperationName}
 }

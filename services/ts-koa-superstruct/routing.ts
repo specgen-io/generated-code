@@ -7,24 +7,80 @@ import {CheckService} from './check_service'
 
 const TEchoQueryQueryParams = t.type({
     int_query: t.StrInteger,
+    long_query: t.StrInteger,
+    float_query: t.StrFloat,
+    double_query: t.StrFloat,
+    decimal_query: t.StrFloat,
+    bool_query: t.StrBoolean,
     string_query: t.string(),
+    string_opt_query: t.optional(t.string()),
+    string_defaulted_query: t.defaulted(t.string(), "the default value"),
+    string_array_query: t.array(t.string()),
+    uuid_query: t.string(),
+    date_query: t.string(),
+    date_array_query: t.array(t.string()),
+    datetime_query: t.StrDateTime,
+    enum_query: models.TChoice,
 })
 
 type EchoQueryQueryParams = t.Infer<typeof TEchoQueryQueryParams>
 
 const TEchoHeaderHeaderParams = t.type({
     'Int-Header': t.StrInteger,
+    'Long-Header': t.StrInteger,
+    'Float-Header': t.StrFloat,
+    'Double-Header': t.StrFloat,
+    'Decimal-Header': t.StrFloat,
+    'Bool-Header': t.StrBoolean,
     'String-Header': t.string(),
+    'String-Opt-Header': t.optional(t.string()),
+    'String-Defaulted-Header': t.defaulted(t.string(), "the default value"),
+    'String-Array-Header': t.array(t.string()),
+    'Uuid-Header': t.string(),
+    'Date-Header': t.string(),
+    'Date-Array-Header': t.array(t.string()),
+    'Datetime-Header': t.StrDateTime,
+    'Enum-Header': models.TChoice,
 })
 
 type EchoHeaderHeaderParams = t.Infer<typeof TEchoHeaderHeaderParams>
 
 const TEchoUrlParamsUrlParams = t.type({
     int_url: t.StrInteger,
+    long_url: t.StrInteger,
+    float_url: t.StrFloat,
+    double_url: t.StrFloat,
+    decimal_url: t.StrFloat,
+    bool_url: t.StrBoolean,
     string_url: t.string(),
+    uuid_url: t.string(),
+    date_url: t.string(),
+    datetime_url: t.StrDateTime,
+    enum_url: models.TChoice,
 })
 
 type EchoUrlParamsUrlParams = t.Infer<typeof TEchoUrlParamsUrlParams>
+
+const TEchoEverythingHeaderParams = t.type({
+    'Uuid-Header': t.string(),
+    'Datetime-Header': t.StrDateTime,
+})
+
+type EchoEverythingHeaderParams = t.Infer<typeof TEchoEverythingHeaderParams>
+
+const TEchoEverythingUrlParams = t.type({
+    date_url: t.string(),
+    decimal_url: t.StrFloat,
+})
+
+type EchoEverythingUrlParams = t.Infer<typeof TEchoEverythingUrlParams>
+
+const TEchoEverythingQueryParams = t.type({
+    float_query: t.StrFloat,
+    bool_query: t.StrBoolean,
+})
+
+type EchoEverythingQueryParams = t.Infer<typeof TEchoEverythingQueryParams>
 
 export let echoRouter = (service: EchoService) => {
     let router = new Router()
@@ -75,7 +131,7 @@ export let echoRouter = (service: EchoService) => {
         try {
             let result = await service.echoQuery({...queryParams})
             ctx.status = 200
-            ctx.body = t.encode(models.TMessage, result)
+            ctx.body = t.encode(models.TParameters, result)
             return
         } catch (error) {
             ctx.throw(500)
@@ -93,14 +149,14 @@ export let echoRouter = (service: EchoService) => {
         try {
             let result = await service.echoHeader({...headerParams})
             ctx.status = 200
-            ctx.body = t.encode(models.TMessage, result)
+            ctx.body = t.encode(models.TParameters, result)
             return
         } catch (error) {
             ctx.throw(500)
         }
     })
 
-    router.get('/echo/url_params/:int_url/:string_url', async (ctx) => {
+    router.get('/echo/url_params/:int_url/:long_url/:float_url/:double_url/:decimal_url/:bool_url/:string_url/:uuid_url/:date_url/:datetime_url/:enum_url', async (ctx) => {
         var urlParams: EchoUrlParamsUrlParams
         try {
             urlParams = t.decode(TEchoUrlParamsUrlParams, ctx.params)
@@ -111,8 +167,38 @@ export let echoRouter = (service: EchoService) => {
         try {
             let result = await service.echoUrlParams({...urlParams})
             ctx.status = 200
-            ctx.body = t.encode(models.TMessage, result)
+            ctx.body = t.encode(models.TUrlParameters, result)
             return
+        } catch (error) {
+            ctx.throw(500)
+        }
+    })
+
+    router.post('/echo/everything/:date_url/:decimal_url', async (ctx) => {
+        var body: models.Message
+        var urlParams: EchoEverythingUrlParams
+        var headerParams: EchoEverythingHeaderParams
+        var queryParams: EchoEverythingQueryParams
+        try {
+            body = t.decode(models.TMessage, ctx.request.body)
+            urlParams = t.decode(TEchoEverythingUrlParams, ctx.params)
+            headerParams = t.decode(TEchoEverythingHeaderParams, zipHeaders(ctx.req.rawHeaders))
+            queryParams = t.decode(TEchoEverythingQueryParams, ctx.request.query)
+        } catch (error) {
+            ctx.throw(400)
+            return
+        }
+        try {
+            let result = await service.echoEverything({body, ...urlParams, ...headerParams, ...queryParams})
+            switch (result.status) {
+                case 'ok':
+                    ctx.status = 200
+                    ctx.body = t.encode(models.TEverything, result.data)
+                    return
+                case 'forbidden':
+                    ctx.status = 403
+                    return
+            }
         } catch (error) {
             ctx.throw(500)
         }
@@ -137,75 +223,12 @@ export let echoRouter = (service: EchoService) => {
     return router
 }
 
-const TCheckQueryQueryParams = t.type({
-    p_string: t.string(),
-    p_string_opt: t.optional(t.string()),
-    p_string_array: t.array(t.string()),
-    p_date: t.string(),
-    p_date_array: t.array(t.string()),
-    p_datetime: t.StrDateTime,
-    p_int: t.StrInteger,
-    p_long: t.StrInteger,
-    p_decimal: t.StrFloat,
-    p_enum: models.TChoice,
-    p_string_defaulted: t.defaulted(t.string(), "the default value"),
-})
-
-type CheckQueryQueryParams = t.Infer<typeof TCheckQueryQueryParams>
-
-const TCheckUrlParamsUrlParams = t.type({
-    int_url: t.StrInteger,
-    string_url: t.string(),
-    float_url: t.StrFloat,
-    bool_url: t.StrBoolean,
-    uuid_url: t.string(),
-    decimal_url: t.StrFloat,
-    date_url: t.string(),
-    enum_url: models.TChoice,
-})
-
-type CheckUrlParamsUrlParams = t.Infer<typeof TCheckUrlParamsUrlParams>
-
 export let checkRouter = (service: CheckService) => {
     let router = new Router()
 
     router.get('/check/empty', async (ctx) => {
         try {
             await service.checkEmpty()
-            ctx.status = 200
-            return
-        } catch (error) {
-            ctx.throw(500)
-        }
-    })
-
-    router.get('/check/query', async (ctx) => {
-        var queryParams: CheckQueryQueryParams
-        try {
-            queryParams = t.decode(TCheckQueryQueryParams, ctx.request.query)
-        } catch (error) {
-            ctx.throw(400)
-            return
-        }
-        try {
-            await service.checkQuery({...queryParams})
-            ctx.status = 200
-            return
-        } catch (error) {
-            ctx.throw(500)
-        }
-    })
-
-    router.get('/check/url_params/:int_url/:string_url/:float_url/:bool_url/:uuid_url/:decimal_url/:date_url/:enum_url', async (ctx) => {
-        var urlParams: CheckUrlParamsUrlParams
-        try {
-            urlParams = t.decode(TCheckUrlParamsUrlParams, ctx.params)
-        } catch (error) {
-            ctx.throw(400)
-            return
-        }
-        try {
-            await service.checkUrlParams({...urlParams})
             ctx.status = 200
             return
         } catch (error) {

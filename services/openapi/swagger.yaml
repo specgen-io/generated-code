@@ -82,17 +82,95 @@ paths:
             type: integer
             format: int32
         - in: query
+          name: long_query
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - in: query
+          name: float_query
+          required: true
+          schema:
+            type: number
+            format: float
+        - in: query
+          name: double_query
+          required: true
+          schema:
+            type: number
+            format: double
+        - in: query
+          name: decimal_query
+          required: true
+          schema:
+            type: number
+            format: decimal
+        - in: query
+          name: bool_query
+          required: true
+          schema:
+            type: boolean
+        - in: query
           name: string_query
           required: true
           schema:
             type: string
+        - in: query
+          name: string_opt_query
+          required: false
+          schema:
+            type: string
+        - in: query
+          name: string_defaulted_query
+          required: true
+          schema:
+            type: string
+            default: the default value
+        - in: query
+          name: string_array_query
+          required: true
+          schema:
+            type: array
+            items:
+              type: string
+        - in: query
+          name: uuid_query
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - in: query
+          name: date_query
+          required: true
+          schema:
+            type: string
+            format: date
+        - in: query
+          name: date_array_query
+          required: true
+          schema:
+            type: array
+            items:
+              type: string
+              format: date
+        - in: query
+          name: datetime_query
+          required: true
+          schema:
+            type: string
+            format: datetime
+        - in: query
+          name: enum_query
+          required: true
+          schema:
+            $ref: '#/components/schemas/Choice'
       responses:
         "200":
           description: ""
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Message'
+                $ref: '#/components/schemas/Parameters'
         "400":
           description: Service will return this if parameters are not provided or couldn't be parsed correctly
         "500":
@@ -110,22 +188,100 @@ paths:
             type: integer
             format: int32
         - in: header
+          name: Long-Header
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - in: header
+          name: Float-Header
+          required: true
+          schema:
+            type: number
+            format: float
+        - in: header
+          name: Double-Header
+          required: true
+          schema:
+            type: number
+            format: double
+        - in: header
+          name: Decimal-Header
+          required: true
+          schema:
+            type: number
+            format: decimal
+        - in: header
+          name: Bool-Header
+          required: true
+          schema:
+            type: boolean
+        - in: header
           name: String-Header
           required: true
           schema:
             type: string
+        - in: header
+          name: String-Opt-Header
+          required: false
+          schema:
+            type: string
+        - in: header
+          name: String-Defaulted-Header
+          required: true
+          schema:
+            type: string
+            default: the default value
+        - in: header
+          name: String-Array-Header
+          required: true
+          schema:
+            type: array
+            items:
+              type: string
+        - in: header
+          name: Uuid-Header
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - in: header
+          name: Date-Header
+          required: true
+          schema:
+            type: string
+            format: date
+        - in: header
+          name: Date-Array-Header
+          required: true
+          schema:
+            type: array
+            items:
+              type: string
+              format: date
+        - in: header
+          name: Datetime-Header
+          required: true
+          schema:
+            type: string
+            format: datetime
+        - in: header
+          name: Enum-Header
+          required: true
+          schema:
+            $ref: '#/components/schemas/Choice'
       responses:
         "200":
           description: ""
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Message'
+                $ref: '#/components/schemas/Parameters'
         "400":
           description: Service will return this if parameters are not provided or couldn't be parsed correctly
         "500":
           description: Service will return this if unexpected internal error happens
-  /echo/url_params/{int_url}/{string_url}:
+  /echo/url_params/{int_url}/{long_url}/{float_url}/{double_url}/{decimal_url}/{bool_url}/{string_url}/{uuid_url}/{date_url}/{datetime_url}/{enum_url}:
     get:
       operationId: echoEchoUrlParams
       tags:
@@ -138,17 +294,129 @@ paths:
             type: integer
             format: int32
         - in: path
+          name: long_url
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - in: path
+          name: float_url
+          required: true
+          schema:
+            type: number
+            format: float
+        - in: path
+          name: double_url
+          required: true
+          schema:
+            type: number
+            format: double
+        - in: path
+          name: decimal_url
+          required: true
+          schema:
+            type: number
+            format: decimal
+        - in: path
+          name: bool_url
+          required: true
+          schema:
+            type: boolean
+        - in: path
           name: string_url
           required: true
           schema:
             type: string
+        - in: path
+          name: uuid_url
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - in: path
+          name: date_url
+          required: true
+          schema:
+            type: string
+            format: date
+        - in: path
+          name: datetime_url
+          required: true
+          schema:
+            type: string
+            format: datetime
+        - in: path
+          name: enum_url
+          required: true
+          schema:
+            $ref: '#/components/schemas/Choice'
       responses:
         "200":
           description: ""
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Message'
+                $ref: '#/components/schemas/UrlParameters'
+        "400":
+          description: Service will return this if parameters are not provided or couldn't be parsed correctly
+        "500":
+          description: Service will return this if unexpected internal error happens
+  /echo/everything/{date_url}/{decimal_url}:
+    post:
+      operationId: echoEchoEverything
+      tags:
+        - echo
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Message'
+      parameters:
+        - in: path
+          name: date_url
+          required: true
+          schema:
+            type: string
+            format: date
+        - in: path
+          name: decimal_url
+          required: true
+          schema:
+            type: number
+            format: decimal
+        - in: header
+          name: Uuid-Header
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - in: header
+          name: Datetime-Header
+          required: true
+          schema:
+            type: string
+            format: datetime
+        - in: query
+          name: float_query
+          required: true
+          schema:
+            type: number
+            format: float
+        - in: query
+          name: bool_query
+          required: true
+          schema:
+            type: boolean
+      responses:
+        "200":
+          description: ""
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Everything'
+        "403":
+          description: ""
         "400":
           description: Service will return this if parameters are not provided or couldn't be parsed correctly
         "500":
@@ -173,143 +441,6 @@ paths:
       responses:
         "200":
           description: ""
-        "500":
-          description: Service will return this if unexpected internal error happens
-  /check/query:
-    get:
-      operationId: checkCheckQuery
-      tags:
-        - check
-      parameters:
-        - in: query
-          name: p_string
-          required: true
-          schema:
-            type: string
-        - in: query
-          name: p_string_opt
-          required: false
-          schema:
-            type: string
-        - in: query
-          name: p_string_array
-          required: true
-          schema:
-            type: array
-            items:
-              type: string
-        - in: query
-          name: p_date
-          required: true
-          schema:
-            type: string
-            format: date
-        - in: query
-          name: p_date_array
-          required: true
-          schema:
-            type: array
-            items:
-              type: string
-              format: date
-        - in: query
-          name: p_datetime
-          required: true
-          schema:
-            type: string
-            format: datetime
-        - in: query
-          name: p_int
-          required: true
-          schema:
-            type: integer
-            format: int32
-        - in: query
-          name: p_long
-          required: true
-          schema:
-            type: integer
-            format: int64
-        - in: query
-          name: p_decimal
-          required: true
-          schema:
-            type: number
-            format: decimal
-        - in: query
-          name: p_enum
-          required: true
-          schema:
-            $ref: '#/components/schemas/Choice'
-        - in: query
-          name: p_string_defaulted
-          required: true
-          schema:
-            type: string
-            default: the default value
-      responses:
-        "200":
-          description: ""
-        "400":
-          description: Service will return this if parameters are not provided or couldn't be parsed correctly
-        "500":
-          description: Service will return this if unexpected internal error happens
-  /check/url_params/{int_url}/{string_url}/{float_url}/{bool_url}/{uuid_url}/{decimal_url}/{date_url}/{enum_url}:
-    get:
-      operationId: checkCheckUrlParams
-      tags:
-        - check
-      parameters:
-        - in: path
-          name: int_url
-          required: true
-          schema:
-            type: integer
-            format: int64
-        - in: path
-          name: string_url
-          required: true
-          schema:
-            type: string
-        - in: path
-          name: float_url
-          required: true
-          schema:
-            type: number
-            format: float
-        - in: path
-          name: bool_url
-          required: true
-          schema:
-            type: boolean
-        - in: path
-          name: uuid_url
-          required: true
-          schema:
-            type: string
-            format: uuid
-        - in: path
-          name: decimal_url
-          required: true
-          schema:
-            type: number
-            format: decimal
-        - in: path
-          name: date_url
-          required: true
-          schema:
-            type: string
-            format: date
-        - in: path
-          name: enum_url
-          required: true
-          schema:
-            $ref: '#/components/schemas/Choice'
-      responses:
-        "200":
-          description: ""
-        "400":
-          description: Service will return this if parameters are not provided or couldn't be parsed correctly
         "500":
           description: Service will return this if unexpected internal error happens
   /check/forbidden:
@@ -363,6 +494,142 @@ components:
           format: int32
         string_field:
           type: string
+    Parameters:
+      type: object
+      required:
+        - int_field
+        - long_field
+        - float_field
+        - double_field
+        - decimal_field
+        - bool_field
+        - string_field
+        - string_defaulted_field
+        - string_array_field
+        - uuid_field
+        - date_field
+        - date_array_field
+        - datetime_field
+        - enum_field
+      properties:
+        int_field:
+          type: integer
+          format: int32
+        long_field:
+          type: integer
+          format: int64
+        float_field:
+          type: number
+          format: float
+        double_field:
+          type: number
+          format: double
+        decimal_field:
+          type: number
+          format: decimal
+        bool_field:
+          type: boolean
+        string_field:
+          type: string
+        string_opt_field:
+          type: string
+        string_defaulted_field:
+          type: string
+        string_array_field:
+          type: array
+          items:
+            type: string
+        uuid_field:
+          type: string
+          format: uuid
+        date_field:
+          type: string
+          format: date
+        date_array_field:
+          type: array
+          items:
+            type: string
+            format: date
+        datetime_field:
+          type: string
+          format: datetime
+        enum_field:
+          $ref: '#/components/schemas/Choice'
+    UrlParameters:
+      type: object
+      required:
+        - int_field
+        - long_field
+        - float_field
+        - double_field
+        - decimal_field
+        - bool_field
+        - string_field
+        - uuid_field
+        - date_field
+        - datetime_field
+        - enum_field
+      properties:
+        int_field:
+          type: integer
+          format: int32
+        long_field:
+          type: integer
+          format: int64
+        float_field:
+          type: number
+          format: float
+        double_field:
+          type: number
+          format: double
+        decimal_field:
+          type: number
+          format: decimal
+        bool_field:
+          type: boolean
+        string_field:
+          type: string
+        uuid_field:
+          type: string
+          format: uuid
+        date_field:
+          type: string
+          format: date
+        datetime_field:
+          type: string
+          format: datetime
+        enum_field:
+          $ref: '#/components/schemas/Choice'
+    Everything:
+      type: object
+      required:
+        - body_field
+        - float_query
+        - bool_query
+        - uuid_header
+        - datetime_header
+        - date_url
+        - decimal_url
+      properties:
+        body_field:
+          $ref: '#/components/schemas/Message'
+        float_query:
+          type: number
+          format: float
+        bool_query:
+          type: boolean
+        uuid_header:
+          type: string
+          format: uuid
+        datetime_header:
+          type: string
+          format: datetime
+        date_url:
+          type: string
+          format: date
+        decimal_url:
+          type: number
+          format: decimal
     Choice:
       type: string
       enum:

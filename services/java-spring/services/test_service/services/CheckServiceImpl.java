@@ -16,14 +16,6 @@ public class CheckServiceImpl implements CheckService {
 		throw new UnsupportedOperationException("Implementation has not added yet");
 	}
 	@Override
-	public void checkQuery(String pString, String pStringOpt, String[] pStringArray, LocalDate pDate, LocalDate[] pDateArray, LocalDateTime pDatetime, int pInt, long pLong, BigDecimal pDecimal, Choice pEnum, String pStringDefaulted) {
-		throw new UnsupportedOperationException("Implementation has not added yet");
-	}
-	@Override
-	public void checkUrlParams(long intUrl, String stringUrl, float floatUrl, boolean boolUrl, UUID uuidUrl, BigDecimal decimalUrl, LocalDate dateUrl, Choice enumUrl) {
-		throw new UnsupportedOperationException("Implementation has not added yet");
-	}
-	@Override
 	public CheckForbiddenResponse checkForbidden() {
 		throw new UnsupportedOperationException("Implementation has not added yet");
 	}

@@ -6,14 +6,6 @@ export let checkService = (): service.CheckService => {
         throw new Error('Not Implemented')
     }
 
-    let checkQuery = async (params: service.CheckQueryParams): Promise<void> => {
-        throw new Error('Not Implemented')
-    }
-
-    let checkUrlParams = async (params: service.CheckUrlParamsParams): Promise<void> => {
-        throw new Error('Not Implemented')
-    }
-
     let checkForbidden = async (): Promise<service.CheckForbiddenResponse> => {
         throw new Error('Not Implemented')
     }
@@ -22,5 +14,5 @@ export let checkService = (): service.CheckService => {
         throw new Error('Not Implemented')
     }
 
-    return {checkEmpty, checkQuery, checkUrlParams, checkForbidden, sameOperationName}
+    return {checkEmpty, checkForbidden, sameOperationName}
 }
