@@ -172,10 +172,6 @@ class EchoClient(baseUrl: String)(implicit backend: SttpBackend[Future, Nothing]
             logger.debug(s"Response status: ${response.code}, body: ${body}")
             response.code match {
               case 200 => SameOperationNameResponse.Ok()
-              case _ => 
-                val errorMessage = s"Request returned unexpected status code: ${response.code}, body: ${new String(body)}"
-                logger.error(errorMessage)
-                throw new RuntimeException(errorMessage)
               case 403 => SameOperationNameResponse.Forbidden()
               case _ => 
                 val errorMessage = s"Request returned unexpected status code: ${response.code}, body: ${new String(body)}"
@@ -303,10 +299,6 @@ class CheckClient(baseUrl: String)(implicit backend: SttpBackend[Future, Nothing
             logger.debug(s"Response status: ${response.code}, body: ${body}")
             response.code match {
               case 200 => CheckForbiddenResponse.Ok(Jsoner.readThrowing[Message](body))
-              case _ => 
-                val errorMessage = s"Request returned unexpected status code: ${response.code}, body: ${new String(body)}"
-                logger.error(errorMessage)
-                throw new RuntimeException(errorMessage)
               case 403 => CheckForbiddenResponse.Forbidden()
               case _ => 
                 val errorMessage = s"Request returned unexpected status code: ${response.code}, body: ${new String(body)}"
@@ -335,10 +327,6 @@ class CheckClient(baseUrl: String)(implicit backend: SttpBackend[Future, Nothing
             logger.debug(s"Response status: ${response.code}, body: ${body}")
             response.code match {
               case 200 => SameOperationNameResponse.Ok()
-              case _ => 
-                val errorMessage = s"Request returned unexpected status code: ${response.code}, body: ${new String(body)}"
-                logger.error(errorMessage)
-                throw new RuntimeException(errorMessage)
               case 403 => SameOperationNameResponse.Forbidden()
               case _ => 
                 val errorMessage = s"Request returned unexpected status code: ${response.code}, body: ${new String(body)}"
