@@ -131,7 +131,7 @@ class EchoClient(baseUrl: String)(implicit backend: SttpBackend[Future, Nothing]
     }
   }
   def echoUrlParams(intUrl: Int, stringUrl: String): Future[EchoUrlParamsResponse] = {
-    val url = Uri.parse(baseUrl+s"/echo/url_params/$intUrl/$stringUrl").get
+    val url = Uri.parse(baseUrl+s"/echo/url_params/${stringify(intUrl)}/${stringify(stringUrl)}").get
     logger.debug(s"Request to url: ${url}")
     val response: Future[Response[String]] =
       sttp
@@ -258,7 +258,7 @@ class CheckClient(baseUrl: String)(implicit backend: SttpBackend[Future, Nothing
     }
   }
   def checkUrlParams(intUrl: Long, stringUrl: String, floatUrl: Float, boolUrl: Boolean, uuidUrl: java.util.UUID, decimalUrl: BigDecimal, dateUrl: java.time.LocalDate, enumUrl: Choice): Future[CheckUrlParamsResponse] = {
-    val url = Uri.parse(baseUrl+s"/check/url_params/$intUrl/$stringUrl/$floatUrl/$boolUrl/$uuidUrl/$decimalUrl/$dateUrl/$enumUrl").get
+    val url = Uri.parse(baseUrl+s"/check/url_params/${stringify(intUrl)}/${stringify(stringUrl)}/${stringify(floatUrl)}/${stringify(boolUrl)}/${stringify(uuidUrl)}/${stringify(decimalUrl)}/${stringify(dateUrl)}/${stringify(enumUrl)}").get
     logger.debug(s"Request to url: ${url}")
     val response: Future[Response[String]] =
       sttp
