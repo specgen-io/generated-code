@@ -1,5 +1,5 @@
 import { AxiosInstance, AxiosRequestConfig } from 'axios'
-import { params, stringify } from './../params'
+import { strParamsItems, strParamsObject, stringify } from './../params'
 import * as t from './../io-ts'
 import * as models from './models'
 

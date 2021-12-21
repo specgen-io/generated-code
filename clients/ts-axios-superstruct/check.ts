@@ -1,5 +1,5 @@
 import { AxiosInstance, AxiosRequestConfig } from 'axios'
-import { params, stringify } from './params'
+import { strParamsItems, strParamsObject, stringify } from './params'
 import * as t from './superstruct'
 import * as models from './models'
 
@@ -18,7 +18,7 @@ export const client = (axiosInstance: AxiosInstance) => {
         },
 
         checkQuery: async (parameters: {pString: string, pStringArray: string[], pDate: string, pDateArray: string[], pDatetime: Date, pInt: number, pLong: number, pDecimal: number, pEnum: models.Choice, pStringOpt?: string | undefined, pStringDefaulted?: string | undefined}): Promise<void> => {
-            const params = {
+            const query = strParamsItems({
                 "p_string": parameters.pString,
                 "p_string_opt": parameters.pStringOpt,
                 "p_string_array": parameters.pStringArray,
@@ -30,8 +30,8 @@ export const client = (axiosInstance: AxiosInstance) => {
                 "p_decimal": parameters.pDecimal,
                 "p_enum": parameters.pEnum,
                 "p_string_defaulted": parameters.pStringDefaulted,
-            }
-            const response = await axiosInstance.get(`/check/query`, {params: params})
+            })
+            const response = await axiosInstance.get(`/check/query`, {params: new URLSearchParams(query)})
             switch (response.status) {
                 case 200:
                     return Promise.resolve()

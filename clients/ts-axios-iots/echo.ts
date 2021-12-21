@@ -1,5 +1,5 @@
 import { AxiosInstance, AxiosRequestConfig } from 'axios'
-import { params, stringify } from './params'
+import { strParamsItems, strParamsObject, stringify } from './params'
 import * as t from './io-ts'
 import * as models from './models'
 
@@ -29,11 +29,11 @@ export const client = (axiosInstance: AxiosInstance) => {
         },
 
         echoQuery: async (parameters: {intQuery: number, stringQuery: string}): Promise<models.Message> => {
-            const params = {
+            const query = strParamsItems({
                 "int_query": parameters.intQuery,
                 "string_query": parameters.stringQuery,
-            }
-            const response = await axiosInstance.get(`/echo/query`, {params: params})
+            })
+            const response = await axiosInstance.get(`/echo/query`, {params: new URLSearchParams(query)})
             switch (response.status) {
                 case 200:
                     return Promise.resolve(t.decode(models.TMessage, response.data))
@@ -43,10 +43,10 @@ export const client = (axiosInstance: AxiosInstance) => {
         },
 
         echoHeader: async (parameters: {intHeader: number, stringHeader: string}): Promise<models.Message> => {
-            const headers = {
+            const headers = strParamsObject({
                 "Int-Header": parameters.intHeader,
                 "String-Header": parameters.stringHeader,
-            }
+            })
             const response = await axiosInstance.get(`/echo/header`, {headers: headers})
             switch (response.status) {
                 case 200:

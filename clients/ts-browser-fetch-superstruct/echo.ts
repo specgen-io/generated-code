@@ -1,4 +1,4 @@
-import { params, stringify } from './params'
+import { strParamsItems, stringify } from './params'
 import * as t from './superstruct'
 import * as models from './models'
 
@@ -28,7 +28,7 @@ export const client = (config: {baseURL: string}) => {
         },
 
         echoQuery: async (parameters: {intQuery: number, stringQuery: string}): Promise<models.Message> => {
-            const query = params({
+            const query = strParamsItems({
                 "int_query": parameters.intQuery,
                 "string_query": parameters.stringQuery,
             })
@@ -43,7 +43,7 @@ export const client = (config: {baseURL: string}) => {
         },
 
         echoHeader: async (parameters: {intHeader: number, stringHeader: string}): Promise<models.Message> => {
-            const headers = params({
+            const headers = strParamsItems({
                 "Int-Header": parameters.intHeader,
                 "String-Header": parameters.stringHeader,
             })

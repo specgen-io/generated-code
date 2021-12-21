@@ -1,4 +1,4 @@
-import { params, stringify } from './params'
+import { strParamsItems, stringify } from './params'
 import * as t from './superstruct'
 import * as models from './models'
 
@@ -16,7 +16,7 @@ export const client = (config: {baseURL: string}) => {
         },
 
         checkQuery: async (parameters: {pString: string, pStringArray: string[], pDate: string, pDateArray: string[], pDatetime: Date, pInt: number, pLong: number, pDecimal: number, pEnum: models.Choice, pStringOpt?: string | undefined, pStringDefaulted?: string | undefined}): Promise<void> => {
-            const query = params({
+            const query = strParamsItems({
                 "p_string": parameters.pString,
                 "p_string_opt": parameters.pStringOpt,
                 "p_string_array": parameters.pStringArray,

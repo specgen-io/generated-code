@@ -1,4 +1,4 @@
-import { params, stringify } from './../params'
+import { strParamsItems, stringify } from './../params'
 import * as t from './../superstruct'
 import * as models from './models'
 
