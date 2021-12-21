@@ -74,7 +74,7 @@ func AddEchoRoutes(router *vestigo.Router, echoService echo.Service) {
 	logEchoQuery := log.Fields{"operationId": "echo.echo_query", "method": "GET", "url": "/echo/query"}
 	router.Get("/echo/query", func(res http.ResponseWriter, req *http.Request) {
 		log.WithFields(logEchoQuery).Info("Received request")
-		queryParams := NewParamsParser(req.URL.Query())
+		queryParams := NewParamsParser(req.URL.Query(), false)
 		intQuery := queryParams.Int("int_query")
 		longQuery := queryParams.Int64("long_query")
 		floatQuery := queryParams.Float32("float_query")
@@ -118,7 +118,7 @@ func AddEchoRoutes(router *vestigo.Router, echoService echo.Service) {
 	logEchoHeader := log.Fields{"operationId": "echo.echo_header", "method": "GET", "url": "/echo/header"}
 	router.Get("/echo/header", func(res http.ResponseWriter, req *http.Request) {
 		log.WithFields(logEchoHeader).Info("Received request")
-		headerParams := NewParamsParser(req.Header)
+		headerParams := NewParamsParser(req.Header, true)
 		intHeader := headerParams.Int("Int-Header")
 		longHeader := headerParams.Int64("Long-Header")
 		floatHeader := headerParams.Float32("Float-Header")
@@ -165,7 +165,7 @@ func AddEchoRoutes(router *vestigo.Router, echoService echo.Service) {
 	logEchoUrlParams := log.Fields{"operationId": "echo.echo_url_params", "method": "GET", "url": "/echo/url_params/:int_url/:long_url/:float_url/:double_url/:decimal_url/:bool_url/:string_url/:uuid_url/:date_url/:datetime_url/:enum_url"}
 	router.Get("/echo/url_params/:int_url/:long_url/:float_url/:double_url/:decimal_url/:bool_url/:string_url/:uuid_url/:date_url/:datetime_url/:enum_url", func(res http.ResponseWriter, req *http.Request) {
 		log.WithFields(logEchoUrlParams).Info("Received request")
-		urlParams := NewParamsParser(req.URL.Query())
+		urlParams := NewParamsParser(req.URL.Query(), false)
 		intUrl := urlParams.Int(":int_url")
 		longUrl := urlParams.Int64(":long_url")
 		floatUrl := urlParams.Float32(":float_url")
@@ -213,7 +213,7 @@ func AddEchoRoutes(router *vestigo.Router, echoService echo.Service) {
 			log.WithFields(logEchoEverything).WithField("status", 400).Info("Completed request")
 			return
 		}
-		queryParams := NewParamsParser(req.URL.Query())
+		queryParams := NewParamsParser(req.URL.Query(), false)
 		floatQuery := queryParams.Float32("float_query")
 		boolQuery := queryParams.Bool("bool_query")
 		if len(queryParams.Errors) > 0 {
@@ -222,7 +222,7 @@ func AddEchoRoutes(router *vestigo.Router, echoService echo.Service) {
 			log.WithFields(logEchoEverything).WithField("status", 400).Info("Completed request")
 			return
 		}
-		headerParams := NewParamsParser(req.Header)
+		headerParams := NewParamsParser(req.Header, true)
 		uuidHeader := headerParams.Uuid("Uuid-Header")
 		datetimeHeader := headerParams.DateTime("Datetime-Header")
 		if len(headerParams.Errors) > 0 {
@@ -231,7 +231,7 @@ func AddEchoRoutes(router *vestigo.Router, echoService echo.Service) {
 			log.WithFields(logEchoEverything).WithField("status", 400).Info("Completed request")
 			return
 		}
-		urlParams := NewParamsParser(req.URL.Query())
+		urlParams := NewParamsParser(req.URL.Query(), false)
 		dateUrl := urlParams.Date(":date_url")
 		decimalUrl := urlParams.Decimal(":decimal_url")
 		if len(urlParams.Errors) > 0 {
