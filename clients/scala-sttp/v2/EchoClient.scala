@@ -6,6 +6,18 @@ import com.softwaremill.sttp._
 import testservice.client.ParamsTypesBindings._
 import testservice.client.Jsoner
 
+trait IEchoClient {
+  import IEchoClient._
+  def echoBody(body: Message): Future[EchoBodyResponse]
+}
+
+object IEchoClient {
+  sealed trait EchoBodyResponse
+  object EchoBodyResponse {
+    case class Ok(body: Message) extends EchoBodyResponse
+  }
+}
+
 class EchoClient(baseUrl: String)(implicit backend: SttpBackend[Future, Nothing]) extends IEchoClient {
   import IEchoClient._
   import ExecutionContext.Implicits.global

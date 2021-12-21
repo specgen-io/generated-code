@@ -1,13 +1,30 @@
 package services
 
-import javax.inject._
-import scala.concurrent._
+import com.google.inject.ImplementedBy
+import scala.concurrent.Future
 import models._
 
-@Singleton
-class CheckService @Inject()()(implicit ec: ExecutionContext) extends ICheckService {
+@ImplementedBy(classOf[CheckService])
+trait ICheckService {
   import ICheckService._
-  override def checkEmpty(): Future[CheckEmptyResponse] = Future { ??? }
-  override def checkForbidden(): Future[CheckForbiddenResponse] = Future { ??? }
-  override def sameOperationName(): Future[SameOperationNameResponse] = Future { ??? }
+  def checkEmpty(): Future[CheckEmptyResponse]
+  def checkForbidden(): Future[CheckForbiddenResponse]
+  def sameOperationName(): Future[SameOperationNameResponse]
+}
+
+object ICheckService {
+  sealed trait CheckEmptyResponse
+  object CheckEmptyResponse {
+    case class Ok() extends CheckEmptyResponse
+  }
+  sealed trait CheckForbiddenResponse
+  object CheckForbiddenResponse {
+    case class Ok(body: Message) extends CheckForbiddenResponse
+    case class Forbidden() extends CheckForbiddenResponse
+  }
+  sealed trait SameOperationNameResponse
+  object SameOperationNameResponse {
+    case class Ok() extends SameOperationNameResponse
+    case class Forbidden() extends SameOperationNameResponse
+  }
 }

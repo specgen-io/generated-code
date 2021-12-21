@@ -1,11 +1,18 @@
 package services.v2
 
-import javax.inject._
-import scala.concurrent._
+import com.google.inject.ImplementedBy
+import scala.concurrent.Future
 import models.v2._
 
-@Singleton
-class EchoService @Inject()()(implicit ec: ExecutionContext) extends IEchoService {
+@ImplementedBy(classOf[EchoService])
+trait IEchoService {
   import IEchoService._
-  override def echoBody(body: Message): Future[EchoBodyResponse] = Future { ??? }
+  def echoBody(body: Message): Future[EchoBodyResponse]
+}
+
+object IEchoService {
+  sealed trait EchoBodyResponse
+  object EchoBodyResponse {
+    case class Ok(body: Message) extends EchoBodyResponse
+  }
 }
