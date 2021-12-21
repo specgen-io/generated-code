@@ -1,4 +1,4 @@
-package testservice.client.
+package testservice.client
 
 object taggedunion {
   import io.circe._

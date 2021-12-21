@@ -1,4 +1,4 @@
-package testservice.models..v2
+package testservice.models.v2
 
 import enumeratum.values._
 import java.time._
@@ -7,7 +7,7 @@ import java.util.UUID
 import io.circe.Codec
 import io.circe.generic.extras.{Configuration, JsonKey}
 import io.circe.generic.extras.semiauto.{deriveConfiguredCodec, deriveUnwrappedCodec}
-import testservice.models..taggedunion._
+import testservice.models.taggedunion._
 
 case class Message(
   @JsonKey("field") field: String

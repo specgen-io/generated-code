@@ -1,4 +1,4 @@
-package testservice.models.
+package testservice.models
 
 object Jsoner {
 

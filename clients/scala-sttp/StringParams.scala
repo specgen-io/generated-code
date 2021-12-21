@@ -1,4 +1,4 @@
-package testservice.client.
+package testservice.client
 
 import java.time.format.DateTimeFormatter
 import java.time.{LocalDate, LocalDateTime, LocalTime}
