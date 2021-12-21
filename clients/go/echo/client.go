@@ -2,9 +2,12 @@ package echo
 
 import (
 	"bytes"
+	"cloud.google.com/go/civil"
 	"encoding/json"
 	"errors"
 	"fmt"
+	"github.com/google/uuid"
+	"github.com/shopspring/decimal"
 	log "github.com/sirupsen/logrus"
 	"io/ioutil"
 	"net/http"
@@ -12,6 +15,11 @@ import (
 )
 
 type EmptyDef struct{}
+
+type EchoEverythingResponse struct {
+	Ok *models.Everything
+	Forbidden *EmptyDef
+}
 
 type SameOperationNameResponse struct {
 	Ok *EmptyDef
@@ -97,7 +105,7 @@ func (client *Client) EchoBody(body *models.Message) (*models.Message, error) {
 }
 
 var logEchoQuery = log.Fields{"operationId": "echo.echo_query", "method": "GET", "url": "/echo/query"}
-func (client *Client) EchoQuery(intQuery int, stringQuery string) (*models.Message, error) {
+func (client *Client) EchoQuery(intQuery int, longQuery int64, floatQuery float32, doubleQuery float64, decimalQuery decimal.Decimal, boolQuery bool, stringQuery string, stringOptQuery *string, stringDefaultedQuery string, stringArrayQuery []string, uuidQuery uuid.UUID, dateQuery civil.Date, dateArrayQuery []civil.Date, datetimeQuery civil.DateTime, enumQuery models.Choice) (*models.Parameters, error) {
 	req, err := http.NewRequest("GET", client.baseUrl+"/echo/query", nil)
 	if err != nil {
 		log.WithFields(logEchoQuery).Error("Failed to create HTTP request", err.Error())
@@ -107,7 +115,20 @@ func (client *Client) EchoQuery(intQuery int, stringQuery string) (*models.Messa
 	query := req.URL.Query()
 	q := NewParamsConverter(query)
 	q.Int("int_query", intQuery)
+	q.Int64("long_query", longQuery)
+	q.Float32("float_query", floatQuery)
+	q.Float64("double_query", doubleQuery)
+	q.Decimal("decimal_query", decimalQuery)
+	q.Bool("bool_query", boolQuery)
 	q.String("string_query", stringQuery)
+	q.StringNullable("string_opt_query", stringOptQuery)
+	q.String("string_defaulted_query", stringDefaultedQuery)
+	q.StringArray("string_array_query", stringArrayQuery)
+	q.Uuid("uuid_query", uuidQuery)
+	q.Date("date_query", dateQuery)
+	q.DateArray("date_array_query", dateArrayQuery)
+	q.DateTime("datetime_query", datetimeQuery)
+	q.StringEnum("enum_query", enumQuery)
 	req.URL.RawQuery = query.Encode()
 
 	log.WithFields(logEchoQuery).Info("Sending request")
@@ -122,7 +143,7 @@ func (client *Client) EchoQuery(intQuery int, stringQuery string) (*models.Messa
 		responseBody, err := ioutil.ReadAll(resp.Body)
 		err = resp.Body.Close()
 
-		var result models.Message
+		var result models.Parameters
 		err = json.Unmarshal(responseBody, &result)
 		if err != nil {
 			log.WithFields(logEchoQuery).Error("Failed to parse response JSON", err.Error())
@@ -138,7 +159,7 @@ func (client *Client) EchoQuery(intQuery int, stringQuery string) (*models.Messa
 }
 
 var logEchoHeader = log.Fields{"operationId": "echo.echo_header", "method": "GET", "url": "/echo/header"}
-func (client *Client) EchoHeader(intHeader int, stringHeader string) (*models.Message, error) {
+func (client *Client) EchoHeader(intHeader int, longHeader int64, floatHeader float32, doubleHeader float64, decimalHeader decimal.Decimal, boolHeader bool, stringHeader string, stringOptHeader *string, stringDefaultedHeader string, stringArrayHeader []string, uuidHeader uuid.UUID, dateHeader civil.Date, dateArrayHeader []civil.Date, datetimeHeader civil.DateTime, enumHeader models.Choice) (*models.Parameters, error) {
 	req, err := http.NewRequest("GET", client.baseUrl+"/echo/header", nil)
 	if err != nil {
 		log.WithFields(logEchoHeader).Error("Failed to create HTTP request", err.Error())
@@ -148,7 +169,20 @@ func (client *Client) EchoHeader(intHeader int, stringHeader string) (*models.Me
 	header := req.Header
 	h := NewParamsConverter(header)
 	h.Int("Int-Header", intHeader)
+	h.Int64("Long-Header", longHeader)
+	h.Float32("Float-Header", floatHeader)
+	h.Float64("Double-Header", doubleHeader)
+	h.Decimal("Decimal-Header", decimalHeader)
+	h.Bool("Bool-Header", boolHeader)
 	h.String("String-Header", stringHeader)
+	h.StringNullable("String-Opt-Header", stringOptHeader)
+	h.String("String-Defaulted-Header", stringDefaultedHeader)
+	h.StringArray("String-Array-Header", stringArrayHeader)
+	h.Uuid("Uuid-Header", uuidHeader)
+	h.Date("Date-Header", dateHeader)
+	h.DateArray("Date-Array-Header", dateArrayHeader)
+	h.DateTime("Datetime-Header", datetimeHeader)
+	h.StringEnum("Enum-Header", enumHeader)
 
 	log.WithFields(logEchoHeader).Info("Sending request")
 	resp, err := http.DefaultClient.Do(req)
@@ -162,7 +196,7 @@ func (client *Client) EchoHeader(intHeader int, stringHeader string) (*models.Me
 		responseBody, err := ioutil.ReadAll(resp.Body)
 		err = resp.Body.Close()
 
-		var result models.Message
+		var result models.Parameters
 		err = json.Unmarshal(responseBody, &result)
 		if err != nil {
 			log.WithFields(logEchoHeader).Error("Failed to parse response JSON", err.Error())
@@ -177,9 +211,9 @@ func (client *Client) EchoHeader(intHeader int, stringHeader string) (*models.Me
 	return nil, err
 }
 
-var logEchoUrlParams = log.Fields{"operationId": "echo.echo_url_params", "method": "GET", "url": "/echo/url_params/{int_url}/{string_url}"}
-func (client *Client) EchoUrlParams(intUrl int, stringUrl string) (*models.Message, error) {
-	req, err := http.NewRequest("GET", client.baseUrl+fmt.Sprintf("/echo/url_params/%s/%s", convertInt(intUrl), stringUrl), nil)
+var logEchoUrlParams = log.Fields{"operationId": "echo.echo_url_params", "method": "GET", "url": "/echo/url_params/{int_url}/{long_url}/{float_url}/{double_url}/{decimal_url}/{bool_url}/{string_url}/{uuid_url}/{date_url}/{datetime_url}/{enum_url}"}
+func (client *Client) EchoUrlParams(intUrl int, longUrl int64, floatUrl float32, doubleUrl float64, decimalUrl decimal.Decimal, boolUrl bool, stringUrl string, uuidUrl uuid.UUID, dateUrl civil.Date, datetimeUrl civil.DateTime, enumUrl models.Choice) (*models.UrlParameters, error) {
+	req, err := http.NewRequest("GET", client.baseUrl+fmt.Sprintf("/echo/url_params/%s/%s/%s/%s/%s/%s/%s/%s/%s/%s/%s", convertInt(intUrl), convertInt64(longUrl), convertFloat32(floatUrl), convertFloat64(doubleUrl), convertDecimal(decimalUrl), convertBool(boolUrl), stringUrl, convertUuid(uuidUrl), convertDate(dateUrl), convertDateTime(datetimeUrl), convertStringEnum(enumUrl)), nil)
 	if err != nil {
 		log.WithFields(logEchoUrlParams).Error("Failed to create HTTP request", err.Error())
 		return nil, err
@@ -197,7 +231,7 @@ func (client *Client) EchoUrlParams(intUrl int, stringUrl string) (*models.Messa
 		responseBody, err := ioutil.ReadAll(resp.Body)
 		err = resp.Body.Close()
 
-		var result models.Message
+		var result models.UrlParameters
 		err = json.Unmarshal(responseBody, &result)
 		if err != nil {
 			log.WithFields(logEchoUrlParams).Error("Failed to parse response JSON", err.Error())
@@ -208,6 +242,58 @@ func (client *Client) EchoUrlParams(intUrl int, stringUrl string) (*models.Messa
 
 	msg := fmt.Sprintf("Unexpected status code received: %d", resp.StatusCode)
 	log.WithFields(logEchoUrlParams).Error(msg)
+	err = errors.New(msg)
+	return nil, err
+}
+
+var logEchoEverything = log.Fields{"operationId": "echo.echo_everything", "method": "POST", "url": "/echo/everything/{date_url}/{decimal_url}"}
+func (client *Client) EchoEverything(body *models.Message, floatQuery float32, boolQuery bool, uuidHeader uuid.UUID, datetimeHeader civil.DateTime, dateUrl civil.Date, decimalUrl decimal.Decimal) (*EchoEverythingResponse, error) {
+	bodyData, err := json.Marshal(body)
+	req, err := http.NewRequest("POST", client.baseUrl+fmt.Sprintf("/echo/everything/%s/%s", convertDate(dateUrl), convertDecimal(decimalUrl)), bytes.NewBuffer(bodyData))
+	if err != nil {
+		log.WithFields(logEchoEverything).Error("Failed to create HTTP request", err.Error())
+		return nil, err
+	}
+
+	query := req.URL.Query()
+	q := NewParamsConverter(query)
+	q.Float32("float_query", floatQuery)
+	q.Bool("bool_query", boolQuery)
+	req.URL.RawQuery = query.Encode()
+
+	header := req.Header
+	h := NewParamsConverter(header)
+	h.Uuid("Uuid-Header", uuidHeader)
+	h.DateTime("Datetime-Header", datetimeHeader)
+
+	log.WithFields(logEchoEverything).Info("Sending request")
+	resp, err := http.DefaultClient.Do(req)
+	if err != nil {
+		log.WithFields(logEchoEverything).Error("Request failed", err.Error())
+		return nil, err
+	}
+
+	if resp.StatusCode == 200 {
+		log.WithFields(logEchoEverything).WithField("status", 200).Info("Received response")
+		responseBody, err := ioutil.ReadAll(resp.Body)
+		err = resp.Body.Close()
+
+		var result models.Everything
+		err = json.Unmarshal(responseBody, &result)
+		if err != nil {
+			log.WithFields(logEchoEverything).Error("Failed to parse response JSON", err.Error())
+			return nil, err
+		}
+		return &EchoEverythingResponse{Ok: &result}, nil
+	}
+
+	if resp.StatusCode == 403 {
+		log.WithFields(logEchoEverything).WithField("status", 403).Info("Received response")
+		return &EchoEverythingResponse{Forbidden: &EmptyDef{}}, nil
+	}
+
+	msg := fmt.Sprintf("Unexpected status code received: %d", resp.StatusCode)
+	log.WithFields(logEchoEverything).Error(msg)
 	err = errors.New(msg)
 	return nil, err
 }

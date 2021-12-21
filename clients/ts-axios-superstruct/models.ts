@@ -20,3 +20,51 @@ export const Choice = {
     SECOND_CHOICE: <Choice>"SECOND_CHOICE",
     THIRD_CHOICE: <Choice>"THIRD_CHOICE",
 }
+
+export const TParameters = t.type({
+    int_field: t.number(),
+    long_field: t.number(),
+    float_field: t.number(),
+    double_field: t.number(),
+    decimal_field: t.number(),
+    bool_field: t.boolean(),
+    string_field: t.string(),
+    string_opt_field: t.optional(t.nullable(t.string())),
+    string_defaulted_field: t.string(),
+    string_array_field: t.array(t.string()),
+    uuid_field: t.string(),
+    date_field: t.string(),
+    date_array_field: t.array(t.string()),
+    datetime_field: t.StrDateTime,
+    enum_field: TChoice,
+})
+
+export type Parameters = t.Infer<typeof TParameters>
+
+export const TUrlParameters = t.type({
+    int_field: t.number(),
+    long_field: t.number(),
+    float_field: t.number(),
+    double_field: t.number(),
+    decimal_field: t.number(),
+    bool_field: t.boolean(),
+    string_field: t.string(),
+    uuid_field: t.string(),
+    date_field: t.string(),
+    datetime_field: t.StrDateTime,
+    enum_field: TChoice,
+})
+
+export type UrlParameters = t.Infer<typeof TUrlParameters>
+
+export const TEverything = t.type({
+    body_field: TMessage,
+    float_query: t.number(),
+    bool_query: t.boolean(),
+    uuid_header: t.string(),
+    datetime_header: t.StrDateTime,
+    date_url: t.string(),
+    decimal_url: t.number(),
+})
+
+export type Everything = t.Infer<typeof TEverything>

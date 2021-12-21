@@ -14,6 +14,51 @@ module TestService
     define :second_choice, 'SECOND_CHOICE'
     define :third_choice, 'THIRD_CHOICE'
   end
+
+  class Parameters
+    include DataClass
+    val :int_field, Integer
+    val :long_field, Integer
+    val :float_field, Float
+    val :double_field, Float
+    val :decimal_field, Float
+    val :bool_field, Boolean
+    val :string_field, String
+    val :string_opt_field, T.nilable(String)
+    val :string_defaulted_field, String
+    val :string_array_field, T.array(String)
+    val :uuid_field, UUID
+    val :date_field, Date
+    val :date_array_field, T.array(Date)
+    val :datetime_field, DateTime
+    val :enum_field, Choice
+  end
+
+  class UrlParameters
+    include DataClass
+    val :int_field, Integer
+    val :long_field, Integer
+    val :float_field, Float
+    val :double_field, Float
+    val :decimal_field, Float
+    val :bool_field, Boolean
+    val :string_field, String
+    val :uuid_field, UUID
+    val :date_field, Date
+    val :datetime_field, DateTime
+    val :enum_field, Choice
+  end
+
+  class Everything
+    include DataClass
+    val :body_field, Message
+    val :float_query, Float
+    val :bool_query, Boolean
+    val :uuid_header, UUID
+    val :datetime_header, DateTime
+    val :date_url, Date
+    val :decimal_url, Float
+  end
 end
 
 module TestService::V2

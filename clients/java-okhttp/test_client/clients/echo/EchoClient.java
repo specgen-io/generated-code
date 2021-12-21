@@ -109,11 +109,24 @@ public class EchoClient {
 		}
 	}
 
-	public Message echoQuery(int intQuery, String stringQuery) {
+	public Parameters echoQuery(int intQuery, long longQuery, float floatQuery, double doubleQuery, BigDecimal decimalQuery, boolean boolQuery, String stringQuery, String stringOptQuery, String stringDefaultedQuery, String[] stringArrayQuery, UUID uuidQuery, LocalDate dateQuery, LocalDate[] dateArrayQuery, LocalDateTime datetimeQuery, Choice enumQuery) {
 		var url = new UrlBuilder(baseUrl);
 		url.addPathSegment("echo/query");
 		url.addQueryParameter("int_query", intQuery);
+		url.addQueryParameter("long_query", longQuery);
+		url.addQueryParameter("float_query", floatQuery);
+		url.addQueryParameter("double_query", doubleQuery);
+		url.addQueryParameter("decimal_query", decimalQuery);
+		url.addQueryParameter("bool_query", boolQuery);
 		url.addQueryParameter("string_query", stringQuery);
+		url.addQueryParameter("string_opt_query", stringOptQuery);
+		url.addQueryParameter("string_defaulted_query", stringDefaultedQuery);
+		url.addQueryParameter("string_array_query", stringArrayQuery);
+		url.addQueryParameter("uuid_query", uuidQuery);
+		url.addQueryParameter("date_query", dateQuery);
+		url.addQueryParameter("date_array_query", dateArrayQuery);
+		url.addQueryParameter("datetime_query", datetimeQuery);
+		url.addQueryParameter("enum_query", enumQuery);
 
 		var request = new RequestBuilder("GET", url.build(), null);
 
@@ -130,9 +143,9 @@ public class EchoClient {
 		switch (response.code()) {
 			case 200:
 				logger.info("Received response with status code {}", response.code());
-				Message responseBody;
+				Parameters responseBody;
 				try {
-					responseBody = objectMapper.readValue(response.body().string(), Message.class);
+					responseBody = objectMapper.readValue(response.body().string(), Parameters.class);
 				} catch (IOException e) {
 					var errorMessage = "Failed to deserialize response body " + e.getMessage();
 					logger.error(errorMessage);
@@ -146,13 +159,26 @@ public class EchoClient {
 		}
 	}
 
-	public Message echoHeader(int intHeader, String stringHeader) {
+	public Parameters echoHeader(int intHeader, long longHeader, float floatHeader, double doubleHeader, BigDecimal decimalHeader, boolean boolHeader, String stringHeader, String stringOptHeader, String stringDefaultedHeader, String[] stringArrayHeader, UUID uuidHeader, LocalDate dateHeader, LocalDate[] dateArrayHeader, LocalDateTime datetimeHeader, Choice enumHeader) {
 		var url = new UrlBuilder(baseUrl);
 		url.addPathSegment("echo/header");
 
 		var request = new RequestBuilder("GET", url.build(), null);
 		request.addHeaderParameter("Int-Header", intHeader);
+		request.addHeaderParameter("Long-Header", longHeader);
+		request.addHeaderParameter("Float-Header", floatHeader);
+		request.addHeaderParameter("Double-Header", doubleHeader);
+		request.addHeaderParameter("Decimal-Header", decimalHeader);
+		request.addHeaderParameter("Bool-Header", boolHeader);
 		request.addHeaderParameter("String-Header", stringHeader);
+		request.addHeaderParameter("String-Opt-Header", stringOptHeader);
+		request.addHeaderParameter("String-Defaulted-Header", stringDefaultedHeader);
+		request.addHeaderParameter("String-Array-Header", stringArrayHeader);
+		request.addHeaderParameter("Uuid-Header", uuidHeader);
+		request.addHeaderParameter("Date-Header", dateHeader);
+		request.addHeaderParameter("Date-Array-Header", dateArrayHeader);
+		request.addHeaderParameter("Datetime-Header", datetimeHeader);
+		request.addHeaderParameter("Enum-Header", enumHeader);
 
 		logger.info("Sending request, operationId: echo.echo_header, method: GET, url: /echo/header");
 		Response response;
@@ -167,9 +193,9 @@ public class EchoClient {
 		switch (response.code()) {
 			case 200:
 				logger.info("Received response with status code {}", response.code());
-				Message responseBody;
+				Parameters responseBody;
 				try {
-					responseBody = objectMapper.readValue(response.body().string(), Message.class);
+					responseBody = objectMapper.readValue(response.body().string(), Parameters.class);
 				} catch (IOException e) {
 					var errorMessage = "Failed to deserialize response body " + e.getMessage();
 					logger.error(errorMessage);
@@ -183,15 +209,24 @@ public class EchoClient {
 		}
 	}
 
-	public Message echoUrlParams(int intUrl, String stringUrl) {
+	public UrlParameters echoUrlParams(int intUrl, long longUrl, float floatUrl, double doubleUrl, BigDecimal decimalUrl, boolean boolUrl, String stringUrl, UUID uuidUrl, LocalDate dateUrl, LocalDateTime datetimeUrl, Choice enumUrl) {
 		var url = new UrlBuilder(baseUrl);
 		url.addPathSegment("echo/url_params");
 		url.addPathSegment(intUrl);
+		url.addPathSegment(longUrl);
+		url.addPathSegment(floatUrl);
+		url.addPathSegment(doubleUrl);
+		url.addPathSegment(decimalUrl);
+		url.addPathSegment(boolUrl);
 		url.addPathSegment(stringUrl);
+		url.addPathSegment(uuidUrl);
+		url.addPathSegment(dateUrl);
+		url.addPathSegment(datetimeUrl);
+		url.addPathSegment(enumUrl);
 
 		var request = new RequestBuilder("GET", url.build(), null);
 
-		logger.info("Sending request, operationId: echo.echo_url_params, method: GET, url: /echo/url_params/{int_url}/{string_url}");
+		logger.info("Sending request, operationId: echo.echo_url_params, method: GET, url: /echo/url_params/{int_url}/{long_url}/{float_url}/{double_url}/{decimal_url}/{bool_url}/{string_url}/{uuid_url}/{date_url}/{datetime_url}/{enum_url}");
 		Response response;
 		try {
 			response = client.newCall(request.build()).execute();
@@ -204,15 +239,69 @@ public class EchoClient {
 		switch (response.code()) {
 			case 200:
 				logger.info("Received response with status code {}", response.code());
-				Message responseBody;
+				UrlParameters responseBody;
 				try {
-					responseBody = objectMapper.readValue(response.body().string(), Message.class);
+					responseBody = objectMapper.readValue(response.body().string(), UrlParameters.class);
 				} catch (IOException e) {
 					var errorMessage = "Failed to deserialize response body " + e.getMessage();
 					logger.error(errorMessage);
 					throw new ClientException(errorMessage, e);
 				}
 				return responseBody;
+			default:
+				var errorMessage = "Unexpected status code received: " + response.code();
+				logger.error(errorMessage);
+				throw new ClientException(errorMessage);
+		}
+	}
+
+	public EchoEverythingResponse echoEverything(Message body, float floatQuery, boolean boolQuery, UUID uuidHeader, LocalDateTime datetimeHeader, LocalDate dateUrl, BigDecimal decimalUrl) {
+		String bodyJson;
+		try {
+			bodyJson = objectMapper.writeValueAsString(body);
+		} catch (JsonProcessingException e) {
+			var errorMessage = "Failed to serialize JSON " + e.getMessage();
+			logger.error(errorMessage);
+			throw new ClientException(errorMessage, e);
+		}
+
+		var requestBody = RequestBody.create(bodyJson, MediaType.parse("application/json"));
+		var url = new UrlBuilder(baseUrl);
+		url.addPathSegment("echo/everything");
+		url.addQueryParameter("float_query", floatQuery);
+		url.addQueryParameter("bool_query", boolQuery);
+		url.addPathSegment(dateUrl);
+		url.addPathSegment(decimalUrl);
+
+		var request = new RequestBuilder("POST", url.build(), requestBody);
+		request.addHeaderParameter("Uuid-Header", uuidHeader);
+		request.addHeaderParameter("Datetime-Header", datetimeHeader);
+
+		logger.info("Sending request, operationId: echo.echo_everything, method: POST, url: /echo/everything/{date_url}/{decimal_url}");
+		Response response;
+		try {
+			response = client.newCall(request.build()).execute();
+		} catch (IOException e) {
+			var errorMessage = "Failed to execute the request " + e.getMessage();
+			logger.error(errorMessage);
+			throw new ClientException(errorMessage, e);
+		}
+
+		switch (response.code()) {
+			case 200:
+				logger.info("Received response with status code {}", response.code());
+				Everything responseBody;
+				try {
+					responseBody = objectMapper.readValue(response.body().string(), Everything.class);
+				} catch (IOException e) {
+					var errorMessage = "Failed to deserialize response body " + e.getMessage();
+					logger.error(errorMessage);
+					throw new ClientException(errorMessage, e);
+				}
+				return new EchoEverythingResponse.Ok(responseBody);
+			case 403:
+				logger.info("Received response with status code {}", response.code());
+				return new EchoEverythingResponse.Forbidden();
 			default:
 				var errorMessage = "Unexpected status code received: " + response.code();
 				logger.error(errorMessage);
