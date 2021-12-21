@@ -1,4 +1,4 @@
-package spec.models
+package models
 
 object Jsoner {
 

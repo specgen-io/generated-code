@@ -1,4 +1,4 @@
-package spec
+package testservice.models.
 
 object taggedunion {
   import io.circe._

@@ -40,8 +40,7 @@ public class EchoClient {
 
 		var requestBody = RequestBody.create(bodyJson, MediaType.parse("application/json"));
 		var url = new UrlBuilder(baseUrl);
-		url.addPathSegment("v2");
-		url.addPathSegment("echo/body");
+		url.addPathSegment("v2/echo/body");
 
 		var request = new RequestBuilder("POST", url.build(), requestBody);
 

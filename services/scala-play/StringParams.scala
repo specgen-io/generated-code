@@ -1,4 +1,4 @@
-package spec.controllers
+package controllers
 
 import java.time.format.DateTimeFormatter
 import java.time.{LocalDate, LocalDateTime, LocalTime}

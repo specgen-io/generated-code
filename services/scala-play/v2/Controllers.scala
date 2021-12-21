@@ -4,8 +4,8 @@ import javax.inject._
 import scala.util._
 import scala.concurrent._
 import play.api.mvc._
-import spec.controllers.ParamsTypesBindings._
-import spec.models.Jsoner
+import controllers.ParamsTypesBindings._
+import models.Jsoner
 import services.v2._
 import models.v2._
 

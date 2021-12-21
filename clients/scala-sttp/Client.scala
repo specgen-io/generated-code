@@ -1,10 +1,9 @@
-package testservice.client
+package testservice.client.
 
 import scala.concurrent._
 import org.slf4j._
 import com.softwaremill.sttp._
-import spec.Jsoner
-import spec.ParamsTypesBindings._
+import testservice.client..ParamsTypesBindings._
 
 class EchoClient(baseUrl: String)(implicit backend: SttpBackend[Future, Nothing]) extends IEchoClient {
   import IEchoClient._

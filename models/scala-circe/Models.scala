@@ -1,4 +1,4 @@
-package testservice.models
+package testservice.models.
 
 import enumeratum.values._
 import java.time._
@@ -7,7 +7,7 @@ import java.util.UUID
 import io.circe.Codec
 import io.circe.generic.extras.{Configuration, JsonKey}
 import io.circe.generic.extras.semiauto.{deriveConfiguredCodec, deriveUnwrappedCodec}
-import spec.taggedunion._
+import testservice.models..taggedunion._
 
 case class Message(
   @JsonKey("field") field: Int
@@ -154,9 +154,9 @@ object OrderCanceled {
 sealed trait OrderEventWrapper
 
 object OrderEventWrapper {
-  case class Created(data: testservice.models.OrderCreated) extends OrderEventWrapper
-  case class Changed(data: testservice.models.OrderChanged) extends OrderEventWrapper
-  case class Canceled(data: testservice.models.OrderCanceled) extends OrderEventWrapper
+  case class Created(data: OrderCreated) extends OrderEventWrapper
+  case class Changed(data: OrderChanged) extends OrderEventWrapper
+  case class Canceled(data: OrderCanceled) extends OrderEventWrapper
 
   implicit val codecCreated: Codec[Created] = deriveUnwrappedCodec
   implicit val tagCreated: Tag[Created] = Tag("created")
@@ -172,9 +172,9 @@ object OrderEventWrapper {
 sealed trait OrderEventDiscriminator
 
 object OrderEventDiscriminator {
-  case class Created(data: testservice.models.OrderCreated) extends OrderEventDiscriminator
-  case class Changed(data: testservice.models.OrderChanged) extends OrderEventDiscriminator
-  case class Canceled(data: testservice.models.OrderCanceled) extends OrderEventDiscriminator
+  case class Created(data: OrderCreated) extends OrderEventDiscriminator
+  case class Changed(data: OrderChanged) extends OrderEventDiscriminator
+  case class Canceled(data: OrderCanceled) extends OrderEventDiscriminator
 
   implicit val codecCreated: Codec[Created] = deriveUnwrappedCodec
   implicit val tagCreated: Tag[Created] = Tag("created")
