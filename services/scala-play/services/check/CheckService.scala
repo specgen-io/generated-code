@@ -6,14 +6,9 @@ import models._
 
 @ImplementedBy(classOf[services.CheckService])
 trait ICheckService {
-  def checkEmpty(): Future[CheckEmptyResponse]
+  def checkEmpty(): Future[Unit]
   def checkForbidden(): Future[CheckForbiddenResponse]
   def sameOperationName(): Future[SameOperationNameResponse]
-}
-
-sealed trait CheckEmptyResponse
-object CheckEmptyResponse {
-  case class Ok() extends CheckEmptyResponse
 }
 
 sealed trait CheckForbiddenResponse

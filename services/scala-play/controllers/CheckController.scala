@@ -15,7 +15,7 @@ class CheckController @Inject()(api: ICheckService, cc: ControllerComponents)(im
     implicit request =>
       val result = api.checkEmpty()
       val response = result.map {
-        case CheckEmptyResponse.Ok() => new Status(200)
+        _ => new Status(200)
       }
       response.recover { case _: Exception => InternalServerError }
   }

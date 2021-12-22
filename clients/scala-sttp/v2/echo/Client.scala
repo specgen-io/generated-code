@@ -8,18 +8,13 @@ import testservice.client.Jsoner
 import testservice.client.v2.models._
 
 trait IEchoClient {
-  def echoBody(body: Message): Future[EchoBodyResponse]
-}
-
-sealed trait EchoBodyResponse
-object EchoBodyResponse {
-  case class Ok(body: Message) extends EchoBodyResponse
+  def echoBody(body: Message): Future[Message]
 }
 
 class EchoClient(baseUrl: String)(implicit backend: SttpBackend[Future, Nothing]) extends IEchoClient {
   import ExecutionContext.Implicits.global
   private val logger: Logger = LoggerFactory.getLogger(this.getClass)
-  def echoBody(body: Message): Future[EchoBodyResponse] = {
+  def echoBody(body: Message): Future[Message] = {
     val url = Uri.parse(baseUrl+s"/v2/echo/body").get
     val bodyJson = Jsoner.write(body)
     logger.debug(s"Request to url: ${url}, body: ${bodyJson}")
@@ -36,7 +31,7 @@ class EchoClient(baseUrl: String)(implicit backend: SttpBackend[Future, Nothing]
           case Right(body) =>
             logger.debug(s"Response status: ${response.code}, body: ${body}")
             response.code match {
-              case 200 => EchoBodyResponse.Ok(Jsoner.readThrowing[Message](body))
+              case 200 => Jsoner.readThrowing[Message](body)
               case _ => 
                 val errorMessage = s"Request returned unexpected status code: ${response.code}, body: ${new String(body)}"
                 logger.error(errorMessage)

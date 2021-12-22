@@ -8,14 +8,9 @@ import testservice.client.Jsoner
 import testservice.client.models._
 
 trait ICheckClient {
-  def checkEmpty(): Future[CheckEmptyResponse]
+  def checkEmpty(): Future[Unit]
   def checkForbidden(): Future[CheckForbiddenResponse]
   def sameOperationName(): Future[SameOperationNameResponse]
-}
-
-sealed trait CheckEmptyResponse
-object CheckEmptyResponse {
-  case class Ok() extends CheckEmptyResponse
 }
 
 sealed trait CheckForbiddenResponse
@@ -33,7 +28,7 @@ object SameOperationNameResponse {
 class CheckClient(baseUrl: String)(implicit backend: SttpBackend[Future, Nothing]) extends ICheckClient {
   import ExecutionContext.Implicits.global
   private val logger: Logger = LoggerFactory.getLogger(this.getClass)
-  def checkEmpty(): Future[CheckEmptyResponse] = {
+  def checkEmpty(): Future[Unit] = {
     val url = Uri.parse(baseUrl+s"/check/empty").get
     logger.debug(s"Request to url: ${url}")
     val response: Future[Response[String]] =
@@ -47,7 +42,7 @@ class CheckClient(baseUrl: String)(implicit backend: SttpBackend[Future, Nothing
           case Right(body) =>
             logger.debug(s"Response status: ${response.code}, body: ${body}")
             response.code match {
-              case 200 => CheckEmptyResponse.Ok()
+              case 200 => ()
               case _ => 
                 val errorMessage = s"Request returned unexpected status code: ${response.code}, body: ${new String(body)}"
                 logger.error(errorMessage)

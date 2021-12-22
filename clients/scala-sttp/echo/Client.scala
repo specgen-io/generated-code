@@ -8,38 +8,13 @@ import testservice.client.Jsoner
 import testservice.client.models._
 
 trait IEchoClient {
-  def echoBodyString(body: String): Future[EchoBodyStringResponse]
-  def echoBody(body: Message): Future[EchoBodyResponse]
-  def echoQuery(intQuery: Int, longQuery: Long, floatQuery: Float, doubleQuery: Double, decimalQuery: BigDecimal, boolQuery: Boolean, stringQuery: String, stringOptQuery: Option[String], stringArrayQuery: List[String], uuidQuery: java.util.UUID, dateQuery: java.time.LocalDate, dateArrayQuery: List[java.time.LocalDate], datetimeQuery: java.time.LocalDateTime, enumQuery: Choice, stringDefaultedQuery: String = "the default value"): Future[EchoQueryResponse]
-  def echoHeader(intHeader: Int, longHeader: Long, floatHeader: Float, doubleHeader: Double, decimalHeader: BigDecimal, boolHeader: Boolean, stringHeader: String, stringOptHeader: Option[String], stringArrayHeader: List[String], uuidHeader: java.util.UUID, dateHeader: java.time.LocalDate, dateArrayHeader: List[java.time.LocalDate], datetimeHeader: java.time.LocalDateTime, enumHeader: Choice, stringDefaultedHeader: String = "the default value"): Future[EchoHeaderResponse]
-  def echoUrlParams(intUrl: Int, longUrl: Long, floatUrl: Float, doubleUrl: Double, decimalUrl: BigDecimal, boolUrl: Boolean, stringUrl: String, uuidUrl: java.util.UUID, dateUrl: java.time.LocalDate, datetimeUrl: java.time.LocalDateTime, enumUrl: Choice): Future[EchoUrlParamsResponse]
+  def echoBodyString(body: String): Future[String]
+  def echoBody(body: Message): Future[Message]
+  def echoQuery(intQuery: Int, longQuery: Long, floatQuery: Float, doubleQuery: Double, decimalQuery: BigDecimal, boolQuery: Boolean, stringQuery: String, stringOptQuery: Option[String], stringArrayQuery: List[String], uuidQuery: java.util.UUID, dateQuery: java.time.LocalDate, dateArrayQuery: List[java.time.LocalDate], datetimeQuery: java.time.LocalDateTime, enumQuery: Choice, stringDefaultedQuery: String = "the default value"): Future[Parameters]
+  def echoHeader(intHeader: Int, longHeader: Long, floatHeader: Float, doubleHeader: Double, decimalHeader: BigDecimal, boolHeader: Boolean, stringHeader: String, stringOptHeader: Option[String], stringArrayHeader: List[String], uuidHeader: java.util.UUID, dateHeader: java.time.LocalDate, dateArrayHeader: List[java.time.LocalDate], datetimeHeader: java.time.LocalDateTime, enumHeader: Choice, stringDefaultedHeader: String = "the default value"): Future[Parameters]
+  def echoUrlParams(intUrl: Int, longUrl: Long, floatUrl: Float, doubleUrl: Double, decimalUrl: BigDecimal, boolUrl: Boolean, stringUrl: String, uuidUrl: java.util.UUID, dateUrl: java.time.LocalDate, datetimeUrl: java.time.LocalDateTime, enumUrl: Choice): Future[UrlParameters]
   def echoEverything(uuidHeader: java.util.UUID, datetimeHeader: java.time.LocalDateTime, body: Message, dateUrl: java.time.LocalDate, decimalUrl: BigDecimal, floatQuery: Float, boolQuery: Boolean): Future[EchoEverythingResponse]
   def sameOperationName(): Future[SameOperationNameResponse]
-}
-
-sealed trait EchoBodyStringResponse
-object EchoBodyStringResponse {
-  case class Ok(body: String) extends EchoBodyStringResponse
-}
-
-sealed trait EchoBodyResponse
-object EchoBodyResponse {
-  case class Ok(body: Message) extends EchoBodyResponse
-}
-
-sealed trait EchoQueryResponse
-object EchoQueryResponse {
-  case class Ok(body: Parameters) extends EchoQueryResponse
-}
-
-sealed trait EchoHeaderResponse
-object EchoHeaderResponse {
-  case class Ok(body: Parameters) extends EchoHeaderResponse
-}
-
-sealed trait EchoUrlParamsResponse
-object EchoUrlParamsResponse {
-  case class Ok(body: UrlParameters) extends EchoUrlParamsResponse
 }
 
 sealed trait EchoEverythingResponse
@@ -57,7 +32,7 @@ object SameOperationNameResponse {
 class EchoClient(baseUrl: String)(implicit backend: SttpBackend[Future, Nothing]) extends IEchoClient {
   import ExecutionContext.Implicits.global
   private val logger: Logger = LoggerFactory.getLogger(this.getClass)
-  def echoBodyString(body: String): Future[EchoBodyStringResponse] = {
+  def echoBodyString(body: String): Future[String] = {
     val url = Uri.parse(baseUrl+s"/echo/body_string").get
     logger.debug(s"Request to url: ${url}, body: ${body}")
     val response: Future[Response[String]] =
@@ -73,7 +48,7 @@ class EchoClient(baseUrl: String)(implicit backend: SttpBackend[Future, Nothing]
           case Right(body) =>
             logger.debug(s"Response status: ${response.code}, body: ${body}")
             response.code match {
-              case 200 => EchoBodyStringResponse.Ok(body)
+              case 200 => body
               case _ => 
                 val errorMessage = s"Request returned unexpected status code: ${response.code}, body: ${new String(body)}"
                 logger.error(errorMessage)
@@ -86,7 +61,7 @@ class EchoClient(baseUrl: String)(implicit backend: SttpBackend[Future, Nothing]
         }
     }
   }
-  def echoBody(body: Message): Future[EchoBodyResponse] = {
+  def echoBody(body: Message): Future[Message] = {
     val url = Uri.parse(baseUrl+s"/echo/body").get
     val bodyJson = Jsoner.write(body)
     logger.debug(s"Request to url: ${url}, body: ${bodyJson}")
@@ -103,7 +78,7 @@ class EchoClient(baseUrl: String)(implicit backend: SttpBackend[Future, Nothing]
           case Right(body) =>
             logger.debug(s"Response status: ${response.code}, body: ${body}")
             response.code match {
-              case 200 => EchoBodyResponse.Ok(Jsoner.readThrowing[Message](body))
+              case 200 => Jsoner.readThrowing[Message](body)
               case _ => 
                 val errorMessage = s"Request returned unexpected status code: ${response.code}, body: ${new String(body)}"
                 logger.error(errorMessage)
@@ -116,7 +91,7 @@ class EchoClient(baseUrl: String)(implicit backend: SttpBackend[Future, Nothing]
         }
     }
   }
-  def echoQuery(intQuery: Int, longQuery: Long, floatQuery: Float, doubleQuery: Double, decimalQuery: BigDecimal, boolQuery: Boolean, stringQuery: String, stringOptQuery: Option[String], stringArrayQuery: List[String], uuidQuery: java.util.UUID, dateQuery: java.time.LocalDate, dateArrayQuery: List[java.time.LocalDate], datetimeQuery: java.time.LocalDateTime, enumQuery: Choice, stringDefaultedQuery: String = "the default value"): Future[EchoQueryResponse] = {
+  def echoQuery(intQuery: Int, longQuery: Long, floatQuery: Float, doubleQuery: Double, decimalQuery: BigDecimal, boolQuery: Boolean, stringQuery: String, stringOptQuery: Option[String], stringArrayQuery: List[String], uuidQuery: java.util.UUID, dateQuery: java.time.LocalDate, dateArrayQuery: List[java.time.LocalDate], datetimeQuery: java.time.LocalDateTime, enumQuery: Choice, stringDefaultedQuery: String = "the default value"): Future[Parameters] = {
     val query = new StringParamsWriter()
     query.write("int_query", intQuery)
     query.write("long_query", longQuery)
@@ -146,7 +121,7 @@ class EchoClient(baseUrl: String)(implicit backend: SttpBackend[Future, Nothing]
           case Right(body) =>
             logger.debug(s"Response status: ${response.code}, body: ${body}")
             response.code match {
-              case 200 => EchoQueryResponse.Ok(Jsoner.readThrowing[Parameters](body))
+              case 200 => Jsoner.readThrowing[Parameters](body)
               case _ => 
                 val errorMessage = s"Request returned unexpected status code: ${response.code}, body: ${new String(body)}"
                 logger.error(errorMessage)
@@ -159,7 +134,7 @@ class EchoClient(baseUrl: String)(implicit backend: SttpBackend[Future, Nothing]
         }
     }
   }
-  def echoHeader(intHeader: Int, longHeader: Long, floatHeader: Float, doubleHeader: Double, decimalHeader: BigDecimal, boolHeader: Boolean, stringHeader: String, stringOptHeader: Option[String], stringArrayHeader: List[String], uuidHeader: java.util.UUID, dateHeader: java.time.LocalDate, dateArrayHeader: List[java.time.LocalDate], datetimeHeader: java.time.LocalDateTime, enumHeader: Choice, stringDefaultedHeader: String = "the default value"): Future[EchoHeaderResponse] = {
+  def echoHeader(intHeader: Int, longHeader: Long, floatHeader: Float, doubleHeader: Double, decimalHeader: BigDecimal, boolHeader: Boolean, stringHeader: String, stringOptHeader: Option[String], stringArrayHeader: List[String], uuidHeader: java.util.UUID, dateHeader: java.time.LocalDate, dateArrayHeader: List[java.time.LocalDate], datetimeHeader: java.time.LocalDateTime, enumHeader: Choice, stringDefaultedHeader: String = "the default value"): Future[Parameters] = {
     val url = Uri.parse(baseUrl+s"/echo/header").get
     val headers = new StringParamsWriter()
     headers.write("Int-Header", intHeader)
@@ -190,7 +165,7 @@ class EchoClient(baseUrl: String)(implicit backend: SttpBackend[Future, Nothing]
           case Right(body) =>
             logger.debug(s"Response status: ${response.code}, body: ${body}")
             response.code match {
-              case 200 => EchoHeaderResponse.Ok(Jsoner.readThrowing[Parameters](body))
+              case 200 => Jsoner.readThrowing[Parameters](body)
               case _ => 
                 val errorMessage = s"Request returned unexpected status code: ${response.code}, body: ${new String(body)}"
                 logger.error(errorMessage)
@@ -203,7 +178,7 @@ class EchoClient(baseUrl: String)(implicit backend: SttpBackend[Future, Nothing]
         }
     }
   }
-  def echoUrlParams(intUrl: Int, longUrl: Long, floatUrl: Float, doubleUrl: Double, decimalUrl: BigDecimal, boolUrl: Boolean, stringUrl: String, uuidUrl: java.util.UUID, dateUrl: java.time.LocalDate, datetimeUrl: java.time.LocalDateTime, enumUrl: Choice): Future[EchoUrlParamsResponse] = {
+  def echoUrlParams(intUrl: Int, longUrl: Long, floatUrl: Float, doubleUrl: Double, decimalUrl: BigDecimal, boolUrl: Boolean, stringUrl: String, uuidUrl: java.util.UUID, dateUrl: java.time.LocalDate, datetimeUrl: java.time.LocalDateTime, enumUrl: Choice): Future[UrlParameters] = {
     val url = Uri.parse(baseUrl+s"/echo/url_params/${stringify(intUrl)}/${stringify(longUrl)}/${stringify(floatUrl)}/${stringify(doubleUrl)}/${stringify(decimalUrl)}/${stringify(boolUrl)}/${stringify(stringUrl)}/${stringify(uuidUrl)}/${stringify(dateUrl)}/${stringify(datetimeUrl)}/${stringify(enumUrl)}").get
     logger.debug(s"Request to url: ${url}")
     val response: Future[Response[String]] =
@@ -217,7 +192,7 @@ class EchoClient(baseUrl: String)(implicit backend: SttpBackend[Future, Nothing]
           case Right(body) =>
             logger.debug(s"Response status: ${response.code}, body: ${body}")
             response.code match {
-              case 200 => EchoUrlParamsResponse.Ok(Jsoner.readThrowing[UrlParameters](body))
+              case 200 => Jsoner.readThrowing[UrlParameters](body)
               case _ => 
                 val errorMessage = s"Request returned unexpected status code: ${response.code}, body: ${new String(body)}"
                 logger.error(errorMessage)

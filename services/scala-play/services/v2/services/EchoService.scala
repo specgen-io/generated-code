@@ -7,5 +7,5 @@ import v2.models._
 
 @Singleton
 class EchoService @Inject()()(implicit ec: ExecutionContext) extends IEchoService {
-  override def echoBody(body: Message): Future[EchoBodyResponse] = Future { ??? }
+  override def echoBody(body: Message): Future[Message] = Future { ??? }
 }

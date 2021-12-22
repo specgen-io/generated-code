@@ -23,7 +23,7 @@ class EchoController @Inject()(api: IEchoService, cc: ControllerComponents)(impl
           val (body) = params
           val result = api.echoBody(body)
           val response = result.map {
-            case EchoBodyResponse.Ok(body) => new Status(200)(Jsoner.write(body))
+            body => new Status(200)(Jsoner.write(body))
           }
           response.recover { case _: Exception => InternalServerError }
       }

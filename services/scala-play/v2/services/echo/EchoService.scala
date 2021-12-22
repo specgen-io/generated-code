@@ -6,10 +6,5 @@ import v2.models._
 
 @ImplementedBy(classOf[v2.services.EchoService])
 trait IEchoService {
-  def echoBody(body: Message): Future[EchoBodyResponse]
-}
-
-sealed trait EchoBodyResponse
-object EchoBodyResponse {
-  case class Ok(body: Message) extends EchoBodyResponse
+  def echoBody(body: Message): Future[Message]
 }

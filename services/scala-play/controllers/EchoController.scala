@@ -23,7 +23,7 @@ class EchoController @Inject()(api: IEchoService, cc: ControllerComponents)(impl
           val (body) = params
           val result = api.echoBodyString(body)
           val response = result.map {
-            case EchoBodyStringResponse.Ok(body) => new Status(200)(body)
+            body => new Status(200)(body)
           }
           response.recover { case _: Exception => InternalServerError }
       }
@@ -40,7 +40,7 @@ class EchoController @Inject()(api: IEchoService, cc: ControllerComponents)(impl
           val (body) = params
           val result = api.echoBody(body)
           val response = result.map {
-            case EchoBodyResponse.Ok(body) => new Status(200)(Jsoner.write(body))
+            body => new Status(200)(Jsoner.write(body))
           }
           response.recover { case _: Exception => InternalServerError }
       }
@@ -49,7 +49,7 @@ class EchoController @Inject()(api: IEchoService, cc: ControllerComponents)(impl
     implicit request =>
       val result = api.echoQuery(int_query, long_query, float_query, double_query, decimal_query, bool_query, string_query, string_opt_query, string_defaulted_query, string_array_query, uuid_query, date_query, date_array_query, datetime_query, enum_query)
       val response = result.map {
-        case EchoQueryResponse.Ok(body) => new Status(200)(Jsoner.write(body))
+        body => new Status(200)(Jsoner.write(body))
       }
       response.recover { case _: Exception => InternalServerError }
   }
@@ -80,7 +80,7 @@ class EchoController @Inject()(api: IEchoService, cc: ControllerComponents)(impl
           val (intHeader, longHeader, floatHeader, doubleHeader, decimalHeader, boolHeader, stringHeader, stringOptHeader, stringDefaultedHeader, stringArrayHeader, uuidHeader, dateHeader, dateArrayHeader, datetimeHeader, enumHeader) = params
           val result = api.echoHeader(intHeader, longHeader, floatHeader, doubleHeader, decimalHeader, boolHeader, stringHeader, stringOptHeader, stringDefaultedHeader, stringArrayHeader, uuidHeader, dateHeader, dateArrayHeader, datetimeHeader, enumHeader)
           val response = result.map {
-            case EchoHeaderResponse.Ok(body) => new Status(200)(Jsoner.write(body))
+            body => new Status(200)(Jsoner.write(body))
           }
           response.recover { case _: Exception => InternalServerError }
       }
@@ -89,7 +89,7 @@ class EchoController @Inject()(api: IEchoService, cc: ControllerComponents)(impl
     implicit request =>
       val result = api.echoUrlParams(intUrl, longUrl, floatUrl, doubleUrl, decimalUrl, boolUrl, stringUrl, uuidUrl, dateUrl, datetimeUrl, enumUrl)
       val response = result.map {
-        case EchoUrlParamsResponse.Ok(body) => new Status(200)(Jsoner.write(body))
+        body => new Status(200)(Jsoner.write(body))
       }
       response.recover { case _: Exception => InternalServerError }
   }
