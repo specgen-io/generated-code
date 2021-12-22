@@ -4,7 +4,7 @@ import com.google.inject.ImplementedBy
 import scala.concurrent.Future
 import models._
 
-@ImplementedBy(classOf[CheckService])
+@ImplementedBy(classOf[services.CheckService])
 trait ICheckService {
   def checkEmpty(): Future[CheckEmptyResponse]
   def checkForbidden(): Future[CheckForbiddenResponse]

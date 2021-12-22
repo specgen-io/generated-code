@@ -4,7 +4,7 @@ import com.google.inject.ImplementedBy
 import scala.concurrent.Future
 import models._
 
-@ImplementedBy(classOf[EchoService])
+@ImplementedBy(classOf[services.EchoService])
 trait IEchoService {
   def echoBodyString(body: String): Future[EchoBodyStringResponse]
   def echoBody(body: Message): Future[EchoBodyResponse]
