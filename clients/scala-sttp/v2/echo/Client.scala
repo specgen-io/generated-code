@@ -1,25 +1,22 @@
-package testservice.client.v2
+package testservice.client.v2.echo
 
 import scala.concurrent._
 import org.slf4j._
 import com.softwaremill.sttp._
 import testservice.client.ParamsTypesBindings._
 import testservice.client.Jsoner
+import testservice.client.v2.models._
 
 trait IEchoClient {
-  import IEchoClient._
   def echoBody(body: Message): Future[EchoBodyResponse]
 }
 
-object IEchoClient {
-  sealed trait EchoBodyResponse
-  object EchoBodyResponse {
-    case class Ok(body: Message) extends EchoBodyResponse
-  }
+sealed trait EchoBodyResponse
+object EchoBodyResponse {
+  case class Ok(body: Message) extends EchoBodyResponse
 }
 
 class EchoClient(baseUrl: String)(implicit backend: SttpBackend[Future, Nothing]) extends IEchoClient {
-  import IEchoClient._
   import ExecutionContext.Implicits.global
   private val logger: Logger = LoggerFactory.getLogger(this.getClass)
   def echoBody(body: Message): Future[EchoBodyResponse] = {

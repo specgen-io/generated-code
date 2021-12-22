@@ -1,4 +1,4 @@
-package models
+package json
 
 object taggedunion {
   import io.circe._

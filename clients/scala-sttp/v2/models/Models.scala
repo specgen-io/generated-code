@@ -1,4 +1,4 @@
-package testservice.client.v2
+package testservice.client.v2.models
 
 import enumeratum.values._
 import java.time._

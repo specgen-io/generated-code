@@ -5,7 +5,7 @@ import scala.util._
 import scala.concurrent._
 import play.api.mvc._
 import controllers.ParamsTypesBindings._
-import models.Jsoner
+import json.Jsoner
 import services.v2._
 import models.v2._
 

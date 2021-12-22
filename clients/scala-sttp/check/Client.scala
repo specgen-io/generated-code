@@ -1,36 +1,36 @@
-package testservice.client
+package testservice.client.check
 
 import scala.concurrent._
 import org.slf4j._
 import com.softwaremill.sttp._
 import testservice.client.ParamsTypesBindings._
+import testservice.client.Jsoner
+import testservice.client.models._
 
 trait ICheckClient {
-  import ICheckClient._
   def checkEmpty(): Future[CheckEmptyResponse]
   def checkForbidden(): Future[CheckForbiddenResponse]
   def sameOperationName(): Future[SameOperationNameResponse]
 }
 
-object ICheckClient {
-  sealed trait CheckEmptyResponse
-  object CheckEmptyResponse {
-    case class Ok() extends CheckEmptyResponse
-  }
-  sealed trait CheckForbiddenResponse
-  object CheckForbiddenResponse {
-    case class Ok(body: Message) extends CheckForbiddenResponse
-    case class Forbidden() extends CheckForbiddenResponse
-  }
-  sealed trait SameOperationNameResponse
-  object SameOperationNameResponse {
-    case class Ok() extends SameOperationNameResponse
-    case class Forbidden() extends SameOperationNameResponse
-  }
+sealed trait CheckEmptyResponse
+object CheckEmptyResponse {
+  case class Ok() extends CheckEmptyResponse
+}
+
+sealed trait CheckForbiddenResponse
+object CheckForbiddenResponse {
+  case class Ok(body: Message) extends CheckForbiddenResponse
+  case class Forbidden() extends CheckForbiddenResponse
+}
+
+sealed trait SameOperationNameResponse
+object SameOperationNameResponse {
+  case class Ok() extends SameOperationNameResponse
+  case class Forbidden() extends SameOperationNameResponse
 }
 
 class CheckClient(baseUrl: String)(implicit backend: SttpBackend[Future, Nothing]) extends ICheckClient {
-  import ICheckClient._
   import ExecutionContext.Implicits.global
   private val logger: Logger = LoggerFactory.getLogger(this.getClass)
   def checkEmpty(): Future[CheckEmptyResponse] = {
