@@ -1,7 +1,8 @@
-package services.check
+package services
 
 import javax.inject._
 import scala.concurrent._
+import services.check._
 import models._
 
 @Singleton

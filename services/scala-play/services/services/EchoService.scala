@@ -1,7 +1,8 @@
-package services.echo
+package services
 
 import javax.inject._
 import scala.concurrent._
+import services.echo._
 import models._
 
 @Singleton
