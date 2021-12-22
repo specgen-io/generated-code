@@ -1,4 +1,4 @@
-package services
+package services.echo
 
 import com.google.inject.ImplementedBy
 import scala.concurrent.Future
@@ -6,7 +6,6 @@ import models._
 
 @ImplementedBy(classOf[EchoService])
 trait IEchoService {
-  import IEchoService._
   def echoBodyString(body: String): Future[EchoBodyStringResponse]
   def echoBody(body: Message): Future[EchoBodyResponse]
   def echoQuery(intQuery: Int, longQuery: Long, floatQuery: Float, doubleQuery: Double, decimalQuery: BigDecimal, boolQuery: Boolean, stringQuery: String, stringOptQuery: Option[String], stringDefaultedQuery: String, stringArrayQuery: List[String], uuidQuery: java.util.UUID, dateQuery: java.time.LocalDate, dateArrayQuery: List[java.time.LocalDate], datetimeQuery: java.time.LocalDateTime, enumQuery: Choice): Future[EchoQueryResponse]
@@ -16,35 +15,39 @@ trait IEchoService {
   def sameOperationName(): Future[SameOperationNameResponse]
 }
 
-object IEchoService {
-  sealed trait EchoBodyStringResponse
-  object EchoBodyStringResponse {
-    case class Ok(body: String) extends EchoBodyStringResponse
-  }
-  sealed trait EchoBodyResponse
-  object EchoBodyResponse {
-    case class Ok(body: Message) extends EchoBodyResponse
-  }
-  sealed trait EchoQueryResponse
-  object EchoQueryResponse {
-    case class Ok(body: Parameters) extends EchoQueryResponse
-  }
-  sealed trait EchoHeaderResponse
-  object EchoHeaderResponse {
-    case class Ok(body: Parameters) extends EchoHeaderResponse
-  }
-  sealed trait EchoUrlParamsResponse
-  object EchoUrlParamsResponse {
-    case class Ok(body: UrlParameters) extends EchoUrlParamsResponse
-  }
-  sealed trait EchoEverythingResponse
-  object EchoEverythingResponse {
-    case class Ok(body: Everything) extends EchoEverythingResponse
-    case class Forbidden() extends EchoEverythingResponse
-  }
-  sealed trait SameOperationNameResponse
-  object SameOperationNameResponse {
-    case class Ok() extends SameOperationNameResponse
-    case class Forbidden() extends SameOperationNameResponse
-  }
+sealed trait EchoBodyStringResponse
+object EchoBodyStringResponse {
+  case class Ok(body: String) extends EchoBodyStringResponse
+}
+
+sealed trait EchoBodyResponse
+object EchoBodyResponse {
+  case class Ok(body: Message) extends EchoBodyResponse
+}
+
+sealed trait EchoQueryResponse
+object EchoQueryResponse {
+  case class Ok(body: Parameters) extends EchoQueryResponse
+}
+
+sealed trait EchoHeaderResponse
+object EchoHeaderResponse {
+  case class Ok(body: Parameters) extends EchoHeaderResponse
+}
+
+sealed trait EchoUrlParamsResponse
+object EchoUrlParamsResponse {
+  case class Ok(body: UrlParameters) extends EchoUrlParamsResponse
+}
+
+sealed trait EchoEverythingResponse
+object EchoEverythingResponse {
+  case class Ok(body: Everything) extends EchoEverythingResponse
+  case class Forbidden() extends EchoEverythingResponse
+}
+
+sealed trait SameOperationNameResponse
+object SameOperationNameResponse {
+  case class Ok() extends SameOperationNameResponse
+  case class Forbidden() extends SameOperationNameResponse
 }

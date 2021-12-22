@@ -1,13 +1,13 @@
-package app.v2
+package v2.routers
 
 import javax.inject._
 import play.api.mvc._
 import play.api.routing._
 import play.core.routing._
-import controllers.ParamsTypesBindings._
-import controllers.PlayParamsTypesBindings._
-import controllers.v2._
-import models.v2._
+import params.ParamsTypesBindings._
+import params.PlayParamsTypesBindings._
+import v2.controllers._
+import v2.models._
 
 class EchoRouter @Inject()(Action: DefaultActionBuilder, controller: EchoController) extends SimpleRouter {
   lazy val routeEchoBody = Route("POST", PathPattern(List(

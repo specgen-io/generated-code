@@ -1,4 +1,4 @@
-package controllers
+package params
 
 import play.api.mvc.{PathBindable, QueryStringBindable}
 

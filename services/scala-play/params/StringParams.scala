@@ -1,4 +1,4 @@
-package controllers
+package params
 
 import java.time.format.DateTimeFormatter
 import java.time.{LocalDate, LocalDateTime, LocalTime}

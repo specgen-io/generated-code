@@ -1,4 +1,4 @@
-package models.v2
+package v2.models
 
 import enumeratum.values._
 import java.time._

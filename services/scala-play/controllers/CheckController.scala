@@ -4,14 +4,13 @@ import javax.inject._
 import scala.util._
 import scala.concurrent._
 import play.api.mvc._
-import controllers.ParamsTypesBindings._
+import params.ParamsTypesBindings._
 import json.Jsoner
-import services._
+import services.check._
 import models._
 
 @Singleton
 class CheckController @Inject()(api: ICheckService, cc: ControllerComponents)(implicit ec: ExecutionContext) extends AbstractController(cc) {
-  import ICheckService._
   def checkEmpty() = Action.async {
     implicit request =>
       val result = api.checkEmpty()

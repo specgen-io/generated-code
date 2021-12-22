@@ -1,17 +1,16 @@
-package controllers.v2
+package v2.controllers
 
 import javax.inject._
 import scala.util._
 import scala.concurrent._
 import play.api.mvc._
-import controllers.ParamsTypesBindings._
+import params.ParamsTypesBindings._
 import json.Jsoner
-import services.v2._
-import models.v2._
+import v2.services.echo._
+import v2.models._
 
 @Singleton
 class EchoController @Inject()(api: IEchoService, cc: ControllerComponents)(implicit ec: ExecutionContext) extends AbstractController(cc) {
-  import IEchoService._
   def echoBody() = Action(parse.byteString).async {
     implicit request =>
       val params = Try {
