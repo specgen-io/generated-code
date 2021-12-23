@@ -268,10 +268,10 @@ public class EchoClient {
 		var requestBody = RequestBody.create(bodyJson, MediaType.parse("application/json"));
 		var url = new UrlBuilder(baseUrl);
 		url.addPathSegment("echo/everything");
-		url.addQueryParameter("float_query", floatQuery);
-		url.addQueryParameter("bool_query", boolQuery);
 		url.addPathSegment(dateUrl);
 		url.addPathSegment(decimalUrl);
+		url.addQueryParameter("float_query", floatQuery);
+		url.addQueryParameter("bool_query", boolQuery);
 
 		var request = new RequestBuilder("POST", url.build(), requestBody);
 		request.addHeaderParameter("Uuid-Header", uuidHeader);
