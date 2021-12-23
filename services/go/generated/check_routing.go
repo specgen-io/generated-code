@@ -12,7 +12,8 @@ func AddCheckRoutes(router *vestigo.Router, checkService check.Service) {
 	logCheckEmpty := log.Fields{"operationId": "check.check_empty", "method": "GET", "url": "/check/empty"}
 	router.Get("/check/empty", func(res http.ResponseWriter, req *http.Request) {
 		log.WithFields(logCheckEmpty).Info("Received request")
-		err := checkService.CheckEmpty()
+		var err error
+		err = checkService.CheckEmpty()
 		if err != nil {
 			log.WithFields(logCheckEmpty).Errorf("Error returned from service implementation: %s", err.Error())
 			res.WriteHeader(500)
@@ -27,6 +28,7 @@ func AddCheckRoutes(router *vestigo.Router, checkService check.Service) {
 	logCheckForbidden := log.Fields{"operationId": "check.check_forbidden", "method": "GET", "url": "/check/forbidden"}
 	router.Get("/check/forbidden", func(res http.ResponseWriter, req *http.Request) {
 		log.WithFields(logCheckForbidden).Info("Received request")
+		var err error
 		response, err := checkService.CheckForbidden()
 		if err != nil {
 			log.WithFields(logCheckForbidden).Errorf("Error returned from service implementation: %s", err.Error())
@@ -60,6 +62,7 @@ func AddCheckRoutes(router *vestigo.Router, checkService check.Service) {
 	logSameOperationName := log.Fields{"operationId": "check.same_operation_name", "method": "GET", "url": "/check/same_operation_name"}
 	router.Get("/check/same_operation_name", func(res http.ResponseWriter, req *http.Request) {
 		log.WithFields(logSameOperationName).Info("Received request")
+		var err error
 		response, err := checkService.SameOperationName()
 		if err != nil {
 			log.WithFields(logSameOperationName).Errorf("Error returned from service implementation: %s", err.Error())

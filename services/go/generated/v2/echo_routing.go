@@ -13,8 +13,9 @@ func AddEchoRoutes(router *vestigo.Router, echoService echo.Service) {
 	logEchoBody := log.Fields{"operationId": "echo.echo_body", "method": "POST", "url": "/v2/echo/body"}
 	router.Post("/v2/echo/body", func(res http.ResponseWriter, req *http.Request) {
 		log.WithFields(logEchoBody).Info("Received request")
+		var err error
 		var body models.Message
-		err := json.NewDecoder(req.Body).Decode(&body)
+		err = json.NewDecoder(req.Body).Decode(&body)
 		if err != nil {
 			log.WithFields(logEchoBody).Warnf("Decoding body JSON failed: %s", err.Error())
 			res.WriteHeader(400)

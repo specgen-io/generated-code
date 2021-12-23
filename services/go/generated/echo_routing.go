@@ -14,6 +14,7 @@ func AddEchoRoutes(router *vestigo.Router, echoService echo.Service) {
 	logEchoBodyString := log.Fields{"operationId": "echo.echo_body_string", "method": "POST", "url": "/echo/body_string"}
 	router.Post("/echo/body_string", func(res http.ResponseWriter, req *http.Request) {
 		log.WithFields(logEchoBodyString).Info("Received request")
+		var err error
 		bodyData, err := ioutil.ReadAll(req.Body)
 		if err != nil {
 			log.WithFields(logEchoBodyString).Warnf("Reading request body failed: %s", err.Error())
@@ -44,8 +45,9 @@ func AddEchoRoutes(router *vestigo.Router, echoService echo.Service) {
 	logEchoBody := log.Fields{"operationId": "echo.echo_body", "method": "POST", "url": "/echo/body"}
 	router.Post("/echo/body", func(res http.ResponseWriter, req *http.Request) {
 		log.WithFields(logEchoBody).Info("Received request")
+		var err error
 		var body models.Message
-		err := json.NewDecoder(req.Body).Decode(&body)
+		err = json.NewDecoder(req.Body).Decode(&body)
 		if err != nil {
 			log.WithFields(logEchoBody).Warnf("Decoding body JSON failed: %s", err.Error())
 			res.WriteHeader(400)
@@ -74,6 +76,7 @@ func AddEchoRoutes(router *vestigo.Router, echoService echo.Service) {
 	logEchoQuery := log.Fields{"operationId": "echo.echo_query", "method": "GET", "url": "/echo/query"}
 	router.Get("/echo/query", func(res http.ResponseWriter, req *http.Request) {
 		log.WithFields(logEchoQuery).Info("Received request")
+		var err error
 		queryParams := NewParamsParser(req.URL.Query(), false)
 		intQuery := queryParams.Int("int_query")
 		longQuery := queryParams.Int64("long_query")
@@ -118,6 +121,7 @@ func AddEchoRoutes(router *vestigo.Router, echoService echo.Service) {
 	logEchoHeader := log.Fields{"operationId": "echo.echo_header", "method": "GET", "url": "/echo/header"}
 	router.Get("/echo/header", func(res http.ResponseWriter, req *http.Request) {
 		log.WithFields(logEchoHeader).Info("Received request")
+		var err error
 		headerParams := NewParamsParser(req.Header, true)
 		intHeader := headerParams.Int("Int-Header")
 		longHeader := headerParams.Int64("Long-Header")
@@ -165,6 +169,7 @@ func AddEchoRoutes(router *vestigo.Router, echoService echo.Service) {
 	logEchoUrlParams := log.Fields{"operationId": "echo.echo_url_params", "method": "GET", "url": "/echo/url_params/:int_url/:long_url/:float_url/:double_url/:decimal_url/:bool_url/:string_url/:uuid_url/:date_url/:datetime_url/:enum_url"}
 	router.Get("/echo/url_params/:int_url/:long_url/:float_url/:double_url/:decimal_url/:bool_url/:string_url/:uuid_url/:date_url/:datetime_url/:enum_url", func(res http.ResponseWriter, req *http.Request) {
 		log.WithFields(logEchoUrlParams).Info("Received request")
+		var err error
 		urlParams := NewParamsParser(req.URL.Query(), false)
 		intUrl := urlParams.Int(":int_url")
 		longUrl := urlParams.Int64(":long_url")
@@ -205,8 +210,9 @@ func AddEchoRoutes(router *vestigo.Router, echoService echo.Service) {
 	logEchoEverything := log.Fields{"operationId": "echo.echo_everything", "method": "POST", "url": "/echo/everything/:date_url/:decimal_url"}
 	router.Post("/echo/everything/:date_url/:decimal_url", func(res http.ResponseWriter, req *http.Request) {
 		log.WithFields(logEchoEverything).Info("Received request")
+		var err error
 		var body models.Message
-		err := json.NewDecoder(req.Body).Decode(&body)
+		err = json.NewDecoder(req.Body).Decode(&body)
 		if err != nil {
 			log.WithFields(logEchoEverything).Warnf("Decoding body JSON failed: %s", err.Error())
 			res.WriteHeader(400)
@@ -276,6 +282,7 @@ func AddEchoRoutes(router *vestigo.Router, echoService echo.Service) {
 	logSameOperationName := log.Fields{"operationId": "echo.same_operation_name", "method": "GET", "url": "/echo/same_operation_name"}
 	router.Get("/echo/same_operation_name", func(res http.ResponseWriter, req *http.Request) {
 		log.WithFields(logSameOperationName).Info("Received request")
+		var err error
 		response, err := echoService.SameOperationName()
 		if err != nil {
 			log.WithFields(logSameOperationName).Errorf("Error returned from service implementation: %s", err.Error())
