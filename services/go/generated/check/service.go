@@ -1,21 +1,18 @@
 package check
 
 import (
+	"test-service/empty"
 	"test-service/generated/models"
 )
 
-type EmptyDef struct{}
-
-var Empty = EmptyDef{}
-
 type CheckForbiddenResponse struct {
 	Ok *models.Message
-	Forbidden *EmptyDef
+	Forbidden *empty.Type
 }
 
 type SameOperationNameResponse struct {
-	Ok *EmptyDef
-	Forbidden *EmptyDef
+	Ok *empty.Type
+	Forbidden *empty.Type
 }
 
 type Service interface {

@@ -10,16 +10,15 @@ import (
 	"test-client/models"
 )
 
-type EmptyDef struct{}
 
 type CheckForbiddenResponse struct {
 	Ok *models.Message
-	Forbidden *EmptyDef
+	Forbidden *empty.Type
 }
 
 type SameOperationNameResponse struct {
-	Ok *EmptyDef
-	Forbidden *EmptyDef
+	Ok *empty.Type
+	Forbidden *empty.Type
 }
 
 type Client struct {
@@ -87,7 +86,7 @@ func (client *Client) CheckForbidden() (*CheckForbiddenResponse, error) {
 
 	if resp.StatusCode == 403 {
 		log.WithFields(logCheckForbidden).WithField("status", 403).Info("Received response")
-		return &CheckForbiddenResponse{Forbidden: &EmptyDef{}}, nil
+		return &CheckForbiddenResponse{Forbidden: &empty.Type{}}, nil
 	}
 
 	msg := fmt.Sprintf("Unexpected status code received: %d", resp.StatusCode)
@@ -113,12 +112,12 @@ func (client *Client) SameOperationName() (*SameOperationNameResponse, error) {
 
 	if resp.StatusCode == 200 {
 		log.WithFields(logSameOperationName).WithField("status", 200).Info("Received response")
-		return &SameOperationNameResponse{Ok: &EmptyDef{}}, nil
+		return &SameOperationNameResponse{Ok: &empty.Type{}}, nil
 	}
 
 	if resp.StatusCode == 403 {
 		log.WithFields(logSameOperationName).WithField("status", 403).Info("Received response")
-		return &SameOperationNameResponse{Forbidden: &EmptyDef{}}, nil
+		return &SameOperationNameResponse{Forbidden: &empty.Type{}}, nil
 	}
 
 	msg := fmt.Sprintf("Unexpected status code received: %d", resp.StatusCode)

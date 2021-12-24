@@ -4,21 +4,18 @@ import (
 	"cloud.google.com/go/civil"
 	"github.com/google/uuid"
 	"github.com/shopspring/decimal"
+	"test-service/empty"
 	"test-service/generated/models"
 )
 
-type EmptyDef struct{}
-
-var Empty = EmptyDef{}
-
 type EchoEverythingResponse struct {
 	Ok *models.Everything
-	Forbidden *EmptyDef
+	Forbidden *empty.Type
 }
 
 type SameOperationNameResponse struct {
-	Ok *EmptyDef
-	Forbidden *EmptyDef
+	Ok *empty.Type
+	Forbidden *empty.Type
 }
 
 type Service interface {
