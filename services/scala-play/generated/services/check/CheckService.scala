@@ -7,6 +7,7 @@ import models._
 @ImplementedBy(classOf[services.CheckService])
 trait ICheckService {
   def checkEmpty(): Future[Unit]
+  def checkEmptyResponse(body: Message): Future[Unit]
   def checkForbidden(): Future[CheckForbiddenResponse]
   def sameOperationName(): Future[SameOperationNameResponse]
 }

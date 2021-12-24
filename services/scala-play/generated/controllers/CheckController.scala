@@ -19,6 +19,23 @@ class CheckController @Inject()(api: ICheckService, cc: ControllerComponents)(im
       }
       response.recover { case _: Exception => InternalServerError }
   }
+  def checkEmptyResponse() = Action(parse.byteString).async {
+    implicit request =>
+      val params = Try {
+        val body = Jsoner.readThrowing[Message](request.body.utf8String)
+        (body)
+      }
+      params match {
+        case Failure(ex) => Future { BadRequest }
+        case Success(params) => 
+          val (body) = params
+          val result = api.checkEmptyResponse(body)
+          val response = result.map {
+            _ => new Status(200)
+          }
+          response.recover { case _: Exception => InternalServerError }
+      }
+  }
   def checkForbidden() = Action.async {
     implicit request =>
       val result = api.checkForbidden()

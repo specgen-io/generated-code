@@ -13,6 +13,9 @@ class CheckRouter @Inject()(Action: DefaultActionBuilder, controller: CheckContr
   lazy val routeCheckEmpty = Route("GET", PathPattern(List(
     StaticPart("/check/empty"),
   )))
+  lazy val routeCheckEmptyResponse = Route("POST", PathPattern(List(
+    StaticPart("/check/empty_response"),
+  )))
   lazy val routeCheckForbidden = Route("GET", PathPattern(List(
     StaticPart("/check/forbidden"),
   )))
@@ -22,6 +25,8 @@ class CheckRouter @Inject()(Action: DefaultActionBuilder, controller: CheckContr
   def routes: Router.Routes = {
     case routeCheckEmpty(params@_) =>
       controller.checkEmpty()
+    case routeCheckEmptyResponse(params@_) =>
+      controller.checkEmptyResponse()
     case routeCheckForbidden(params@_) =>
       controller.checkForbidden()
     case routeSameOperationName(params@_) =>

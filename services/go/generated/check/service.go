@@ -20,6 +20,7 @@ type SameOperationNameResponse struct {
 
 type Service interface {
 	CheckEmpty() error
+	CheckEmptyResponse(body *models.Message) error
 	CheckForbidden() (*CheckForbiddenResponse, error)
 	SameOperationName() (*SameOperationNameResponse, error)
 }

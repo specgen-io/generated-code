@@ -236,6 +236,23 @@ export let checkRouter = (service: CheckService) => {
         }
     })
 
+    router.post('/check/empty_response', async (ctx) => {
+        var body: models.Message
+        try {
+            body = t.decode(models.TMessage, ctx.request.body)
+        } catch (error) {
+            ctx.throw(400)
+            return
+        }
+        try {
+            await service.checkEmptyResponse({body})
+            ctx.status = 200
+            return
+        } catch (error) {
+            ctx.throw(500)
+        }
+    })
+
     router.get('/check/forbidden', async (ctx) => {
         try {
             let result = await service.checkForbidden()

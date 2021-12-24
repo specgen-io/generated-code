@@ -40,6 +40,25 @@ public class CheckController {
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
+	@PostMapping("/check/empty_response")
+	public ResponseEntity<String> checkEmptyResponseController(@RequestBody String bodyStr) throws IOException {
+		logger.info("Received request, operationId: check.check_empty_response, method: POST, url: /check/empty_response");
+		HttpHeaders headers = new HttpHeaders();
+		headers.add(CONTENT_TYPE, "application/json");
+
+		Message requestBody;
+		try {
+			requestBody = objectMapper.readValue(bodyStr, Message.class);
+		} catch (Exception e) {
+			logger.error("Completed request with status code: {}", HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>(headers, HttpStatus.BAD_REQUEST);
+		}
+		checkService.checkEmptyResponse(requestBody);
+
+		logger.info("Completed request with status code: {}", HttpStatus.OK);
+		return new ResponseEntity<>(HttpStatus.OK);
+	}
+
 	@GetMapping("/check/forbidden")
 	public ResponseEntity<String> checkForbiddenController() throws IOException {
 		logger.info("Received request, operationId: check.check_forbidden, method: GET, url: /check/forbidden");

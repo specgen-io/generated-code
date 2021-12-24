@@ -16,6 +16,10 @@ public class CheckServiceImpl implements CheckService {
 		throw new UnsupportedOperationException("Implementation has not added yet");
 	}
 	@Override
+	public void checkEmptyResponse(Message body) {
+		throw new UnsupportedOperationException("Implementation has not added yet");
+	}
+	@Override
 	public CheckForbiddenResponse checkForbidden() {
 		throw new UnsupportedOperationException("Implementation has not added yet");
 	}

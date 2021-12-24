@@ -443,6 +443,24 @@ paths:
           description: ""
         "500":
           description: Service will return this if unexpected internal error happens
+  /check/empty_response:
+    post:
+      operationId: checkCheckEmptyResponse
+      tags:
+        - check
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Message'
+      responses:
+        "200":
+          description: ""
+        "400":
+          description: Service will return this if parameters are not provided or couldn't be parsed correctly
+        "500":
+          description: Service will return this if unexpected internal error happens
   /check/forbidden:
     get:
       operationId: checkCheckForbidden

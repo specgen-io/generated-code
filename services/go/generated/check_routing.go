@@ -6,6 +6,7 @@ import (
 	log "github.com/sirupsen/logrus"
 	"net/http"
 	"test-service/generated/check"
+	"test-service/generated/models"
 )
 
 func AddCheckRoutes(router *vestigo.Router, checkService check.Service) {
@@ -22,6 +23,30 @@ func AddCheckRoutes(router *vestigo.Router, checkService check.Service) {
 		}
 		res.WriteHeader(200)
 		log.WithFields(logCheckEmpty).WithField("status", 200).Info("Completed request")
+		return
+	})
+
+	logCheckEmptyResponse := log.Fields{"operationId": "check.check_empty_response", "method": "POST", "url": "/check/empty_response"}
+	router.Post("/check/empty_response", func(res http.ResponseWriter, req *http.Request) {
+		log.WithFields(logCheckEmptyResponse).Info("Received request")
+		var err error
+		var body models.Message
+		err = json.NewDecoder(req.Body).Decode(&body)
+		if err != nil {
+			log.WithFields(logCheckEmptyResponse).Warnf("Decoding body JSON failed: %s", err.Error())
+			res.WriteHeader(400)
+			log.WithFields(logCheckEmptyResponse).WithField("status", 400).Info("Completed request")
+			return
+		}
+		err = checkService.CheckEmptyResponse(&body)
+		if err != nil {
+			log.WithFields(logCheckEmptyResponse).Errorf("Error returned from service implementation: %s", err.Error())
+			res.WriteHeader(500)
+			log.WithFields(logCheckEmptyResponse).WithField("status", 500).Info("Completed request")
+			return
+		}
+		res.WriteHeader(200)
+		log.WithFields(logCheckEmptyResponse).WithField("status", 200).Info("Completed request")
 		return
 	})
 

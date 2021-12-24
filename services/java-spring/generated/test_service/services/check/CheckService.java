@@ -8,6 +8,7 @@ import test_service.models.*;
 
 public interface CheckService {
 	void checkEmpty();
+	void checkEmptyResponse(Message body);
 	CheckForbiddenResponse checkForbidden();
 	SameOperationNameResponse sameOperationName();
 }
