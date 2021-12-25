@@ -1,7 +1,7 @@
 package check
 
 import (
-	"test-service/empty"
+	"test-service/generated/empty"
 	"test-service/generated/models"
 )
 

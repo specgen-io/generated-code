@@ -4,7 +4,7 @@ import (
 	"cloud.google.com/go/civil"
 	"github.com/google/uuid"
 	"github.com/shopspring/decimal"
-	"test-service/empty"
+	"test-service/generated/empty"
 	"test-service/generated/models"
 )
 
