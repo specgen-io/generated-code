@@ -4,7 +4,6 @@ import (
 	"cloud.google.com/go/civil"
 	"encoding/json"
 	"errors"
-	"fmt"
 	"github.com/google/uuid"
 	"github.com/shopspring/decimal"
 )
@@ -13,14 +12,86 @@ type Message struct {
 	Field int `json:"field"`
 }
 
+type message Message
+
+var messageRequiredFields = []string{"field"}
+
+func (obj *Message) UnmarshalJSON(data []byte) error {
+	jsonObj := message(*obj)
+	err := json.Unmarshal(data, &jsonObj)
+	if err != nil {
+		return err
+	}
+	var rawMap map[string]json.RawMessage
+	err = json.Unmarshal(data, &rawMap)
+	if err != nil {
+		return errors.New("failed to check fields in json: " + err.Error())
+	}
+	for _, name := range messageRequiredFields {
+		if _, found := rawMap[name]; !found {
+			return errors.New("required field missing: " + name)
+		}
+	}
+	*obj = Message(jsonObj)
+	return nil
+}
+
 type MessageCases struct {
 	SnakeCase string `json:"snake_case"`
 	CamelCase string `json:"camelCase"`
 }
 
+type messageCases MessageCases
+
+var messageCasesRequiredFields = []string{"snake_case", "camelCase"}
+
+func (obj *MessageCases) UnmarshalJSON(data []byte) error {
+	jsonObj := messageCases(*obj)
+	err := json.Unmarshal(data, &jsonObj)
+	if err != nil {
+		return err
+	}
+	var rawMap map[string]json.RawMessage
+	err = json.Unmarshal(data, &rawMap)
+	if err != nil {
+		return errors.New("failed to check fields in json: " + err.Error())
+	}
+	for _, name := range messageCasesRequiredFields {
+		if _, found := rawMap[name]; !found {
+			return errors.New("required field missing: " + name)
+		}
+	}
+	*obj = MessageCases(jsonObj)
+	return nil
+}
+
 type Parent struct {
 	Field string `json:"field"`
 	Nested Message `json:"nested"`
+}
+
+type parent Parent
+
+var parentRequiredFields = []string{"field", "nested"}
+
+func (obj *Parent) UnmarshalJSON(data []byte) error {
+	jsonObj := parent(*obj)
+	err := json.Unmarshal(data, &jsonObj)
+	if err != nil {
+		return err
+	}
+	var rawMap map[string]json.RawMessage
+	err = json.Unmarshal(data, &rawMap)
+	if err != nil {
+		return errors.New("failed to check fields in json: " + err.Error())
+	}
+	for _, name := range parentRequiredFields {
+		if _, found := rawMap[name]; !found {
+			return errors.New("required field missing: " + name)
+		}
+	}
+	*obj = Parent(jsonObj)
+	return nil
 }
 
 type Choice string
@@ -45,12 +116,60 @@ type EnumFields struct {
 	EnumField Choice `json:"enum_field"`
 }
 
+type enumFields EnumFields
+
+var enumFieldsRequiredFields = []string{"enum_field"}
+
+func (obj *EnumFields) UnmarshalJSON(data []byte) error {
+	jsonObj := enumFields(*obj)
+	err := json.Unmarshal(data, &jsonObj)
+	if err != nil {
+		return err
+	}
+	var rawMap map[string]json.RawMessage
+	err = json.Unmarshal(data, &rawMap)
+	if err != nil {
+		return errors.New("failed to check fields in json: " + err.Error())
+	}
+	for _, name := range enumFieldsRequiredFields {
+		if _, found := rawMap[name]; !found {
+			return errors.New("required field missing: " + name)
+		}
+	}
+	*obj = EnumFields(jsonObj)
+	return nil
+}
+
 type NumericFields struct {
 	IntField int `json:"int_field"`
 	LongField int64 `json:"long_field"`
 	FloatField float32 `json:"float_field"`
 	DoubleField float64 `json:"double_field"`
 	DecimalField decimal.Decimal `json:"decimal_field"`
+}
+
+type numericFields NumericFields
+
+var numericFieldsRequiredFields = []string{"int_field", "long_field", "float_field", "double_field", "decimal_field"}
+
+func (obj *NumericFields) UnmarshalJSON(data []byte) error {
+	jsonObj := numericFields(*obj)
+	err := json.Unmarshal(data, &jsonObj)
+	if err != nil {
+		return err
+	}
+	var rawMap map[string]json.RawMessage
+	err = json.Unmarshal(data, &rawMap)
+	if err != nil {
+		return errors.New("failed to check fields in json: " + err.Error())
+	}
+	for _, name := range numericFieldsRequiredFields {
+		if _, found := rawMap[name]; !found {
+			return errors.New("required field missing: " + name)
+		}
+	}
+	*obj = NumericFields(jsonObj)
+	return nil
 }
 
 type NonNumericFields struct {
@@ -61,9 +180,57 @@ type NonNumericFields struct {
 	DatetimeField civil.DateTime `json:"datetime_field"`
 }
 
+type nonNumericFields NonNumericFields
+
+var nonNumericFieldsRequiredFields = []string{"boolean_field", "string_field", "uuid_field", "date_field", "datetime_field"}
+
+func (obj *NonNumericFields) UnmarshalJSON(data []byte) error {
+	jsonObj := nonNumericFields(*obj)
+	err := json.Unmarshal(data, &jsonObj)
+	if err != nil {
+		return err
+	}
+	var rawMap map[string]json.RawMessage
+	err = json.Unmarshal(data, &rawMap)
+	if err != nil {
+		return errors.New("failed to check fields in json: " + err.Error())
+	}
+	for _, name := range nonNumericFieldsRequiredFields {
+		if _, found := rawMap[name]; !found {
+			return errors.New("required field missing: " + name)
+		}
+	}
+	*obj = NonNumericFields(jsonObj)
+	return nil
+}
+
 type ArrayFields struct {
 	IntArrayField []int `json:"int_array_field"`
 	StringArrayField []string `json:"string_array_field"`
+}
+
+type arrayFields ArrayFields
+
+var arrayFieldsRequiredFields = []string{"int_array_field", "string_array_field"}
+
+func (obj *ArrayFields) UnmarshalJSON(data []byte) error {
+	jsonObj := arrayFields(*obj)
+	err := json.Unmarshal(data, &jsonObj)
+	if err != nil {
+		return err
+	}
+	var rawMap map[string]json.RawMessage
+	err = json.Unmarshal(data, &rawMap)
+	if err != nil {
+		return errors.New("failed to check fields in json: " + err.Error())
+	}
+	for _, name := range arrayFieldsRequiredFields {
+		if _, found := rawMap[name]; !found {
+			return errors.New("required field missing: " + name)
+		}
+	}
+	*obj = ArrayFields(jsonObj)
+	return nil
 }
 
 type MapFields struct {
@@ -71,13 +238,85 @@ type MapFields struct {
 	StringMapField map[string]string `json:"string_map_field"`
 }
 
+type mapFields MapFields
+
+var mapFieldsRequiredFields = []string{"int_map_field", "string_map_field"}
+
+func (obj *MapFields) UnmarshalJSON(data []byte) error {
+	jsonObj := mapFields(*obj)
+	err := json.Unmarshal(data, &jsonObj)
+	if err != nil {
+		return err
+	}
+	var rawMap map[string]json.RawMessage
+	err = json.Unmarshal(data, &rawMap)
+	if err != nil {
+		return errors.New("failed to check fields in json: " + err.Error())
+	}
+	for _, name := range mapFieldsRequiredFields {
+		if _, found := rawMap[name]; !found {
+			return errors.New("required field missing: " + name)
+		}
+	}
+	*obj = MapFields(jsonObj)
+	return nil
+}
+
 type OptionalFields struct {
 	IntOptionField *int `json:"int_option_field"`
 	StringOptionField *string `json:"string_option_field"`
 }
 
+type optionalFields OptionalFields
+
+var optionalFieldsRequiredFields = []string{}
+
+func (obj *OptionalFields) UnmarshalJSON(data []byte) error {
+	jsonObj := optionalFields(*obj)
+	err := json.Unmarshal(data, &jsonObj)
+	if err != nil {
+		return err
+	}
+	var rawMap map[string]json.RawMessage
+	err = json.Unmarshal(data, &rawMap)
+	if err != nil {
+		return errors.New("failed to check fields in json: " + err.Error())
+	}
+	for _, name := range optionalFieldsRequiredFields {
+		if _, found := rawMap[name]; !found {
+			return errors.New("required field missing: " + name)
+		}
+	}
+	*obj = OptionalFields(jsonObj)
+	return nil
+}
+
 type RawJsonField struct {
 	JsonField json.RawMessage `json:"json_field"`
+}
+
+type rawJsonField RawJsonField
+
+var rawJsonFieldRequiredFields = []string{"json_field"}
+
+func (obj *RawJsonField) UnmarshalJSON(data []byte) error {
+	jsonObj := rawJsonField(*obj)
+	err := json.Unmarshal(data, &jsonObj)
+	if err != nil {
+		return err
+	}
+	var rawMap map[string]json.RawMessage
+	err = json.Unmarshal(data, &rawMap)
+	if err != nil {
+		return errors.New("failed to check fields in json: " + err.Error())
+	}
+	for _, name := range rawJsonFieldRequiredFields {
+		if _, found := rawMap[name]; !found {
+			return errors.New("required field missing: " + name)
+		}
+	}
+	*obj = RawJsonField(jsonObj)
+	return nil
 }
 
 type OrderCreated struct {
@@ -86,19 +325,113 @@ type OrderCreated struct {
 	Quantity int `json:"quantity"`
 }
 
+type orderCreated OrderCreated
+
+var orderCreatedRequiredFields = []string{"id", "sku", "quantity"}
+
+func (obj *OrderCreated) UnmarshalJSON(data []byte) error {
+	jsonObj := orderCreated(*obj)
+	err := json.Unmarshal(data, &jsonObj)
+	if err != nil {
+		return err
+	}
+	var rawMap map[string]json.RawMessage
+	err = json.Unmarshal(data, &rawMap)
+	if err != nil {
+		return errors.New("failed to check fields in json: " + err.Error())
+	}
+	for _, name := range orderCreatedRequiredFields {
+		if _, found := rawMap[name]; !found {
+			return errors.New("required field missing: " + name)
+		}
+	}
+	*obj = OrderCreated(jsonObj)
+	return nil
+}
+
 type OrderChanged struct {
 	Id uuid.UUID `json:"id"`
 	Quantity int `json:"quantity"`
+}
+
+type orderChanged OrderChanged
+
+var orderChangedRequiredFields = []string{"id", "quantity"}
+
+func (obj *OrderChanged) UnmarshalJSON(data []byte) error {
+	jsonObj := orderChanged(*obj)
+	err := json.Unmarshal(data, &jsonObj)
+	if err != nil {
+		return err
+	}
+	var rawMap map[string]json.RawMessage
+	err = json.Unmarshal(data, &rawMap)
+	if err != nil {
+		return errors.New("failed to check fields in json: " + err.Error())
+	}
+	for _, name := range orderChangedRequiredFields {
+		if _, found := rawMap[name]; !found {
+			return errors.New("required field missing: " + name)
+		}
+	}
+	*obj = OrderChanged(jsonObj)
+	return nil
 }
 
 type OrderCanceled struct {
 	Id uuid.UUID `json:"id"`
 }
 
+type orderCanceled OrderCanceled
+
+var orderCanceledRequiredFields = []string{"id"}
+
+func (obj *OrderCanceled) UnmarshalJSON(data []byte) error {
+	jsonObj := orderCanceled(*obj)
+	err := json.Unmarshal(data, &jsonObj)
+	if err != nil {
+		return err
+	}
+	var rawMap map[string]json.RawMessage
+	err = json.Unmarshal(data, &rawMap)
+	if err != nil {
+		return errors.New("failed to check fields in json: " + err.Error())
+	}
+	for _, name := range orderCanceledRequiredFields {
+		if _, found := rawMap[name]; !found {
+			return errors.New("required field missing: " + name)
+		}
+	}
+	*obj = OrderCanceled(jsonObj)
+	return nil
+}
+
 type OrderEventWrapper struct {
 	Created *OrderCreated `json:"created,omitempty"`
 	Changed *OrderChanged `json:"changed,omitempty"`
 	Canceled *OrderCanceled `json:"canceled,omitempty"`
+}
+
+type orderEventWrapper OrderEventWrapper
+
+func (u OrderEventWrapper) MarshalJSON() ([]byte, error) {
+	if u.Created == nil && u.Changed == nil && u.Canceled == nil {
+		return nil, errors.New("union case is not set")
+	}
+	return json.Marshal(orderEventWrapper(u))
+}
+
+func (u *OrderEventWrapper) UnmarshalJSON(data []byte) error {
+	jsonObj := orderEventWrapper(*u)
+	err := json.Unmarshal(data, &jsonObj)
+	if err != nil {
+		return err
+	}
+	*u = OrderEventWrapper(jsonObj)
+	if u.Created == nil && u.Changed == nil && u.Canceled == nil {
+		return errors.New("union case is not set")
+	}
+	return nil
 }
 
 type OrderEventDiscriminator struct {
@@ -135,34 +468,45 @@ func (u OrderEventDiscriminator) MarshalJSON() ([]byte, error) {
 			OrderCanceled: u.Canceled,
 		})
 	}
-	return nil, errors.New("union case not set")
+	return nil, errors.New("union case is not set")
 }
 
 func (u *OrderEventDiscriminator) UnmarshalJSON(data []byte) error {
 	var discriminator struct {
-		Value string `json:"_type"`
+		Value *string `json:"_type"`
 	}
 	err := json.Unmarshal(data, &discriminator)
-	if err != nil { return err }
+	if err != nil {
+		return errors.New("failed to parse discriminator field _type: " + err.Error())
+	}
+	if discriminator.Value == nil {
+		return errors.New("discriminator field _type not found")
+	}
 
-	switch discriminator.Value {
-		case "created":
-			unionCase := OrderCreated{}
-			err := json.Unmarshal(data, &unionCase)
-			if err != nil { return err }
-			u.Created = &unionCase
-		case "changed":
-			unionCase := OrderChanged{}
-			err := json.Unmarshal(data, &unionCase)
-			if err != nil { return err }
-			u.Changed = &unionCase
-		case "canceled":
-			unionCase := OrderCanceled{}
-			err := json.Unmarshal(data, &unionCase)
-			if err != nil { return err }
-			u.Canceled = &unionCase
-		default:
-			return errors.New(fmt.Sprintf("unexpected union discriminator field _type value: %s", discriminator.Value))
+	switch *discriminator.Value {
+	case "created":
+		unionCase := OrderCreated{}
+		err := json.Unmarshal(data, &unionCase)
+		if err != nil {
+			return err
+		}
+		u.Created = &unionCase
+	case "changed":
+		unionCase := OrderChanged{}
+		err := json.Unmarshal(data, &unionCase)
+		if err != nil {
+			return err
+		}
+		u.Changed = &unionCase
+	case "canceled":
+		unionCase := OrderCanceled{}
+		err := json.Unmarshal(data, &unionCase)
+		if err != nil {
+			return err
+		}
+		u.Canceled = &unionCase
+	default:
+		return errors.New("unexpected union discriminator field _type value: " + *discriminator.Value)
 	}
 	return nil
 }
