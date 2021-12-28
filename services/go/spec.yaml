@@ -102,6 +102,12 @@ http:
       response:
         ok: empty
 
+    check_empty_response:
+      endpoint: POST /check/empty_response
+      body: Message
+      response:
+        ok: empty
+
     check_forbidden:
       endpoint: GET /check/forbidden
       response:

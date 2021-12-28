@@ -11,7 +11,6 @@ import (
 	"test-client/v2/models"
 )
 
-type EmptyDef struct{}
 
 type Client struct {
 	baseUrl string
