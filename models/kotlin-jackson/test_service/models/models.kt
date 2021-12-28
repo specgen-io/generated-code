@@ -64,9 +64,9 @@ data class NonNumericFields(
 
 data class ArrayFields(
 	@JsonProperty(value = "int_array_field", required = true)
-	val intArrayField: List<Int>,
+	val intArrayField: Array<Int>,
 	@JsonProperty(value = "string_array_field", required = true)
-	val stringArrayField: List<String>,
+	val stringArrayField: Array<String>,
 )
 
 data class MapFields(
