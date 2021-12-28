@@ -64,26 +64,10 @@ data class NonNumericFields(
 
 data class ArrayFields(
 	@JsonProperty(value = "int_array_field", required = true)
-	val intArrayField: Array<Int>,
+	val intArrayField: List<Int>,
 	@JsonProperty(value = "string_array_field", required = true)
-	val stringArrayField: Array<String>,
-) {
-	override fun equals(other: Any?): Boolean {
-		if (this === other) return true
-		if (other !is ArrayFields) return false
-
-		if (!intArrayField.contentEquals(other.intArrayField)) return false
-		if (!stringArrayField.contentEquals(other.stringArrayField)) return false
-
-		return true
-	}
-
-	override fun hashCode(): Int {
-		var result = intArrayField.contentHashCode()
-		result = 31 * result + stringArrayField.contentHashCode()
-		return result
-	}
-}
+	val stringArrayField: List<String>,
+)
 
 data class MapFields(
 	@JsonProperty(value = "int_map_field", required = true)
