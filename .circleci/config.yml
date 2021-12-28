@@ -3,7 +3,7 @@ version: 2.1
 parameters:
   specgen-version:
     type: string
-    default: 2.1.1148
+    default: 2.1.1166
   specgen-version-major:
     type: string
     default: v2
@@ -55,7 +55,7 @@ jobs:
           specgen: openapi --spec-file ./spec.yaml --out-file ./swagger.yaml
       - gen-client:
           path: clients/java-okhttp
-          specgen: client-java-okhttp --spec-file ./spec.yaml --package-name test_client --generate-path .
+          specgen: client-java --spec-file ./spec.yaml --package-name test_client --generate-path .
       - gen-client:
           path: clients/go
           specgen: client-go --spec-file ./spec.yaml --module-name test-client --generate-path .
@@ -83,7 +83,7 @@ jobs:
           specgen: openapi --spec-file ./spec.yaml --out-file ./swagger.yaml
       - gen-service:
           path: services/java-spring
-          specgen: service-java-spring --spec-file ./spec.yaml --package-name test_service --generate-path ./generated --services-path ./developed
+          specgen: service-java --spec-file ./spec.yaml --package-name test_service --generate-path ./generated --services-path ./developed
       - gen-service:
           path: services/go
           specgen: service-go --spec-file ./spec.yaml --module-name test-service --generate-path ./generated --services-path ./developed
