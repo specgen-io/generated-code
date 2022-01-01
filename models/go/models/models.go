@@ -112,7 +112,7 @@ func (obj *MessageCases) UnmarshalJSON(data []byte) error {
 }
 
 type Parent struct {
-	Field string `json:"field"`
+	Field  string  `json:"field"`
 	Nested Message `json:"nested"`
 }
 
@@ -166,9 +166,9 @@ func (obj *Parent) UnmarshalJSON(data []byte) error {
 type Choice string
 
 const (
-	ChoiceFirstChoice Choice = "One"
+	ChoiceFirstChoice  Choice = "One"
 	ChoiceSecondChoice Choice = "Two"
-	ChoiceThirdChoice Choice = "Three"
+	ChoiceThirdChoice  Choice = "Three"
 )
 
 var ChoiceValuesStrings = []string{string(ChoiceFirstChoice), string(ChoiceSecondChoice), string(ChoiceThirdChoice)}
@@ -176,7 +176,9 @@ var ChoiceValues = []Choice{ChoiceFirstChoice, ChoiceSecondChoice, ChoiceThirdCh
 
 func (self *Choice) UnmarshalJSON(b []byte) error {
 	str, err := readEnumStringValue(b, ChoiceValuesStrings)
-	if err != nil { return err }
+	if err != nil {
+		return err
+	}
 	*self = Choice(str)
 	return nil
 }
@@ -233,10 +235,10 @@ func (obj *EnumFields) UnmarshalJSON(data []byte) error {
 }
 
 type NumericFields struct {
-	IntField int `json:"int_field"`
-	LongField int64 `json:"long_field"`
-	FloatField float32 `json:"float_field"`
-	DoubleField float64 `json:"double_field"`
+	IntField     int             `json:"int_field"`
+	LongField    int64           `json:"long_field"`
+	FloatField   float32         `json:"float_field"`
+	DoubleField  float64         `json:"double_field"`
 	DecimalField decimal.Decimal `json:"decimal_field"`
 }
 
@@ -288,10 +290,10 @@ func (obj *NumericFields) UnmarshalJSON(data []byte) error {
 }
 
 type NonNumericFields struct {
-	BooleanField bool `json:"boolean_field"`
-	StringField string `json:"string_field"`
-	UuidField uuid.UUID `json:"uuid_field"`
-	DateField civil.Date `json:"date_field"`
+	BooleanField  bool           `json:"boolean_field"`
+	StringField   string         `json:"string_field"`
+	UuidField     uuid.UUID      `json:"uuid_field"`
+	DateField     civil.Date     `json:"date_field"`
 	DatetimeField civil.DateTime `json:"datetime_field"`
 }
 
@@ -343,7 +345,7 @@ func (obj *NonNumericFields) UnmarshalJSON(data []byte) error {
 }
 
 type ArrayFields struct {
-	IntArrayField []int `json:"int_array_field"`
+	IntArrayField    []int    `json:"int_array_field"`
 	StringArrayField []string `json:"string_array_field"`
 }
 
@@ -395,7 +397,7 @@ func (obj *ArrayFields) UnmarshalJSON(data []byte) error {
 }
 
 type MapFields struct {
-	IntMapField map[string]int `json:"int_map_field"`
+	IntMapField    map[string]int    `json:"int_map_field"`
 	StringMapField map[string]string `json:"string_map_field"`
 }
 
@@ -447,7 +449,7 @@ func (obj *MapFields) UnmarshalJSON(data []byte) error {
 }
 
 type OptionalFields struct {
-	IntOptionField *int `json:"int_option_field,omitempty"`
+	IntOptionField    *int    `json:"int_option_field,omitempty"`
 	StringOptionField *string `json:"string_option_field,omitempty"`
 }
 
@@ -550,9 +552,9 @@ func (obj *RawJsonField) UnmarshalJSON(data []byte) error {
 }
 
 type OrderCreated struct {
-	Id uuid.UUID `json:"id"`
-	Sku string `json:"sku"`
-	Quantity int `json:"quantity"`
+	Id       uuid.UUID `json:"id"`
+	Sku      string    `json:"sku"`
+	Quantity int       `json:"quantity"`
 }
 
 type orderCreated OrderCreated
@@ -603,8 +605,8 @@ func (obj *OrderCreated) UnmarshalJSON(data []byte) error {
 }
 
 type OrderChanged struct {
-	Id uuid.UUID `json:"id"`
-	Quantity int `json:"quantity"`
+	Id       uuid.UUID `json:"id"`
+	Quantity int       `json:"quantity"`
 }
 
 type orderChanged OrderChanged
@@ -706,8 +708,8 @@ func (obj *OrderCanceled) UnmarshalJSON(data []byte) error {
 }
 
 type OrderEventWrapper struct {
-	Created *OrderCreated `json:"created,omitempty"`
-	Changed *OrderChanged `json:"changed,omitempty"`
+	Created  *OrderCreated  `json:"created,omitempty"`
+	Changed  *OrderChanged  `json:"changed,omitempty"`
 	Canceled *OrderCanceled `json:"canceled,omitempty"`
 }
 
@@ -734,38 +736,41 @@ func (u *OrderEventWrapper) UnmarshalJSON(data []byte) error {
 }
 
 type OrderEventDiscriminator struct {
-	Created *OrderCreated `json:"created,omitempty"`
-	Changed *OrderChanged `json:"changed,omitempty"`
-	Canceled *OrderCanceled `json:"canceled,omitempty"`
+	Created  *OrderCreated
+	Changed  *OrderChanged
+	Canceled *OrderCanceled
 }
 
 func (u OrderEventDiscriminator) MarshalJSON() ([]byte, error) {
 	if u.Created != nil {
-		return json.Marshal(&struct {
-			Discriminator string `json:"_type"`
-			*OrderCreated
-		}{
-			Discriminator: "created",
-			OrderCreated: u.Created,
-		})
+		data, err := json.Marshal(u.Created)
+		if err != nil {
+			return nil, err
+		}
+		var rawMap map[string]json.RawMessage
+		json.Unmarshal(data, &rawMap)
+		rawMap["_type"] = []byte(`"created"`)
+		return json.Marshal(rawMap)
 	}
 	if u.Changed != nil {
-		return json.Marshal(&struct {
-			Discriminator string `json:"_type"`
-			*OrderChanged
-		}{
-			Discriminator: "changed",
-			OrderChanged: u.Changed,
-		})
+		data, err := json.Marshal(u.Changed)
+		if err != nil {
+			return nil, err
+		}
+		var rawMap map[string]json.RawMessage
+		json.Unmarshal(data, &rawMap)
+		rawMap["_type"] = []byte(`"changed"`)
+		return json.Marshal(rawMap)
 	}
 	if u.Canceled != nil {
-		return json.Marshal(&struct {
-			Discriminator string `json:"_type"`
-			*OrderCanceled
-		}{
-			Discriminator: "canceled",
-			OrderCanceled: u.Canceled,
-		})
+		data, err := json.Marshal(u.Canceled)
+		if err != nil {
+			return nil, err
+		}
+		var rawMap map[string]json.RawMessage
+		json.Unmarshal(data, &rawMap)
+		rawMap["_type"] = []byte(`"canceled"`)
+		return json.Marshal(rawMap)
 	}
 	return nil, errors.New("union case is not set")
 }
