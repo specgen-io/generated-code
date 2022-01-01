@@ -13,7 +13,7 @@ type message Message
 
 var messageRequiredFields = []string{"field"}
 
-func (obj ArrayFields) MarshalJSON() ([]byte, error) {
+func (obj Message) MarshalJSON() ([]byte, error) {
 	data, err := json.Marshal(message(obj))
 	if err != nil {
 		return nil, err

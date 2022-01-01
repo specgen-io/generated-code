@@ -17,7 +17,7 @@ type message Message
 
 var messageRequiredFields = []string{"int_field", "string_field"}
 
-func (obj ArrayFields) MarshalJSON() ([]byte, error) {
+func (obj Message) MarshalJSON() ([]byte, error) {
 	data, err := json.Marshal(message(obj))
 	if err != nil {
 		return nil, err
@@ -100,7 +100,7 @@ type parameters Parameters
 
 var parametersRequiredFields = []string{"int_field", "long_field", "float_field", "double_field", "decimal_field", "bool_field", "string_field", "string_defaulted_field", "string_array_field", "uuid_field", "date_field", "date_array_field", "datetime_field", "enum_field"}
 
-func (obj ArrayFields) MarshalJSON() ([]byte, error) {
+func (obj Parameters) MarshalJSON() ([]byte, error) {
 	data, err := json.Marshal(parameters(obj))
 	if err != nil {
 		return nil, err
@@ -161,7 +161,7 @@ type urlParameters UrlParameters
 
 var urlParametersRequiredFields = []string{"int_field", "long_field", "float_field", "double_field", "decimal_field", "bool_field", "string_field", "uuid_field", "date_field", "datetime_field", "enum_field"}
 
-func (obj ArrayFields) MarshalJSON() ([]byte, error) {
+func (obj UrlParameters) MarshalJSON() ([]byte, error) {
 	data, err := json.Marshal(urlParameters(obj))
 	if err != nil {
 		return nil, err
@@ -218,7 +218,7 @@ type everything Everything
 
 var everythingRequiredFields = []string{"body_field", "float_query", "bool_query", "uuid_header", "datetime_header", "date_url", "decimal_url"}
 
-func (obj ArrayFields) MarshalJSON() ([]byte, error) {
+func (obj Everything) MarshalJSON() ([]byte, error) {
 	data, err := json.Marshal(everything(obj))
 	if err != nil {
 		return nil, err

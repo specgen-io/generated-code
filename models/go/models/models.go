@@ -16,7 +16,7 @@ type message Message
 
 var messageRequiredFields = []string{"field"}
 
-func (obj ArrayFields) MarshalJSON() ([]byte, error) {
+func (obj Message) MarshalJSON() ([]byte, error) {
 	data, err := json.Marshal(message(obj))
 	if err != nil {
 		return nil, err
@@ -68,7 +68,7 @@ type messageCases MessageCases
 
 var messageCasesRequiredFields = []string{"snake_case", "camelCase"}
 
-func (obj ArrayFields) MarshalJSON() ([]byte, error) {
+func (obj MessageCases) MarshalJSON() ([]byte, error) {
 	data, err := json.Marshal(messageCases(obj))
 	if err != nil {
 		return nil, err
@@ -120,7 +120,7 @@ type parent Parent
 
 var parentRequiredFields = []string{"field", "nested"}
 
-func (obj ArrayFields) MarshalJSON() ([]byte, error) {
+func (obj Parent) MarshalJSON() ([]byte, error) {
 	data, err := json.Marshal(parent(obj))
 	if err != nil {
 		return nil, err
@@ -189,7 +189,7 @@ type enumFields EnumFields
 
 var enumFieldsRequiredFields = []string{"enum_field"}
 
-func (obj ArrayFields) MarshalJSON() ([]byte, error) {
+func (obj EnumFields) MarshalJSON() ([]byte, error) {
 	data, err := json.Marshal(enumFields(obj))
 	if err != nil {
 		return nil, err
@@ -244,7 +244,7 @@ type numericFields NumericFields
 
 var numericFieldsRequiredFields = []string{"int_field", "long_field", "float_field", "double_field", "decimal_field"}
 
-func (obj ArrayFields) MarshalJSON() ([]byte, error) {
+func (obj NumericFields) MarshalJSON() ([]byte, error) {
 	data, err := json.Marshal(numericFields(obj))
 	if err != nil {
 		return nil, err
@@ -299,7 +299,7 @@ type nonNumericFields NonNumericFields
 
 var nonNumericFieldsRequiredFields = []string{"boolean_field", "string_field", "uuid_field", "date_field", "datetime_field"}
 
-func (obj ArrayFields) MarshalJSON() ([]byte, error) {
+func (obj NonNumericFields) MarshalJSON() ([]byte, error) {
 	data, err := json.Marshal(nonNumericFields(obj))
 	if err != nil {
 		return nil, err
@@ -403,7 +403,7 @@ type mapFields MapFields
 
 var mapFieldsRequiredFields = []string{"int_map_field", "string_map_field"}
 
-func (obj ArrayFields) MarshalJSON() ([]byte, error) {
+func (obj MapFields) MarshalJSON() ([]byte, error) {
 	data, err := json.Marshal(mapFields(obj))
 	if err != nil {
 		return nil, err
@@ -455,7 +455,7 @@ type optionalFields OptionalFields
 
 var optionalFieldsRequiredFields = []string{}
 
-func (obj ArrayFields) MarshalJSON() ([]byte, error) {
+func (obj OptionalFields) MarshalJSON() ([]byte, error) {
 	data, err := json.Marshal(optionalFields(obj))
 	if err != nil {
 		return nil, err
@@ -506,7 +506,7 @@ type rawJsonField RawJsonField
 
 var rawJsonFieldRequiredFields = []string{"json_field"}
 
-func (obj ArrayFields) MarshalJSON() ([]byte, error) {
+func (obj RawJsonField) MarshalJSON() ([]byte, error) {
 	data, err := json.Marshal(rawJsonField(obj))
 	if err != nil {
 		return nil, err
@@ -559,7 +559,7 @@ type orderCreated OrderCreated
 
 var orderCreatedRequiredFields = []string{"id", "sku", "quantity"}
 
-func (obj ArrayFields) MarshalJSON() ([]byte, error) {
+func (obj OrderCreated) MarshalJSON() ([]byte, error) {
 	data, err := json.Marshal(orderCreated(obj))
 	if err != nil {
 		return nil, err
@@ -611,7 +611,7 @@ type orderChanged OrderChanged
 
 var orderChangedRequiredFields = []string{"id", "quantity"}
 
-func (obj ArrayFields) MarshalJSON() ([]byte, error) {
+func (obj OrderChanged) MarshalJSON() ([]byte, error) {
 	data, err := json.Marshal(orderChanged(obj))
 	if err != nil {
 		return nil, err
@@ -662,7 +662,7 @@ type orderCanceled OrderCanceled
 
 var orderCanceledRequiredFields = []string{"id"}
 
-func (obj ArrayFields) MarshalJSON() ([]byte, error) {
+func (obj OrderCanceled) MarshalJSON() ([]byte, error) {
 	data, err := json.Marshal(orderCanceled(obj))
 	if err != nil {
 		return nil, err

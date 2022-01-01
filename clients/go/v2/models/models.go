@@ -14,7 +14,7 @@ type message Message
 
 var messageRequiredFields = []string{"bool_field", "string_field"}
 
-func (obj ArrayFields) MarshalJSON() ([]byte, error) {
+func (obj Message) MarshalJSON() ([]byte, error) {
 	data, err := json.Marshal(message(obj))
 	if err != nil {
 		return nil, err
