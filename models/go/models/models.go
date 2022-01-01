@@ -16,6 +16,25 @@ type message Message
 
 var messageRequiredFields = []string{"field"}
 
+func (obj ArrayFields) MarshalJSON() ([]byte, error) {
+	data, err := json.Marshal(message(obj))
+	if err != nil {
+		return nil, err
+	}
+	var rawMap map[string]json.RawMessage
+	err = json.Unmarshal(data, &rawMap)
+	for _, name := range messageRequiredFields {
+		value, found := rawMap[name]
+		if !found {
+			return nil, errors.New("required field missing: " + name)
+		}
+		if string(value) == "null" {
+			return nil, errors.New("required field doesn't have value: " + name)
+		}
+	}
+	return data, nil
+}
+
 func (obj *Message) UnmarshalJSON(data []byte) error {
 	jsonObj := message(*obj)
 	err := json.Unmarshal(data, &jsonObj)
@@ -28,8 +47,12 @@ func (obj *Message) UnmarshalJSON(data []byte) error {
 		return errors.New("failed to check fields in json: " + err.Error())
 	}
 	for _, name := range messageRequiredFields {
-		if _, found := rawMap[name]; !found {
+		value, found := rawMap[name]
+		if !found {
 			return errors.New("required field missing: " + name)
+		}
+		if string(value) == "null" {
+			return errors.New("required field doesn't have value: " + name)
 		}
 	}
 	*obj = Message(jsonObj)
@@ -45,6 +68,25 @@ type messageCases MessageCases
 
 var messageCasesRequiredFields = []string{"snake_case", "camelCase"}
 
+func (obj ArrayFields) MarshalJSON() ([]byte, error) {
+	data, err := json.Marshal(messageCases(obj))
+	if err != nil {
+		return nil, err
+	}
+	var rawMap map[string]json.RawMessage
+	err = json.Unmarshal(data, &rawMap)
+	for _, name := range messageCasesRequiredFields {
+		value, found := rawMap[name]
+		if !found {
+			return nil, errors.New("required field missing: " + name)
+		}
+		if string(value) == "null" {
+			return nil, errors.New("required field doesn't have value: " + name)
+		}
+	}
+	return data, nil
+}
+
 func (obj *MessageCases) UnmarshalJSON(data []byte) error {
 	jsonObj := messageCases(*obj)
 	err := json.Unmarshal(data, &jsonObj)
@@ -57,8 +99,12 @@ func (obj *MessageCases) UnmarshalJSON(data []byte) error {
 		return errors.New("failed to check fields in json: " + err.Error())
 	}
 	for _, name := range messageCasesRequiredFields {
-		if _, found := rawMap[name]; !found {
+		value, found := rawMap[name]
+		if !found {
 			return errors.New("required field missing: " + name)
+		}
+		if string(value) == "null" {
+			return errors.New("required field doesn't have value: " + name)
 		}
 	}
 	*obj = MessageCases(jsonObj)
@@ -74,6 +120,25 @@ type parent Parent
 
 var parentRequiredFields = []string{"field", "nested"}
 
+func (obj ArrayFields) MarshalJSON() ([]byte, error) {
+	data, err := json.Marshal(parent(obj))
+	if err != nil {
+		return nil, err
+	}
+	var rawMap map[string]json.RawMessage
+	err = json.Unmarshal(data, &rawMap)
+	for _, name := range parentRequiredFields {
+		value, found := rawMap[name]
+		if !found {
+			return nil, errors.New("required field missing: " + name)
+		}
+		if string(value) == "null" {
+			return nil, errors.New("required field doesn't have value: " + name)
+		}
+	}
+	return data, nil
+}
+
 func (obj *Parent) UnmarshalJSON(data []byte) error {
 	jsonObj := parent(*obj)
 	err := json.Unmarshal(data, &jsonObj)
@@ -86,8 +151,12 @@ func (obj *Parent) UnmarshalJSON(data []byte) error {
 		return errors.New("failed to check fields in json: " + err.Error())
 	}
 	for _, name := range parentRequiredFields {
-		if _, found := rawMap[name]; !found {
+		value, found := rawMap[name]
+		if !found {
 			return errors.New("required field missing: " + name)
+		}
+		if string(value) == "null" {
+			return errors.New("required field doesn't have value: " + name)
 		}
 	}
 	*obj = Parent(jsonObj)
@@ -120,6 +189,25 @@ type enumFields EnumFields
 
 var enumFieldsRequiredFields = []string{"enum_field"}
 
+func (obj ArrayFields) MarshalJSON() ([]byte, error) {
+	data, err := json.Marshal(enumFields(obj))
+	if err != nil {
+		return nil, err
+	}
+	var rawMap map[string]json.RawMessage
+	err = json.Unmarshal(data, &rawMap)
+	for _, name := range enumFieldsRequiredFields {
+		value, found := rawMap[name]
+		if !found {
+			return nil, errors.New("required field missing: " + name)
+		}
+		if string(value) == "null" {
+			return nil, errors.New("required field doesn't have value: " + name)
+		}
+	}
+	return data, nil
+}
+
 func (obj *EnumFields) UnmarshalJSON(data []byte) error {
 	jsonObj := enumFields(*obj)
 	err := json.Unmarshal(data, &jsonObj)
@@ -132,8 +220,12 @@ func (obj *EnumFields) UnmarshalJSON(data []byte) error {
 		return errors.New("failed to check fields in json: " + err.Error())
 	}
 	for _, name := range enumFieldsRequiredFields {
-		if _, found := rawMap[name]; !found {
+		value, found := rawMap[name]
+		if !found {
 			return errors.New("required field missing: " + name)
+		}
+		if string(value) == "null" {
+			return errors.New("required field doesn't have value: " + name)
 		}
 	}
 	*obj = EnumFields(jsonObj)
@@ -152,6 +244,25 @@ type numericFields NumericFields
 
 var numericFieldsRequiredFields = []string{"int_field", "long_field", "float_field", "double_field", "decimal_field"}
 
+func (obj ArrayFields) MarshalJSON() ([]byte, error) {
+	data, err := json.Marshal(numericFields(obj))
+	if err != nil {
+		return nil, err
+	}
+	var rawMap map[string]json.RawMessage
+	err = json.Unmarshal(data, &rawMap)
+	for _, name := range numericFieldsRequiredFields {
+		value, found := rawMap[name]
+		if !found {
+			return nil, errors.New("required field missing: " + name)
+		}
+		if string(value) == "null" {
+			return nil, errors.New("required field doesn't have value: " + name)
+		}
+	}
+	return data, nil
+}
+
 func (obj *NumericFields) UnmarshalJSON(data []byte) error {
 	jsonObj := numericFields(*obj)
 	err := json.Unmarshal(data, &jsonObj)
@@ -164,8 +275,12 @@ func (obj *NumericFields) UnmarshalJSON(data []byte) error {
 		return errors.New("failed to check fields in json: " + err.Error())
 	}
 	for _, name := range numericFieldsRequiredFields {
-		if _, found := rawMap[name]; !found {
+		value, found := rawMap[name]
+		if !found {
 			return errors.New("required field missing: " + name)
+		}
+		if string(value) == "null" {
+			return errors.New("required field doesn't have value: " + name)
 		}
 	}
 	*obj = NumericFields(jsonObj)
@@ -184,6 +299,25 @@ type nonNumericFields NonNumericFields
 
 var nonNumericFieldsRequiredFields = []string{"boolean_field", "string_field", "uuid_field", "date_field", "datetime_field"}
 
+func (obj ArrayFields) MarshalJSON() ([]byte, error) {
+	data, err := json.Marshal(nonNumericFields(obj))
+	if err != nil {
+		return nil, err
+	}
+	var rawMap map[string]json.RawMessage
+	err = json.Unmarshal(data, &rawMap)
+	for _, name := range nonNumericFieldsRequiredFields {
+		value, found := rawMap[name]
+		if !found {
+			return nil, errors.New("required field missing: " + name)
+		}
+		if string(value) == "null" {
+			return nil, errors.New("required field doesn't have value: " + name)
+		}
+	}
+	return data, nil
+}
+
 func (obj *NonNumericFields) UnmarshalJSON(data []byte) error {
 	jsonObj := nonNumericFields(*obj)
 	err := json.Unmarshal(data, &jsonObj)
@@ -196,8 +330,12 @@ func (obj *NonNumericFields) UnmarshalJSON(data []byte) error {
 		return errors.New("failed to check fields in json: " + err.Error())
 	}
 	for _, name := range nonNumericFieldsRequiredFields {
-		if _, found := rawMap[name]; !found {
+		value, found := rawMap[name]
+		if !found {
 			return errors.New("required field missing: " + name)
+		}
+		if string(value) == "null" {
+			return errors.New("required field doesn't have value: " + name)
 		}
 	}
 	*obj = NonNumericFields(jsonObj)
@@ -213,6 +351,25 @@ type arrayFields ArrayFields
 
 var arrayFieldsRequiredFields = []string{"int_array_field", "string_array_field"}
 
+func (obj ArrayFields) MarshalJSON() ([]byte, error) {
+	data, err := json.Marshal(arrayFields(obj))
+	if err != nil {
+		return nil, err
+	}
+	var rawMap map[string]json.RawMessage
+	err = json.Unmarshal(data, &rawMap)
+	for _, name := range arrayFieldsRequiredFields {
+		value, found := rawMap[name]
+		if !found {
+			return nil, errors.New("required field missing: " + name)
+		}
+		if string(value) == "null" {
+			return nil, errors.New("required field doesn't have value: " + name)
+		}
+	}
+	return data, nil
+}
+
 func (obj *ArrayFields) UnmarshalJSON(data []byte) error {
 	jsonObj := arrayFields(*obj)
 	err := json.Unmarshal(data, &jsonObj)
@@ -225,8 +382,12 @@ func (obj *ArrayFields) UnmarshalJSON(data []byte) error {
 		return errors.New("failed to check fields in json: " + err.Error())
 	}
 	for _, name := range arrayFieldsRequiredFields {
-		if _, found := rawMap[name]; !found {
+		value, found := rawMap[name]
+		if !found {
 			return errors.New("required field missing: " + name)
+		}
+		if string(value) == "null" {
+			return errors.New("required field doesn't have value: " + name)
 		}
 	}
 	*obj = ArrayFields(jsonObj)
@@ -242,6 +403,25 @@ type mapFields MapFields
 
 var mapFieldsRequiredFields = []string{"int_map_field", "string_map_field"}
 
+func (obj ArrayFields) MarshalJSON() ([]byte, error) {
+	data, err := json.Marshal(mapFields(obj))
+	if err != nil {
+		return nil, err
+	}
+	var rawMap map[string]json.RawMessage
+	err = json.Unmarshal(data, &rawMap)
+	for _, name := range mapFieldsRequiredFields {
+		value, found := rawMap[name]
+		if !found {
+			return nil, errors.New("required field missing: " + name)
+		}
+		if string(value) == "null" {
+			return nil, errors.New("required field doesn't have value: " + name)
+		}
+	}
+	return data, nil
+}
+
 func (obj *MapFields) UnmarshalJSON(data []byte) error {
 	jsonObj := mapFields(*obj)
 	err := json.Unmarshal(data, &jsonObj)
@@ -254,8 +434,12 @@ func (obj *MapFields) UnmarshalJSON(data []byte) error {
 		return errors.New("failed to check fields in json: " + err.Error())
 	}
 	for _, name := range mapFieldsRequiredFields {
-		if _, found := rawMap[name]; !found {
+		value, found := rawMap[name]
+		if !found {
 			return errors.New("required field missing: " + name)
+		}
+		if string(value) == "null" {
+			return errors.New("required field doesn't have value: " + name)
 		}
 	}
 	*obj = MapFields(jsonObj)
@@ -263,13 +447,32 @@ func (obj *MapFields) UnmarshalJSON(data []byte) error {
 }
 
 type OptionalFields struct {
-	IntOptionField *int `json:"int_option_field"`
-	StringOptionField *string `json:"string_option_field"`
+	IntOptionField *int `json:"int_option_field,omitempty"`
+	StringOptionField *string `json:"string_option_field,omitempty"`
 }
 
 type optionalFields OptionalFields
 
 var optionalFieldsRequiredFields = []string{}
+
+func (obj ArrayFields) MarshalJSON() ([]byte, error) {
+	data, err := json.Marshal(optionalFields(obj))
+	if err != nil {
+		return nil, err
+	}
+	var rawMap map[string]json.RawMessage
+	err = json.Unmarshal(data, &rawMap)
+	for _, name := range optionalFieldsRequiredFields {
+		value, found := rawMap[name]
+		if !found {
+			return nil, errors.New("required field missing: " + name)
+		}
+		if string(value) == "null" {
+			return nil, errors.New("required field doesn't have value: " + name)
+		}
+	}
+	return data, nil
+}
 
 func (obj *OptionalFields) UnmarshalJSON(data []byte) error {
 	jsonObj := optionalFields(*obj)
@@ -283,8 +486,12 @@ func (obj *OptionalFields) UnmarshalJSON(data []byte) error {
 		return errors.New("failed to check fields in json: " + err.Error())
 	}
 	for _, name := range optionalFieldsRequiredFields {
-		if _, found := rawMap[name]; !found {
+		value, found := rawMap[name]
+		if !found {
 			return errors.New("required field missing: " + name)
+		}
+		if string(value) == "null" {
+			return errors.New("required field doesn't have value: " + name)
 		}
 	}
 	*obj = OptionalFields(jsonObj)
@@ -299,6 +506,25 @@ type rawJsonField RawJsonField
 
 var rawJsonFieldRequiredFields = []string{"json_field"}
 
+func (obj ArrayFields) MarshalJSON() ([]byte, error) {
+	data, err := json.Marshal(rawJsonField(obj))
+	if err != nil {
+		return nil, err
+	}
+	var rawMap map[string]json.RawMessage
+	err = json.Unmarshal(data, &rawMap)
+	for _, name := range rawJsonFieldRequiredFields {
+		value, found := rawMap[name]
+		if !found {
+			return nil, errors.New("required field missing: " + name)
+		}
+		if string(value) == "null" {
+			return nil, errors.New("required field doesn't have value: " + name)
+		}
+	}
+	return data, nil
+}
+
 func (obj *RawJsonField) UnmarshalJSON(data []byte) error {
 	jsonObj := rawJsonField(*obj)
 	err := json.Unmarshal(data, &jsonObj)
@@ -311,8 +537,12 @@ func (obj *RawJsonField) UnmarshalJSON(data []byte) error {
 		return errors.New("failed to check fields in json: " + err.Error())
 	}
 	for _, name := range rawJsonFieldRequiredFields {
-		if _, found := rawMap[name]; !found {
+		value, found := rawMap[name]
+		if !found {
 			return errors.New("required field missing: " + name)
+		}
+		if string(value) == "null" {
+			return errors.New("required field doesn't have value: " + name)
 		}
 	}
 	*obj = RawJsonField(jsonObj)
@@ -329,6 +559,25 @@ type orderCreated OrderCreated
 
 var orderCreatedRequiredFields = []string{"id", "sku", "quantity"}
 
+func (obj ArrayFields) MarshalJSON() ([]byte, error) {
+	data, err := json.Marshal(orderCreated(obj))
+	if err != nil {
+		return nil, err
+	}
+	var rawMap map[string]json.RawMessage
+	err = json.Unmarshal(data, &rawMap)
+	for _, name := range orderCreatedRequiredFields {
+		value, found := rawMap[name]
+		if !found {
+			return nil, errors.New("required field missing: " + name)
+		}
+		if string(value) == "null" {
+			return nil, errors.New("required field doesn't have value: " + name)
+		}
+	}
+	return data, nil
+}
+
 func (obj *OrderCreated) UnmarshalJSON(data []byte) error {
 	jsonObj := orderCreated(*obj)
 	err := json.Unmarshal(data, &jsonObj)
@@ -341,8 +590,12 @@ func (obj *OrderCreated) UnmarshalJSON(data []byte) error {
 		return errors.New("failed to check fields in json: " + err.Error())
 	}
 	for _, name := range orderCreatedRequiredFields {
-		if _, found := rawMap[name]; !found {
+		value, found := rawMap[name]
+		if !found {
 			return errors.New("required field missing: " + name)
+		}
+		if string(value) == "null" {
+			return errors.New("required field doesn't have value: " + name)
 		}
 	}
 	*obj = OrderCreated(jsonObj)
@@ -358,6 +611,25 @@ type orderChanged OrderChanged
 
 var orderChangedRequiredFields = []string{"id", "quantity"}
 
+func (obj ArrayFields) MarshalJSON() ([]byte, error) {
+	data, err := json.Marshal(orderChanged(obj))
+	if err != nil {
+		return nil, err
+	}
+	var rawMap map[string]json.RawMessage
+	err = json.Unmarshal(data, &rawMap)
+	for _, name := range orderChangedRequiredFields {
+		value, found := rawMap[name]
+		if !found {
+			return nil, errors.New("required field missing: " + name)
+		}
+		if string(value) == "null" {
+			return nil, errors.New("required field doesn't have value: " + name)
+		}
+	}
+	return data, nil
+}
+
 func (obj *OrderChanged) UnmarshalJSON(data []byte) error {
 	jsonObj := orderChanged(*obj)
 	err := json.Unmarshal(data, &jsonObj)
@@ -370,8 +642,12 @@ func (obj *OrderChanged) UnmarshalJSON(data []byte) error {
 		return errors.New("failed to check fields in json: " + err.Error())
 	}
 	for _, name := range orderChangedRequiredFields {
-		if _, found := rawMap[name]; !found {
+		value, found := rawMap[name]
+		if !found {
 			return errors.New("required field missing: " + name)
+		}
+		if string(value) == "null" {
+			return errors.New("required field doesn't have value: " + name)
 		}
 	}
 	*obj = OrderChanged(jsonObj)
@@ -386,6 +662,25 @@ type orderCanceled OrderCanceled
 
 var orderCanceledRequiredFields = []string{"id"}
 
+func (obj ArrayFields) MarshalJSON() ([]byte, error) {
+	data, err := json.Marshal(orderCanceled(obj))
+	if err != nil {
+		return nil, err
+	}
+	var rawMap map[string]json.RawMessage
+	err = json.Unmarshal(data, &rawMap)
+	for _, name := range orderCanceledRequiredFields {
+		value, found := rawMap[name]
+		if !found {
+			return nil, errors.New("required field missing: " + name)
+		}
+		if string(value) == "null" {
+			return nil, errors.New("required field doesn't have value: " + name)
+		}
+	}
+	return data, nil
+}
+
 func (obj *OrderCanceled) UnmarshalJSON(data []byte) error {
 	jsonObj := orderCanceled(*obj)
 	err := json.Unmarshal(data, &jsonObj)
@@ -398,8 +693,12 @@ func (obj *OrderCanceled) UnmarshalJSON(data []byte) error {
 		return errors.New("failed to check fields in json: " + err.Error())
 	}
 	for _, name := range orderCanceledRequiredFields {
-		if _, found := rawMap[name]; !found {
+		value, found := rawMap[name]
+		if !found {
 			return errors.New("required field missing: " + name)
+		}
+		if string(value) == "null" {
+			return errors.New("required field doesn't have value: " + name)
 		}
 	}
 	*obj = OrderCanceled(jsonObj)

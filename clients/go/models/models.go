@@ -17,6 +17,25 @@ type message Message
 
 var messageRequiredFields = []string{"int_field", "string_field"}
 
+func (obj ArrayFields) MarshalJSON() ([]byte, error) {
+	data, err := json.Marshal(message(obj))
+	if err != nil {
+		return nil, err
+	}
+	var rawMap map[string]json.RawMessage
+	err = json.Unmarshal(data, &rawMap)
+	for _, name := range messageRequiredFields {
+		value, found := rawMap[name]
+		if !found {
+			return nil, errors.New("required field missing: " + name)
+		}
+		if string(value) == "null" {
+			return nil, errors.New("required field doesn't have value: " + name)
+		}
+	}
+	return data, nil
+}
+
 func (obj *Message) UnmarshalJSON(data []byte) error {
 	jsonObj := message(*obj)
 	err := json.Unmarshal(data, &jsonObj)
@@ -29,8 +48,12 @@ func (obj *Message) UnmarshalJSON(data []byte) error {
 		return errors.New("failed to check fields in json: " + err.Error())
 	}
 	for _, name := range messageRequiredFields {
-		if _, found := rawMap[name]; !found {
+		value, found := rawMap[name]
+		if !found {
 			return errors.New("required field missing: " + name)
+		}
+		if string(value) == "null" {
+			return errors.New("required field doesn't have value: " + name)
 		}
 	}
 	*obj = Message(jsonObj)
@@ -63,7 +86,7 @@ type Parameters struct {
 	DecimalField decimal.Decimal `json:"decimal_field"`
 	BoolField bool `json:"bool_field"`
 	StringField string `json:"string_field"`
-	StringOptField *string `json:"string_opt_field"`
+	StringOptField *string `json:"string_opt_field,omitempty"`
 	StringDefaultedField string `json:"string_defaulted_field"`
 	StringArrayField []string `json:"string_array_field"`
 	UuidField uuid.UUID `json:"uuid_field"`
@@ -77,6 +100,25 @@ type parameters Parameters
 
 var parametersRequiredFields = []string{"int_field", "long_field", "float_field", "double_field", "decimal_field", "bool_field", "string_field", "string_defaulted_field", "string_array_field", "uuid_field", "date_field", "date_array_field", "datetime_field", "enum_field"}
 
+func (obj ArrayFields) MarshalJSON() ([]byte, error) {
+	data, err := json.Marshal(parameters(obj))
+	if err != nil {
+		return nil, err
+	}
+	var rawMap map[string]json.RawMessage
+	err = json.Unmarshal(data, &rawMap)
+	for _, name := range parametersRequiredFields {
+		value, found := rawMap[name]
+		if !found {
+			return nil, errors.New("required field missing: " + name)
+		}
+		if string(value) == "null" {
+			return nil, errors.New("required field doesn't have value: " + name)
+		}
+	}
+	return data, nil
+}
+
 func (obj *Parameters) UnmarshalJSON(data []byte) error {
 	jsonObj := parameters(*obj)
 	err := json.Unmarshal(data, &jsonObj)
@@ -89,8 +131,12 @@ func (obj *Parameters) UnmarshalJSON(data []byte) error {
 		return errors.New("failed to check fields in json: " + err.Error())
 	}
 	for _, name := range parametersRequiredFields {
-		if _, found := rawMap[name]; !found {
+		value, found := rawMap[name]
+		if !found {
 			return errors.New("required field missing: " + name)
+		}
+		if string(value) == "null" {
+			return errors.New("required field doesn't have value: " + name)
 		}
 	}
 	*obj = Parameters(jsonObj)
@@ -115,6 +161,25 @@ type urlParameters UrlParameters
 
 var urlParametersRequiredFields = []string{"int_field", "long_field", "float_field", "double_field", "decimal_field", "bool_field", "string_field", "uuid_field", "date_field", "datetime_field", "enum_field"}
 
+func (obj ArrayFields) MarshalJSON() ([]byte, error) {
+	data, err := json.Marshal(urlParameters(obj))
+	if err != nil {
+		return nil, err
+	}
+	var rawMap map[string]json.RawMessage
+	err = json.Unmarshal(data, &rawMap)
+	for _, name := range urlParametersRequiredFields {
+		value, found := rawMap[name]
+		if !found {
+			return nil, errors.New("required field missing: " + name)
+		}
+		if string(value) == "null" {
+			return nil, errors.New("required field doesn't have value: " + name)
+		}
+	}
+	return data, nil
+}
+
 func (obj *UrlParameters) UnmarshalJSON(data []byte) error {
 	jsonObj := urlParameters(*obj)
 	err := json.Unmarshal(data, &jsonObj)
@@ -127,8 +192,12 @@ func (obj *UrlParameters) UnmarshalJSON(data []byte) error {
 		return errors.New("failed to check fields in json: " + err.Error())
 	}
 	for _, name := range urlParametersRequiredFields {
-		if _, found := rawMap[name]; !found {
+		value, found := rawMap[name]
+		if !found {
 			return errors.New("required field missing: " + name)
+		}
+		if string(value) == "null" {
+			return errors.New("required field doesn't have value: " + name)
 		}
 	}
 	*obj = UrlParameters(jsonObj)
@@ -149,6 +218,25 @@ type everything Everything
 
 var everythingRequiredFields = []string{"body_field", "float_query", "bool_query", "uuid_header", "datetime_header", "date_url", "decimal_url"}
 
+func (obj ArrayFields) MarshalJSON() ([]byte, error) {
+	data, err := json.Marshal(everything(obj))
+	if err != nil {
+		return nil, err
+	}
+	var rawMap map[string]json.RawMessage
+	err = json.Unmarshal(data, &rawMap)
+	for _, name := range everythingRequiredFields {
+		value, found := rawMap[name]
+		if !found {
+			return nil, errors.New("required field missing: " + name)
+		}
+		if string(value) == "null" {
+			return nil, errors.New("required field doesn't have value: " + name)
+		}
+	}
+	return data, nil
+}
+
 func (obj *Everything) UnmarshalJSON(data []byte) error {
 	jsonObj := everything(*obj)
 	err := json.Unmarshal(data, &jsonObj)
@@ -161,8 +249,12 @@ func (obj *Everything) UnmarshalJSON(data []byte) error {
 		return errors.New("failed to check fields in json: " + err.Error())
 	}
 	for _, name := range everythingRequiredFields {
-		if _, found := rawMap[name]; !found {
+		value, found := rawMap[name]
+		if !found {
 			return errors.New("required field missing: " + name)
+		}
+		if string(value) == "null" {
+			return errors.New("required field doesn't have value: " + name)
 		}
 	}
 	*obj = Everything(jsonObj)
