@@ -9,12 +9,12 @@ import (
 )
 
 type EchoEverythingResponse struct {
-	Ok *models.Everything
+	Ok        *models.Everything
 	Forbidden *empty.Type
 }
 
 type SameOperationNameResponse struct {
-	Ok *empty.Type
+	Ok        *empty.Type
 	Forbidden *empty.Type
 }
 

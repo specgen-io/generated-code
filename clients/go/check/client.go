@@ -13,12 +13,12 @@ import (
 
 
 type CheckForbiddenResponse struct {
-	Ok *models.Message
+	Ok        *models.Message
 	Forbidden *empty.Type
 }
 
 type SameOperationNameResponse struct {
-	Ok *empty.Type
+	Ok        *empty.Type
 	Forbidden *empty.Type
 }
 
