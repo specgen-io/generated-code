@@ -1,7 +1,6 @@
 package test_client.clients.echo;
 
-import com.fasterxml.jackson.core.*;
-import com.fasterxml.jackson.databind.*;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import okhttp3.*;
 import org.slf4j.*;
 import java.io.*;
@@ -68,7 +67,7 @@ public class EchoClient {
 		String bodyJson;
 		try {
 			bodyJson = objectMapper.writeValueAsString(body);
-		} catch (JsonProcessingException e) {
+		} catch (IOException e) {
 			var errorMessage = "Failed to serialize JSON " + e.getMessage();
 			logger.error(errorMessage);
 			throw new ClientException(errorMessage, e);
@@ -259,7 +258,7 @@ public class EchoClient {
 		String bodyJson;
 		try {
 			bodyJson = objectMapper.writeValueAsString(body);
-		} catch (JsonProcessingException e) {
+		} catch (IOException e) {
 			var errorMessage = "Failed to serialize JSON " + e.getMessage();
 			logger.error(errorMessage);
 			throw new ClientException(errorMessage, e);

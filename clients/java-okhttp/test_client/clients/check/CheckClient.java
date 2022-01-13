@@ -1,7 +1,6 @@
 package test_client.clients.check;
 
-import com.fasterxml.jackson.core.*;
-import com.fasterxml.jackson.databind.*;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import okhttp3.*;
 import org.slf4j.*;
 import java.io.*;
