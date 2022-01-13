@@ -8,6 +8,12 @@ import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.annotation.JsonSubTypes.*;
 
 public class MessageCases {
+
+@JsonProperty(value = "snake_case", required = true)
+	private String snakeCase;
+
+@JsonProperty(value = "camelCase", required = true)
+	private String camelCase;
 	@JsonCreator
 	public MessageCases(
 		@JsonProperty(value = "snake_case", required = true)
@@ -21,18 +27,11 @@ public class MessageCases {
 		this.camelCase = camelCase;
 	}
 
-	@JsonProperty(value = "snake_case", required = true)
-	private String snakeCase;
-
-	@JsonProperty(value = "camelCase", required = true)
-	private String camelCase;
-
 	public String getSnakeCase() {
 		return snakeCase;
 	}
 
 	public void setSnakeCase(String snakeCase) {
-		if (snakeCase == null) { throw new IllegalArgumentException("null value is not allowed"); }
 		this.snakeCase = snakeCase;
 	}
 
@@ -41,7 +40,6 @@ public class MessageCases {
 	}
 
 	public void setCamelCase(String camelCase) {
-		if (camelCase == null) { throw new IllegalArgumentException("null value is not allowed"); }
 		this.camelCase = camelCase;
 	}
 

@@ -8,6 +8,15 @@ import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.annotation.JsonSubTypes.*;
 
 public class OrderCreated {
+
+@JsonProperty(value = "id", required = true)
+	private UUID id;
+
+@JsonProperty(value = "sku", required = true)
+	private String sku;
+
+@JsonProperty(value = "quantity", required = true)
+	private int quantity;
 	@JsonCreator
 	public OrderCreated(
 		@JsonProperty(value = "id", required = true)
@@ -24,21 +33,11 @@ public class OrderCreated {
 		this.quantity = quantity;
 	}
 
-	@JsonProperty(value = "id", required = true)
-	private UUID id;
-
-	@JsonProperty(value = "sku", required = true)
-	private String sku;
-
-	@JsonProperty(value = "quantity", required = true)
-	private int quantity;
-
 	public UUID getId() {
 		return id;
 	}
 
 	public void setId(UUID id) {
-		if (id == null) { throw new IllegalArgumentException("null value is not allowed"); }
 		this.id = id;
 	}
 
@@ -47,7 +46,6 @@ public class OrderCreated {
 	}
 
 	public void setSku(String sku) {
-		if (sku == null) { throw new IllegalArgumentException("null value is not allowed"); }
 		this.sku = sku;
 	}
 

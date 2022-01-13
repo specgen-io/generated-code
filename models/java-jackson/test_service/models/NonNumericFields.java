@@ -8,6 +8,21 @@ import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.annotation.JsonSubTypes.*;
 
 public class NonNumericFields {
+
+@JsonProperty(value = "boolean_field", required = true)
+	private boolean booleanField;
+
+@JsonProperty(value = "string_field", required = true)
+	private String stringField;
+
+@JsonProperty(value = "uuid_field", required = true)
+	private UUID uuidField;
+
+@JsonProperty(value = "date_field", required = true)
+	private LocalDate dateField;
+
+@JsonProperty(value = "datetime_field", required = true)
+	private LocalDateTime datetimeField;
 	@JsonCreator
 	public NonNumericFields(
 		@JsonProperty(value = "boolean_field", required = true)
@@ -32,21 +47,6 @@ public class NonNumericFields {
 		this.datetimeField = datetimeField;
 	}
 
-	@JsonProperty(value = "boolean_field", required = true)
-	private boolean booleanField;
-
-	@JsonProperty(value = "string_field", required = true)
-	private String stringField;
-
-	@JsonProperty(value = "uuid_field", required = true)
-	private UUID uuidField;
-
-	@JsonProperty(value = "date_field", required = true)
-	private LocalDate dateField;
-
-	@JsonProperty(value = "datetime_field", required = true)
-	private LocalDateTime datetimeField;
-
 	public boolean getBooleanField() {
 		return booleanField;
 	}
@@ -60,7 +60,6 @@ public class NonNumericFields {
 	}
 
 	public void setStringField(String stringField) {
-		if (stringField == null) { throw new IllegalArgumentException("null value is not allowed"); }
 		this.stringField = stringField;
 	}
 
@@ -69,7 +68,6 @@ public class NonNumericFields {
 	}
 
 	public void setUuidField(UUID uuidField) {
-		if (uuidField == null) { throw new IllegalArgumentException("null value is not allowed"); }
 		this.uuidField = uuidField;
 	}
 
@@ -78,7 +76,6 @@ public class NonNumericFields {
 	}
 
 	public void setDateField(LocalDate dateField) {
-		if (dateField == null) { throw new IllegalArgumentException("null value is not allowed"); }
 		this.dateField = dateField;
 	}
 
@@ -87,7 +84,6 @@ public class NonNumericFields {
 	}
 
 	public void setDatetimeField(LocalDateTime datetimeField) {
-		if (datetimeField == null) { throw new IllegalArgumentException("null value is not allowed"); }
 		this.datetimeField = datetimeField;
 	}
 

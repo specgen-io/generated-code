@@ -8,6 +8,9 @@ import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.annotation.JsonSubTypes.*;
 
 public class Message {
+
+@JsonProperty(value = "field", required = true)
+	private String field;
 	@JsonCreator
 	public Message(
 		@JsonProperty(value = "field", required = true)
@@ -17,15 +20,11 @@ public class Message {
 		this.field = field;
 	}
 
-	@JsonProperty(value = "field", required = true)
-	private String field;
-
 	public String getField() {
 		return field;
 	}
 
 	public void setField(String field) {
-		if (field == null) { throw new IllegalArgumentException("null value is not allowed"); }
 		this.field = field;
 	}
 

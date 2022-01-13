@@ -8,6 +8,12 @@ import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.annotation.JsonSubTypes.*;
 
 public class Parent {
+
+@JsonProperty(value = "field", required = true)
+	private String field;
+
+@JsonProperty(value = "nested", required = true)
+	private Message nested;
 	@JsonCreator
 	public Parent(
 		@JsonProperty(value = "field", required = true)
@@ -21,18 +27,11 @@ public class Parent {
 		this.nested = nested;
 	}
 
-	@JsonProperty(value = "field", required = true)
-	private String field;
-
-	@JsonProperty(value = "nested", required = true)
-	private Message nested;
-
 	public String getField() {
 		return field;
 	}
 
 	public void setField(String field) {
-		if (field == null) { throw new IllegalArgumentException("null value is not allowed"); }
 		this.field = field;
 	}
 
@@ -41,7 +40,6 @@ public class Parent {
 	}
 
 	public void setNested(Message nested) {
-		if (nested == null) { throw new IllegalArgumentException("null value is not allowed"); }
 		this.nested = nested;
 	}
 

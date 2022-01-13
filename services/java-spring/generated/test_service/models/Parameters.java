@@ -8,6 +8,51 @@ import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.annotation.JsonSubTypes.*;
 
 public class Parameters {
+
+@JsonProperty(value = "int_field", required = true)
+	private int intField;
+
+@JsonProperty(value = "long_field", required = true)
+	private long longField;
+
+@JsonProperty(value = "float_field", required = true)
+	private float floatField;
+
+@JsonProperty(value = "double_field", required = true)
+	private double doubleField;
+
+@JsonProperty(value = "decimal_field", required = true)
+	private BigDecimal decimalField;
+
+@JsonProperty(value = "bool_field", required = true)
+	private boolean boolField;
+
+@JsonProperty(value = "string_field", required = true)
+	private String stringField;
+
+@JsonProperty(value = "string_opt_field", required = false)
+	private String stringOptField;
+
+@JsonProperty(value = "string_defaulted_field", required = true)
+	private String stringDefaultedField;
+
+@JsonProperty(value = "string_array_field", required = true)
+	private String[] stringArrayField;
+
+@JsonProperty(value = "uuid_field", required = true)
+	private UUID uuidField;
+
+@JsonProperty(value = "date_field", required = true)
+	private LocalDate dateField;
+
+@JsonProperty(value = "date_array_field", required = true)
+	private LocalDate[] dateArrayField;
+
+@JsonProperty(value = "datetime_field", required = true)
+	private LocalDateTime datetimeField;
+
+@JsonProperty(value = "enum_field", required = true)
+	private Choice enumField;
 	@JsonCreator
 	public Parameters(
 		@JsonProperty(value = "int_field", required = true)
@@ -67,51 +112,6 @@ public class Parameters {
 		this.enumField = enumField;
 	}
 
-	@JsonProperty(value = "int_field", required = true)
-	private int intField;
-
-	@JsonProperty(value = "long_field", required = true)
-	private long longField;
-
-	@JsonProperty(value = "float_field", required = true)
-	private float floatField;
-
-	@JsonProperty(value = "double_field", required = true)
-	private double doubleField;
-
-	@JsonProperty(value = "decimal_field", required = true)
-	private BigDecimal decimalField;
-
-	@JsonProperty(value = "bool_field", required = true)
-	private boolean boolField;
-
-	@JsonProperty(value = "string_field", required = true)
-	private String stringField;
-
-	@JsonProperty(value = "string_opt_field", required = false)
-	private String stringOptField;
-
-	@JsonProperty(value = "string_defaulted_field", required = true)
-	private String stringDefaultedField;
-
-	@JsonProperty(value = "string_array_field", required = true)
-	private String[] stringArrayField;
-
-	@JsonProperty(value = "uuid_field", required = true)
-	private UUID uuidField;
-
-	@JsonProperty(value = "date_field", required = true)
-	private LocalDate dateField;
-
-	@JsonProperty(value = "date_array_field", required = true)
-	private LocalDate[] dateArrayField;
-
-	@JsonProperty(value = "datetime_field", required = true)
-	private LocalDateTime datetimeField;
-
-	@JsonProperty(value = "enum_field", required = true)
-	private Choice enumField;
-
 	public int getIntField() {
 		return intField;
 	}
@@ -149,7 +149,6 @@ public class Parameters {
 	}
 
 	public void setDecimalField(BigDecimal decimalField) {
-		if (decimalField == null) { throw new IllegalArgumentException("null value is not allowed"); }
 		this.decimalField = decimalField;
 	}
 
@@ -166,7 +165,6 @@ public class Parameters {
 	}
 
 	public void setStringField(String stringField) {
-		if (stringField == null) { throw new IllegalArgumentException("null value is not allowed"); }
 		this.stringField = stringField;
 	}
 
@@ -183,7 +181,6 @@ public class Parameters {
 	}
 
 	public void setStringDefaultedField(String stringDefaultedField) {
-		if (stringDefaultedField == null) { throw new IllegalArgumentException("null value is not allowed"); }
 		this.stringDefaultedField = stringDefaultedField;
 	}
 
@@ -192,7 +189,6 @@ public class Parameters {
 	}
 
 	public void setStringArrayField(String[] stringArrayField) {
-		if (stringArrayField == null) { throw new IllegalArgumentException("null value is not allowed"); }
 		this.stringArrayField = stringArrayField;
 	}
 
@@ -201,7 +197,6 @@ public class Parameters {
 	}
 
 	public void setUuidField(UUID uuidField) {
-		if (uuidField == null) { throw new IllegalArgumentException("null value is not allowed"); }
 		this.uuidField = uuidField;
 	}
 
@@ -210,7 +205,6 @@ public class Parameters {
 	}
 
 	public void setDateField(LocalDate dateField) {
-		if (dateField == null) { throw new IllegalArgumentException("null value is not allowed"); }
 		this.dateField = dateField;
 	}
 
@@ -219,7 +213,6 @@ public class Parameters {
 	}
 
 	public void setDateArrayField(LocalDate[] dateArrayField) {
-		if (dateArrayField == null) { throw new IllegalArgumentException("null value is not allowed"); }
 		this.dateArrayField = dateArrayField;
 	}
 
@@ -228,7 +221,6 @@ public class Parameters {
 	}
 
 	public void setDatetimeField(LocalDateTime datetimeField) {
-		if (datetimeField == null) { throw new IllegalArgumentException("null value is not allowed"); }
 		this.datetimeField = datetimeField;
 	}
 
@@ -237,7 +229,6 @@ public class Parameters {
 	}
 
 	public void setEnumField(Choice enumField) {
-		if (enumField == null) { throw new IllegalArgumentException("null value is not allowed"); }
 		this.enumField = enumField;
 	}
 

@@ -8,6 +8,12 @@ import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.annotation.JsonSubTypes.*;
 
 public class MapFields {
+
+@JsonProperty(value = "int_map_field", required = true)
+	private Map<String, Integer> intMapField;
+
+@JsonProperty(value = "string_map_field", required = true)
+	private Map<String, String> stringMapField;
 	@JsonCreator
 	public MapFields(
 		@JsonProperty(value = "int_map_field", required = true)
@@ -21,18 +27,11 @@ public class MapFields {
 		this.stringMapField = stringMapField;
 	}
 
-	@JsonProperty(value = "int_map_field", required = true)
-	private Map<String, Integer> intMapField;
-
-	@JsonProperty(value = "string_map_field", required = true)
-	private Map<String, String> stringMapField;
-
 	public Map<String, Integer> getIntMapField() {
 		return intMapField;
 	}
 
 	public void setIntMapField(Map<String, Integer> intMapField) {
-		if (intMapField == null) { throw new IllegalArgumentException("null value is not allowed"); }
 		this.intMapField = intMapField;
 	}
 
@@ -41,7 +40,6 @@ public class MapFields {
 	}
 
 	public void setStringMapField(Map<String, String> stringMapField) {
-		if (stringMapField == null) { throw new IllegalArgumentException("null value is not allowed"); }
 		this.stringMapField = stringMapField;
 	}
 

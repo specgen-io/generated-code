@@ -8,6 +8,9 @@ import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.annotation.JsonSubTypes.*;
 
 public class Message {
+
+@JsonProperty(value = "field", required = true)
+	private int field;
 	@JsonCreator
 	public Message(
 		@JsonProperty(value = "field", required = true)
@@ -15,9 +18,6 @@ public class Message {
 	) {
 		this.field = field;
 	}
-
-	@JsonProperty(value = "field", required = true)
-	private int field;
 
 	public int getField() {
 		return field;

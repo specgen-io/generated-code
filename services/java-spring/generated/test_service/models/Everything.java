@@ -8,6 +8,27 @@ import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.annotation.JsonSubTypes.*;
 
 public class Everything {
+
+@JsonProperty(value = "body_field", required = true)
+	private Message bodyField;
+
+@JsonProperty(value = "float_query", required = true)
+	private float floatQuery;
+
+@JsonProperty(value = "bool_query", required = true)
+	private boolean boolQuery;
+
+@JsonProperty(value = "uuid_header", required = true)
+	private UUID uuidHeader;
+
+@JsonProperty(value = "datetime_header", required = true)
+	private LocalDateTime datetimeHeader;
+
+@JsonProperty(value = "date_url", required = true)
+	private LocalDate dateUrl;
+
+@JsonProperty(value = "decimal_url", required = true)
+	private BigDecimal decimalUrl;
 	@JsonCreator
 	public Everything(
 		@JsonProperty(value = "body_field", required = true)
@@ -39,33 +60,11 @@ public class Everything {
 		this.decimalUrl = decimalUrl;
 	}
 
-	@JsonProperty(value = "body_field", required = true)
-	private Message bodyField;
-
-	@JsonProperty(value = "float_query", required = true)
-	private float floatQuery;
-
-	@JsonProperty(value = "bool_query", required = true)
-	private boolean boolQuery;
-
-	@JsonProperty(value = "uuid_header", required = true)
-	private UUID uuidHeader;
-
-	@JsonProperty(value = "datetime_header", required = true)
-	private LocalDateTime datetimeHeader;
-
-	@JsonProperty(value = "date_url", required = true)
-	private LocalDate dateUrl;
-
-	@JsonProperty(value = "decimal_url", required = true)
-	private BigDecimal decimalUrl;
-
 	public Message getBodyField() {
 		return bodyField;
 	}
 
 	public void setBodyField(Message bodyField) {
-		if (bodyField == null) { throw new IllegalArgumentException("null value is not allowed"); }
 		this.bodyField = bodyField;
 	}
 
@@ -90,7 +89,6 @@ public class Everything {
 	}
 
 	public void setUuidHeader(UUID uuidHeader) {
-		if (uuidHeader == null) { throw new IllegalArgumentException("null value is not allowed"); }
 		this.uuidHeader = uuidHeader;
 	}
 
@@ -99,7 +97,6 @@ public class Everything {
 	}
 
 	public void setDatetimeHeader(LocalDateTime datetimeHeader) {
-		if (datetimeHeader == null) { throw new IllegalArgumentException("null value is not allowed"); }
 		this.datetimeHeader = datetimeHeader;
 	}
 
@@ -108,7 +105,6 @@ public class Everything {
 	}
 
 	public void setDateUrl(LocalDate dateUrl) {
-		if (dateUrl == null) { throw new IllegalArgumentException("null value is not allowed"); }
 		this.dateUrl = dateUrl;
 	}
 
@@ -117,7 +113,6 @@ public class Everything {
 	}
 
 	public void setDecimalUrl(BigDecimal decimalUrl) {
-		if (decimalUrl == null) { throw new IllegalArgumentException("null value is not allowed"); }
 		this.decimalUrl = decimalUrl;
 	}
 

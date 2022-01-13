@@ -8,6 +8,21 @@ import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.annotation.JsonSubTypes.*;
 
 public class NumericFields {
+
+@JsonProperty(value = "int_field", required = true)
+	private int intField;
+
+@JsonProperty(value = "long_field", required = true)
+	private long longField;
+
+@JsonProperty(value = "float_field", required = true)
+	private float floatField;
+
+@JsonProperty(value = "double_field", required = true)
+	private double doubleField;
+
+@JsonProperty(value = "decimal_field", required = true)
+	private BigDecimal decimalField;
 	@JsonCreator
 	public NumericFields(
 		@JsonProperty(value = "int_field", required = true)
@@ -28,21 +43,6 @@ public class NumericFields {
 		if (decimalField == null) { throw new IllegalArgumentException("null value is not allowed"); }
 		this.decimalField = decimalField;
 	}
-
-	@JsonProperty(value = "int_field", required = true)
-	private int intField;
-
-	@JsonProperty(value = "long_field", required = true)
-	private long longField;
-
-	@JsonProperty(value = "float_field", required = true)
-	private float floatField;
-
-	@JsonProperty(value = "double_field", required = true)
-	private double doubleField;
-
-	@JsonProperty(value = "decimal_field", required = true)
-	private BigDecimal decimalField;
 
 	public int getIntField() {
 		return intField;
@@ -81,7 +81,6 @@ public class NumericFields {
 	}
 
 	public void setDecimalField(BigDecimal decimalField) {
-		if (decimalField == null) { throw new IllegalArgumentException("null value is not allowed"); }
 		this.decimalField = decimalField;
 	}
 

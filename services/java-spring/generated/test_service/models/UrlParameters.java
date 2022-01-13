@@ -8,6 +8,39 @@ import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.annotation.JsonSubTypes.*;
 
 public class UrlParameters {
+
+@JsonProperty(value = "int_field", required = true)
+	private int intField;
+
+@JsonProperty(value = "long_field", required = true)
+	private long longField;
+
+@JsonProperty(value = "float_field", required = true)
+	private float floatField;
+
+@JsonProperty(value = "double_field", required = true)
+	private double doubleField;
+
+@JsonProperty(value = "decimal_field", required = true)
+	private BigDecimal decimalField;
+
+@JsonProperty(value = "bool_field", required = true)
+	private boolean boolField;
+
+@JsonProperty(value = "string_field", required = true)
+	private String stringField;
+
+@JsonProperty(value = "uuid_field", required = true)
+	private UUID uuidField;
+
+@JsonProperty(value = "date_field", required = true)
+	private LocalDate dateField;
+
+@JsonProperty(value = "datetime_field", required = true)
+	private LocalDateTime datetimeField;
+
+@JsonProperty(value = "enum_field", required = true)
+	private Choice enumField;
 	@JsonCreator
 	public UrlParameters(
 		@JsonProperty(value = "int_field", required = true)
@@ -52,39 +85,6 @@ public class UrlParameters {
 		this.enumField = enumField;
 	}
 
-	@JsonProperty(value = "int_field", required = true)
-	private int intField;
-
-	@JsonProperty(value = "long_field", required = true)
-	private long longField;
-
-	@JsonProperty(value = "float_field", required = true)
-	private float floatField;
-
-	@JsonProperty(value = "double_field", required = true)
-	private double doubleField;
-
-	@JsonProperty(value = "decimal_field", required = true)
-	private BigDecimal decimalField;
-
-	@JsonProperty(value = "bool_field", required = true)
-	private boolean boolField;
-
-	@JsonProperty(value = "string_field", required = true)
-	private String stringField;
-
-	@JsonProperty(value = "uuid_field", required = true)
-	private UUID uuidField;
-
-	@JsonProperty(value = "date_field", required = true)
-	private LocalDate dateField;
-
-	@JsonProperty(value = "datetime_field", required = true)
-	private LocalDateTime datetimeField;
-
-	@JsonProperty(value = "enum_field", required = true)
-	private Choice enumField;
-
 	public int getIntField() {
 		return intField;
 	}
@@ -122,7 +122,6 @@ public class UrlParameters {
 	}
 
 	public void setDecimalField(BigDecimal decimalField) {
-		if (decimalField == null) { throw new IllegalArgumentException("null value is not allowed"); }
 		this.decimalField = decimalField;
 	}
 
@@ -139,7 +138,6 @@ public class UrlParameters {
 	}
 
 	public void setStringField(String stringField) {
-		if (stringField == null) { throw new IllegalArgumentException("null value is not allowed"); }
 		this.stringField = stringField;
 	}
 
@@ -148,7 +146,6 @@ public class UrlParameters {
 	}
 
 	public void setUuidField(UUID uuidField) {
-		if (uuidField == null) { throw new IllegalArgumentException("null value is not allowed"); }
 		this.uuidField = uuidField;
 	}
 
@@ -157,7 +154,6 @@ public class UrlParameters {
 	}
 
 	public void setDateField(LocalDate dateField) {
-		if (dateField == null) { throw new IllegalArgumentException("null value is not allowed"); }
 		this.dateField = dateField;
 	}
 
@@ -166,7 +162,6 @@ public class UrlParameters {
 	}
 
 	public void setDatetimeField(LocalDateTime datetimeField) {
-		if (datetimeField == null) { throw new IllegalArgumentException("null value is not allowed"); }
 		this.datetimeField = datetimeField;
 	}
 
@@ -175,7 +170,6 @@ public class UrlParameters {
 	}
 
 	public void setEnumField(Choice enumField) {
-		if (enumField == null) { throw new IllegalArgumentException("null value is not allowed"); }
 		this.enumField = enumField;
 	}
 
