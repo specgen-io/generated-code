@@ -13,9 +13,9 @@ import com.fasterxml.jackson.annotation.JsonSubTypes.*;
 	property = "_type"
 )
 @JsonSubTypes({
-	@Type(value = OrderEventDiscriminator.Created.class, name = "created"),
-	@Type(value = OrderEventDiscriminator.Changed.class, name = "changed"),
-	@Type(value = OrderEventDiscriminator.Canceled.class, name = "canceled"),
+	@Types(value = OrderEventDiscriminator.Created.class, name = "created"),
+	@Types(value = OrderEventDiscriminator.Changed.class, name = "changed"),
+	@Types(value = OrderEventDiscriminator.Canceled.class, name = "canceled"),
 })
 public interface OrderEventDiscriminator {
 	class Created implements OrderEventDiscriminator {
@@ -54,7 +54,7 @@ public interface OrderEventDiscriminator {
 
 		@Override
 		public String toString() {
-			return String.format("OrderCreated{data=%s}", data);
+			return String.format("Created{data=%s}", data);
 		}
 	}
 
@@ -94,7 +94,7 @@ public interface OrderEventDiscriminator {
 
 		@Override
 		public String toString() {
-			return String.format("OrderChanged{data=%s}", data);
+			return String.format("Changed{data=%s}", data);
 		}
 	}
 
@@ -134,7 +134,7 @@ public interface OrderEventDiscriminator {
 
 		@Override
 		public String toString() {
-			return String.format("OrderCanceled{data=%s}", data);
+			return String.format("Canceled{data=%s}", data);
 		}
 	}
 }

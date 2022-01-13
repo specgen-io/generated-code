@@ -12,9 +12,9 @@ import com.fasterxml.jackson.annotation.JsonSubTypes.*;
 	include = JsonTypeInfo.As.WRAPPER_OBJECT
 )
 @JsonSubTypes({
-	@Type(value = OrderEventWrapper.Created.class, name = "created"),
-	@Type(value = OrderEventWrapper.Changed.class, name = "changed"),
-	@Type(value = OrderEventWrapper.Canceled.class, name = "canceled"),
+	@Types(value = OrderEventWrapper.Created.class, name = "created"),
+	@Types(value = OrderEventWrapper.Changed.class, name = "changed"),
+	@Types(value = OrderEventWrapper.Canceled.class, name = "canceled"),
 })
 public interface OrderEventWrapper {
 	class Created implements OrderEventWrapper {
@@ -53,7 +53,7 @@ public interface OrderEventWrapper {
 
 		@Override
 		public String toString() {
-			return String.format("OrderCreated{data=%s}", data);
+			return String.format("Created{data=%s}", data);
 		}
 	}
 
@@ -93,7 +93,7 @@ public interface OrderEventWrapper {
 
 		@Override
 		public String toString() {
-			return String.format("OrderChanged{data=%s}", data);
+			return String.format("Changed{data=%s}", data);
 		}
 	}
 
@@ -133,7 +133,7 @@ public interface OrderEventWrapper {
 
 		@Override
 		public String toString() {
-			return String.format("OrderCanceled{data=%s}", data);
+			return String.format("Canceled{data=%s}", data);
 		}
 	}
 }
