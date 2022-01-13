@@ -12,9 +12,9 @@ import com.fasterxml.jackson.annotation.JsonSubTypes.*;
 	include = JsonTypeInfo.As.WRAPPER_OBJECT
 )
 @JsonSubTypes({
-	@Types(value = OrderEventWrapper.Created.class, name = "created"),
-	@Types(value = OrderEventWrapper.Changed.class, name = "changed"),
-	@Types(value = OrderEventWrapper.Canceled.class, name = "canceled"),
+	@Type(value = OrderEventWrapper.Created.class, name = "created"),
+	@Type(value = OrderEventWrapper.Changed.class, name = "changed"),
+	@Type(value = OrderEventWrapper.Canceled.class, name = "canceled"),
 })
 public interface OrderEventWrapper {
 	class Created implements OrderEventWrapper {
