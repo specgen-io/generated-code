@@ -8,6 +8,10 @@ export let echoRouter = (service: EchoService) => {
     let router = new Router()
 
     router.post('/echo/body', async (ctx) => {
+        if (ctx.request.type == 'application/json') {
+            response.status(400).send()
+            return
+        }
         var body: models.Message
         try {
             body = t.decode(models.TMessage, ctx.request.body)
