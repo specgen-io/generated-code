@@ -1,11 +1,11 @@
-package testservice.client.check
+package testservice.check
 
 import scala.concurrent._
 import org.slf4j._
 import com.softwaremill.sttp._
-import testservice.client.ParamsTypesBindings._
-import testservice.client.Jsoner
-import testservice.client.models._
+import testservice.ParamsTypesBindings._
+import testservice.Jsoner
+import testservice.models._
 
 trait ICheckClient {
   def checkEmpty(): Future[Unit]

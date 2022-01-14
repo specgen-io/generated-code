@@ -1,4 +1,4 @@
-package testservice.client.v2.models
+package testservice.v2.models
 
 import enumeratum.values._
 import java.time._
@@ -7,7 +7,7 @@ import java.util.UUID
 import io.circe.Codec
 import io.circe.generic.extras.{Configuration, JsonKey}
 import io.circe.generic.extras.semiauto.{deriveConfiguredCodec, deriveUnwrappedCodec}
-import testservice.client.taggedunion._
+import testservice.taggedunion._
 
 case class Message(
   @JsonKey("bool_field") boolField: Boolean,
