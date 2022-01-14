@@ -87,7 +87,7 @@ export let echoRouter = (service: EchoService) => {
 
     router.post('/echo/body_string', async (ctx) => {
         if (ctx.request.type == 'text/plain') {
-            response.status(400).send()
+            ctx.throw(400)
             return
         }
         const body: string = ctx.request.rawBody
@@ -103,7 +103,7 @@ export let echoRouter = (service: EchoService) => {
 
     router.post('/echo/body', async (ctx) => {
         if (ctx.request.type == 'application/json') {
-            response.status(400).send()
+            ctx.throw(400)
             return
         }
         var body: models.Message
@@ -179,7 +179,7 @@ export let echoRouter = (service: EchoService) => {
 
     router.post('/echo/everything/:date_url/:decimal_url', async (ctx) => {
         if (ctx.request.type == 'application/json') {
-            response.status(400).send()
+            ctx.throw(400)
             return
         }
         var urlParams: EchoEverythingUrlParams
@@ -250,7 +250,7 @@ export let checkRouter = (service: CheckService) => {
 
     router.post('/check/empty_response', async (ctx) => {
         if (ctx.request.type == 'application/json') {
-            response.status(400).send()
+            ctx.throw(400)
             return
         }
         var body: models.Message

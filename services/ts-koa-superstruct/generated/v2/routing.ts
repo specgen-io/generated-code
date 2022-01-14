@@ -9,7 +9,7 @@ export let echoRouter = (service: EchoService) => {
 
     router.post('/echo/body', async (ctx) => {
         if (ctx.request.type == 'application/json') {
-            response.status(400).send()
+            ctx.throw(400)
             return
         }
         var body: models.Message
