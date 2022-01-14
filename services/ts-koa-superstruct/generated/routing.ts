@@ -102,7 +102,7 @@ export let echoRouter = (service: EchoService) => {
         try {
             body = t.decode(models.TMessage, ctx.request.body)
         } catch (error) {
-            response.status(400).send()
+            ctx.throw(400)
             return
         }
         try {
@@ -185,7 +185,7 @@ export let echoRouter = (service: EchoService) => {
         try {
             body = t.decode(models.TMessage, ctx.request.body)
         } catch (error) {
-            response.status(400).send()
+            ctx.throw(400)
             return
         }
         try {
@@ -241,7 +241,7 @@ export let checkRouter = (service: CheckService) => {
         try {
             body = t.decode(models.TMessage, ctx.request.body)
         } catch (error) {
-            response.status(400).send()
+            ctx.throw(400)
             return
         }
         try {

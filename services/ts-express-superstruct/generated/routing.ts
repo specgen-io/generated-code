@@ -87,6 +87,10 @@ export let echoRouter = (service: EchoService) => {
     let router = Router()
 
     router.post('/echo/body_string', async (request: Request, response: Response) => {
+        if (!request.is('text/plain')) {
+            response.status(400).send()
+            return
+        }
         const body: string = request.body
         try {
             let result = await service.echoBodyString({body})
@@ -98,6 +102,10 @@ export let echoRouter = (service: EchoService) => {
     })
 
     router.post('/echo/body', async (request: Request, response: Response) => {
+        if (!request.is('application/json')) {
+            response.status(400).send()
+            return
+        }
         var body: models.Message
         try {
             body = t.decode(models.TMessage, request.body)
@@ -166,6 +174,10 @@ export let echoRouter = (service: EchoService) => {
     })
 
     router.post('/echo/everything/:date_url/:decimal_url', async (request: Request, response: Response) => {
+        if (!request.is('application/json')) {
+            response.status(400).send()
+            return
+        }
         var urlParams: EchoEverythingUrlParams
         var headerParams: EchoEverythingHeaderParams
         var queryParams: EchoEverythingQueryParams
@@ -232,6 +244,10 @@ export let checkRouter = (service: CheckService) => {
     })
 
     router.post('/check/empty_response', async (request: Request, response: Response) => {
+        if (!request.is('application/json')) {
+            response.status(400).send()
+            return
+        }
         var body: models.Message
         try {
             body = t.decode(models.TMessage, request.body)
