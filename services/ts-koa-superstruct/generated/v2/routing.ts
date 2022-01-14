@@ -8,7 +8,7 @@ export let echoRouter = (service: EchoService) => {
     let router = new Router()
 
     router.post('/echo/body', async (ctx) => {
-        if (ctx.request.type == 'application/json') {
+        if (ctx.request.type != 'application/json') {
             ctx.throw(400)
             return
         }
