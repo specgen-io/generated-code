@@ -3,7 +3,7 @@ version: 2.1
 parameters:
   specgen-version:
     type: string
-    default: 2.1.1260
+    default: 2.1.1274
   specgen-version-major:
     type: string
     default: v2
@@ -32,6 +32,9 @@ jobs:
           path: models/java-jackson
           specgen: models-java --jsonlib jackson --spec-file ./spec.yaml --generate-path .
       - gen-models:
+          path: models/java-moshi
+          specgen: models-java --jsonlib moshi --spec-file ./spec.yaml --generate-path .
+      - gen-models:
           path: models/kotlin-jackson
           specgen: models-kotlin --spec-file ./spec.yaml --generate-path .
       - gen-models:
@@ -55,7 +58,7 @@ jobs:
           specgen: openapi --spec-file ./spec.yaml --out-file ./swagger.yaml
       - gen-client:
           path: clients/java-okhttp
-          specgen: client-java --jsonlib jackson --spec-file ./spec.yaml --package-name test_client --generate-path .
+          specgen: client-java --jsonlib jackson --spec-file ./spec.yaml --generate-path .
       - gen-client:
           path: clients/go
           specgen: client-go --spec-file ./spec.yaml --module-name test-client --generate-path .
@@ -83,7 +86,7 @@ jobs:
           specgen: openapi --spec-file ./spec.yaml --out-file ./swagger.yaml
       - gen-service:
           path: services/java-spring
-          specgen: service-java --jsonlib jackson --spec-file ./spec.yaml --package-name test_service --generate-path ./generated --services-path ./developed
+          specgen: service-java --jsonlib jackson --spec-file ./spec.yaml --generate-path ./generated --services-path ./developed
       - gen-service:
           path: services/go
           specgen: service-go --spec-file ./spec.yaml --module-name test-service --generate-path ./generated --services-path ./developed
