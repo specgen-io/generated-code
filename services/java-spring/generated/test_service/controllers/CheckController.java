@@ -14,7 +14,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import static org.apache.tomcat.util.http.fileupload.FileUploadBase.CONTENT_TYPE;
 
-import test_service.models.Json;
+import test_service.json.Json;
 import test_service.models.*;
 import test_service.services.check.*;
 

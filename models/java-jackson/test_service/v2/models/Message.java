@@ -1,4 +1,4 @@
-package test_service.models.v2;
+package test_service.v2.models;
 
 import java.time.*;
 import java.util.*;

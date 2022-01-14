@@ -1,4 +1,4 @@
-package test_client.models;
+package test_service.json;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.*;

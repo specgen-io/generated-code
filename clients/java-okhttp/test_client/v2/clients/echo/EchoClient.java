@@ -11,7 +11,7 @@ import java.util.*;
 import test_client.*;
 import test_client.utils.*;
 import test_client.v2.models.*;
-import test_client.models.Json;
+import test_client.json.Json;
 
 public class EchoClient {
 	private static final Logger logger = LoggerFactory.getLogger(EchoClient.class);
