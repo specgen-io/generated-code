@@ -12,7 +12,7 @@ export let echoRouter = (service: EchoService) => {
         try {
             body = t.decode(models.TMessage, ctx.request.body)
         } catch (error) {
-            ctx.throw(400)
+            response.status(400).send()
             return
         }
         try {

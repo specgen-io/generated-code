@@ -89,11 +89,6 @@ export let echoRouter = (service: EchoService) => {
     router.post('/echo/body_string', async (request: Request, response: Response) => {
         const body: string = request.body
         try {
-        } catch (error) {
-            response.status(400).send()
-            return
-        }
-        try {
             let result = await service.echoBodyString({body})
             response.status(200).type('text').send(result)
             return
@@ -171,15 +166,20 @@ export let echoRouter = (service: EchoService) => {
     })
 
     router.post('/echo/everything/:date_url/:decimal_url', async (request: Request, response: Response) => {
-        var body: models.Message
         var urlParams: EchoEverythingUrlParams
         var headerParams: EchoEverythingHeaderParams
         var queryParams: EchoEverythingQueryParams
         try {
-            body = t.decode(models.TMessage, request.body)
             urlParams = t.decode(TEchoEverythingUrlParams, request.params)
             headerParams = t.decode(TEchoEverythingHeaderParams, zipHeaders(request.rawHeaders))
             queryParams = t.decode(TEchoEverythingQueryParams, request.query)
+        } catch (error) {
+            response.status(400).send()
+            return
+        }
+        var body: models.Message
+        try {
+            body = t.decode(models.TMessage, request.body)
         } catch (error) {
             response.status(400).send()
             return

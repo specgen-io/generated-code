@@ -88,11 +88,6 @@ export let echoRouter = (service: EchoService) => {
     router.post('/echo/body_string', async (ctx) => {
         const body: string = ctx.request.rawBody
         try {
-        } catch (error) {
-            ctx.throw(400)
-            return
-        }
-        try {
             let result = await service.echoBodyString({body})
             ctx.status = 200
             ctx.body = result
@@ -107,7 +102,7 @@ export let echoRouter = (service: EchoService) => {
         try {
             body = t.decode(models.TMessage, ctx.request.body)
         } catch (error) {
-            ctx.throw(400)
+            response.status(400).send()
             return
         }
         try {
@@ -175,17 +170,22 @@ export let echoRouter = (service: EchoService) => {
     })
 
     router.post('/echo/everything/:date_url/:decimal_url', async (ctx) => {
-        var body: models.Message
         var urlParams: EchoEverythingUrlParams
         var headerParams: EchoEverythingHeaderParams
         var queryParams: EchoEverythingQueryParams
         try {
-            body = t.decode(models.TMessage, ctx.request.body)
             urlParams = t.decode(TEchoEverythingUrlParams, ctx.params)
             headerParams = t.decode(TEchoEverythingHeaderParams, zipHeaders(ctx.req.rawHeaders))
             queryParams = t.decode(TEchoEverythingQueryParams, ctx.request.query)
         } catch (error) {
             ctx.throw(400)
+            return
+        }
+        var body: models.Message
+        try {
+            body = t.decode(models.TMessage, ctx.request.body)
+        } catch (error) {
+            response.status(400).send()
             return
         }
         try {
@@ -241,7 +241,7 @@ export let checkRouter = (service: CheckService) => {
         try {
             body = t.decode(models.TMessage, ctx.request.body)
         } catch (error) {
-            ctx.throw(400)
+            response.status(400).send()
             return
         }
         try {
