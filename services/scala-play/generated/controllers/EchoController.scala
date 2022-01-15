@@ -13,19 +13,23 @@ import models._
 class EchoController @Inject()(api: IEchoService, cc: ControllerComponents)(implicit ec: ExecutionContext) extends AbstractController(cc) {
   def echoBodyString() = Action(parse.byteString).async {
     implicit request =>
-      val params = Try {
-        val body = request.body.utf8String
-        (body)
-      }
-      params match {
-        case Failure(ex) => Future { BadRequest }
-        case Success(params) => 
-          val (body) = params
-          val result = api.echoBodyString(body)
-          val response = result.map {
-            body => new Status(200)(body)
+      request.contentType match {
+        case Some("text/plain") =>
+          val params = Try {
+            val body = request.body.utf8String
+            (body)
           }
-          response.recover { case _: Exception => InternalServerError }
+          params match {
+            case Failure(ex) => Future { BadRequest }
+            case Success(params) =>
+              val (body) = params
+              val result = api.echoBodyString(body)
+              val response = result.map {
+                body => new Status(200)(body)
+              }
+              response.recover { case _: Exception => InternalServerError }
+          }
+        case _ => Future { BadRequest }
       }
   }
   def echoBody() = Action(parse.byteString).async {
@@ -36,11 +40,11 @@ class EchoController @Inject()(api: IEchoService, cc: ControllerComponents)(impl
       }
       params match {
         case Failure(ex) => Future { BadRequest }
-        case Success(params) => 
+        case Success(params) =>
           val (body) = params
           val result = api.echoBody(body)
           val response = result.map {
-            body => new Status(200)(Jsoner.write(body))
+            body => new Status(200)(Jsoner.write(body)).as("application/json")
           }
           response.recover { case _: Exception => InternalServerError }
       }
@@ -49,7 +53,7 @@ class EchoController @Inject()(api: IEchoService, cc: ControllerComponents)(impl
     implicit request =>
       val result = api.echoQuery(int_query, long_query, float_query, double_query, decimal_query, bool_query, string_query, string_opt_query, string_defaulted_query, string_array_query, uuid_query, date_query, date_array_query, datetime_query, enum_query)
       val response = result.map {
-        body => new Status(200)(Jsoner.write(body))
+        body => new Status(200)(Jsoner.write(body)).as("application/json")
       }
       response.recover { case _: Exception => InternalServerError }
   }
@@ -76,11 +80,11 @@ class EchoController @Inject()(api: IEchoService, cc: ControllerComponents)(impl
       }
       params match {
         case Failure(ex) => Future { BadRequest }
-        case Success(params) => 
+        case Success(params) =>
           val (intHeader, longHeader, floatHeader, doubleHeader, decimalHeader, boolHeader, stringHeader, stringOptHeader, stringDefaultedHeader, stringArrayHeader, uuidHeader, dateHeader, dateArrayHeader, datetimeHeader, enumHeader) = params
           val result = api.echoHeader(intHeader, longHeader, floatHeader, doubleHeader, decimalHeader, boolHeader, stringHeader, stringOptHeader, stringDefaultedHeader, stringArrayHeader, uuidHeader, dateHeader, dateArrayHeader, datetimeHeader, enumHeader)
           val response = result.map {
-            body => new Status(200)(Jsoner.write(body))
+            body => new Status(200)(Jsoner.write(body)).as("application/json")
           }
           response.recover { case _: Exception => InternalServerError }
       }
@@ -89,7 +93,7 @@ class EchoController @Inject()(api: IEchoService, cc: ControllerComponents)(impl
     implicit request =>
       val result = api.echoUrlParams(intUrl, longUrl, floatUrl, doubleUrl, decimalUrl, boolUrl, stringUrl, uuidUrl, dateUrl, datetimeUrl, enumUrl)
       val response = result.map {
-        body => new Status(200)(Jsoner.write(body))
+        body => new Status(200)(Jsoner.write(body)).as("application/json")
       }
       response.recover { case _: Exception => InternalServerError }
   }
@@ -104,11 +108,11 @@ class EchoController @Inject()(api: IEchoService, cc: ControllerComponents)(impl
       }
       params match {
         case Failure(ex) => Future { BadRequest }
-        case Success(params) => 
+        case Success(params) =>
           val (uuidHeader, datetimeHeader, body) = params
           val result = api.echoEverything(uuidHeader, datetimeHeader, body, dateUrl, decimalUrl, float_query, bool_query)
           val response = result.map {
-            case EchoEverythingResponse.Ok(body) => new Status(200)(Jsoner.write(body))
+            case EchoEverythingResponse.Ok(body) => new Status(200)(Jsoner.write(body)).as("application/json")
             case EchoEverythingResponse.Forbidden() => new Status(403)
           }
           response.recover { case _: Exception => InternalServerError }

@@ -19,11 +19,11 @@ class EchoController @Inject()(api: IEchoService, cc: ControllerComponents)(impl
       }
       params match {
         case Failure(ex) => Future { BadRequest }
-        case Success(params) => 
+        case Success(params) =>
           val (body) = params
           val result = api.echoBody(body)
           val response = result.map {
-            body => new Status(200)(Jsoner.write(body))
+            body => new Status(200)(Jsoner.write(body)).as("application/json")
           }
           response.recover { case _: Exception => InternalServerError }
       }
