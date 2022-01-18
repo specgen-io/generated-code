@@ -5,6 +5,7 @@ import (
 	"github.com/husobee/vestigo"
 	log "github.com/sirupsen/logrus"
 	"net/http"
+	"strings"
 	"test-service/generated/check"
 	"test-service/generated/models"
 )
@@ -30,6 +31,13 @@ func AddCheckRoutes(router *vestigo.Router, checkService check.Service) {
 	router.Post("/check/empty_response", func(res http.ResponseWriter, req *http.Request) {
 		log.WithFields(logCheckEmptyResponse).Info("Received request")
 		var err error
+		contentType := req.Header.Get("Content-Type")
+		if !strings.Contains(contentType, "application/json") {
+			log.WithFields(logCheckEmptyResponse).Errorf("Wrong Content-type: %s", contentType)
+			res.WriteHeader(400)
+			log.WithFields(logCheckEmptyResponse).WithField("status", 400).Info("Completed request")
+			return
+		}
 		var body models.Message
 		err = json.NewDecoder(req.Body).Decode(&body)
 		if err != nil {
