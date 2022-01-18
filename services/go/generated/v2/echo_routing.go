@@ -43,6 +43,7 @@ func AddEchoRoutes(router *vestigo.Router, echoService echo.Service) {
 			log.WithFields(logEchoBody).WithField("status", 500).Info("Completed request")
 			return
 		}
+		res.Header().Set("Content-Type", "application/json")
 		res.WriteHeader(200)
 		json.NewEncoder(res).Encode(response)
 		log.WithFields(logEchoBody).WithField("status", 200).Info("Completed request")
