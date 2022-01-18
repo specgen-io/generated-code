@@ -44,6 +44,7 @@ func AddEchoRoutes(router *vestigo.Router, echoService echo.Service) {
 			log.WithFields(logEchoBodyString).WithField("status", 500).Info("Completed request")
 			return
 		}
+		res.Header().Set("Content-Type", "text/plain")
 		res.WriteHeader(200)
 		res.Write([]byte(*response))
 		log.WithFields(logEchoBodyString).WithField("status", 200).Info("Completed request")
@@ -128,6 +129,7 @@ func AddEchoRoutes(router *vestigo.Router, echoService echo.Service) {
 			log.WithFields(logEchoQuery).WithField("status", 500).Info("Completed request")
 			return
 		}
+		res.Header().Set("Content-Type", "application/json")
 		res.WriteHeader(200)
 		json.NewEncoder(res).Encode(response)
 		log.WithFields(logEchoQuery).WithField("status", 200).Info("Completed request")
@@ -173,6 +175,7 @@ func AddEchoRoutes(router *vestigo.Router, echoService echo.Service) {
 			log.WithFields(logEchoHeader).WithField("status", 500).Info("Completed request")
 			return
 		}
+		res.Header().Set("Content-Type", "application/json")
 		res.WriteHeader(200)
 		json.NewEncoder(res).Encode(response)
 		log.WithFields(logEchoHeader).WithField("status", 200).Info("Completed request")
@@ -217,6 +220,7 @@ func AddEchoRoutes(router *vestigo.Router, echoService echo.Service) {
 			log.WithFields(logEchoUrlParams).WithField("status", 500).Info("Completed request")
 			return
 		}
+		res.Header().Set("Content-Type", "application/json")
 		res.WriteHeader(200)
 		json.NewEncoder(res).Encode(response)
 		log.WithFields(logEchoUrlParams).WithField("status", 200).Info("Completed request")
@@ -320,6 +324,7 @@ func AddEchoRoutes(router *vestigo.Router, echoService echo.Service) {
 			log.WithFields(logSameOperationName).WithField("status", 500).Info("Completed request")
 			return
 		}
+		res.Header().Set("Content-Type", "application/json")
 		if response.Ok != nil {
 			res.WriteHeader(200)
 			log.WithFields(logSameOperationName).WithField("status", 200).Info("Completed request")
