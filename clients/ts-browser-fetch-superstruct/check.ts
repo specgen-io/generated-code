@@ -15,6 +15,21 @@ export const client = (config: {baseURL: string}) => {
             }
         },
 
+        checkEmptyResponse: async (parameters: {body: models.Message}): Promise<void> => {
+            const headers = strParamsItems({
+                "Content-Type": "application/json"
+            })
+            const url = config.baseURL+`/check/empty_response`
+            const bodyJson = t.encode(models.TMessage, parameters.body)
+            const response = await fetch(url, {method: 'POST', headers: headers, body: JSON.stringify(bodyJson)})
+            switch (response.status) {
+                case 200:
+                    return Promise.resolve()
+                default:
+                    throw new Error(`Unexpected status code ${ response.status }`)
+            }
+        },
+
         checkForbidden: async (): Promise<CheckForbiddenResponse> => {
             const url = config.baseURL+`/check/forbidden`
             const response = await fetch(url, {method: 'GET'})

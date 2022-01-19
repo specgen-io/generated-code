@@ -172,6 +172,21 @@ module TestService
       end
     end
 
+    def check_empty_response(body:)
+      url = @base_uri + '/check/empty_response'
+      request = Net::HTTP::Post.new(url)
+      request.add_field('Content-Type', 'application/json')
+      body_json = Jsoner.to_json(Message, T.check_var('body', Message, body))
+      request.body = body_json
+      response = @client.request(request)
+      case response.code
+      when '200'
+        OpenStruct.new(:ok => nil, :ok? => true)
+      else
+        raise StandardError.new("Unexpected HTTP response code #{response.code}")
+      end
+    end
+
     def check_forbidden()
       url = @base_uri + '/check/forbidden'
       request = Net::HTTP::Get.new(url)

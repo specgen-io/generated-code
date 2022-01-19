@@ -1,6 +1,7 @@
 package check
 
 import (
+	"bytes"
 	"encoding/json"
 	"errors"
 	"fmt"
@@ -51,6 +52,34 @@ func (client *Client) CheckEmpty() error {
 
 	msg := fmt.Sprintf("Unexpected status code received: %d", resp.StatusCode)
 	log.WithFields(logCheckEmpty).Error(msg)
+	err = errors.New(msg)
+	return err
+}
+
+var logCheckEmptyResponse = log.Fields{"operationId": "check.check_empty_response", "method": "POST", "url": "/check/empty_response"}
+func (client *Client) CheckEmptyResponse(body *models.Message) error {
+	bodyData, err := json.Marshal(body)
+	req, err := http.NewRequest("POST", client.baseUrl+"/check/empty_response", bytes.NewBuffer(bodyData))
+	if err != nil {
+		log.WithFields(logCheckEmptyResponse).Error("Failed to create HTTP request", err.Error())
+		return err
+	}
+	req.Header.Set("Content-Type", "application/json")
+
+	log.WithFields(logCheckEmptyResponse).Info("Sending request")
+	resp, err := http.DefaultClient.Do(req)
+	if err != nil {
+		log.WithFields(logCheckEmptyResponse).Error("Request failed", err.Error())
+		return err
+	}
+
+	if resp.StatusCode == 200 {
+		log.WithFields(logCheckEmptyResponse).WithField("status", 200).Info("Received response")
+		return nil
+	}
+
+	msg := fmt.Sprintf("Unexpected status code received: %d", resp.StatusCode)
+	log.WithFields(logCheckEmptyResponse).Error(msg)
 	err = errors.New(msg)
 	return err
 }

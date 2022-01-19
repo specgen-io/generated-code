@@ -9,6 +9,7 @@ import testservice.models._
 
 trait ICheckClient {
   def checkEmpty(): Future[Unit]
+  def checkEmptyResponse(body: Message): Future[Unit]
   def checkForbidden(): Future[CheckForbiddenResponse]
   def sameOperationName(): Future[SameOperationNameResponse]
 }
@@ -34,6 +35,36 @@ class CheckClient(baseUrl: String)(implicit backend: SttpBackend[Future, Nothing
     val response: Future[Response[String]] =
       sttp
         .get(url)
+        .parseResponseIf { status => status < 500 }
+        .send()
+    response.map {
+      response: Response[String] =>
+        response.body match {
+          case Right(body) =>
+            logger.debug(s"Response status: ${response.code}, body: ${body}")
+            response.code match {
+              case 200 => ()
+              case _ => 
+                val errorMessage = s"Request returned unexpected status code: ${response.code}, body: ${new String(body)}"
+                logger.error(errorMessage)
+                throw new RuntimeException(errorMessage)
+            }
+          case Left(errorData) =>
+            val errorMessage = s"Request failed, status code: ${response.code}, body: ${new String(errorData)}"
+            logger.error(errorMessage)
+            throw new RuntimeException(errorMessage)
+        }
+    }
+  }
+  def checkEmptyResponse(body: Message): Future[Unit] = {
+    val url = Uri.parse(baseUrl+s"/check/empty_response").get
+    val bodyJson = Jsoner.write(body)
+    logger.debug(s"Request to url: ${url}, body: ${bodyJson}")
+    val response: Future[Response[String]] =
+      sttp
+        .post(url)
+        .header("Content-Type", "application/json")
+        .body(bodyJson)
         .parseResponseIf { status => status < 500 }
         .send()
     response.map {

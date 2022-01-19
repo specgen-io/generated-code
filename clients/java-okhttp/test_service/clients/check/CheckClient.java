@@ -54,6 +54,43 @@ public class CheckClient {
 		}
 	}
 
+	public void checkEmptyResponse(Message body) {
+		String bodyJson;
+		try {
+			bodyJson = objectMapper.writeValueAsString(body);
+		} catch (IOException e) {
+			var errorMessage = "Failed to serialize JSON " + e.getMessage();
+			logger.error(errorMessage);
+			throw new ClientException(errorMessage, e);
+		}
+
+		var requestBody = RequestBody.create(bodyJson, MediaType.parse("application/json"));
+		var url = new UrlBuilder(baseUrl);
+		url.addPathSegment("check/empty_response");
+
+		var request = new RequestBuilder("POST", url.build(), requestBody);
+
+		logger.info("Sending request, operationId: check.check_empty_response, method: POST, url: /check/empty_response");
+		Response response;
+		try {
+			response = client.newCall(request.build()).execute();
+		} catch (IOException e) {
+			var errorMessage = "Failed to execute the request " + e.getMessage();
+			logger.error(errorMessage);
+			throw new ClientException(errorMessage, e);
+		}
+
+		switch (response.code()) {
+			case 200:
+				logger.info("Received response with status code {}", response.code());
+				return;
+			default:
+				var errorMessage = "Unexpected status code received: " + response.code();
+				logger.error(errorMessage);
+				throw new ClientException(errorMessage);
+		}
+	}
+
 	public CheckForbiddenResponse checkForbidden() {
 		var url = new UrlBuilder(baseUrl);
 		url.addPathSegment("check/forbidden");
