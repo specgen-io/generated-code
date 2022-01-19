@@ -5,7 +5,6 @@ import (
 	"github.com/husobee/vestigo"
 	log "github.com/sirupsen/logrus"
 	"net/http"
-	"strings"
 	"test-service/generated/check"
 	"test-service/generated/models"
 )
@@ -22,7 +21,6 @@ func AddCheckRoutes(router *vestigo.Router, checkService check.Service) {
 			log.WithFields(logCheckEmpty).WithField("status", 500).Info("Completed request")
 			return
 		}
-		res.Header().Set("Content-Type", "application/json")
 		res.WriteHeader(200)
 		log.WithFields(logCheckEmpty).WithField("status", 200).Info("Completed request")
 		return
@@ -32,13 +30,6 @@ func AddCheckRoutes(router *vestigo.Router, checkService check.Service) {
 	router.Post("/check/empty_response", func(res http.ResponseWriter, req *http.Request) {
 		log.WithFields(logCheckEmptyResponse).Info("Received request")
 		var err error
-		contentType := req.Header.Get("Content-Type")
-		if !strings.Contains(contentType, "application/json") {
-			log.WithFields(logCheckEmptyResponse).Errorf("Wrong Content-type: %s", contentType)
-			res.WriteHeader(400)
-			log.WithFields(logCheckEmptyResponse).WithField("status", 400).Info("Completed request")
-			return
-		}
 		var body models.Message
 		err = json.NewDecoder(req.Body).Decode(&body)
 		if err != nil {
@@ -54,7 +45,6 @@ func AddCheckRoutes(router *vestigo.Router, checkService check.Service) {
 			log.WithFields(logCheckEmptyResponse).WithField("status", 500).Info("Completed request")
 			return
 		}
-		res.Header().Set("Content-Type", "application/json")
 		res.WriteHeader(200)
 		log.WithFields(logCheckEmptyResponse).WithField("status", 200).Info("Completed request")
 		return
@@ -77,7 +67,6 @@ func AddCheckRoutes(router *vestigo.Router, checkService check.Service) {
 			log.WithFields(logCheckForbidden).WithField("status", 500).Info("Completed request")
 			return
 		}
-		res.Header().Set("Content-Type", "application/json")
 		if response.Ok != nil {
 			res.WriteHeader(200)
 			json.NewEncoder(res).Encode(response.Ok)
@@ -112,7 +101,6 @@ func AddCheckRoutes(router *vestigo.Router, checkService check.Service) {
 			log.WithFields(logSameOperationName).WithField("status", 500).Info("Completed request")
 			return
 		}
-		res.Header().Set("Content-Type", "application/json")
 		if response.Ok != nil {
 			res.WriteHeader(200)
 			log.WithFields(logSameOperationName).WithField("status", 200).Info("Completed request")
