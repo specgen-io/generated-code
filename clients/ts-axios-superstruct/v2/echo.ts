@@ -8,8 +8,11 @@ export const client = (axiosInstance: AxiosInstance) => {
         axiosInstance,
 
         echoBody: async (parameters: {body: models.Message}): Promise<models.Message> => {
+            const headers = strParamsObject({
+                "Content-Type": "application/json"
+            })
             const bodyJson = t.encode(models.TMessage, parameters.body)
-            const response = await axiosInstance.post(`/echo/body`, bodyJson, {})
+            const response = await axiosInstance.post(`/echo/body`, bodyJson, {headers: headers})
             switch (response.status) {
                 case 200:
                     return Promise.resolve(t.decode(models.TMessage, response.data))

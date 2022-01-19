@@ -158,7 +158,7 @@ paths:
           required: true
           schema:
             type: string
-            format: date-time
+            format: datetime
         - in: query
           name: enum_query
           required: true
@@ -264,7 +264,7 @@ paths:
           required: true
           schema:
             type: string
-            format: date-time
+            format: datetime
         - in: header
           name: Enum-Header
           required: true
@@ -344,7 +344,7 @@ paths:
           required: true
           schema:
             type: string
-            format: date-time
+            format: datetime
         - in: path
           name: enum_url
           required: true
@@ -396,7 +396,7 @@ paths:
           required: true
           schema:
             type: string
-            format: date-time
+            format: datetime
         - in: query
           name: float_query
           required: true
@@ -552,7 +552,7 @@ components:
             format: date
         datetime_field:
           type: string
-          format: date-time
+          format: datetime
         enum_field:
           $ref: '#/components/schemas/Choice'
     UrlParameters:
@@ -597,7 +597,7 @@ components:
           format: date
         datetime_field:
           type: string
-          format: date-time
+          format: datetime
         enum_field:
           $ref: '#/components/schemas/Choice'
     Everything:
@@ -623,7 +623,7 @@ components:
           format: uuid
         datetime_header:
           type: string
-          format: date-time
+          format: datetime
         date_url:
           type: string
           format: date
