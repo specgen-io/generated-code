@@ -11,7 +11,6 @@ import (
 	"test-client/models"
 )
 
-
 type CheckForbiddenResponse struct {
 	Ok        *models.Message
 	Forbidden *empty.Type
