@@ -8,6 +8,7 @@ module TestService
     def echo_body_string(body:)
       url = @base_uri + '/echo/body_string'
       request = Net::HTTP::Post.new(url)
+      request.add_field('Content-Type', 'text/plain')
       request.body = T.check_var('body', String, body)
       response = @client.request(request)
       case response.code
@@ -21,6 +22,7 @@ module TestService
     def echo_body(body:)
       url = @base_uri + '/echo/body'
       request = Net::HTTP::Post.new(url)
+      request.add_field('Content-Type', 'application/json')
       body_json = Jsoner.to_json(Message, T.check_var('body', Message, body))
       request.body = body_json
       response = @client.request(request)
@@ -128,6 +130,7 @@ module TestService
       url = @base_uri + Stringify::set_params_to_url('/echo/everything/{date_url}/{decimal_url}', url_params) + query.query_str
       request = Net::HTTP::Post.new(url)
       header.params.each { |name, value| request.add_field(name, value) }
+      request.add_field('Content-Type', 'application/json')
       body_json = Jsoner.to_json(Message, T.check_var('body', Message, body))
       request.body = body_json
       response = @client.request(request)
@@ -204,6 +207,7 @@ module TestService::V2
     def echo_body(body:)
       url = @base_uri + '/v2/echo/body'
       request = Net::HTTP::Post.new(url)
+      request.add_field('Content-Type', 'application/json')
       body_json = Jsoner.to_json(Message, T.check_var('body', Message, body))
       request.body = body_json
       response = @client.request(request)
