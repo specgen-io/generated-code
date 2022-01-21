@@ -41,7 +41,7 @@ func (client *Client) EchoBody(body *models.Message) (*models.Message, error) {
 		responseBody, err := ioutil.ReadAll(resp.Body)
 		err = resp.Body.Close()
 
-		var result models.models.Message
+		var result models.Message
 		err = json.Unmarshal(responseBody, &result)
 		if err != nil {
 			log.WithFields(logEchoBody).Error("Failed to parse response JSON", err.Error())
