@@ -60,7 +60,7 @@ public class EchoClient {
 				logger.info("Received response with status code {}", response.code());
 				Message responseBody;
 				try {
-					responseBody = objectMapper.readValue(response.body().string(), Message.class);
+					responseBody = objectMapper.readValue(response.body().string(), new TypeReference<Message>() {});
 				} catch (IOException e) {
 					var errorMessage = "Failed to deserialize response body " + e.getMessage();
 					logger.error(errorMessage);

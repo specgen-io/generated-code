@@ -53,7 +53,7 @@ public class EchoController {
 
 		Message requestBody;
 		try {
-			requestBody = objectMapper.readValue(bodyStr, Message.class);
+			requestBody = objectMapper.readValue(bodyStr, new TypeReference<Message>() {});
 		} catch (Exception e) {
 			logger.error("Completed request with status code: {}", HttpStatus.BAD_REQUEST);
 			return new ResponseEntity<>(headers, HttpStatus.BAD_REQUEST);
@@ -128,7 +128,7 @@ public class EchoController {
 
 		Message requestBody;
 		try {
-			requestBody = objectMapper.readValue(bodyStr, Message.class);
+			requestBody = objectMapper.readValue(bodyStr, new TypeReference<Message>() {});
 		} catch (Exception e) {
 			logger.error("Completed request with status code: {}", HttpStatus.BAD_REQUEST);
 			return new ResponseEntity<>(headers, HttpStatus.BAD_REQUEST);

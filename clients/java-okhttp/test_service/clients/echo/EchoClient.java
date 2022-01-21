@@ -95,7 +95,7 @@ public class EchoClient {
 				logger.info("Received response with status code {}", response.code());
 				Message responseBody;
 				try {
-					responseBody = objectMapper.readValue(response.body().string(), Message.class);
+					responseBody = objectMapper.readValue(response.body().string(), new TypeReference<Message>() {});
 				} catch (IOException e) {
 					var errorMessage = "Failed to deserialize response body " + e.getMessage();
 					logger.error(errorMessage);
@@ -145,7 +145,7 @@ public class EchoClient {
 				logger.info("Received response with status code {}", response.code());
 				Parameters responseBody;
 				try {
-					responseBody = objectMapper.readValue(response.body().string(), Parameters.class);
+					responseBody = objectMapper.readValue(response.body().string(), new TypeReference<Parameters>() {});
 				} catch (IOException e) {
 					var errorMessage = "Failed to deserialize response body " + e.getMessage();
 					logger.error(errorMessage);
@@ -195,7 +195,7 @@ public class EchoClient {
 				logger.info("Received response with status code {}", response.code());
 				Parameters responseBody;
 				try {
-					responseBody = objectMapper.readValue(response.body().string(), Parameters.class);
+					responseBody = objectMapper.readValue(response.body().string(), new TypeReference<Parameters>() {});
 				} catch (IOException e) {
 					var errorMessage = "Failed to deserialize response body " + e.getMessage();
 					logger.error(errorMessage);
@@ -241,7 +241,7 @@ public class EchoClient {
 				logger.info("Received response with status code {}", response.code());
 				UrlParameters responseBody;
 				try {
-					responseBody = objectMapper.readValue(response.body().string(), UrlParameters.class);
+					responseBody = objectMapper.readValue(response.body().string(), new TypeReference<UrlParameters>() {});
 				} catch (IOException e) {
 					var errorMessage = "Failed to deserialize response body " + e.getMessage();
 					logger.error(errorMessage);
@@ -292,7 +292,7 @@ public class EchoClient {
 				logger.info("Received response with status code {}", response.code());
 				Everything responseBody;
 				try {
-					responseBody = objectMapper.readValue(response.body().string(), Everything.class);
+					responseBody = objectMapper.readValue(response.body().string(), new TypeReference<Everything>() {});
 				} catch (IOException e) {
 					var errorMessage = "Failed to deserialize response body " + e.getMessage();
 					logger.error(errorMessage);
