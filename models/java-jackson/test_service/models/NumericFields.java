@@ -9,21 +9,20 @@ import com.fasterxml.jackson.annotation.JsonSubTypes.*;
 
 public class NumericFields {
 
-	@JsonProperty(value = "int_field", required = true)
+@JsonProperty(value = "int_field", required = true)
 	private int intField;
 
-	@JsonProperty(value = "long_field", required = true)
+@JsonProperty(value = "long_field", required = true)
 	private long longField;
 
-	@JsonProperty(value = "float_field", required = true)
+@JsonProperty(value = "float_field", required = true)
 	private float floatField;
 
-	@JsonProperty(value = "double_field", required = true)
+@JsonProperty(value = "double_field", required = true)
 	private double doubleField;
 
-	@JsonProperty(value = "decimal_field", required = true)
+@JsonProperty(value = "decimal_field", required = true)
 	private BigDecimal decimalField;
-
 	@JsonCreator
 	public NumericFields(
 		@JsonProperty(value = "int_field", required = true)

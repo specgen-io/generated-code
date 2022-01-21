@@ -9,51 +9,50 @@ import com.fasterxml.jackson.annotation.JsonSubTypes.*;
 
 public class Parameters {
 
-	@JsonProperty(value = "int_field", required = true)
+@JsonProperty(value = "int_field", required = true)
 	private int intField;
 
-	@JsonProperty(value = "long_field", required = true)
+@JsonProperty(value = "long_field", required = true)
 	private long longField;
 
-	@JsonProperty(value = "float_field", required = true)
+@JsonProperty(value = "float_field", required = true)
 	private float floatField;
 
-	@JsonProperty(value = "double_field", required = true)
+@JsonProperty(value = "double_field", required = true)
 	private double doubleField;
 
-	@JsonProperty(value = "decimal_field", required = true)
+@JsonProperty(value = "decimal_field", required = true)
 	private BigDecimal decimalField;
 
-	@JsonProperty(value = "bool_field", required = true)
+@JsonProperty(value = "bool_field", required = true)
 	private boolean boolField;
 
-	@JsonProperty(value = "string_field", required = true)
+@JsonProperty(value = "string_field", required = true)
 	private String stringField;
 
-	@JsonProperty(value = "string_opt_field", required = false)
+@JsonProperty(value = "string_opt_field", required = false)
 	private String stringOptField;
 
-	@JsonProperty(value = "string_defaulted_field", required = true)
+@JsonProperty(value = "string_defaulted_field", required = true)
 	private String stringDefaultedField;
 
-	@JsonProperty(value = "string_array_field", required = true)
+@JsonProperty(value = "string_array_field", required = true)
 	private String[] stringArrayField;
 
-	@JsonProperty(value = "uuid_field", required = true)
+@JsonProperty(value = "uuid_field", required = true)
 	private UUID uuidField;
 
-	@JsonProperty(value = "date_field", required = true)
+@JsonProperty(value = "date_field", required = true)
 	private LocalDate dateField;
 
-	@JsonProperty(value = "date_array_field", required = true)
+@JsonProperty(value = "date_array_field", required = true)
 	private LocalDate[] dateArrayField;
 
-	@JsonProperty(value = "datetime_field", required = true)
+@JsonProperty(value = "datetime_field", required = true)
 	private LocalDateTime datetimeField;
 
-	@JsonProperty(value = "enum_field", required = true)
+@JsonProperty(value = "enum_field", required = true)
 	private Choice enumField;
-
 	@JsonCreator
 	public Parameters(
 		@JsonProperty(value = "int_field", required = true)

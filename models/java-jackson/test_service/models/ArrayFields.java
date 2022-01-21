@@ -9,12 +9,11 @@ import com.fasterxml.jackson.annotation.JsonSubTypes.*;
 
 public class ArrayFields {
 
-	@JsonProperty(value = "int_array_field", required = true)
+@JsonProperty(value = "int_array_field", required = true)
 	private int[] intArrayField;
 
-	@JsonProperty(value = "string_array_field", required = true)
+@JsonProperty(value = "string_array_field", required = true)
 	private String[] stringArrayField;
-
 	@JsonCreator
 	public ArrayFields(
 		@JsonProperty(value = "int_array_field", required = true)

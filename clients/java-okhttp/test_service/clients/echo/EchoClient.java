@@ -1,7 +1,6 @@
 package test_service.clients.echo;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.core.type.TypeReference;
 import okhttp3.*;
 import org.slf4j.*;
 import java.io.*;

@@ -11,6 +11,7 @@ import (
 	"test-client/v2/models"
 )
 
+
 type Client struct {
 	baseUrl string
 }
@@ -27,7 +28,6 @@ func (client *Client) EchoBody(body *models.Message) (*models.Message, error) {
 		log.WithFields(logEchoBody).Error("Failed to create HTTP request", err.Error())
 		return nil, err
 	}
-	req.Header.Set("Content-Type", "application/json")
 
 	log.WithFields(logEchoBody).Info("Sending request")
 	resp, err := http.DefaultClient.Do(req)

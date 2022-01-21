@@ -6,7 +6,6 @@ import (
 	log "github.com/sirupsen/logrus"
 	"io/ioutil"
 	"net/http"
-	"strings"
 	"test-service/generated/echo"
 	"test-service/generated/models"
 )
@@ -16,13 +15,6 @@ func AddEchoRoutes(router *vestigo.Router, echoService echo.Service) {
 	router.Post("/echo/body_string", func(res http.ResponseWriter, req *http.Request) {
 		log.WithFields(logEchoBodyString).Info("Received request")
 		var err error
-		contentType := req.Header.Get("Content-Type")
-		if !strings.Contains(contentType, "text/plain") {
-			log.WithFields(logEchoBodyString).Errorf("Wrong Content-type: %s", contentType)
-			res.WriteHeader(400)
-			log.WithFields(logEchoBodyString).WithField("status", 400).Info("Completed request")
-			return
-		}
 		bodyData, err := ioutil.ReadAll(req.Body)
 		if err != nil {
 			log.WithFields(logEchoBodyString).Warnf("Reading request body failed: %s", err.Error())
@@ -44,7 +36,6 @@ func AddEchoRoutes(router *vestigo.Router, echoService echo.Service) {
 			log.WithFields(logEchoBodyString).WithField("status", 500).Info("Completed request")
 			return
 		}
-		res.Header().Set("Content-Type", "text/plain")
 		res.WriteHeader(200)
 		res.Write([]byte(*response))
 		log.WithFields(logEchoBodyString).WithField("status", 200).Info("Completed request")
@@ -55,13 +46,6 @@ func AddEchoRoutes(router *vestigo.Router, echoService echo.Service) {
 	router.Post("/echo/body", func(res http.ResponseWriter, req *http.Request) {
 		log.WithFields(logEchoBody).Info("Received request")
 		var err error
-		contentType := req.Header.Get("Content-Type")
-		if !strings.Contains(contentType, "application/json") {
-			log.WithFields(logEchoBody).Errorf("Wrong Content-type: %s", contentType)
-			res.WriteHeader(400)
-			log.WithFields(logEchoBody).WithField("status", 400).Info("Completed request")
-			return
-		}
 		var body models.Message
 		err = json.NewDecoder(req.Body).Decode(&body)
 		if err != nil {
@@ -83,7 +67,6 @@ func AddEchoRoutes(router *vestigo.Router, echoService echo.Service) {
 			log.WithFields(logEchoBody).WithField("status", 500).Info("Completed request")
 			return
 		}
-		res.Header().Set("Content-Type", "application/json")
 		res.WriteHeader(200)
 		json.NewEncoder(res).Encode(response)
 		log.WithFields(logEchoBody).WithField("status", 200).Info("Completed request")
@@ -228,13 +211,6 @@ func AddEchoRoutes(router *vestigo.Router, echoService echo.Service) {
 	router.Post("/echo/everything/:date_url/:decimal_url", func(res http.ResponseWriter, req *http.Request) {
 		log.WithFields(logEchoEverything).Info("Received request")
 		var err error
-		contentType := req.Header.Get("Content-Type")
-		if !strings.Contains(contentType, "application/json") {
-			log.WithFields(logEchoEverything).Errorf("Wrong Content-type: %s", contentType)
-			res.WriteHeader(400)
-			log.WithFields(logEchoEverything).WithField("status", 400).Info("Completed request")
-			return
-		}
 		var body models.Message
 		err = json.NewDecoder(req.Body).Decode(&body)
 		if err != nil {
@@ -283,7 +259,6 @@ func AddEchoRoutes(router *vestigo.Router, echoService echo.Service) {
 			log.WithFields(logEchoEverything).WithField("status", 500).Info("Completed request")
 			return
 		}
-		res.Header().Set("Content-Type", "application/json")
 		if response.Ok != nil {
 			res.WriteHeader(200)
 			json.NewEncoder(res).Encode(response.Ok)

@@ -38,7 +38,7 @@ class EchoClient(baseUrl: String)(implicit backend: SttpBackend[Future, Nothing]
     val response: Future[Response[String]] =
       sttp
         .post(url)
-        .header("Content-Type", "text/plain")
+        .header("Content-Type", "application/text")
         .body(body)
         .parseResponseIf { status => status < 500 }
         .send()

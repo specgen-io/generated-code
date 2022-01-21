@@ -9,9 +9,8 @@ import com.fasterxml.jackson.annotation.JsonSubTypes.*;
 
 public class OrderCanceled {
 
-	@JsonProperty(value = "id", required = true)
+@JsonProperty(value = "id", required = true)
 	private UUID id;
-
 	@JsonCreator
 	public OrderCanceled(
 		@JsonProperty(value = "id", required = true)

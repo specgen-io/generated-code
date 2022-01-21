@@ -9,12 +9,11 @@ import com.fasterxml.jackson.annotation.JsonSubTypes.*;
 
 public class MessageCases {
 
-	@JsonProperty(value = "snake_case", required = true)
+@JsonProperty(value = "snake_case", required = true)
 	private String snakeCase;
 
-	@JsonProperty(value = "camelCase", required = true)
+@JsonProperty(value = "camelCase", required = true)
 	private String camelCase;
-
 	@JsonCreator
 	public MessageCases(
 		@JsonProperty(value = "snake_case", required = true)

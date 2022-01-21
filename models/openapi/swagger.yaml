@@ -98,7 +98,7 @@ components:
           format: date
         datetime_field:
           type: string
-          format: datetime
+          format: date-time
     ArrayFields:
       type: object
       required:

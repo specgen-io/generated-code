@@ -9,12 +9,11 @@ import com.fasterxml.jackson.annotation.JsonSubTypes.*;
 
 public class OptionalFields {
 
-	@JsonProperty(value = "int_option_field", required = false)
+@JsonProperty(value = "int_option_field", required = false)
 	private Integer intOptionField;
 
-	@JsonProperty(value = "string_option_field", required = false)
+@JsonProperty(value = "string_option_field", required = false)
 	private String stringOptionField;
-
 	@JsonCreator
 	public OptionalFields(
 		@JsonProperty(value = "int_option_field", required = false)

@@ -9,12 +9,11 @@ import com.fasterxml.jackson.annotation.JsonSubTypes.*;
 
 public class OrderChanged {
 
-	@JsonProperty(value = "id", required = true)
+@JsonProperty(value = "id", required = true)
 	private UUID id;
 
-	@JsonProperty(value = "quantity", required = true)
+@JsonProperty(value = "quantity", required = true)
 	private int quantity;
-
 	@JsonCreator
 	public OrderChanged(
 		@JsonProperty(value = "id", required = true)

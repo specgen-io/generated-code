@@ -9,21 +9,20 @@ import com.fasterxml.jackson.annotation.JsonSubTypes.*;
 
 public class NonNumericFields {
 
-	@JsonProperty(value = "boolean_field", required = true)
+@JsonProperty(value = "boolean_field", required = true)
 	private boolean booleanField;
 
-	@JsonProperty(value = "string_field", required = true)
+@JsonProperty(value = "string_field", required = true)
 	private String stringField;
 
-	@JsonProperty(value = "uuid_field", required = true)
+@JsonProperty(value = "uuid_field", required = true)
 	private UUID uuidField;
 
-	@JsonProperty(value = "date_field", required = true)
+@JsonProperty(value = "date_field", required = true)
 	private LocalDate dateField;
 
-	@JsonProperty(value = "datetime_field", required = true)
+@JsonProperty(value = "datetime_field", required = true)
 	private LocalDateTime datetimeField;
-
 	@JsonCreator
 	public NonNumericFields(
 		@JsonProperty(value = "boolean_field", required = true)

@@ -7,11 +7,8 @@ import * as models from './models'
 export const client = (config: {baseURL: string}) => {
     return {
         echoBodyString: async (parameters: {body: string}): Promise<string> => {
-            const headers = strParamsItems({
-                "Content-Type": "text/plain"
-            })
             const url = config.baseURL+`/echo/body_string`
-            const response = await fetch(url, {method: 'POST', headers: headers, body: parameters.body})
+            const response = await fetch(url, {method: 'POST', body: parameters.body})
             switch (response.status) {
                 case 200:
                     return Promise.resolve(await response.text())
@@ -21,12 +18,9 @@ export const client = (config: {baseURL: string}) => {
         },
 
         echoBody: async (parameters: {body: models.Message}): Promise<models.Message> => {
-            const headers = strParamsItems({
-                "Content-Type": "application/json"
-            })
             const url = config.baseURL+`/echo/body`
             const bodyJson = t.encode(models.TMessage, parameters.body)
-            const response = await fetch(url, {method: 'POST', headers: headers, body: JSON.stringify(bodyJson)})
+            const response = await fetch(url, {method: 'POST', body: JSON.stringify(bodyJson)})
             switch (response.status) {
                 case 200:
                     return Promise.resolve(t.decode(models.TMessage, await response.json()))
@@ -110,7 +104,6 @@ export const client = (config: {baseURL: string}) => {
             const headers = strParamsItems({
                 "Uuid-Header": parameters.uuidHeader,
                 "Datetime-Header": parameters.datetimeHeader,
-                "Content-Type": "application/json"
             })
             const url = config.baseURL+`/echo/everything/${stringify(parameters.dateUrl)}/${stringify(parameters.decimalUrl)}?${new URLSearchParams(query)}`
             const bodyJson = t.encode(models.TMessage, parameters.body)

@@ -9,15 +9,14 @@ import com.fasterxml.jackson.annotation.JsonSubTypes.*;
 
 public class OrderCreated {
 
-	@JsonProperty(value = "id", required = true)
+@JsonProperty(value = "id", required = true)
 	private UUID id;
 
-	@JsonProperty(value = "sku", required = true)
+@JsonProperty(value = "sku", required = true)
 	private String sku;
 
-	@JsonProperty(value = "quantity", required = true)
+@JsonProperty(value = "quantity", required = true)
 	private int quantity;
-
 	@JsonCreator
 	public OrderCreated(
 		@JsonProperty(value = "id", required = true)

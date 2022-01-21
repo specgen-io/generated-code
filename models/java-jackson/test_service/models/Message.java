@@ -9,9 +9,8 @@ import com.fasterxml.jackson.annotation.JsonSubTypes.*;
 
 public class Message {
 
-	@JsonProperty(value = "field", required = true)
+@JsonProperty(value = "field", required = true)
 	private int field;
-
 	@JsonCreator
 	public Message(
 		@JsonProperty(value = "field", required = true)

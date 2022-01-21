@@ -9,12 +9,11 @@ import com.fasterxml.jackson.annotation.JsonSubTypes.*;
 
 public class MapFields {
 
-	@JsonProperty(value = "int_map_field", required = true)
+@JsonProperty(value = "int_map_field", required = true)
 	private Map<String, Integer> intMapField;
 
-	@JsonProperty(value = "string_map_field", required = true)
+@JsonProperty(value = "string_map_field", required = true)
 	private Map<String, String> stringMapField;
-
 	@JsonCreator
 	public MapFields(
 		@JsonProperty(value = "int_map_field", required = true)
