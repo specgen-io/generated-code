@@ -9,11 +9,12 @@ import com.fasterxml.jackson.annotation.JsonSubTypes.*;
 
 public class Parent {
 
-@JsonProperty(value = "field", required = true)
+	@JsonProperty(value = "field", required = true)
 	private String field;
 
-@JsonProperty(value = "nested", required = true)
+	@JsonProperty(value = "nested", required = true)
 	private Message nested;
+
 	@JsonCreator
 	public Parent(
 		@JsonProperty(value = "field", required = true)

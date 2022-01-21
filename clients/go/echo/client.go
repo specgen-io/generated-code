@@ -15,7 +15,6 @@ import (
 	"test-client/models"
 )
 
-
 type EchoEverythingResponse struct {
 	Ok        *models.Everything
 	Forbidden *empty.Type
@@ -42,6 +41,7 @@ func (client *Client) EchoBodyString(body string) (*string, error) {
 		log.WithFields(logEchoBodyString).Error("Failed to create HTTP request", err.Error())
 		return nil, err
 	}
+	req.Header.Set("Content-Type", "text/plain")
 
 	log.WithFields(logEchoBodyString).Info("Sending request")
 	resp, err := http.DefaultClient.Do(req)
@@ -76,6 +76,7 @@ func (client *Client) EchoBody(body *models.Message) (*models.Message, error) {
 		log.WithFields(logEchoBody).Error("Failed to create HTTP request", err.Error())
 		return nil, err
 	}
+	req.Header.Set("Content-Type", "application/json")
 
 	log.WithFields(logEchoBody).Info("Sending request")
 	resp, err := http.DefaultClient.Do(req)
@@ -254,6 +255,7 @@ func (client *Client) EchoEverything(body *models.Message, floatQuery float32, b
 		log.WithFields(logEchoEverything).Error("Failed to create HTTP request", err.Error())
 		return nil, err
 	}
+	req.Header.Set("Content-Type", "application/json")
 
 	query := req.URL.Query()
 	q := NewParamsConverter(query)

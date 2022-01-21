@@ -12,7 +12,6 @@ import (
 	"test-client/models"
 )
 
-
 type CheckForbiddenResponse struct {
 	Ok        *models.Message
 	Forbidden *empty.Type
@@ -65,6 +64,7 @@ func (client *Client) CheckEmptyResponse(body *models.Message) error {
 		log.WithFields(logCheckEmptyResponse).Error("Failed to create HTTP request", err.Error())
 		return err
 	}
+	req.Header.Set("Content-Type", "application/json")
 
 	log.WithFields(logCheckEmptyResponse).Info("Sending request")
 	resp, err := http.DefaultClient.Do(req)

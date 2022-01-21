@@ -18,8 +18,11 @@ export const client = (axiosInstance: AxiosInstance) => {
         },
 
         checkEmptyResponse: async (parameters: {body: models.Message}): Promise<void> => {
+            const headers = strParamsObject({
+                "Content-Type": "application/json"
+            })
             const bodyJson = t.encode(models.TMessage, parameters.body)
-            const response = await axiosInstance.post(`/check/empty_response`, bodyJson, {})
+            const response = await axiosInstance.post(`/check/empty_response`, bodyJson, {headers: headers})
             switch (response.status) {
                 case 200:
                     return Promise.resolve()

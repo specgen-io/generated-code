@@ -8,7 +8,10 @@ export const client = (axiosInstance: AxiosInstance) => {
         axiosInstance,
 
         echoBodyString: async (parameters: {body: string}): Promise<string> => {
-            const response = await axiosInstance.post(`/echo/body_string`, parameters.body, {})
+            const headers = strParamsObject({
+                "Content-Type": "text/plain"
+            })
+            const response = await axiosInstance.post(`/echo/body_string`, parameters.body, {headers: headers})
             switch (response.status) {
                 case 200:
                     return Promise.resolve(response.data)
@@ -18,8 +21,11 @@ export const client = (axiosInstance: AxiosInstance) => {
         },
 
         echoBody: async (parameters: {body: models.Message}): Promise<models.Message> => {
+            const headers = strParamsObject({
+                "Content-Type": "application/json"
+            })
             const bodyJson = t.encode(models.TMessage, parameters.body)
-            const response = await axiosInstance.post(`/echo/body`, bodyJson, {})
+            const response = await axiosInstance.post(`/echo/body`, bodyJson, {headers: headers})
             switch (response.status) {
                 case 200:
                     return Promise.resolve(t.decode(models.TMessage, response.data))
@@ -100,6 +106,7 @@ export const client = (axiosInstance: AxiosInstance) => {
             const headers = strParamsObject({
                 "Uuid-Header": parameters.uuidHeader,
                 "Datetime-Header": parameters.datetimeHeader,
+                "Content-Type": "application/json"
             })
             const bodyJson = t.encode(models.TMessage, parameters.body)
             const response = await axiosInstance.post(`/echo/everything/${stringify(parameters.dateUrl)}/${stringify(parameters.decimalUrl)}`, bodyJson, {params: new URLSearchParams(query), headers: headers})
