@@ -9,8 +9,9 @@ import com.fasterxml.jackson.annotation.JsonSubTypes.*;
 
 public class EnumFields {
 
-@JsonProperty(value = "enum_field", required = true)
+	@JsonProperty(value = "enum_field", required = true)
 	private Choice enumField;
+
 	@JsonCreator
 	public EnumFields(
 		@JsonProperty(value = "enum_field", required = true)

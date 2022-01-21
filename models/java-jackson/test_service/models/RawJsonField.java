@@ -9,8 +9,9 @@ import com.fasterxml.jackson.annotation.JsonSubTypes.*;
 
 public class RawJsonField {
 
-@JsonProperty(value = "json_field", required = true)
+	@JsonProperty(value = "json_field", required = true)
 	private JsonNode jsonField;
+
 	@JsonCreator
 	public RawJsonField(
 		@JsonProperty(value = "json_field", required = true)

@@ -9,26 +9,27 @@ import com.fasterxml.jackson.annotation.JsonSubTypes.*;
 
 public class Everything {
 
-@JsonProperty(value = "body_field", required = true)
+	@JsonProperty(value = "body_field", required = true)
 	private Message bodyField;
 
-@JsonProperty(value = "float_query", required = true)
+	@JsonProperty(value = "float_query", required = true)
 	private float floatQuery;
 
-@JsonProperty(value = "bool_query", required = true)
+	@JsonProperty(value = "bool_query", required = true)
 	private boolean boolQuery;
 
-@JsonProperty(value = "uuid_header", required = true)
+	@JsonProperty(value = "uuid_header", required = true)
 	private UUID uuidHeader;
 
-@JsonProperty(value = "datetime_header", required = true)
+	@JsonProperty(value = "datetime_header", required = true)
 	private LocalDateTime datetimeHeader;
 
-@JsonProperty(value = "date_url", required = true)
+	@JsonProperty(value = "date_url", required = true)
 	private LocalDate dateUrl;
 
-@JsonProperty(value = "decimal_url", required = true)
+	@JsonProperty(value = "decimal_url", required = true)
 	private BigDecimal decimalUrl;
+
 	@JsonCreator
 	public Everything(
 		@JsonProperty(value = "body_field", required = true)

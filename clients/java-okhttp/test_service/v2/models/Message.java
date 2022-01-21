@@ -9,11 +9,12 @@ import com.fasterxml.jackson.annotation.JsonSubTypes.*;
 
 public class Message {
 
-@JsonProperty(value = "bool_field", required = true)
+	@JsonProperty(value = "bool_field", required = true)
 	private boolean boolField;
 
-@JsonProperty(value = "string_field", required = true)
+	@JsonProperty(value = "string_field", required = true)
 	private String stringField;
+
 	@JsonCreator
 	public Message(
 		@JsonProperty(value = "bool_field", required = true)
