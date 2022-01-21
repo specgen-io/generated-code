@@ -90,7 +90,7 @@ func (client *Client) EchoBody(body *models.Message) (*models.Message, error) {
 		responseBody, err := ioutil.ReadAll(resp.Body)
 		err = resp.Body.Close()
 
-		var result models.Message
+		var result models.models.Message
 		err = json.Unmarshal(responseBody, &result)
 		if err != nil {
 			log.WithFields(logEchoBody).Error("Failed to parse response JSON", err.Error())
@@ -144,7 +144,7 @@ func (client *Client) EchoQuery(intQuery int, longQuery int64, floatQuery float3
 		responseBody, err := ioutil.ReadAll(resp.Body)
 		err = resp.Body.Close()
 
-		var result models.Parameters
+		var result models.models.Parameters
 		err = json.Unmarshal(responseBody, &result)
 		if err != nil {
 			log.WithFields(logEchoQuery).Error("Failed to parse response JSON", err.Error())
@@ -197,7 +197,7 @@ func (client *Client) EchoHeader(intHeader int, longHeader int64, floatHeader fl
 		responseBody, err := ioutil.ReadAll(resp.Body)
 		err = resp.Body.Close()
 
-		var result models.Parameters
+		var result models.models.Parameters
 		err = json.Unmarshal(responseBody, &result)
 		if err != nil {
 			log.WithFields(logEchoHeader).Error("Failed to parse response JSON", err.Error())
@@ -232,7 +232,7 @@ func (client *Client) EchoUrlParams(intUrl int, longUrl int64, floatUrl float32,
 		responseBody, err := ioutil.ReadAll(resp.Body)
 		err = resp.Body.Close()
 
-		var result models.UrlParameters
+		var result models.models.UrlParameters
 		err = json.Unmarshal(responseBody, &result)
 		if err != nil {
 			log.WithFields(logEchoUrlParams).Error("Failed to parse response JSON", err.Error())
@@ -280,7 +280,7 @@ func (client *Client) EchoEverything(body *models.Message, floatQuery float32, b
 		responseBody, err := ioutil.ReadAll(resp.Body)
 		err = resp.Body.Close()
 
-		var result models.Everything
+		var result models.models.Everything
 		err = json.Unmarshal(responseBody, &result)
 		if err != nil {
 			log.WithFields(logEchoEverything).Error("Failed to parse response JSON", err.Error())
