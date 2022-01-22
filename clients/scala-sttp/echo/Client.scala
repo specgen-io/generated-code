@@ -9,7 +9,9 @@ import testservice.models._
 
 trait IEchoClient {
   def echoBodyString(body: String): Future[String]
-  def echoBody(body: Message): Future[Message]
+  def echoBodyModel(body: Message): Future[Message]
+  def echoBodyArray(body: List[String]): Future[List[String]]
+  def echoBodyMap(body: Map[String, String]): Future[Map[String, String]]
   def echoQuery(intQuery: Int, longQuery: Long, floatQuery: Float, doubleQuery: Double, decimalQuery: BigDecimal, boolQuery: Boolean, stringQuery: String, stringOptQuery: Option[String], stringArrayQuery: List[String], uuidQuery: java.util.UUID, dateQuery: java.time.LocalDate, dateArrayQuery: List[java.time.LocalDate], datetimeQuery: java.time.LocalDateTime, enumQuery: Choice, stringDefaultedQuery: String = "the default value"): Future[Parameters]
   def echoHeader(intHeader: Int, longHeader: Long, floatHeader: Float, doubleHeader: Double, decimalHeader: BigDecimal, boolHeader: Boolean, stringHeader: String, stringOptHeader: Option[String], stringArrayHeader: List[String], uuidHeader: java.util.UUID, dateHeader: java.time.LocalDate, dateArrayHeader: List[java.time.LocalDate], datetimeHeader: java.time.LocalDateTime, enumHeader: Choice, stringDefaultedHeader: String = "the default value"): Future[Parameters]
   def echoUrlParams(intUrl: Int, longUrl: Long, floatUrl: Float, doubleUrl: Double, decimalUrl: BigDecimal, boolUrl: Boolean, stringUrl: String, uuidUrl: java.util.UUID, dateUrl: java.time.LocalDate, datetimeUrl: java.time.LocalDateTime, enumUrl: Choice): Future[UrlParameters]
@@ -61,8 +63,8 @@ class EchoClient(baseUrl: String)(implicit backend: SttpBackend[Future, Nothing]
         }
     }
   }
-  def echoBody(body: Message): Future[Message] = {
-    val url = Uri.parse(baseUrl+s"/echo/body").get
+  def echoBodyModel(body: Message): Future[Message] = {
+    val url = Uri.parse(baseUrl+s"/echo/body_model").get
     val bodyJson = Jsoner.write(body)
     logger.debug(s"Request to url: ${url}, body: ${bodyJson}")
     val response: Future[Response[String]] =
@@ -79,6 +81,66 @@ class EchoClient(baseUrl: String)(implicit backend: SttpBackend[Future, Nothing]
             logger.debug(s"Response status: ${response.code}, body: ${body}")
             response.code match {
               case 200 => Jsoner.readThrowing[Message](body)
+              case _ => 
+                val errorMessage = s"Request returned unexpected status code: ${response.code}, body: ${new String(body)}"
+                logger.error(errorMessage)
+                throw new RuntimeException(errorMessage)
+            }
+          case Left(errorData) =>
+            val errorMessage = s"Request failed, status code: ${response.code}, body: ${new String(errorData)}"
+            logger.error(errorMessage)
+            throw new RuntimeException(errorMessage)
+        }
+    }
+  }
+  def echoBodyArray(body: List[String]): Future[List[String]] = {
+    val url = Uri.parse(baseUrl+s"/echo/body_array").get
+    val bodyJson = Jsoner.write(body)
+    logger.debug(s"Request to url: ${url}, body: ${bodyJson}")
+    val response: Future[Response[String]] =
+      sttp
+        .post(url)
+        .header("Content-Type", "application/json")
+        .body(bodyJson)
+        .parseResponseIf { status => status < 500 }
+        .send()
+    response.map {
+      response: Response[String] =>
+        response.body match {
+          case Right(body) =>
+            logger.debug(s"Response status: ${response.code}, body: ${body}")
+            response.code match {
+              case 200 => Jsoner.readThrowing[List[String]](body)
+              case _ => 
+                val errorMessage = s"Request returned unexpected status code: ${response.code}, body: ${new String(body)}"
+                logger.error(errorMessage)
+                throw new RuntimeException(errorMessage)
+            }
+          case Left(errorData) =>
+            val errorMessage = s"Request failed, status code: ${response.code}, body: ${new String(errorData)}"
+            logger.error(errorMessage)
+            throw new RuntimeException(errorMessage)
+        }
+    }
+  }
+  def echoBodyMap(body: Map[String, String]): Future[Map[String, String]] = {
+    val url = Uri.parse(baseUrl+s"/echo/body_map").get
+    val bodyJson = Jsoner.write(body)
+    logger.debug(s"Request to url: ${url}, body: ${bodyJson}")
+    val response: Future[Response[String]] =
+      sttp
+        .post(url)
+        .header("Content-Type", "application/json")
+        .body(bodyJson)
+        .parseResponseIf { status => status < 500 }
+        .send()
+    response.map {
+      response: Response[String] =>
+        response.body match {
+          case Right(body) =>
+            logger.debug(s"Response status: ${response.code}, body: ${body}")
+            response.code match {
+              case 200 => Jsoner.readThrowing[Map[String, String]](body)
               case _ => 
                 val errorMessage = s"Request returned unexpected status code: ${response.code}, body: ${new String(body)}"
                 logger.error(errorMessage)

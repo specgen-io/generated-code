@@ -16,7 +16,15 @@ public class EchoServiceImpl implements EchoService {
 		throw new UnsupportedOperationException("Implementation has not added yet");
 	}
 	@Override
-	public Message echoBody(Message body) {
+	public Message echoBodyModel(Message body) {
+		throw new UnsupportedOperationException("Implementation has not added yet");
+	}
+	@Override
+	public String[] echoBodyArray(String[] body) {
+		throw new UnsupportedOperationException("Implementation has not added yet");
+	}
+	@Override
+	public Map<String, String> echoBodyMap(Map<String, String> body) {
 		throw new UnsupportedOperationException("Implementation has not added yet");
 	}
 	@Override

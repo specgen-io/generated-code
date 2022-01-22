@@ -7,5 +7,5 @@ import java.util.*;
 import test_service.v2.models.*;
 
 public interface EchoService {
-	Message echoBody(Message body);
+	Message echoBodyModel(Message body);
 }

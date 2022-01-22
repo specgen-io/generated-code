@@ -10,12 +10,12 @@ import v2.controllers._
 import v2.models._
 
 class EchoRouter @Inject()(Action: DefaultActionBuilder, controller: EchoController) extends SimpleRouter {
-  lazy val routeEchoBody = Route("POST", PathPattern(List(
+  lazy val routeEchoBodyModel = Route("POST", PathPattern(List(
     StaticPart("/v2"),
-    StaticPart("/echo/body"),
+    StaticPart("/echo/body_model"),
   )))
   def routes: Router.Routes = {
-    case routeEchoBody(params@_) =>
-      controller.echoBody()
+    case routeEchoBodyModel(params@_) =>
+      controller.echoBodyModel()
   }
 }

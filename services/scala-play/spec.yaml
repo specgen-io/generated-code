@@ -5,8 +5,8 @@ version: 1
 v2:
   http:
     echo:
-      echo_body:
-        endpoint: POST /echo/body
+      echo_body_model:
+        endpoint: POST /echo/body_model
         body: Message
         response:
           ok: Message
@@ -24,11 +24,23 @@ http:
       response:
         ok: string
 
-    echo_body:
-      endpoint: POST /echo/body
+    echo_body_model:
+      endpoint: POST /echo/body_model
       body: Message
       response:
-        ok: Message
+        ok: Message    
+
+    echo_body_array:
+      endpoint: POST /echo/body_array
+      body: string[]
+      response:
+        ok: string[]  
+
+    echo_body_map:
+      endpoint: POST /echo/body_map
+      body: string{}
+      response:
+        ok: string{}         
 
     echo_query:
       endpoint: GET /echo/query

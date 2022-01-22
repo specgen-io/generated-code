@@ -51,42 +51,120 @@ func AddEchoRoutes(router *vestigo.Router, echoService echo.Service) {
 		return
 	})
 
-	logEchoBody := log.Fields{"operationId": "echo.echo_body", "method": "POST", "url": "/echo/body"}
-	router.Post("/echo/body", func(res http.ResponseWriter, req *http.Request) {
-		log.WithFields(logEchoBody).Info("Received request")
+	logEchoBodyModel := log.Fields{"operationId": "echo.echo_body_model", "method": "POST", "url": "/echo/body_model"}
+	router.Post("/echo/body_model", func(res http.ResponseWriter, req *http.Request) {
+		log.WithFields(logEchoBodyModel).Info("Received request")
 		var err error
 		contentType := req.Header.Get("Content-Type")
 		if !strings.Contains(contentType, "application/json") {
-			log.WithFields(logEchoBody).Errorf("Wrong Content-type: %s", contentType)
+			log.WithFields(logEchoBodyModel).Errorf("Wrong Content-type: %s", contentType)
 			res.WriteHeader(400)
-			log.WithFields(logEchoBody).WithField("status", 400).Info("Completed request")
+			log.WithFields(logEchoBodyModel).WithField("status", 400).Info("Completed request")
 			return
 		}
 		var body models.Message
 		err = json.NewDecoder(req.Body).Decode(&body)
 		if err != nil {
-			log.WithFields(logEchoBody).Warnf("Decoding body JSON failed: %s", err.Error())
+			log.WithFields(logEchoBodyModel).Warnf("Decoding body JSON failed: %s", err.Error())
 			res.WriteHeader(400)
-			log.WithFields(logEchoBody).WithField("status", 400).Info("Completed request")
+			log.WithFields(logEchoBodyModel).WithField("status", 400).Info("Completed request")
 			return
 		}
-		response, err := echoService.EchoBody(&body)
+		response, err := echoService.EchoBodyModel(&body)
 		if err != nil {
-			log.WithFields(logEchoBody).Errorf("Error returned from service implementation: %s", err.Error())
+			log.WithFields(logEchoBodyModel).Errorf("Error returned from service implementation: %s", err.Error())
 			res.WriteHeader(500)
-			log.WithFields(logEchoBody).WithField("status", 500).Info("Completed request")
+			log.WithFields(logEchoBodyModel).WithField("status", 500).Info("Completed request")
 			return
 		}
 		if response == nil {
-			log.WithFields(logEchoBody).Errorf("No result returned from service implementation")
+			log.WithFields(logEchoBodyModel).Errorf("No result returned from service implementation")
 			res.WriteHeader(500)
-			log.WithFields(logEchoBody).WithField("status", 500).Info("Completed request")
+			log.WithFields(logEchoBodyModel).WithField("status", 500).Info("Completed request")
 			return
 		}
 		res.Header().Set("Content-Type", "application/json")
 		res.WriteHeader(200)
 		json.NewEncoder(res).Encode(response)
-		log.WithFields(logEchoBody).WithField("status", 200).Info("Completed request")
+		log.WithFields(logEchoBodyModel).WithField("status", 200).Info("Completed request")
+		return
+	})
+
+	logEchoBodyArray := log.Fields{"operationId": "echo.echo_body_array", "method": "POST", "url": "/echo/body_array"}
+	router.Post("/echo/body_array", func(res http.ResponseWriter, req *http.Request) {
+		log.WithFields(logEchoBodyArray).Info("Received request")
+		var err error
+		contentType := req.Header.Get("Content-Type")
+		if !strings.Contains(contentType, "application/json") {
+			log.WithFields(logEchoBodyArray).Errorf("Wrong Content-type: %s", contentType)
+			res.WriteHeader(400)
+			log.WithFields(logEchoBodyArray).WithField("status", 400).Info("Completed request")
+			return
+		}
+		var body []string
+		err = json.NewDecoder(req.Body).Decode(&body)
+		if err != nil {
+			log.WithFields(logEchoBodyArray).Warnf("Decoding body JSON failed: %s", err.Error())
+			res.WriteHeader(400)
+			log.WithFields(logEchoBodyArray).WithField("status", 400).Info("Completed request")
+			return
+		}
+		response, err := echoService.EchoBodyArray(&body)
+		if err != nil {
+			log.WithFields(logEchoBodyArray).Errorf("Error returned from service implementation: %s", err.Error())
+			res.WriteHeader(500)
+			log.WithFields(logEchoBodyArray).WithField("status", 500).Info("Completed request")
+			return
+		}
+		if response == nil {
+			log.WithFields(logEchoBodyArray).Errorf("No result returned from service implementation")
+			res.WriteHeader(500)
+			log.WithFields(logEchoBodyArray).WithField("status", 500).Info("Completed request")
+			return
+		}
+		res.Header().Set("Content-Type", "application/json")
+		res.WriteHeader(200)
+		json.NewEncoder(res).Encode(response)
+		log.WithFields(logEchoBodyArray).WithField("status", 200).Info("Completed request")
+		return
+	})
+
+	logEchoBodyMap := log.Fields{"operationId": "echo.echo_body_map", "method": "POST", "url": "/echo/body_map"}
+	router.Post("/echo/body_map", func(res http.ResponseWriter, req *http.Request) {
+		log.WithFields(logEchoBodyMap).Info("Received request")
+		var err error
+		contentType := req.Header.Get("Content-Type")
+		if !strings.Contains(contentType, "application/json") {
+			log.WithFields(logEchoBodyMap).Errorf("Wrong Content-type: %s", contentType)
+			res.WriteHeader(400)
+			log.WithFields(logEchoBodyMap).WithField("status", 400).Info("Completed request")
+			return
+		}
+		var body map[string]string
+		err = json.NewDecoder(req.Body).Decode(&body)
+		if err != nil {
+			log.WithFields(logEchoBodyMap).Warnf("Decoding body JSON failed: %s", err.Error())
+			res.WriteHeader(400)
+			log.WithFields(logEchoBodyMap).WithField("status", 400).Info("Completed request")
+			return
+		}
+		response, err := echoService.EchoBodyMap(&body)
+		if err != nil {
+			log.WithFields(logEchoBodyMap).Errorf("Error returned from service implementation: %s", err.Error())
+			res.WriteHeader(500)
+			log.WithFields(logEchoBodyMap).WithField("status", 500).Info("Completed request")
+			return
+		}
+		if response == nil {
+			log.WithFields(logEchoBodyMap).Errorf("No result returned from service implementation")
+			res.WriteHeader(500)
+			log.WithFields(logEchoBodyMap).WithField("status", 500).Info("Completed request")
+			return
+		}
+		res.Header().Set("Content-Type", "application/json")
+		res.WriteHeader(200)
+		json.NewEncoder(res).Encode(response)
+		log.WithFields(logEchoBodyMap).WithField("status", 200).Info("Completed request")
 		return
 	})
 

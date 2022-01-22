@@ -28,7 +28,7 @@ public class EchoClient {
 		this.client = new OkHttpClient();
 	}
 
-	public Message echoBody(Message body) {
+	public Message echoBodyModel(Message body) {
 		String bodyJson;
 		try {
 			bodyJson = objectMapper.writeValueAsString(body);
@@ -41,11 +41,11 @@ public class EchoClient {
 		var requestBody = RequestBody.create(bodyJson, MediaType.parse("application/json"));
 		var url = new UrlBuilder(baseUrl);
 		url.addPathSegment("v2");
-		url.addPathSegment("echo/body");
+		url.addPathSegment("echo/body_model");
 
 		var request = new RequestBuilder("POST", url.build(), requestBody);
 
-		logger.info("Sending request, operationId: echo.echo_body, method: POST, url: /v2/echo/body");
+		logger.info("Sending request, operationId: echo.echo_body_model, method: POST, url: /v2/echo/body_model");
 		Response response;
 		try {
 			response = client.newCall(request.build()).execute();

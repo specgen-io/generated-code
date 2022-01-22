@@ -3,9 +3,9 @@ info:
   title: test-service
   version: "1"
 paths:
-  /v2/echo/body:
+  /v2/echo/body_model:
     post:
-      operationId: v2EchoEchoBody
+      operationId: v2EchoEchoBodyModel
       tags:
         - echo
       requestBody:
@@ -47,9 +47,9 @@ paths:
           description: Service will return this if parameters are not provided or couldn't be parsed correctly
         "500":
           description: Service will return this if unexpected internal error happens
-  /echo/body:
+  /echo/body_model:
     post:
-      operationId: echoEchoBody
+      operationId: echoEchoBodyModel
       tags:
         - echo
       requestBody:
@@ -65,6 +65,58 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Message'
+        "400":
+          description: Service will return this if parameters are not provided or couldn't be parsed correctly
+        "500":
+          description: Service will return this if unexpected internal error happens
+  /echo/body_array:
+    post:
+      operationId: echoEchoBodyArray
+      tags:
+        - echo
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: string
+      responses:
+        "200":
+          description: ""
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+        "400":
+          description: Service will return this if parameters are not provided or couldn't be parsed correctly
+        "500":
+          description: Service will return this if unexpected internal error happens
+  /echo/body_map:
+    post:
+      operationId: echoEchoBodyMap
+      tags:
+        - echo
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties:
+                type: string
+      responses:
+        "200":
+          description: ""
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties:
+                  type: string
         "400":
           description: Service will return this if parameters are not provided or couldn't be parsed correctly
         "500":

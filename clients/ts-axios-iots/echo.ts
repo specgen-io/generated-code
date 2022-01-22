@@ -20,15 +20,43 @@ export const client = (axiosInstance: AxiosInstance) => {
             }
         },
 
-        echoBody: async (parameters: {body: models.Message}): Promise<models.Message> => {
+        echoBodyModel: async (parameters: {body: models.Message}): Promise<models.Message> => {
             const headers = strParamsObject({
                 "Content-Type": "application/json"
             })
             const bodyJson = t.encode(models.TMessage, parameters.body)
-            const response = await axiosInstance.post(`/echo/body`, bodyJson, {headers: headers})
+            const response = await axiosInstance.post(`/echo/body_model`, bodyJson, {headers: headers})
             switch (response.status) {
                 case 200:
                     return Promise.resolve(t.decode(models.TMessage, response.data))
+                default:
+                    throw new Error(`Unexpected status code ${ response.status }`)
+            }
+        },
+
+        echoBodyArray: async (parameters: {body: string[]}): Promise<string[]> => {
+            const headers = strParamsObject({
+                "Content-Type": "application/json"
+            })
+            const bodyJson = t.encode(t.array(t.string), parameters.body)
+            const response = await axiosInstance.post(`/echo/body_array`, bodyJson, {headers: headers})
+            switch (response.status) {
+                case 200:
+                    return Promise.resolve(t.decode(t.array(t.string), response.data))
+                default:
+                    throw new Error(`Unexpected status code ${ response.status }`)
+            }
+        },
+
+        echoBodyMap: async (parameters: {body: Record<string, string>}): Promise<Record<string, string>> => {
+            const headers = strParamsObject({
+                "Content-Type": "application/json"
+            })
+            const bodyJson = t.encode(t.record(t.string, t.string), parameters.body)
+            const response = await axiosInstance.post(`/echo/body_map`, bodyJson, {headers: headers})
+            switch (response.status) {
+                case 200:
+                    return Promise.resolve(t.decode(t.record(t.string, t.string), response.data))
                 default:
                     throw new Error(`Unexpected status code ${ response.status }`)
             }

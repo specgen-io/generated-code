@@ -45,9 +45,9 @@ public class EchoController {
 		return new ResponseEntity<>(result, headers, HttpStatus.OK);
 	}
 
-	@PostMapping("/echo/body")
-	public ResponseEntity<String> echoBodyController(@RequestBody String bodyStr) throws IOException {
-		logger.info("Received request, operationId: echo.echo_body, method: POST, url: /echo/body");
+	@PostMapping("/echo/body_model")
+	public ResponseEntity<String> echoBodyModelController(@RequestBody String bodyStr) throws IOException {
+		logger.info("Received request, operationId: echo.echo_body_model, method: POST, url: /echo/body_model");
 		HttpHeaders headers = new HttpHeaders();
 		headers.add(CONTENT_TYPE, "application/json");
 
@@ -58,7 +58,55 @@ public class EchoController {
 			logger.error("Completed request with status code: {}", HttpStatus.BAD_REQUEST);
 			return new ResponseEntity<>(headers, HttpStatus.BAD_REQUEST);
 		}
-		var result = echoService.echoBody(requestBody);
+		var result = echoService.echoBodyModel(requestBody);
+		if (result == null) {
+			logger.error("Completed request with status code: {}", HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		String responseJson = objectMapper.writeValueAsString(result);
+
+		logger.info("Completed request with status code: {}", HttpStatus.OK);
+		return new ResponseEntity<>(responseJson, headers, HttpStatus.OK);
+	}
+
+	@PostMapping("/echo/body_array")
+	public ResponseEntity<String> echoBodyArrayController(@RequestBody String bodyStr) throws IOException {
+		logger.info("Received request, operationId: echo.echo_body_array, method: POST, url: /echo/body_array");
+		HttpHeaders headers = new HttpHeaders();
+		headers.add(CONTENT_TYPE, "application/json");
+
+		String[] requestBody;
+		try {
+			requestBody = objectMapper.readValue(bodyStr, new TypeReference<String[]>() {});
+		} catch (Exception e) {
+			logger.error("Completed request with status code: {}", HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>(headers, HttpStatus.BAD_REQUEST);
+		}
+		var result = echoService.echoBodyArray(requestBody);
+		if (result == null) {
+			logger.error("Completed request with status code: {}", HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		String responseJson = objectMapper.writeValueAsString(result);
+
+		logger.info("Completed request with status code: {}", HttpStatus.OK);
+		return new ResponseEntity<>(responseJson, headers, HttpStatus.OK);
+	}
+
+	@PostMapping("/echo/body_map")
+	public ResponseEntity<String> echoBodyMapController(@RequestBody String bodyStr) throws IOException {
+		logger.info("Received request, operationId: echo.echo_body_map, method: POST, url: /echo/body_map");
+		HttpHeaders headers = new HttpHeaders();
+		headers.add(CONTENT_TYPE, "application/json");
+
+		Map<String, String> requestBody;
+		try {
+			requestBody = objectMapper.readValue(bodyStr, new TypeReference<Map<String, String>>() {});
+		} catch (Exception e) {
+			logger.error("Completed request with status code: {}", HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>(headers, HttpStatus.BAD_REQUEST);
+		}
+		var result = echoService.echoBodyMap(requestBody);
 		if (result == null) {
 			logger.error("Completed request with status code: {}", HttpStatus.INTERNAL_SERVER_ERROR);
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);

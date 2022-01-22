@@ -1,9 +1,9 @@
 import * as models from './models'
 
-export interface EchoBodyParams {
+export interface EchoBodyModelParams {
     body: models.Message,
 }
 
 export interface EchoService {
-    echoBody(params: EchoBodyParams): Promise<models.Message>
+    echoBodyModel(params: EchoBodyModelParams): Promise<models.Message>
 }

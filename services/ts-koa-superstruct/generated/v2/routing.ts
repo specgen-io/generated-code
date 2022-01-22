@@ -7,7 +7,7 @@ import {EchoService} from './echo_service'
 export let echoRouter = (service: EchoService) => {
     let router = new Router()
 
-    router.post('/echo/body', async (ctx) => {
+    router.post('/echo/body_model', async (ctx) => {
         if (ctx.request.type != 'application/json') {
             ctx.throw(400)
             return
@@ -20,7 +20,7 @@ export let echoRouter = (service: EchoService) => {
             return
         }
         try {
-            let result = await service.echoBody({body})
+            let result = await service.echoBodyModel({body})
             ctx.status = 200
             ctx.body = t.encode(models.TMessage, result)
             return

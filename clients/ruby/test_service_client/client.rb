@@ -19,8 +19,8 @@ module TestService
       end
     end
 
-    def echo_body(body:)
-      url = @base_uri + '/echo/body'
+    def echo_body_model(body:)
+      url = @base_uri + '/echo/body_model'
       request = Net::HTTP::Post.new(url)
       request.add_field('Content-Type', 'application/json')
       body_json = Jsoner.to_json(Message, T.check_var('body', Message, body))
@@ -29,6 +29,36 @@ module TestService
       case response.code
       when '200'
         OpenStruct.new(:ok => Jsoner.from_json(Message, response.body), :ok? => true)
+      else
+        raise StandardError.new("Unexpected HTTP response code #{response.code}")
+      end
+    end
+
+    def echo_body_array(body:)
+      url = @base_uri + '/echo/body_array'
+      request = Net::HTTP::Post.new(url)
+      request.add_field('Content-Type', 'application/json')
+      body_json = Jsoner.to_json(T.array(String), T.check_var('body', T.array(String), body))
+      request.body = body_json
+      response = @client.request(request)
+      case response.code
+      when '200'
+        OpenStruct.new(:ok => Jsoner.from_json(T.array(String), response.body), :ok? => true)
+      else
+        raise StandardError.new("Unexpected HTTP response code #{response.code}")
+      end
+    end
+
+    def echo_body_map(body:)
+      url = @base_uri + '/echo/body_map'
+      request = Net::HTTP::Post.new(url)
+      request.add_field('Content-Type', 'application/json')
+      body_json = Jsoner.to_json(T.hash(String, String), T.check_var('body', T.hash(String, String), body))
+      request.body = body_json
+      response = @client.request(request)
+      case response.code
+      when '200'
+        OpenStruct.new(:ok => Jsoner.from_json(T.hash(String, String), response.body), :ok? => true)
       else
         raise StandardError.new("Unexpected HTTP response code #{response.code}")
       end
@@ -219,8 +249,8 @@ end
 
 module TestService::V2
   class EchoClient < TestService::BaseClient
-    def echo_body(body:)
-      url = @base_uri + '/v2/echo/body'
+    def echo_body_model(body:)
+      url = @base_uri + '/v2/echo/body_model'
       request = Net::HTTP::Post.new(url)
       request.add_field('Content-Type', 'application/json')
       body_json = Jsoner.to_json(Message, T.check_var('body', Message, body))

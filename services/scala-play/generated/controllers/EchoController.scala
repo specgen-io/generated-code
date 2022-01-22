@@ -32,7 +32,7 @@ class EchoController @Inject()(api: IEchoService, cc: ControllerComponents)(impl
         case _ => Future { BadRequest }
       }
   }
-  def echoBody() = Action(parse.byteString).async {
+  def echoBodyModel() = Action(parse.byteString).async {
     implicit request =>
       val params = Try {
         val body = Jsoner.readThrowing[Message](request.body.utf8String)
@@ -42,7 +42,41 @@ class EchoController @Inject()(api: IEchoService, cc: ControllerComponents)(impl
         case Failure(ex) => Future { BadRequest }
         case Success(params) =>
           val (body) = params
-          val result = api.echoBody(body)
+          val result = api.echoBodyModel(body)
+          val response = result.map {
+            body => new Status(200)(Jsoner.write(body)).as("application/json")
+          }
+          response.recover { case _: Exception => InternalServerError }
+      }
+  }
+  def echoBodyArray() = Action(parse.byteString).async {
+    implicit request =>
+      val params = Try {
+        val body = Jsoner.readThrowing[List[String]](request.body.utf8String)
+        (body)
+      }
+      params match {
+        case Failure(ex) => Future { BadRequest }
+        case Success(params) =>
+          val (body) = params
+          val result = api.echoBodyArray(body)
+          val response = result.map {
+            body => new Status(200)(Jsoner.write(body)).as("application/json")
+          }
+          response.recover { case _: Exception => InternalServerError }
+      }
+  }
+  def echoBodyMap() = Action(parse.byteString).async {
+    implicit request =>
+      val params = Try {
+        val body = Jsoner.readThrowing[Map[String, String]](request.body.utf8String)
+        (body)
+      }
+      params match {
+        case Failure(ex) => Future { BadRequest }
+        case Success(params) =>
+          val (body) = params
+          val result = api.echoBodyMap(body)
           val response = result.map {
             body => new Status(200)(Jsoner.write(body)).as("application/json")
           }

@@ -13,8 +13,14 @@ class EchoRouter @Inject()(Action: DefaultActionBuilder, controller: EchoControl
   lazy val routeEchoBodyString = Route("POST", PathPattern(List(
     StaticPart("/echo/body_string"),
   )))
-  lazy val routeEchoBody = Route("POST", PathPattern(List(
-    StaticPart("/echo/body"),
+  lazy val routeEchoBodyModel = Route("POST", PathPattern(List(
+    StaticPart("/echo/body_model"),
+  )))
+  lazy val routeEchoBodyArray = Route("POST", PathPattern(List(
+    StaticPart("/echo/body_array"),
+  )))
+  lazy val routeEchoBodyMap = Route("POST", PathPattern(List(
+    StaticPart("/echo/body_map"),
   )))
   lazy val routeEchoQuery = Route("GET", PathPattern(List(
     StaticPart("/echo/query"),
@@ -58,8 +64,12 @@ class EchoRouter @Inject()(Action: DefaultActionBuilder, controller: EchoControl
   def routes: Router.Routes = {
     case routeEchoBodyString(params@_) =>
       controller.echoBodyString()
-    case routeEchoBody(params@_) =>
-      controller.echoBody()
+    case routeEchoBodyModel(params@_) =>
+      controller.echoBodyModel()
+    case routeEchoBodyArray(params@_) =>
+      controller.echoBodyArray()
+    case routeEchoBodyMap(params@_) =>
+      controller.echoBodyMap()
     case routeEchoQuery(params@_) =>
       val arguments =
         for {

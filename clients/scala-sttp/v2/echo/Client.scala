@@ -8,14 +8,14 @@ import testservice.Jsoner
 import testservice.v2.models._
 
 trait IEchoClient {
-  def echoBody(body: Message): Future[Message]
+  def echoBodyModel(body: Message): Future[Message]
 }
 
 class EchoClient(baseUrl: String)(implicit backend: SttpBackend[Future, Nothing]) extends IEchoClient {
   import ExecutionContext.Implicits.global
   private val logger: Logger = LoggerFactory.getLogger(this.getClass)
-  def echoBody(body: Message): Future[Message] = {
-    val url = Uri.parse(baseUrl+s"/v2/echo/body").get
+  def echoBodyModel(body: Message): Future[Message] = {
+    val url = Uri.parse(baseUrl+s"/v2/echo/body_model").get
     val bodyJson = Jsoner.write(body)
     logger.debug(s"Request to url: ${url}, body: ${bodyJson}")
     val response: Future[Response[String]] =

@@ -68,39 +68,113 @@ func (client *Client) EchoBodyString(body string) (*string, error) {
 	return nil, err
 }
 
-var logEchoBody = log.Fields{"operationId": "echo.echo_body", "method": "POST", "url": "/echo/body"}
-func (client *Client) EchoBody(body *models.Message) (*models.Message, error) {
+var logEchoBodyModel = log.Fields{"operationId": "echo.echo_body_model", "method": "POST", "url": "/echo/body_model"}
+func (client *Client) EchoBodyModel(body *models.Message) (*models.Message, error) {
 	bodyData, err := json.Marshal(body)
-	req, err := http.NewRequest("POST", client.baseUrl+"/echo/body", bytes.NewBuffer(bodyData))
+	req, err := http.NewRequest("POST", client.baseUrl+"/echo/body_model", bytes.NewBuffer(bodyData))
 	if err != nil {
-		log.WithFields(logEchoBody).Error("Failed to create HTTP request", err.Error())
+		log.WithFields(logEchoBodyModel).Error("Failed to create HTTP request", err.Error())
 		return nil, err
 	}
 	req.Header.Set("Content-Type", "application/json")
 
-	log.WithFields(logEchoBody).Info("Sending request")
+	log.WithFields(logEchoBodyModel).Info("Sending request")
 	resp, err := http.DefaultClient.Do(req)
 	if err != nil {
-		log.WithFields(logEchoBody).Error("Request failed", err.Error())
+		log.WithFields(logEchoBodyModel).Error("Request failed", err.Error())
 		return nil, err
 	}
 
 	if resp.StatusCode == 200 {
-		log.WithFields(logEchoBody).WithField("status", 200).Info("Received response")
+		log.WithFields(logEchoBodyModel).WithField("status", 200).Info("Received response")
 		responseBody, err := ioutil.ReadAll(resp.Body)
 		err = resp.Body.Close()
 
 		var result models.Message
 		err = json.Unmarshal(responseBody, &result)
 		if err != nil {
-			log.WithFields(logEchoBody).Error("Failed to parse response JSON", err.Error())
+			log.WithFields(logEchoBodyModel).Error("Failed to parse response JSON", err.Error())
 			return nil, err
 		}
 		return &result, nil
 	}
 
 	msg := fmt.Sprintf("Unexpected status code received: %d", resp.StatusCode)
-	log.WithFields(logEchoBody).Error(msg)
+	log.WithFields(logEchoBodyModel).Error(msg)
+	err = errors.New(msg)
+	return nil, err
+}
+
+var logEchoBodyArray = log.Fields{"operationId": "echo.echo_body_array", "method": "POST", "url": "/echo/body_array"}
+func (client *Client) EchoBodyArray(body *[]string) (*[]string, error) {
+	bodyData, err := json.Marshal(body)
+	req, err := http.NewRequest("POST", client.baseUrl+"/echo/body_array", bytes.NewBuffer(bodyData))
+	if err != nil {
+		log.WithFields(logEchoBodyArray).Error("Failed to create HTTP request", err.Error())
+		return nil, err
+	}
+	req.Header.Set("Content-Type", "application/json")
+
+	log.WithFields(logEchoBodyArray).Info("Sending request")
+	resp, err := http.DefaultClient.Do(req)
+	if err != nil {
+		log.WithFields(logEchoBodyArray).Error("Request failed", err.Error())
+		return nil, err
+	}
+
+	if resp.StatusCode == 200 {
+		log.WithFields(logEchoBodyArray).WithField("status", 200).Info("Received response")
+		responseBody, err := ioutil.ReadAll(resp.Body)
+		err = resp.Body.Close()
+
+		var result []string
+		err = json.Unmarshal(responseBody, &result)
+		if err != nil {
+			log.WithFields(logEchoBodyArray).Error("Failed to parse response JSON", err.Error())
+			return nil, err
+		}
+		return &result, nil
+	}
+
+	msg := fmt.Sprintf("Unexpected status code received: %d", resp.StatusCode)
+	log.WithFields(logEchoBodyArray).Error(msg)
+	err = errors.New(msg)
+	return nil, err
+}
+
+var logEchoBodyMap = log.Fields{"operationId": "echo.echo_body_map", "method": "POST", "url": "/echo/body_map"}
+func (client *Client) EchoBodyMap(body *map[string]string) (*map[string]string, error) {
+	bodyData, err := json.Marshal(body)
+	req, err := http.NewRequest("POST", client.baseUrl+"/echo/body_map", bytes.NewBuffer(bodyData))
+	if err != nil {
+		log.WithFields(logEchoBodyMap).Error("Failed to create HTTP request", err.Error())
+		return nil, err
+	}
+	req.Header.Set("Content-Type", "application/json")
+
+	log.WithFields(logEchoBodyMap).Info("Sending request")
+	resp, err := http.DefaultClient.Do(req)
+	if err != nil {
+		log.WithFields(logEchoBodyMap).Error("Request failed", err.Error())
+		return nil, err
+	}
+
+	if resp.StatusCode == 200 {
+		log.WithFields(logEchoBodyMap).WithField("status", 200).Info("Received response")
+		responseBody, err := ioutil.ReadAll(resp.Body)
+		err = resp.Body.Close()
+
+		var result map[string]string
+		err = json.Unmarshal(responseBody, &result)
+		if err != nil {
+			log.WithFields(logEchoBodyMap).Error("Failed to parse response JSON", err.Error())
+			return nil, err
+		}
+		return &result, nil
+	}
+
+	msg := fmt.Sprintf("Unexpected status code received: %d", resp.StatusCode)
+	log.WithFields(logEchoBodyMap).Error(msg)
 	err = errors.New(msg)
 	return nil, err
 }

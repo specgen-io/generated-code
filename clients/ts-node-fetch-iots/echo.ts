@@ -20,16 +20,46 @@ export const client = (config: {baseURL: string}) => {
             }
         },
 
-        echoBody: async (parameters: {body: models.Message}): Promise<models.Message> => {
+        echoBodyModel: async (parameters: {body: models.Message}): Promise<models.Message> => {
             const headers = strParamsItems({
                 "Content-Type": "application/json"
             })
-            const url = config.baseURL+`/echo/body`
+            const url = config.baseURL+`/echo/body_model`
             const bodyJson = t.encode(models.TMessage, parameters.body)
             const response = await fetch(url, {method: 'POST', headers: headers, body: JSON.stringify(bodyJson)})
             switch (response.status) {
                 case 200:
                     return Promise.resolve(t.decode(models.TMessage, await response.json()))
+                default:
+                    throw new Error(`Unexpected status code ${ response.status }`)
+            }
+        },
+
+        echoBodyArray: async (parameters: {body: string[]}): Promise<string[]> => {
+            const headers = strParamsItems({
+                "Content-Type": "application/json"
+            })
+            const url = config.baseURL+`/echo/body_array`
+            const bodyJson = t.encode(t.array(t.string), parameters.body)
+            const response = await fetch(url, {method: 'POST', headers: headers, body: JSON.stringify(bodyJson)})
+            switch (response.status) {
+                case 200:
+                    return Promise.resolve(t.decode(t.array(t.string), await response.json()))
+                default:
+                    throw new Error(`Unexpected status code ${ response.status }`)
+            }
+        },
+
+        echoBodyMap: async (parameters: {body: Record<string, string>}): Promise<Record<string, string>> => {
+            const headers = strParamsItems({
+                "Content-Type": "application/json"
+            })
+            const url = config.baseURL+`/echo/body_map`
+            const bodyJson = t.encode(t.record(t.string, t.string), parameters.body)
+            const response = await fetch(url, {method: 'POST', headers: headers, body: JSON.stringify(bodyJson)})
+            switch (response.status) {
+                case 200:
+                    return Promise.resolve(t.decode(t.record(t.string, t.string), await response.json()))
                 default:
                     throw new Error(`Unexpected status code ${ response.status }`)
             }

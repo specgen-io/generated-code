@@ -4,8 +4,16 @@ export interface EchoBodyStringParams {
     body: string,
 }
 
-export interface EchoBodyParams {
+export interface EchoBodyModelParams {
     body: models.Message,
+}
+
+export interface EchoBodyArrayParams {
+    body: string[],
+}
+
+export interface EchoBodyMapParams {
+    body: Record<string, string>,
 }
 
 export interface EchoQueryParams {
@@ -78,7 +86,9 @@ export type SameOperationNameResponse =
 
 export interface EchoService {
     echoBodyString(params: EchoBodyStringParams): Promise<string>
-    echoBody(params: EchoBodyParams): Promise<models.Message>
+    echoBodyModel(params: EchoBodyModelParams): Promise<models.Message>
+    echoBodyArray(params: EchoBodyArrayParams): Promise<string[]>
+    echoBodyMap(params: EchoBodyMapParams): Promise<Record<string, string>>
     echoQuery(params: EchoQueryParams): Promise<models.Parameters>
     echoHeader(params: EchoHeaderParams): Promise<models.Parameters>
     echoUrlParams(params: EchoUrlParamsParams): Promise<models.UrlParameters>

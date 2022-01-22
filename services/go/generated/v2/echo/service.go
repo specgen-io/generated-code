@@ -5,5 +5,5 @@ import (
 )
 
 type Service interface {
-	EchoBody(body *models.Message) (*models.Message, error)
+	EchoBodyModel(body *models.Message) (*models.Message, error)
 }

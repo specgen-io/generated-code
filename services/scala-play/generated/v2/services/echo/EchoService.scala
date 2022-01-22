@@ -6,5 +6,5 @@ import v2.models._
 
 @ImplementedBy(classOf[v2.services.EchoService])
 trait IEchoService {
-  def echoBody(body: Message): Future[Message]
+  def echoBodyModel(body: Message): Future[Message]
 }

@@ -101,7 +101,7 @@ export let echoRouter = (service: EchoService) => {
         }
     })
 
-    router.post('/echo/body', async (ctx) => {
+    router.post('/echo/body_model', async (ctx) => {
         if (ctx.request.type != 'application/json') {
             ctx.throw(400)
             return
@@ -114,9 +114,53 @@ export let echoRouter = (service: EchoService) => {
             return
         }
         try {
-            let result = await service.echoBody({body})
+            let result = await service.echoBodyModel({body})
             ctx.status = 200
             ctx.body = t.encode(models.TMessage, result)
+            return
+        } catch (error) {
+            ctx.throw(500)
+        }
+    })
+
+    router.post('/echo/body_array', async (ctx) => {
+        if (ctx.request.type != 'application/json') {
+            ctx.throw(400)
+            return
+        }
+        var body: string[]
+        try {
+            body = t.decode(t.array(t.string()), ctx.request.body)
+        } catch (error) {
+            ctx.throw(400)
+            return
+        }
+        try {
+            let result = await service.echoBodyArray({body})
+            ctx.status = 200
+            ctx.body = t.encode(t.array(t.string()), result)
+            return
+        } catch (error) {
+            ctx.throw(500)
+        }
+    })
+
+    router.post('/echo/body_map', async (ctx) => {
+        if (ctx.request.type != 'application/json') {
+            ctx.throw(400)
+            return
+        }
+        var body: Record<string, string>
+        try {
+            body = t.decode(t.record(t.string(), t.string()), ctx.request.body)
+        } catch (error) {
+            ctx.throw(400)
+            return
+        }
+        try {
+            let result = await service.echoBodyMap({body})
+            ctx.status = 200
+            ctx.body = t.encode(t.record(t.string(), t.string()), result)
             return
         } catch (error) {
             ctx.throw(500)

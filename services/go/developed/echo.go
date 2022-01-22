@@ -14,7 +14,13 @@ type EchoService struct{}
 func (service *EchoService) EchoBodyString(body string) (*string, error) {
 	return nil, errors.New("implementation has not added yet")
 }
-func (service *EchoService) EchoBody(body *models.Message) (*models.Message, error) {
+func (service *EchoService) EchoBodyModel(body *models.Message) (*models.Message, error) {
+	return nil, errors.New("implementation has not added yet")
+}
+func (service *EchoService) EchoBodyArray(body *[]string) (*[]string, error) {
+	return nil, errors.New("implementation has not added yet")
+}
+func (service *EchoService) EchoBodyMap(body *map[string]string) (*map[string]string, error) {
 	return nil, errors.New("implementation has not added yet")
 }
 func (service *EchoService) EchoQuery(intQuery int, longQuery int64, floatQuery float32, doubleQuery float64, decimalQuery decimal.Decimal, boolQuery bool, stringQuery string, stringOptQuery *string, stringDefaultedQuery string, stringArrayQuery []string, uuidQuery uuid.UUID, dateQuery civil.Date, dateArrayQuery []civil.Date, datetimeQuery civil.DateTime, enumQuery models.Choice) (*models.Parameters, error) {

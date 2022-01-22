@@ -6,11 +6,11 @@ import * as models from './models'
 
 export const client = (config: {baseURL: string}) => {
     return {
-        echoBody: async (parameters: {body: models.Message}): Promise<models.Message> => {
+        echoBodyModel: async (parameters: {body: models.Message}): Promise<models.Message> => {
             const headers = strParamsItems({
                 "Content-Type": "application/json"
             })
-            const url = config.baseURL+`/echo/body`
+            const url = config.baseURL+`/echo/body_model`
             const bodyJson = t.encode(models.TMessage, parameters.body)
             const response = await fetch(url, {method: 'POST', headers: headers, body: JSON.stringify(bodyJson)})
             switch (response.status) {

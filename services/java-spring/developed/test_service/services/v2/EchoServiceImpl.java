@@ -12,7 +12,7 @@ import test_service.v2.services.echo.*;
 @Service("EchoServiceV2")
 public class EchoServiceImpl implements EchoService {
 	@Override
-	public Message echoBody(Message body) {
+	public Message echoBodyModel(Message body) {
 		throw new UnsupportedOperationException("Implementation has not added yet");
 	}
 }

@@ -64,7 +64,7 @@ public class EchoClient {
 		}
 	}
 
-	public Message echoBody(Message body) {
+	public Message echoBodyModel(Message body) {
 		String bodyJson;
 		try {
 			bodyJson = objectMapper.writeValueAsString(body);
@@ -76,11 +76,11 @@ public class EchoClient {
 
 		var requestBody = RequestBody.create(bodyJson, MediaType.parse("application/json"));
 		var url = new UrlBuilder(baseUrl);
-		url.addPathSegment("echo/body");
+		url.addPathSegment("echo/body_model");
 
 		var request = new RequestBuilder("POST", url.build(), requestBody);
 
-		logger.info("Sending request, operationId: echo.echo_body, method: POST, url: /echo/body");
+		logger.info("Sending request, operationId: echo.echo_body_model, method: POST, url: /echo/body_model");
 		Response response;
 		try {
 			response = client.newCall(request.build()).execute();
@@ -96,6 +96,96 @@ public class EchoClient {
 				Message responseBody;
 				try {
 					responseBody = objectMapper.readValue(response.body().string(), new TypeReference<Message>() {});
+				} catch (IOException e) {
+					var errorMessage = "Failed to deserialize response body " + e.getMessage();
+					logger.error(errorMessage);
+					throw new ClientException(errorMessage, e);
+				}
+				return responseBody;
+			default:
+				var errorMessage = "Unexpected status code received: " + response.code();
+				logger.error(errorMessage);
+				throw new ClientException(errorMessage);
+		}
+	}
+
+	public String[] echoBodyArray(String[] body) {
+		String bodyJson;
+		try {
+			bodyJson = objectMapper.writeValueAsString(body);
+		} catch (IOException e) {
+			var errorMessage = "Failed to serialize JSON " + e.getMessage();
+			logger.error(errorMessage);
+			throw new ClientException(errorMessage, e);
+		}
+
+		var requestBody = RequestBody.create(bodyJson, MediaType.parse("application/json"));
+		var url = new UrlBuilder(baseUrl);
+		url.addPathSegment("echo/body_array");
+
+		var request = new RequestBuilder("POST", url.build(), requestBody);
+
+		logger.info("Sending request, operationId: echo.echo_body_array, method: POST, url: /echo/body_array");
+		Response response;
+		try {
+			response = client.newCall(request.build()).execute();
+		} catch (IOException e) {
+			var errorMessage = "Failed to execute the request " + e.getMessage();
+			logger.error(errorMessage);
+			throw new ClientException(errorMessage, e);
+		}
+
+		switch (response.code()) {
+			case 200:
+				logger.info("Received response with status code {}", response.code());
+				String[] responseBody;
+				try {
+					responseBody = objectMapper.readValue(response.body().string(), new TypeReference<String[]>() {});
+				} catch (IOException e) {
+					var errorMessage = "Failed to deserialize response body " + e.getMessage();
+					logger.error(errorMessage);
+					throw new ClientException(errorMessage, e);
+				}
+				return responseBody;
+			default:
+				var errorMessage = "Unexpected status code received: " + response.code();
+				logger.error(errorMessage);
+				throw new ClientException(errorMessage);
+		}
+	}
+
+	public Map<String, String> echoBodyMap(Map<String, String> body) {
+		String bodyJson;
+		try {
+			bodyJson = objectMapper.writeValueAsString(body);
+		} catch (IOException e) {
+			var errorMessage = "Failed to serialize JSON " + e.getMessage();
+			logger.error(errorMessage);
+			throw new ClientException(errorMessage, e);
+		}
+
+		var requestBody = RequestBody.create(bodyJson, MediaType.parse("application/json"));
+		var url = new UrlBuilder(baseUrl);
+		url.addPathSegment("echo/body_map");
+
+		var request = new RequestBuilder("POST", url.build(), requestBody);
+
+		logger.info("Sending request, operationId: echo.echo_body_map, method: POST, url: /echo/body_map");
+		Response response;
+		try {
+			response = client.newCall(request.build()).execute();
+		} catch (IOException e) {
+			var errorMessage = "Failed to execute the request " + e.getMessage();
+			logger.error(errorMessage);
+			throw new ClientException(errorMessage, e);
+		}
+
+		switch (response.code()) {
+			case 200:
+				logger.info("Received response with status code {}", response.code());
+				Map<String, String> responseBody;
+				try {
+					responseBody = objectMapper.readValue(response.body().string(), new TypeReference<Map<String, String>>() {});
 				} catch (IOException e) {
 					var errorMessage = "Failed to deserialize response body " + e.getMessage();
 					logger.error(errorMessage);

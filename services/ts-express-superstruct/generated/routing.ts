@@ -101,7 +101,7 @@ export let echoRouter = (service: EchoService) => {
         }
     })
 
-    router.post('/echo/body', async (request: Request, response: Response) => {
+    router.post('/echo/body_model', async (request: Request, response: Response) => {
         if (!request.is('application/json')) {
             response.status(400).send()
             return
@@ -114,8 +114,50 @@ export let echoRouter = (service: EchoService) => {
             return
         }
         try {
-            let result = await service.echoBody({body})
+            let result = await service.echoBodyModel({body})
             response.status(200).type('json').send(JSON.stringify(t.encode(models.TMessage, result)))
+            return
+        } catch (error) {
+            response.status(500).send()
+        }
+    })
+
+    router.post('/echo/body_array', async (request: Request, response: Response) => {
+        if (!request.is('application/json')) {
+            response.status(400).send()
+            return
+        }
+        var body: string[]
+        try {
+            body = t.decode(t.array(t.string()), request.body)
+        } catch (error) {
+            response.status(400).send()
+            return
+        }
+        try {
+            let result = await service.echoBodyArray({body})
+            response.status(200).type('json').send(JSON.stringify(t.encode(t.array(t.string()), result)))
+            return
+        } catch (error) {
+            response.status(500).send()
+        }
+    })
+
+    router.post('/echo/body_map', async (request: Request, response: Response) => {
+        if (!request.is('application/json')) {
+            response.status(400).send()
+            return
+        }
+        var body: Record<string, string>
+        try {
+            body = t.decode(t.record(t.string(), t.string()), request.body)
+        } catch (error) {
+            response.status(400).send()
+            return
+        }
+        try {
+            let result = await service.echoBodyMap({body})
+            response.status(200).type('json').send(JSON.stringify(t.encode(t.record(t.string(), t.string()), result)))
             return
         } catch (error) {
             response.status(500).send()
