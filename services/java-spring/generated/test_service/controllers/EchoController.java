@@ -1,7 +1,10 @@
 package test_service.controllers;
 
+import com.fasterxml.jackson.databind.*;
+import com.fasterxml.jackson.annotation.*;
+import com.fasterxml.jackson.annotation.JsonSubTypes.*;
+import com.fasterxml.jackson.core.type.TypeReference;
 import java.math.BigDecimal;
-import java.io.IOException;
 import java.time.*;
 import java.util.*;
 
@@ -10,8 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.core.type.TypeReference;
 
 import static org.apache.tomcat.util.http.fileupload.FileUploadBase.CONTENT_TYPE;
 
@@ -54,7 +55,7 @@ public class EchoController {
 		Message requestBody;
 		try {
 			requestBody = objectMapper.readValue(bodyStr, new TypeReference<Message>() {});
-		} catch (Exception e) {
+		} catch (IOException e) {
 			logger.error("Completed request with status code: {}", HttpStatus.BAD_REQUEST);
 			return new ResponseEntity<>(headers, HttpStatus.BAD_REQUEST);
 		}
@@ -78,7 +79,7 @@ public class EchoController {
 		String[] requestBody;
 		try {
 			requestBody = objectMapper.readValue(bodyStr, new TypeReference<String[]>() {});
-		} catch (Exception e) {
+		} catch (IOException e) {
 			logger.error("Completed request with status code: {}", HttpStatus.BAD_REQUEST);
 			return new ResponseEntity<>(headers, HttpStatus.BAD_REQUEST);
 		}
@@ -102,7 +103,7 @@ public class EchoController {
 		Map<String, String> requestBody;
 		try {
 			requestBody = objectMapper.readValue(bodyStr, new TypeReference<Map<String, String>>() {});
-		} catch (Exception e) {
+		} catch (IOException e) {
 			logger.error("Completed request with status code: {}", HttpStatus.BAD_REQUEST);
 			return new ResponseEntity<>(headers, HttpStatus.BAD_REQUEST);
 		}
@@ -177,7 +178,7 @@ public class EchoController {
 		Message requestBody;
 		try {
 			requestBody = objectMapper.readValue(bodyStr, new TypeReference<Message>() {});
-		} catch (Exception e) {
+		} catch (IOException e) {
 			logger.error("Completed request with status code: {}", HttpStatus.BAD_REQUEST);
 			return new ResponseEntity<>(headers, HttpStatus.BAD_REQUEST);
 		}
