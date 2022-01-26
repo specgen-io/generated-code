@@ -13,7 +13,7 @@ import org.slf4j.*;
 import test_service.*;
 import test_service.utils.*;
 import test_service.models.*;
-import test_service.json.*.Json;
+import test_service.json.Json;
 
 public class EchoClient {
 	private static final Logger logger = LoggerFactory.getLogger(EchoClient.class);
