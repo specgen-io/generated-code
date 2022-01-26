@@ -9,6 +9,7 @@ import java.math.BigDecimal;
 import java.time.*;
 import java.util.*;
 import java.io.*;
+
 import okhttp3.*;
 import org.slf4j.*;
 
@@ -55,7 +56,7 @@ public class EchoClient {
 				try {
 					responseBody = response.body().string();
 				} catch (IOException e) {
-					var errorMessage = "Failed to deserialize response body " + e.getMessage();
+					var errorMessage = "Failed to convert response body to string " + e.getMessage();
 					logger.error(errorMessage);
 					throw new ClientException(errorMessage, e);
 				}

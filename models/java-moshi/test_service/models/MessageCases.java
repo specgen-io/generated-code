@@ -7,6 +7,7 @@ import java.time.*;
 import java.util.*;
 import java.io.*;
 
+
 public class MessageCases {
 
 	@Json(name = "snake_case")

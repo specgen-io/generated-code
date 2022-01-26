@@ -10,6 +10,7 @@ import java.time.*;
 import java.util.*;
 import java.io.*;
 
+
 public enum Choice {
 	@JsonProperty("FIRST_CHOICE") FIRST_CHOICE,
 	@JsonProperty("SECOND_CHOICE") SECOND_CHOICE,

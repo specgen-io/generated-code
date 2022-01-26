@@ -7,6 +7,7 @@ import java.time.*;
 import java.util.*;
 import java.io.*;
 
+
 public class NumericFields {
 
 	@Json(name = "int_field")
