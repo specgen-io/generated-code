@@ -1,12 +1,10 @@
 package test_service.models;
 
 import com.squareup.moshi.Json;
-
 import java.math.BigDecimal;
 import java.time.*;
 import java.util.*;
 import java.io.*;
-
 
 public class ArrayFields {
 

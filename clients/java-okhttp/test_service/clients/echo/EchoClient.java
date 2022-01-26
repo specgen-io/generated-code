@@ -4,19 +4,16 @@ import com.fasterxml.jackson.databind.*;
 import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.annotation.JsonSubTypes.*;
 import com.fasterxml.jackson.core.type.TypeReference;
-
 import java.math.BigDecimal;
 import java.time.*;
 import java.util.*;
 import java.io.*;
-
 import okhttp3.*;
 import org.slf4j.*;
-
 import test_service.*;
 import test_service.utils.*;
 import test_service.models.*;
-import test_service.json.Json;
+import test_service.json.*.Json;
 
 public class EchoClient {
 	private static final Logger logger = LoggerFactory.getLogger(EchoClient.class);
