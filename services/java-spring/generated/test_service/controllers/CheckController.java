@@ -30,7 +30,7 @@ public class CheckController {
 	private CheckService checkService;
 
 	@Autowired
-	private final ObjectMapper objectMapper;
+	private ObjectMapper objectMapper;
 
 	@GetMapping("/check/empty")
 	public ResponseEntity<String> checkEmptyController() throws IOException {

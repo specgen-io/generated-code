@@ -21,9 +21,9 @@ import test_service.json.Json;
 public class EchoClient {
 	private static final Logger logger = LoggerFactory.getLogger(EchoClient.class);
 
-	private final String baseUrl;
-	private final ObjectMapper objectMapper;
-	private final OkHttpClient client;
+	private String baseUrl;
+	private ObjectMapper objectMapper;
+	private OkHttpClient client;
 
 	public EchoClient(String baseUrl) {
 		this.baseUrl = baseUrl;

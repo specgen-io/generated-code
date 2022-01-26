@@ -30,7 +30,7 @@ public class EchoController {
 	private EchoService echoService;
 
 	@Autowired
-	private final ObjectMapper objectMapper;
+	private ObjectMapper objectMapper;
 
 	@PostMapping("/echo/body_string")
 	public ResponseEntity<String> echoBodyStringController(@RequestBody String bodyStr) throws IOException {

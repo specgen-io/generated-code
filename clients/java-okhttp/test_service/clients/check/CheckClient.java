@@ -21,9 +21,9 @@ import test_service.json.Json;
 public class CheckClient {
 	private static final Logger logger = LoggerFactory.getLogger(CheckClient.class);
 
-	private final String baseUrl;
-	private final ObjectMapper objectMapper;
-	private final OkHttpClient client;
+	private String baseUrl;
+	private ObjectMapper objectMapper;
+	private OkHttpClient client;
 
 	public CheckClient(String baseUrl) {
 		this.baseUrl = baseUrl;
