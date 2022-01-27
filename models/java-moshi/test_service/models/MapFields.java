@@ -1,6 +1,6 @@
 package test_service.models;
 
-import com.squareup.moshi.Json;
+import com.squareup.moshi.*;
 import java.math.BigDecimal;
 import java.time.*;
 import java.util.*;
