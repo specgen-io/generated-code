@@ -11,6 +11,8 @@ import java.util.*
 import java.io.*
 
 data class Message(
-	@JsonProperty(value = "field", required = true)
-	val field: String,
+	@JsonProperty(value = "bool_field", required = true)
+	val boolField: Boolean,
+	@JsonProperty(value = "string_field", required = true)
+	val stringField: String,
 )

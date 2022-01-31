@@ -1,0 +1,13 @@
+package test_service.models;
+
+import com.squareup.moshi.*;
+import java.math.BigDecimal;
+import java.time.*;
+import java.util.*;
+import java.io.*;
+
+public enum Choice {
+	@Json(name = "FIRST_CHOICE") FIRST_CHOICE,
+	@Json(name = "SECOND_CHOICE") SECOND_CHOICE,
+	@Json(name = "THIRD_CHOICE") THIRD_CHOICE,
+}
