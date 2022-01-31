@@ -27,84 +27,84 @@ jobs:
             rm -R -- ./services/*/
       - gen-models:
           path: models/openapi
-          specgen: openapi --spec-file ./../spec.yaml --out-file ./swagger.yaml
+          specgen: openapi --spec-file ./spec.yaml --out-file ./swagger.yaml
       - gen-models:
           path: models/java-jackson
-          specgen: models-java --jsonlib jackson --spec-file ./../spec.yaml --generate-path .
+          specgen: models-java --jsonlib jackson --spec-file ./spec.yaml --generate-path .
       - gen-models:
           path: models/java-moshi
-          specgen: models-java --jsonlib moshi --spec-file ./../spec.yaml --generate-path .
+          specgen: models-java --jsonlib moshi --spec-file ./spec.yaml --generate-path .
       - gen-models:
           path: models/kotlin-jackson
-          specgen: models-kotlin --jsonlib jackson --spec-file ./../spec.yaml --generate-path .
+          specgen: models-kotlin --jsonlib jackson --spec-file ./spec.yaml --generate-path .
       - gen-models:
           path: models/go
-          specgen: models-go --spec-file ./../spec.yaml --module-name test-models --generate-path .
+          specgen: models-go --spec-file ./spec.yaml --module-name test-models --generate-path .
       - gen-models:
           path: models/ruby
-          specgen: models-ruby --spec-file ./../spec.yaml --generate-path .
+          specgen: models-ruby --spec-file ./spec.yaml --generate-path .
       - gen-models:
           path: models/scala-circe
-          specgen: models-scala --spec-file ./../spec.yaml --generate-path .
+          specgen: models-scala --spec-file ./spec.yaml --generate-path .
       - gen-models:
           path: models/ts-iots
-          specgen: models-ts --validation io-ts --spec-file ./../spec.yaml --generate-path .
+          specgen: models-ts --validation io-ts --spec-file ./spec.yaml --generate-path .
       - gen-models:
           path: models/ts-superstruct
-          specgen: models-ts --validation superstruct --spec-file ./../spec.yaml --generate-path .
+          specgen: models-ts --validation superstruct --spec-file ./spec.yaml --generate-path .
 
       - gen-client:
           path: clients/openapi
-          specgen: openapi --spec-file ./../spec.yaml --out-file ./swagger.yaml
+          specgen: openapi --spec-file ./spec.yaml --out-file ./swagger.yaml
       - gen-client:
           path: clients/java-okhttp-jackson
-          specgen: client-java --jsonlib jackson --spec-file ./../spec.yaml --generate-path .
+          specgen: client-java --jsonlib jackson --spec-file ./spec.yaml --generate-path .
       - gen-client:
           path: clients/java-okhttp-moshi
-          specgen: client-java --jsonlib moshi --spec-file ./../spec.yaml --generate-path .    
+          specgen: client-java --jsonlib moshi --spec-file ./spec.yaml --generate-path .    
       - gen-client:
           path: clients/kotlin-okhttp-jackson
-          specgen: client-kotlin --jsonlib jackson --spec-file ./../spec.yaml --generate-path .    
+          specgen: client-kotlin --jsonlib jackson --spec-file ./spec.yaml --generate-path .    
       - gen-client:
           path: clients/go
-          specgen: client-go --spec-file ./../spec.yaml --module-name test-client --generate-path .
+          specgen: client-go --spec-file ./spec.yaml --module-name test-client --generate-path .
       - gen-client:
           path: clients/ruby
-          specgen: client-ruby --spec-file ./../spec.yaml --generate-path .
+          specgen: client-ruby --spec-file ./spec.yaml --generate-path .
       - gen-client:
           path: clients/scala-sttp
-          specgen: client-scala --spec-file ./../spec.yaml --generate-path .
+          specgen: client-scala --spec-file ./spec.yaml --generate-path .
       - gen-client:
           path: clients/ts-axios-superstruct
-          specgen: client-ts --client axios --validation superstruct --spec-file ./../spec.yaml --generate-path .
+          specgen: client-ts --client axios --validation superstruct --spec-file ./spec.yaml --generate-path .
       - gen-client:
           path: clients/ts-axios-iots
-          specgen: client-ts --client axios --validation io-ts --spec-file ./../spec.yaml --generate-path .
+          specgen: client-ts --client axios --validation io-ts --spec-file ./spec.yaml --generate-path .
       - gen-client:
           path: clients/ts-browser-fetch-superstruct
-          specgen: client-ts --client browser-fetch --validation superstruct --spec-file ./../spec.yaml --generate-path .
+          specgen: client-ts --client browser-fetch --validation superstruct --spec-file ./spec.yaml --generate-path .
       - gen-client:
           path: clients/ts-node-fetch-iots
-          specgen: client-ts --client node-fetch --validation io-ts --spec-file ./../spec.yaml --generate-path .
+          specgen: client-ts --client node-fetch --validation io-ts --spec-file ./spec.yaml --generate-path .
 
       - gen-service:
           path: services/openapi
-          specgen: openapi --spec-file ./../spec.yaml --out-file ./swagger.yaml
+          specgen: openapi --spec-file ./spec.yaml --out-file ./swagger.yaml
       - gen-service:
           path: services/java-spring
-          specgen: service-java --jsonlib jackson --spec-file ./../spec.yaml --generate-path ./generated --services-path ./developed
+          specgen: service-java --jsonlib jackson --spec-file ./spec.yaml --generate-path ./generated --services-path ./developed
       - gen-service:
           path: services/go
-          specgen: service-go --spec-file ./../spec.yaml --module-name test-service --generate-path ./generated --services-path ./developed
+          specgen: service-go --spec-file ./spec.yaml --module-name test-service --generate-path ./generated --services-path ./developed
       - gen-service:
           path: services/scala-play
-          specgen: service-scala --spec-file ./../spec.yaml --generate-path ./generated --services-path ./developed
+          specgen: service-scala --spec-file ./spec.yaml --generate-path ./generated --services-path ./developed
       - gen-service:
           path: services/ts-express-superstruct
-          specgen: service-ts --server express --validation superstruct --spec-file ./../spec.yaml --generate-path ./generated --services-path ./developed
+          specgen: service-ts --server express --validation superstruct --spec-file ./spec.yaml --generate-path ./generated --services-path ./developed
       - gen-service:
           path: services/ts-koa-superstruct
-          specgen: service-ts --server koa --validation superstruct --spec-file ./../spec.yaml --generate-path ./generated --services-path ./developed
+          specgen: service-ts --server koa --validation superstruct --spec-file ./spec.yaml --generate-path ./generated --services-path ./developed
 
       - tree:
           path: ./models
