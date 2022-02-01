@@ -14,6 +14,7 @@ public interface OrderEventDiscriminator {
 		}
 
 		public Created(OrderCreated data) {
+			if (data == null) { throw new IllegalArgumentException("null value is not allowed"); }
 			this.data = data;
 		}
 
@@ -22,6 +23,7 @@ public interface OrderEventDiscriminator {
 		}
 
 		public void setData(OrderCreated data) {
+			if (data == null) { throw new IllegalArgumentException("null value is not allowed"); }
 			this.data = data;
 		}
 
@@ -51,6 +53,7 @@ public interface OrderEventDiscriminator {
 		}
 
 		public Changed(OrderChanged data) {
+			if (data == null) { throw new IllegalArgumentException("null value is not allowed"); }
 			this.data = data;
 		}
 
@@ -59,6 +62,7 @@ public interface OrderEventDiscriminator {
 		}
 
 		public void setData(OrderChanged data) {
+			if (data == null) { throw new IllegalArgumentException("null value is not allowed"); }
 			this.data = data;
 		}
 
@@ -88,6 +92,7 @@ public interface OrderEventDiscriminator {
 		}
 
 		public Canceled(OrderCanceled data) {
+			if (data == null) { throw new IllegalArgumentException("null value is not allowed"); }
 			this.data = data;
 		}
 
@@ -96,6 +101,7 @@ public interface OrderEventDiscriminator {
 		}
 
 		public void setData(OrderCanceled data) {
+			if (data == null) { throw new IllegalArgumentException("null value is not allowed"); }
 			this.data = data;
 		}
 
