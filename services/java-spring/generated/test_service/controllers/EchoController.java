@@ -123,7 +123,6 @@ public class EchoController {
 	public ResponseEntity<String> echoQueryController(@RequestParam(name = "int_query") int intQuery, @RequestParam(name = "long_query") long longQuery, @RequestParam(name = "float_query") float floatQuery, @RequestParam(name = "double_query") double doubleQuery, @RequestParam(name = "decimal_query") BigDecimal decimalQuery, @RequestParam(name = "bool_query") boolean boolQuery, @RequestParam(name = "string_query") String stringQuery, @RequestParam(name = "string_opt_query", required = false) String stringOptQuery, @RequestParam(name = "string_defaulted_query", defaultValue = "the default value") String stringDefaultedQuery, @RequestParam(name = "string_array_query") String[] stringArrayQuery, @RequestParam(name = "uuid_query") UUID uuidQuery, @RequestParam(name = "date_query") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dateQuery, @RequestParam(name = "date_array_query") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate[] dateArrayQuery, @RequestParam(name = "datetime_query") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime datetimeQuery, @RequestParam(name = "enum_query") Choice enumQuery) throws IOException {
 		logger.info("Received request, operationId: echo.echo_query, method: GET, url: /echo/query");
 		HttpHeaders headers = new HttpHeaders();
-		headers.add(CONTENT_TYPE, "application/json");
 
 		var result = echoService.echoQuery(intQuery, longQuery, floatQuery, doubleQuery, decimalQuery, boolQuery, stringQuery, stringOptQuery, stringDefaultedQuery, stringArrayQuery, uuidQuery, dateQuery, dateArrayQuery, datetimeQuery, enumQuery);
 		if (result == null) {
@@ -140,7 +139,6 @@ public class EchoController {
 	public ResponseEntity<String> echoHeaderController(@RequestHeader(name = "Int-Header") int intHeader, @RequestHeader(name = "Long-Header") long longHeader, @RequestHeader(name = "Float-Header") float floatHeader, @RequestHeader(name = "Double-Header") double doubleHeader, @RequestHeader(name = "Decimal-Header") BigDecimal decimalHeader, @RequestHeader(name = "Bool-Header") boolean boolHeader, @RequestHeader(name = "String-Header") String stringHeader, @RequestHeader(name = "String-Opt-Header", required = false) String stringOptHeader, @RequestHeader(name = "String-Defaulted-Header", defaultValue = "the default value") String stringDefaultedHeader, @RequestHeader(name = "String-Array-Header") String[] stringArrayHeader, @RequestHeader(name = "Uuid-Header") UUID uuidHeader, @RequestHeader(name = "Date-Header") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dateHeader, @RequestHeader(name = "Date-Array-Header") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate[] dateArrayHeader, @RequestHeader(name = "Datetime-Header") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime datetimeHeader, @RequestHeader(name = "Enum-Header") Choice enumHeader) throws IOException {
 		logger.info("Received request, operationId: echo.echo_header, method: GET, url: /echo/header");
 		HttpHeaders headers = new HttpHeaders();
-		headers.add(CONTENT_TYPE, "application/json");
 
 		var result = echoService.echoHeader(intHeader, longHeader, floatHeader, doubleHeader, decimalHeader, boolHeader, stringHeader, stringOptHeader, stringDefaultedHeader, stringArrayHeader, uuidHeader, dateHeader, dateArrayHeader, datetimeHeader, enumHeader);
 		if (result == null) {
@@ -157,7 +155,6 @@ public class EchoController {
 	public ResponseEntity<String> echoUrlParamsController(@PathVariable(name = "int_url") int intUrl, @PathVariable(name = "long_url") long longUrl, @PathVariable(name = "float_url") float floatUrl, @PathVariable(name = "double_url") double doubleUrl, @PathVariable(name = "decimal_url") BigDecimal decimalUrl, @PathVariable(name = "bool_url") boolean boolUrl, @PathVariable(name = "string_url") String stringUrl, @PathVariable(name = "uuid_url") UUID uuidUrl, @PathVariable(name = "date_url") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dateUrl, @PathVariable(name = "datetime_url") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime datetimeUrl, @PathVariable(name = "enum_url") Choice enumUrl) throws IOException {
 		logger.info("Received request, operationId: echo.echo_url_params, method: GET, url: /echo/url_params/{int_url}/{long_url}/{float_url}/{double_url}/{decimal_url}/{bool_url}/{string_url}/{uuid_url}/{date_url}/{datetime_url}/{enum_url}");
 		HttpHeaders headers = new HttpHeaders();
-		headers.add(CONTENT_TYPE, "application/json");
 
 		var result = echoService.echoUrlParams(intUrl, longUrl, floatUrl, doubleUrl, decimalUrl, boolUrl, stringUrl, uuidUrl, dateUrl, datetimeUrl, enumUrl);
 		if (result == null) {
@@ -208,7 +205,6 @@ public class EchoController {
 	public ResponseEntity<String> sameOperationNameController() throws IOException {
 		logger.info("Received request, operationId: echo.same_operation_name, method: GET, url: /echo/same_operation_name");
 		HttpHeaders headers = new HttpHeaders();
-		headers.add(CONTENT_TYPE, "application/json");
 
 		var result = echoService.sameOperationName();
 		if (result == null) {

@@ -35,7 +35,6 @@ public class CheckController {
 	public ResponseEntity<String> checkEmptyController() throws IOException {
 		logger.info("Received request, operationId: check.check_empty, method: GET, url: /check/empty");
 		HttpHeaders headers = new HttpHeaders();
-		headers.add(CONTENT_TYPE, "application/json");
 
 		checkService.checkEmpty();
 
@@ -66,7 +65,6 @@ public class CheckController {
 	public ResponseEntity<String> checkForbiddenController() throws IOException {
 		logger.info("Received request, operationId: check.check_forbidden, method: GET, url: /check/forbidden");
 		HttpHeaders headers = new HttpHeaders();
-		headers.add(CONTENT_TYPE, "application/json");
 
 		var result = checkService.checkForbidden();
 		if (result == null) {
@@ -93,7 +91,6 @@ public class CheckController {
 	public ResponseEntity<String> sameOperationNameController() throws IOException {
 		logger.info("Received request, operationId: check.same_operation_name, method: GET, url: /check/same_operation_name");
 		HttpHeaders headers = new HttpHeaders();
-		headers.add(CONTENT_TYPE, "application/json");
 
 		var result = checkService.sameOperationName();
 		if (result == null) {
