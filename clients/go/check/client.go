@@ -103,11 +103,12 @@ func (client *Client) CheckForbidden() (*CheckForbiddenResponse, error) {
 		log.WithFields(logCheckForbidden).WithField("status", 200).Info("Received response")
 		responseBody, err := ioutil.ReadAll(resp.Body)
 		err = resp.Body.Close()
+		var result models.Message
+		err = json.Unmarshal(responseBody, &result)
 		if err != nil {
-			log.WithFields(logCheckForbidden).Error("Reading request body failed", err.Error())
+			log.WithFields(logCheckForbidden).Error("Failed to parse response JSON", err.Error())
 			return nil, err
 		}
-		result := string(responseBody)
 		return &CheckForbiddenResponse{Ok: &result}, nil
 	}
 

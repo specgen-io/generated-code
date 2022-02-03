@@ -40,11 +40,12 @@ func (client *Client) EchoBodyModel(body *models.Message) (*models.Message, erro
 		log.WithFields(logEchoBodyModel).WithField("status", 200).Info("Received response")
 		responseBody, err := ioutil.ReadAll(resp.Body)
 		err = resp.Body.Close()
+		var result models.Message
+		err = json.Unmarshal(responseBody, &result)
 		if err != nil {
-			log.WithFields(logEchoBodyModel).Error("Reading request body failed", err.Error())
+			log.WithFields(logEchoBodyModel).Error("Failed to parse response JSON", err.Error())
 			return nil, err
 		}
-		result := string(responseBody)
 		return &result, nil
 	}
 
