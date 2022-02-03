@@ -22,6 +22,8 @@ export let echoRouter = (service: EchoService) => {
         try {
             let result = await service.echoBodyModel({body})
             ctx.status = 200
+            ctx.body = t.encode(models.TMessage, result)
+            return
         } catch (error) {
             ctx.throw(500)
         }
