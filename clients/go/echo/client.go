@@ -54,11 +54,12 @@ func (client *Client) EchoBodyString(body string) (*string, error) {
 		log.WithFields(logEchoBodyString).WithField("status", 200).Info("Received response")
 		responseBody, err := ioutil.ReadAll(resp.Body)
 		err = resp.Body.Close()
+		var result string
+		err = json.Unmarshal(responseBody, &result)
 		if err != nil {
-			log.WithFields(logEchoBodyString).Error("Reading request body failed", err.Error())
+			log.WithFields(logEchoBodyString).Error("Failed to parse response JSON", err.Error())
 			return nil, err
 		}
-		result := string(responseBody)
 		return &result, nil
 	}
 
@@ -89,13 +90,11 @@ func (client *Client) EchoBodyModel(body *models.Message) (*models.Message, erro
 		log.WithFields(logEchoBodyModel).WithField("status", 200).Info("Received response")
 		responseBody, err := ioutil.ReadAll(resp.Body)
 		err = resp.Body.Close()
-
-		var result models.Message
-		err = json.Unmarshal(responseBody, &result)
 		if err != nil {
-			log.WithFields(logEchoBodyModel).Error("Failed to parse response JSON", err.Error())
+			log.WithFields(logEchoBodyModel).Error("Reading request body failed", err.Error())
 			return nil, err
 		}
+		result := string(responseBody)
 		return &result, nil
 	}
 
@@ -126,13 +125,11 @@ func (client *Client) EchoBodyArray(body *[]string) (*[]string, error) {
 		log.WithFields(logEchoBodyArray).WithField("status", 200).Info("Received response")
 		responseBody, err := ioutil.ReadAll(resp.Body)
 		err = resp.Body.Close()
-
-		var result []string
-		err = json.Unmarshal(responseBody, &result)
 		if err != nil {
-			log.WithFields(logEchoBodyArray).Error("Failed to parse response JSON", err.Error())
+			log.WithFields(logEchoBodyArray).Error("Reading request body failed", err.Error())
 			return nil, err
 		}
+		result := string(responseBody)
 		return &result, nil
 	}
 
@@ -163,13 +160,11 @@ func (client *Client) EchoBodyMap(body *map[string]string) (*map[string]string, 
 		log.WithFields(logEchoBodyMap).WithField("status", 200).Info("Received response")
 		responseBody, err := ioutil.ReadAll(resp.Body)
 		err = resp.Body.Close()
-
-		var result map[string]string
-		err = json.Unmarshal(responseBody, &result)
 		if err != nil {
-			log.WithFields(logEchoBodyMap).Error("Failed to parse response JSON", err.Error())
+			log.WithFields(logEchoBodyMap).Error("Reading request body failed", err.Error())
 			return nil, err
 		}
+		result := string(responseBody)
 		return &result, nil
 	}
 
@@ -217,13 +212,11 @@ func (client *Client) EchoQuery(intQuery int, longQuery int64, floatQuery float3
 		log.WithFields(logEchoQuery).WithField("status", 200).Info("Received response")
 		responseBody, err := ioutil.ReadAll(resp.Body)
 		err = resp.Body.Close()
-
-		var result models.Parameters
-		err = json.Unmarshal(responseBody, &result)
 		if err != nil {
-			log.WithFields(logEchoQuery).Error("Failed to parse response JSON", err.Error())
+			log.WithFields(logEchoQuery).Error("Reading request body failed", err.Error())
 			return nil, err
 		}
+		result := string(responseBody)
 		return &result, nil
 	}
 
@@ -270,13 +263,11 @@ func (client *Client) EchoHeader(intHeader int, longHeader int64, floatHeader fl
 		log.WithFields(logEchoHeader).WithField("status", 200).Info("Received response")
 		responseBody, err := ioutil.ReadAll(resp.Body)
 		err = resp.Body.Close()
-
-		var result models.Parameters
-		err = json.Unmarshal(responseBody, &result)
 		if err != nil {
-			log.WithFields(logEchoHeader).Error("Failed to parse response JSON", err.Error())
+			log.WithFields(logEchoHeader).Error("Reading request body failed", err.Error())
 			return nil, err
 		}
+		result := string(responseBody)
 		return &result, nil
 	}
 
@@ -305,13 +296,11 @@ func (client *Client) EchoUrlParams(intUrl int, longUrl int64, floatUrl float32,
 		log.WithFields(logEchoUrlParams).WithField("status", 200).Info("Received response")
 		responseBody, err := ioutil.ReadAll(resp.Body)
 		err = resp.Body.Close()
-
-		var result models.UrlParameters
-		err = json.Unmarshal(responseBody, &result)
 		if err != nil {
-			log.WithFields(logEchoUrlParams).Error("Failed to parse response JSON", err.Error())
+			log.WithFields(logEchoUrlParams).Error("Reading request body failed", err.Error())
 			return nil, err
 		}
+		result := string(responseBody)
 		return &result, nil
 	}
 
@@ -353,13 +342,11 @@ func (client *Client) EchoEverything(body *models.Message, floatQuery float32, b
 		log.WithFields(logEchoEverything).WithField("status", 200).Info("Received response")
 		responseBody, err := ioutil.ReadAll(resp.Body)
 		err = resp.Body.Close()
-
-		var result models.Everything
-		err = json.Unmarshal(responseBody, &result)
 		if err != nil {
-			log.WithFields(logEchoEverything).Error("Failed to parse response JSON", err.Error())
+			log.WithFields(logEchoEverything).Error("Reading request body failed", err.Error())
 			return nil, err
 		}
+		result := string(responseBody)
 		return &EchoEverythingResponse{Ok: &result}, nil
 	}
 
