@@ -10,5 +10,8 @@ public class Json {
 			.add(new UuidAdapter())
 			.add(new LocalDateAdapter())
 			.add(new LocalDateTimeAdapter());
+
+		test_service.v2.models.Json.setupMoshiOneOfAdapters(moshiBuilder);
+		test_service.models.Json.setupMoshiOneOfAdapters(moshiBuilder);
 	}
 }

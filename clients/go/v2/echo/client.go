@@ -40,6 +40,7 @@ func (client *Client) EchoBodyModel(body *models.Message) (*models.Message, erro
 		log.WithFields(logEchoBodyModel).WithField("status", 200).Info("Received response")
 		responseBody, err := ioutil.ReadAll(resp.Body)
 		err = resp.Body.Close()
+
 		var result models.Message
 		err = json.Unmarshal(responseBody, &result)
 		if err != nil {

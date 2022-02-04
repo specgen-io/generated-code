@@ -103,6 +103,7 @@ func (client *Client) CheckForbidden() (*CheckForbiddenResponse, error) {
 		log.WithFields(logCheckForbidden).WithField("status", 200).Info("Received response")
 		responseBody, err := ioutil.ReadAll(resp.Body)
 		err = resp.Body.Close()
+
 		var result models.Message
 		err = json.Unmarshal(responseBody, &result)
 		if err != nil {

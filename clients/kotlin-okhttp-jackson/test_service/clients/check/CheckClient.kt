@@ -62,10 +62,10 @@ class CheckClient(
 			throw ClientException(errorMessage, e)
 		}
 
-		val requestBody = bodyJson.toRequestBody("application/json".toMediaTypeOrNull())
 		val url = UrlBuilder(baseUrl)
 		url.addPathSegment("check/empty_response")
 
+		val requestBody = bodyJson.toRequestBody("application/json".toMediaTypeOrNull())
 		val request = RequestBuilder("POST", url.build(), requestBody)
 
 		logger.info("Sending request, operationId: check.check_empty_response, method: POST, url: /check/empty_response")
