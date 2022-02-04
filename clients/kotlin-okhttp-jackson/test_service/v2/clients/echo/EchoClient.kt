@@ -35,11 +35,11 @@ class EchoClient(
 			throw ClientException(errorMessage, e)
 		}
 
+		val requestBody = bodyJson.toRequestBody("application/json".toMediaTypeOrNull())
 		val url = UrlBuilder(baseUrl)
 		url.addPathSegment("v2")
 		url.addPathSegment("echo/body_model")
 
-		val requestBody = bodyJson.toRequestBody("application/json".toMediaTypeOrNull())
 		val request = RequestBuilder("POST", url.build(), requestBody)
 
 		logger.info("Sending request, operationId: echo.echo_body_model, method: POST, url: /v2/echo/body_model")

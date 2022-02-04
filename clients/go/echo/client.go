@@ -89,7 +89,6 @@ func (client *Client) EchoBodyModel(body *models.Message) (*models.Message, erro
 		log.WithFields(logEchoBodyModel).WithField("status", 200).Info("Received response")
 		responseBody, err := ioutil.ReadAll(resp.Body)
 		err = resp.Body.Close()
-
 		var result models.Message
 		err = json.Unmarshal(responseBody, &result)
 		if err != nil {
@@ -126,7 +125,6 @@ func (client *Client) EchoBodyArray(body *[]string) (*[]string, error) {
 		log.WithFields(logEchoBodyArray).WithField("status", 200).Info("Received response")
 		responseBody, err := ioutil.ReadAll(resp.Body)
 		err = resp.Body.Close()
-
 		var result []string
 		err = json.Unmarshal(responseBody, &result)
 		if err != nil {
@@ -163,7 +161,6 @@ func (client *Client) EchoBodyMap(body *map[string]string) (*map[string]string, 
 		log.WithFields(logEchoBodyMap).WithField("status", 200).Info("Received response")
 		responseBody, err := ioutil.ReadAll(resp.Body)
 		err = resp.Body.Close()
-
 		var result map[string]string
 		err = json.Unmarshal(responseBody, &result)
 		if err != nil {
@@ -217,7 +214,6 @@ func (client *Client) EchoQuery(intQuery int, longQuery int64, floatQuery float3
 		log.WithFields(logEchoQuery).WithField("status", 200).Info("Received response")
 		responseBody, err := ioutil.ReadAll(resp.Body)
 		err = resp.Body.Close()
-
 		var result models.Parameters
 		err = json.Unmarshal(responseBody, &result)
 		if err != nil {
@@ -270,7 +266,6 @@ func (client *Client) EchoHeader(intHeader int, longHeader int64, floatHeader fl
 		log.WithFields(logEchoHeader).WithField("status", 200).Info("Received response")
 		responseBody, err := ioutil.ReadAll(resp.Body)
 		err = resp.Body.Close()
-
 		var result models.Parameters
 		err = json.Unmarshal(responseBody, &result)
 		if err != nil {
@@ -305,7 +300,6 @@ func (client *Client) EchoUrlParams(intUrl int, longUrl int64, floatUrl float32,
 		log.WithFields(logEchoUrlParams).WithField("status", 200).Info("Received response")
 		responseBody, err := ioutil.ReadAll(resp.Body)
 		err = resp.Body.Close()
-
 		var result models.UrlParameters
 		err = json.Unmarshal(responseBody, &result)
 		if err != nil {
@@ -353,7 +347,6 @@ func (client *Client) EchoEverything(body *models.Message, floatQuery float32, b
 		log.WithFields(logEchoEverything).WithField("status", 200).Info("Received response")
 		responseBody, err := ioutil.ReadAll(resp.Body)
 		err = resp.Body.Close()
-
 		var result models.Everything
 		err = json.Unmarshal(responseBody, &result)
 		if err != nil {

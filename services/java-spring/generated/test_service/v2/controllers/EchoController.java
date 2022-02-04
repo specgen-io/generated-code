@@ -34,15 +34,13 @@ public class EchoController {
 	@PostMapping("/v2/echo/body_model")
 	public ResponseEntity<String> echoBodyModelController(@RequestBody String bodyStr) throws IOException {
 		logger.info("Received request, operationId: echo.echo_body_model, method: POST, url: /v2/echo/body_model");
-		HttpHeaders headers = new HttpHeaders();
-		headers.add(CONTENT_TYPE, "application/json");
 
 		Message requestBody;
 		try {
 			requestBody = objectMapper.readValue(bodyStr, new TypeReference<Message>() {});
 		} catch (IOException e) {
 			logger.error("Completed request with status code: {}", HttpStatus.BAD_REQUEST);
-			return new ResponseEntity<>(headers, HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 		var result = echoService.echoBodyModel(requestBody);
 		if (result == null) {
@@ -50,7 +48,8 @@ public class EchoController {
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 		String responseJson = objectMapper.writeValueAsString(result);
-
+		HttpHeaders headers = new HttpHeaders();
+		headers.add(CONTENT_TYPE, "application/json");
 		logger.info("Completed request with status code: {}", HttpStatus.OK);
 		return new ResponseEntity<>(responseJson, headers, HttpStatus.OK);
 	}

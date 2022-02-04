@@ -27,10 +27,10 @@ class EchoClient(
 	private val logger: Logger = LoggerFactory.getLogger(EchoClient::class.java)
 
 	fun echoBodyString(body: String): String {
+		val requestBody = body.toRequestBody("text/plain".toMediaTypeOrNull())
 		val url = UrlBuilder(baseUrl)
 		url.addPathSegment("echo/body_string")
 
-		val requestBody = body.toRequestBody("text/plain".toMediaTypeOrNull())
 		val request = RequestBuilder("POST", url.build(), requestBody)
 
 		logger.info("Sending request, operationId: echo.echo_body_string, method: POST, url: /echo/body_string")
@@ -71,10 +71,10 @@ class EchoClient(
 			throw ClientException(errorMessage, e)
 		}
 
+		val requestBody = bodyJson.toRequestBody("application/json".toMediaTypeOrNull())
 		val url = UrlBuilder(baseUrl)
 		url.addPathSegment("echo/body_model")
 
-		val requestBody = bodyJson.toRequestBody("application/json".toMediaTypeOrNull())
 		val request = RequestBuilder("POST", url.build(), requestBody)
 
 		logger.info("Sending request, operationId: echo.echo_body_model, method: POST, url: /echo/body_model")
@@ -115,10 +115,10 @@ class EchoClient(
 			throw ClientException(errorMessage, e)
 		}
 
+		val requestBody = bodyJson.toRequestBody("application/json".toMediaTypeOrNull())
 		val url = UrlBuilder(baseUrl)
 		url.addPathSegment("echo/body_array")
 
-		val requestBody = bodyJson.toRequestBody("application/json".toMediaTypeOrNull())
 		val request = RequestBuilder("POST", url.build(), requestBody)
 
 		logger.info("Sending request, operationId: echo.echo_body_array, method: POST, url: /echo/body_array")
@@ -159,10 +159,10 @@ class EchoClient(
 			throw ClientException(errorMessage, e)
 		}
 
+		val requestBody = bodyJson.toRequestBody("application/json".toMediaTypeOrNull())
 		val url = UrlBuilder(baseUrl)
 		url.addPathSegment("echo/body_map")
 
-		val requestBody = bodyJson.toRequestBody("application/json".toMediaTypeOrNull())
 		val request = RequestBuilder("POST", url.build(), requestBody)
 
 		logger.info("Sending request, operationId: echo.echo_body_map, method: POST, url: /echo/body_map")
@@ -349,6 +349,7 @@ class EchoClient(
 			throw ClientException(errorMessage, e)
 		}
 
+		val requestBody = bodyJson.toRequestBody("application/json".toMediaTypeOrNull())
 		val url = UrlBuilder(baseUrl)
 		url.addPathSegment("echo/everything")
 		url.addPathSegment(dateUrl)
@@ -356,7 +357,6 @@ class EchoClient(
 		url.addQueryParameter("float_query", floatQuery)
 		url.addQueryParameter("bool_query", boolQuery)
 
-		val requestBody = bodyJson.toRequestBody("application/json".toMediaTypeOrNull())
 		val request = RequestBuilder("POST", url.build(), requestBody)
 		request.addHeaderParameter("Uuid-Header", uuidHeader)
 		request.addHeaderParameter("Datetime-Header", datetimeHeader)
