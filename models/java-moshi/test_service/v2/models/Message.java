@@ -2,6 +2,7 @@ package test_service.v2.models;
 
 import com.squareup.moshi.Json;
 import com.squareup.moshi.Moshi;
+import com.squareup.moshi.Types;
 import java.math.BigDecimal;
 import java.time.*;
 import java.util.*;

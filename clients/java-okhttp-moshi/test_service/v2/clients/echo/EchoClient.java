@@ -2,6 +2,7 @@ package test_service.v2.clients.echo;
 
 import com.squareup.moshi.Json;
 import com.squareup.moshi.Moshi;
+import com.squareup.moshi.Types;
 import java.math.BigDecimal;
 import java.time.*;
 import java.util.*;
@@ -11,7 +12,7 @@ import org.slf4j.*;
 import test_service.*;
 import test_service.utils.*;
 import test_service.v2.models.*;
-import test_service.json.Json;
+import static test_service.json.Json.setupMoshiAdapters;
 
 public class EchoClient {
 	private static final Logger logger = LoggerFactory.getLogger(EchoClient.class);
@@ -23,7 +24,7 @@ public class EchoClient {
 	public EchoClient(String baseUrl) {
 		this.baseUrl = baseUrl;
 		Moshi.Builder moshiBuilder = new Moshi.Builder();
-		Json.setupMoshiAdapters(moshiBuilder);
+		setupMoshiAdapters(moshiBuilder);
 		this.moshi = moshiBuilder.build();
 		this.client = new OkHttpClient();
 	}
