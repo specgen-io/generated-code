@@ -13,7 +13,7 @@ import org.slf4j.*;
 import test_service.*;
 import test_service.utils.*;
 import test_service.v2.models.*;
-import static test_service.json.Json.setupMoshiAdapters;
+import static test_service.json.Json.setupObjectMapper;
 
 public class EchoClient {
 	private static final Logger logger = LoggerFactory.getLogger(EchoClient.class);
@@ -25,7 +25,7 @@ public class EchoClient {
 	public EchoClient(String baseUrl) {
 		this.baseUrl = baseUrl;
 		this.objectMapper = new ObjectMapper();
-		Json.setupObjectMapper(objectMapper);
+		setupObjectMapper(objectMapper);
 		this.client = new OkHttpClient();
 	}
 
