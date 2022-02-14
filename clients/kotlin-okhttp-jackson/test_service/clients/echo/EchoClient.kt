@@ -24,7 +24,7 @@ class EchoClient(private val baseUrl: String) {
 	private var client: OkHttpClient
 
 	init {
-		objectMapper = setupObjectMapper(jacksonObjectMapper()))
+		objectMapper = setupObjectMapper(jacksonObjectMapper())
 		client = OkHttpClient()
 	}
 
