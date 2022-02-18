@@ -32,7 +32,7 @@ func AddCheckRoutes(router *vestigo.Router, checkService check.Service) {
 		log.WithFields(logCheckEmptyResponse).Info("Received request")
 		var err error
 		contentType := req.Header.Get("Content-Type")
-		if !strings.Contains(contentType, "application/json") {
+		if !strings.ContainsLevel(contentType, "application/json") {
 			log.WithFields(logCheckEmptyResponse).Errorf("Wrong Content-type: %s", contentType)
 			res.WriteHeader(400)
 			log.WithFields(logCheckEmptyResponse).WithField("status", 400).Info("Completed request")
