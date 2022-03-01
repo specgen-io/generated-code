@@ -92,7 +92,7 @@ jobs:
           specgen: openapi --spec-file ./spec.yaml --out-file ./swagger.yaml
       - gen-service:
           path: services/java-spring
-          specgen: service-java --jsonlib jackson --spec-file ./spec.yaml --generate-path ./generated --services-path ./developed
+          specgen: service-java --jsonlib jackson --server spring --spec-file ./spec.yaml --generate-path ./generated --services-path ./developed
       - gen-service:
           path: services/go
           specgen: service-go --spec-file ./spec.yaml --module-name test-service --generate-path ./generated --services-path ./developed
