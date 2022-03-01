@@ -3,7 +3,7 @@ version: 2.1
 parameters:
   specgen-version:
     type: string
-    default: 2.1.1462
+    default: 2.1.1565
   specgen-version-major:
     type: string
     default: v2
@@ -61,10 +61,10 @@ jobs:
           specgen: client-java --jsonlib jackson --spec-file ./spec.yaml --generate-path .
       - gen-client:
           path: clients/java-okhttp-moshi
-          specgen: client-java --jsonlib moshi --spec-file ./spec.yaml --generate-path .    
+          specgen: client-java --jsonlib moshi --spec-file ./spec.yaml --generate-path .
       - gen-client:
           path: clients/kotlin-okhttp-jackson
-          specgen: client-kotlin --jsonlib jackson --spec-file ./spec.yaml --generate-path .    
+          specgen: client-kotlin --jsonlib jackson --spec-file ./spec.yaml --generate-path .
       - gen-client:
           path: clients/go
           specgen: client-go --spec-file ./spec.yaml --module-name test-client --generate-path .
