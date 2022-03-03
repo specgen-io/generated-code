@@ -1,12 +1,12 @@
 package test_service.services;
 
+import org.springframework.stereotype.Service;
+import test_service.models.*;
+import test_service.services.echo.*;
 import java.math.BigDecimal;
 import java.time.*;
 import java.util.*;
 import java.io.*;
-import org.springframework.stereotype.Service;
-import test_service.models.*;
-import test_service.services.echo.*;
 
 @Service("EchoService")
 public class EchoServiceImpl implements EchoService {
