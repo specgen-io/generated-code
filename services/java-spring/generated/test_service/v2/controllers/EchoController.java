@@ -1,5 +1,12 @@
 package test_service.v2.controllers;
 
+import org.apache.logging.log4j.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.*;
+import org.springframework.web.bind.annotation.*;
+import test_service.v2.models.*;
+import test_service.v2.services.echo.*;
 import com.fasterxml.jackson.databind.*;
 import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.annotation.JsonSubTypes.*;
@@ -8,18 +15,7 @@ import java.math.BigDecimal;
 import java.time.*;
 import java.util.*;
 import java.io.*;
-
-import org.apache.logging.log4j.*;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.http.*;
-import org.springframework.web.bind.annotation.*;
-
 import static org.apache.tomcat.util.http.fileupload.FileUploadBase.CONTENT_TYPE;
-
-import test_service.json.Json;
-import test_service.v2.models.*;
-import test_service.v2.services.echo.*;
 
 @RestController("EchoControllerV2")
 public class EchoController {
@@ -32,7 +28,7 @@ public class EchoController {
 	private ObjectMapper objectMapper;
 
 	@PostMapping("/v2/echo/body_model")
-	public ResponseEntity<String> echoBodyModelController(@RequestBody String bodyStr) throws IOException {
+	public ResponseEntity<String> echoBodyModel(@RequestBody String bodyStr) throws IOException {
 		logger.info("Received request, operationId: echo.echo_body_model, method: POST, url: /v2/echo/body_model");
 
 		Message requestBody;
