@@ -32,7 +32,7 @@ class CheckClient(private val baseUrl: String) {
 
 	fun checkEmpty() {
 		val url = UrlBuilder(baseUrl)
-		url.addPathSegment("check/empty")
+		url.addPathSegments("check/empty")
 
 		val request = RequestBuilder("GET", url.build(), null)
 
@@ -68,7 +68,7 @@ class CheckClient(private val baseUrl: String) {
 
 		val requestBody = bodyJson.toRequestBody("application/json".toMediaTypeOrNull())
 		val url = UrlBuilder(baseUrl)
-		url.addPathSegment("check/empty_response")
+		url.addPathSegments("check/empty_response")
 
 		val request = RequestBuilder("POST", url.build(), requestBody)
 
@@ -95,7 +95,7 @@ class CheckClient(private val baseUrl: String) {
 
 	fun checkForbidden(): CheckForbiddenResponse {
 		val url = UrlBuilder(baseUrl)
-		url.addPathSegment("check/forbidden")
+		url.addPathSegments("check/forbidden")
 
 		val request = RequestBuilder("GET", url.build(), null)
 
@@ -134,7 +134,7 @@ class CheckClient(private val baseUrl: String) {
 
 	fun sameOperationName(): SameOperationNameResponse {
 		val url = UrlBuilder(baseUrl)
-		url.addPathSegment("check/same_operation_name")
+		url.addPathSegments("check/same_operation_name")
 
 		val request = RequestBuilder("GET", url.build(), null)
 

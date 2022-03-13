@@ -32,7 +32,7 @@ public class EchoClient {
 	public String echoBodyString(String body) {
 		var requestBody = RequestBody.create(body, MediaType.parse("text/plain"));
 		var url = new UrlBuilder(baseUrl);
-		url.addPathSegment("echo/body_string");
+		url.addPathSegments("echo/body_string");
 
 		var request = new RequestBuilder("POST", url.build(), requestBody);
 
@@ -77,7 +77,7 @@ public class EchoClient {
 
 		var requestBody = RequestBody.create(bodyJson, MediaType.parse("application/json"));
 		var url = new UrlBuilder(baseUrl);
-		url.addPathSegment("echo/body_model");
+		url.addPathSegments("echo/body_model");
 
 		var request = new RequestBuilder("POST", url.build(), requestBody);
 
@@ -122,7 +122,7 @@ public class EchoClient {
 
 		var requestBody = RequestBody.create(bodyJson, MediaType.parse("application/json"));
 		var url = new UrlBuilder(baseUrl);
-		url.addPathSegment("echo/body_array");
+		url.addPathSegments("echo/body_array");
 
 		var request = new RequestBuilder("POST", url.build(), requestBody);
 
@@ -167,7 +167,7 @@ public class EchoClient {
 
 		var requestBody = RequestBody.create(bodyJson, MediaType.parse("application/json"));
 		var url = new UrlBuilder(baseUrl);
-		url.addPathSegment("echo/body_map");
+		url.addPathSegments("echo/body_map");
 
 		var request = new RequestBuilder("POST", url.build(), requestBody);
 
@@ -202,7 +202,7 @@ public class EchoClient {
 
 	public Parameters echoQuery(int intQuery, long longQuery, float floatQuery, double doubleQuery, BigDecimal decimalQuery, boolean boolQuery, String stringQuery, String stringOptQuery, String stringDefaultedQuery, String[] stringArrayQuery, UUID uuidQuery, LocalDate dateQuery, LocalDate[] dateArrayQuery, LocalDateTime datetimeQuery, Choice enumQuery) {
 		var url = new UrlBuilder(baseUrl);
-		url.addPathSegment("echo/query");
+		url.addPathSegments("echo/query");
 		url.addQueryParameter("int_query", intQuery);
 		url.addQueryParameter("long_query", longQuery);
 		url.addQueryParameter("float_query", floatQuery);
@@ -252,7 +252,7 @@ public class EchoClient {
 
 	public Parameters echoHeader(int intHeader, long longHeader, float floatHeader, double doubleHeader, BigDecimal decimalHeader, boolean boolHeader, String stringHeader, String stringOptHeader, String stringDefaultedHeader, String[] stringArrayHeader, UUID uuidHeader, LocalDate dateHeader, LocalDate[] dateArrayHeader, LocalDateTime datetimeHeader, Choice enumHeader) {
 		var url = new UrlBuilder(baseUrl);
-		url.addPathSegment("echo/header");
+		url.addPathSegments("echo/header");
 
 		var request = new RequestBuilder("GET", url.build(), null);
 		request.addHeaderParameter("Int-Header", intHeader);
@@ -302,7 +302,7 @@ public class EchoClient {
 
 	public UrlParameters echoUrlParams(int intUrl, long longUrl, float floatUrl, double doubleUrl, BigDecimal decimalUrl, boolean boolUrl, String stringUrl, UUID uuidUrl, LocalDate dateUrl, LocalDateTime datetimeUrl, Choice enumUrl) {
 		var url = new UrlBuilder(baseUrl);
-		url.addPathSegment("echo/url_params");
+		url.addPathSegments("echo/url_params");
 		url.addPathParameter(intUrl);
 		url.addPathParameter(longUrl);
 		url.addPathParameter(floatUrl);
@@ -358,7 +358,7 @@ public class EchoClient {
 
 		var requestBody = RequestBody.create(bodyJson, MediaType.parse("application/json"));
 		var url = new UrlBuilder(baseUrl);
-		url.addPathSegment("echo/everything");
+		url.addPathSegments("echo/everything");
 		url.addPathParameter(dateUrl);
 		url.addPathParameter(decimalUrl);
 		url.addQueryParameter("float_query", floatQuery);
@@ -402,7 +402,7 @@ public class EchoClient {
 
 	public SameOperationNameResponse sameOperationName() {
 		var url = new UrlBuilder(baseUrl);
-		url.addPathSegment("echo/same_operation_name");
+		url.addPathSegments("echo/same_operation_name");
 
 		var request = new RequestBuilder("GET", url.build(), null);
 
