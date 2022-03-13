@@ -1,12 +1,5 @@
 package test_service.controllers;
 
-import org.apache.logging.log4j.*;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.http.*;
-import org.springframework.web.bind.annotation.*;
-import test_service.models.*;
-import test_service.services.echo.*;
 import com.fasterxml.jackson.databind.*;
 import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.annotation.JsonSubTypes.*;
@@ -15,7 +8,18 @@ import java.math.BigDecimal;
 import java.time.*;
 import java.util.*;
 import java.io.*;
+
+import org.apache.logging.log4j.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.*;
+import org.springframework.web.bind.annotation.*;
+
 import static org.apache.tomcat.util.http.fileupload.FileUploadBase.CONTENT_TYPE;
+
+import test_service.json.Json;
+import test_service.models.*;
+import test_service.services.echo.*;
 
 @RestController("EchoController")
 public class EchoController {
@@ -28,7 +32,7 @@ public class EchoController {
 	private ObjectMapper objectMapper;
 
 	@PostMapping("/echo/body_string")
-	public ResponseEntity<String> echoBodyString(@RequestBody String bodyStr) throws IOException {
+	public ResponseEntity<String> echoBodyStringController(@RequestBody String bodyStr) throws IOException {
 		logger.info("Received request, operationId: echo.echo_body_string, method: POST, url: /echo/body_string");
 
 		var result = echoService.echoBodyString(bodyStr);
@@ -43,7 +47,7 @@ public class EchoController {
 	}
 
 	@PostMapping("/echo/body_model")
-	public ResponseEntity<String> echoBodyModel(@RequestBody String bodyStr) throws IOException {
+	public ResponseEntity<String> echoBodyModelController(@RequestBody String bodyStr) throws IOException {
 		logger.info("Received request, operationId: echo.echo_body_model, method: POST, url: /echo/body_model");
 
 		Message requestBody;
@@ -66,7 +70,7 @@ public class EchoController {
 	}
 
 	@PostMapping("/echo/body_array")
-	public ResponseEntity<String> echoBodyArray(@RequestBody String bodyStr) throws IOException {
+	public ResponseEntity<String> echoBodyArrayController(@RequestBody String bodyStr) throws IOException {
 		logger.info("Received request, operationId: echo.echo_body_array, method: POST, url: /echo/body_array");
 
 		String[] requestBody;
@@ -89,7 +93,7 @@ public class EchoController {
 	}
 
 	@PostMapping("/echo/body_map")
-	public ResponseEntity<String> echoBodyMap(@RequestBody String bodyStr) throws IOException {
+	public ResponseEntity<String> echoBodyMapController(@RequestBody String bodyStr) throws IOException {
 		logger.info("Received request, operationId: echo.echo_body_map, method: POST, url: /echo/body_map");
 
 		Map<String, String> requestBody;
@@ -112,7 +116,7 @@ public class EchoController {
 	}
 
 	@GetMapping("/echo/query")
-	public ResponseEntity<String> echoQuery(@RequestParam(name = "int_query") int intQuery, @RequestParam(name = "long_query") long longQuery, @RequestParam(name = "float_query") float floatQuery, @RequestParam(name = "double_query") double doubleQuery, @RequestParam(name = "decimal_query") BigDecimal decimalQuery, @RequestParam(name = "bool_query") boolean boolQuery, @RequestParam(name = "string_query") String stringQuery, @RequestParam(name = "string_opt_query", required = false) String stringOptQuery, @RequestParam(name = "string_defaulted_query", defaultValue = "the default value") String stringDefaultedQuery, @RequestParam(name = "string_array_query") String[] stringArrayQuery, @RequestParam(name = "uuid_query") UUID uuidQuery, @RequestParam(name = "date_query") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dateQuery, @RequestParam(name = "date_array_query") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate[] dateArrayQuery, @RequestParam(name = "datetime_query") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime datetimeQuery, @RequestParam(name = "enum_query") Choice enumQuery) throws IOException {
+	public ResponseEntity<String> echoQueryController(@RequestParam(name = "int_query") int intQuery, @RequestParam(name = "long_query") long longQuery, @RequestParam(name = "float_query") float floatQuery, @RequestParam(name = "double_query") double doubleQuery, @RequestParam(name = "decimal_query") BigDecimal decimalQuery, @RequestParam(name = "bool_query") boolean boolQuery, @RequestParam(name = "string_query") String stringQuery, @RequestParam(name = "string_opt_query", required = false) String stringOptQuery, @RequestParam(name = "string_defaulted_query", defaultValue = "the default value") String stringDefaultedQuery, @RequestParam(name = "string_array_query") String[] stringArrayQuery, @RequestParam(name = "uuid_query") UUID uuidQuery, @RequestParam(name = "date_query") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dateQuery, @RequestParam(name = "date_array_query") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate[] dateArrayQuery, @RequestParam(name = "datetime_query") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime datetimeQuery, @RequestParam(name = "enum_query") Choice enumQuery) throws IOException {
 		logger.info("Received request, operationId: echo.echo_query, method: GET, url: /echo/query");
 
 		var result = echoService.echoQuery(intQuery, longQuery, floatQuery, doubleQuery, decimalQuery, boolQuery, stringQuery, stringOptQuery, stringDefaultedQuery, stringArrayQuery, uuidQuery, dateQuery, dateArrayQuery, datetimeQuery, enumQuery);
@@ -128,7 +132,7 @@ public class EchoController {
 	}
 
 	@GetMapping("/echo/header")
-	public ResponseEntity<String> echoHeader(@RequestHeader(name = "Int-Header") int intHeader, @RequestHeader(name = "Long-Header") long longHeader, @RequestHeader(name = "Float-Header") float floatHeader, @RequestHeader(name = "Double-Header") double doubleHeader, @RequestHeader(name = "Decimal-Header") BigDecimal decimalHeader, @RequestHeader(name = "Bool-Header") boolean boolHeader, @RequestHeader(name = "String-Header") String stringHeader, @RequestHeader(name = "String-Opt-Header", required = false) String stringOptHeader, @RequestHeader(name = "String-Defaulted-Header", defaultValue = "the default value") String stringDefaultedHeader, @RequestHeader(name = "String-Array-Header") String[] stringArrayHeader, @RequestHeader(name = "Uuid-Header") UUID uuidHeader, @RequestHeader(name = "Date-Header") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dateHeader, @RequestHeader(name = "Date-Array-Header") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate[] dateArrayHeader, @RequestHeader(name = "Datetime-Header") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime datetimeHeader, @RequestHeader(name = "Enum-Header") Choice enumHeader) throws IOException {
+	public ResponseEntity<String> echoHeaderController(@RequestHeader(name = "Int-Header") int intHeader, @RequestHeader(name = "Long-Header") long longHeader, @RequestHeader(name = "Float-Header") float floatHeader, @RequestHeader(name = "Double-Header") double doubleHeader, @RequestHeader(name = "Decimal-Header") BigDecimal decimalHeader, @RequestHeader(name = "Bool-Header") boolean boolHeader, @RequestHeader(name = "String-Header") String stringHeader, @RequestHeader(name = "String-Opt-Header", required = false) String stringOptHeader, @RequestHeader(name = "String-Defaulted-Header", defaultValue = "the default value") String stringDefaultedHeader, @RequestHeader(name = "String-Array-Header") String[] stringArrayHeader, @RequestHeader(name = "Uuid-Header") UUID uuidHeader, @RequestHeader(name = "Date-Header") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dateHeader, @RequestHeader(name = "Date-Array-Header") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate[] dateArrayHeader, @RequestHeader(name = "Datetime-Header") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime datetimeHeader, @RequestHeader(name = "Enum-Header") Choice enumHeader) throws IOException {
 		logger.info("Received request, operationId: echo.echo_header, method: GET, url: /echo/header");
 
 		var result = echoService.echoHeader(intHeader, longHeader, floatHeader, doubleHeader, decimalHeader, boolHeader, stringHeader, stringOptHeader, stringDefaultedHeader, stringArrayHeader, uuidHeader, dateHeader, dateArrayHeader, datetimeHeader, enumHeader);
@@ -144,7 +148,7 @@ public class EchoController {
 	}
 
 	@GetMapping("/echo/url_params/{int_url}/{long_url}/{float_url}/{double_url}/{decimal_url}/{bool_url}/{string_url}/{uuid_url}/{date_url}/{datetime_url}/{enum_url}")
-	public ResponseEntity<String> echoUrlParams(@PathVariable(name = "int_url") int intUrl, @PathVariable(name = "long_url") long longUrl, @PathVariable(name = "float_url") float floatUrl, @PathVariable(name = "double_url") double doubleUrl, @PathVariable(name = "decimal_url") BigDecimal decimalUrl, @PathVariable(name = "bool_url") boolean boolUrl, @PathVariable(name = "string_url") String stringUrl, @PathVariable(name = "uuid_url") UUID uuidUrl, @PathVariable(name = "date_url") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dateUrl, @PathVariable(name = "datetime_url") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime datetimeUrl, @PathVariable(name = "enum_url") Choice enumUrl) throws IOException {
+	public ResponseEntity<String> echoUrlParamsController(@PathVariable(name = "int_url") int intUrl, @PathVariable(name = "long_url") long longUrl, @PathVariable(name = "float_url") float floatUrl, @PathVariable(name = "double_url") double doubleUrl, @PathVariable(name = "decimal_url") BigDecimal decimalUrl, @PathVariable(name = "bool_url") boolean boolUrl, @PathVariable(name = "string_url") String stringUrl, @PathVariable(name = "uuid_url") UUID uuidUrl, @PathVariable(name = "date_url") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dateUrl, @PathVariable(name = "datetime_url") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime datetimeUrl, @PathVariable(name = "enum_url") Choice enumUrl) throws IOException {
 		logger.info("Received request, operationId: echo.echo_url_params, method: GET, url: /echo/url_params/{int_url}/{long_url}/{float_url}/{double_url}/{decimal_url}/{bool_url}/{string_url}/{uuid_url}/{date_url}/{datetime_url}/{enum_url}");
 
 		var result = echoService.echoUrlParams(intUrl, longUrl, floatUrl, doubleUrl, decimalUrl, boolUrl, stringUrl, uuidUrl, dateUrl, datetimeUrl, enumUrl);
@@ -160,7 +164,7 @@ public class EchoController {
 	}
 
 	@PostMapping("/echo/everything/{date_url}/{decimal_url}")
-	public ResponseEntity<String> echoEverything(@RequestBody String bodyStr, @RequestParam(name = "float_query") float floatQuery, @RequestParam(name = "bool_query") boolean boolQuery, @RequestHeader(name = "Uuid-Header") UUID uuidHeader, @RequestHeader(name = "Datetime-Header") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime datetimeHeader, @PathVariable(name = "date_url") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dateUrl, @PathVariable(name = "decimal_url") BigDecimal decimalUrl) throws IOException {
+	public ResponseEntity<String> echoEverythingController(@RequestBody String bodyStr, @RequestParam(name = "float_query") float floatQuery, @RequestParam(name = "bool_query") boolean boolQuery, @RequestHeader(name = "Uuid-Header") UUID uuidHeader, @RequestHeader(name = "Datetime-Header") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime datetimeHeader, @PathVariable(name = "date_url") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dateUrl, @PathVariable(name = "decimal_url") BigDecimal decimalUrl) throws IOException {
 		logger.info("Received request, operationId: echo.echo_everything, method: POST, url: /echo/everything/{date_url}/{decimal_url}");
 
 		Message requestBody;
@@ -192,7 +196,7 @@ public class EchoController {
 	}
 
 	@GetMapping("/echo/same_operation_name")
-	public ResponseEntity<String> sameOperationName() throws IOException {
+	public ResponseEntity<String> sameOperationNameController() throws IOException {
 		logger.info("Received request, operationId: echo.same_operation_name, method: GET, url: /echo/same_operation_name");
 
 		var result = echoService.sameOperationName();

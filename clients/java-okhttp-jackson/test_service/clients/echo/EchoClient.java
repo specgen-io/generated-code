@@ -303,17 +303,17 @@ public class EchoClient {
 	public UrlParameters echoUrlParams(int intUrl, long longUrl, float floatUrl, double doubleUrl, BigDecimal decimalUrl, boolean boolUrl, String stringUrl, UUID uuidUrl, LocalDate dateUrl, LocalDateTime datetimeUrl, Choice enumUrl) {
 		var url = new UrlBuilder(baseUrl);
 		url.addPathSegment("echo/url_params");
-		url.addPathSegment(intUrl);
-		url.addPathSegment(longUrl);
-		url.addPathSegment(floatUrl);
-		url.addPathSegment(doubleUrl);
-		url.addPathSegment(decimalUrl);
-		url.addPathSegment(boolUrl);
-		url.addPathSegment(stringUrl);
-		url.addPathSegment(uuidUrl);
-		url.addPathSegment(dateUrl);
-		url.addPathSegment(datetimeUrl);
-		url.addPathSegment(enumUrl);
+		url.addPathParameter(intUrl);
+		url.addPathParameter(longUrl);
+		url.addPathParameter(floatUrl);
+		url.addPathParameter(doubleUrl);
+		url.addPathParameter(decimalUrl);
+		url.addPathParameter(boolUrl);
+		url.addPathParameter(stringUrl);
+		url.addPathParameter(uuidUrl);
+		url.addPathParameter(dateUrl);
+		url.addPathParameter(datetimeUrl);
+		url.addPathParameter(enumUrl);
 
 		var request = new RequestBuilder("GET", url.build(), null);
 
@@ -359,8 +359,8 @@ public class EchoClient {
 		var requestBody = RequestBody.create(bodyJson, MediaType.parse("application/json"));
 		var url = new UrlBuilder(baseUrl);
 		url.addPathSegment("echo/everything");
-		url.addPathSegment(dateUrl);
-		url.addPathSegment(decimalUrl);
+		url.addPathParameter(dateUrl);
+		url.addPathParameter(decimalUrl);
 		url.addQueryParameter("float_query", floatQuery);
 		url.addQueryParameter("bool_query", boolQuery);
 
