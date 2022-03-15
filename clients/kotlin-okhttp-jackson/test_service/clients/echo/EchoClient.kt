@@ -33,7 +33,7 @@ class EchoClient(private val baseUrl: String) {
 	fun echoBodyString(body: String): String {
 		val requestBody = body.toRequestBody("text/plain".toMediaTypeOrNull())
 		val url = UrlBuilder(baseUrl)
-		url.addPathSegment("echo/body_string")
+		url.addPathSegments("echo/body_string")
 
 		val request = RequestBuilder("POST", url.build(), requestBody)
 
@@ -77,7 +77,7 @@ class EchoClient(private val baseUrl: String) {
 
 		val requestBody = bodyJson.toRequestBody("application/json".toMediaTypeOrNull())
 		val url = UrlBuilder(baseUrl)
-		url.addPathSegment("echo/body_model")
+		url.addPathSegments("echo/body_model")
 
 		val request = RequestBuilder("POST", url.build(), requestBody)
 
@@ -121,7 +121,7 @@ class EchoClient(private val baseUrl: String) {
 
 		val requestBody = bodyJson.toRequestBody("application/json".toMediaTypeOrNull())
 		val url = UrlBuilder(baseUrl)
-		url.addPathSegment("echo/body_array")
+		url.addPathSegments("echo/body_array")
 
 		val request = RequestBuilder("POST", url.build(), requestBody)
 
@@ -165,7 +165,7 @@ class EchoClient(private val baseUrl: String) {
 
 		val requestBody = bodyJson.toRequestBody("application/json".toMediaTypeOrNull())
 		val url = UrlBuilder(baseUrl)
-		url.addPathSegment("echo/body_map")
+		url.addPathSegments("echo/body_map")
 
 		val request = RequestBuilder("POST", url.build(), requestBody)
 
@@ -200,7 +200,7 @@ class EchoClient(private val baseUrl: String) {
 
 	fun echoQuery(intQuery: Int, longQuery: Long, floatQuery: Float, doubleQuery: Double, decimalQuery: BigDecimal, boolQuery: Boolean, stringQuery: String, stringOptQuery: String?, stringDefaultedQuery: String, stringArrayQuery: Array<String>, uuidQuery: UUID, dateQuery: LocalDate, dateArrayQuery: Array<LocalDate>, datetimeQuery: LocalDateTime, enumQuery: Choice): Parameters {
 		val url = UrlBuilder(baseUrl)
-		url.addPathSegment("echo/query")
+		url.addPathSegments("echo/query")
 		url.addQueryParameter("int_query", intQuery)
 		url.addQueryParameter("long_query", longQuery)
 		url.addQueryParameter("float_query", floatQuery)
@@ -250,7 +250,7 @@ class EchoClient(private val baseUrl: String) {
 
 	fun echoHeader(intHeader: Int, longHeader: Long, floatHeader: Float, doubleHeader: Double, decimalHeader: BigDecimal, boolHeader: Boolean, stringHeader: String, stringOptHeader: String?, stringDefaultedHeader: String, stringArrayHeader: Array<String>, uuidHeader: UUID, dateHeader: LocalDate, dateArrayHeader: Array<LocalDate>, datetimeHeader: LocalDateTime, enumHeader: Choice): Parameters {
 		val url = UrlBuilder(baseUrl)
-		url.addPathSegment("echo/header")
+		url.addPathSegments("echo/header")
 
 		val request = RequestBuilder("GET", url.build(), null)
 		request.addHeaderParameter("Int-Header", intHeader)
@@ -300,18 +300,18 @@ class EchoClient(private val baseUrl: String) {
 
 	fun echoUrlParams(intUrl: Int, longUrl: Long, floatUrl: Float, doubleUrl: Double, decimalUrl: BigDecimal, boolUrl: Boolean, stringUrl: String, uuidUrl: UUID, dateUrl: LocalDate, datetimeUrl: LocalDateTime, enumUrl: Choice): UrlParameters {
 		val url = UrlBuilder(baseUrl)
-		url.addPathSegment("echo/url_params")
-		url.addPathSegment(intUrl)
-		url.addPathSegment(longUrl)
-		url.addPathSegment(floatUrl)
-		url.addPathSegment(doubleUrl)
-		url.addPathSegment(decimalUrl)
-		url.addPathSegment(boolUrl)
-		url.addPathSegment(stringUrl)
-		url.addPathSegment(uuidUrl)
-		url.addPathSegment(dateUrl)
-		url.addPathSegment(datetimeUrl)
-		url.addPathSegment(enumUrl)
+		url.addPathSegments("echo/url_params")
+		url.addPathParameter(intUrl)
+		url.addPathParameter(longUrl)
+		url.addPathParameter(floatUrl)
+		url.addPathParameter(doubleUrl)
+		url.addPathParameter(decimalUrl)
+		url.addPathParameter(boolUrl)
+		url.addPathParameter(stringUrl)
+		url.addPathParameter(uuidUrl)
+		url.addPathParameter(dateUrl)
+		url.addPathParameter(datetimeUrl)
+		url.addPathParameter(enumUrl)
 
 		val request = RequestBuilder("GET", url.build(), null)
 
@@ -355,9 +355,9 @@ class EchoClient(private val baseUrl: String) {
 
 		val requestBody = bodyJson.toRequestBody("application/json".toMediaTypeOrNull())
 		val url = UrlBuilder(baseUrl)
-		url.addPathSegment("echo/everything")
-		url.addPathSegment(dateUrl)
-		url.addPathSegment(decimalUrl)
+		url.addPathSegments("echo/everything")
+		url.addPathParameter(dateUrl)
+		url.addPathParameter(decimalUrl)
 		url.addQueryParameter("float_query", floatQuery)
 		url.addQueryParameter("bool_query", boolQuery)
 
@@ -400,7 +400,7 @@ class EchoClient(private val baseUrl: String) {
 
 	fun sameOperationName(): SameOperationNameResponse {
 		val url = UrlBuilder(baseUrl)
-		url.addPathSegment("echo/same_operation_name")
+		url.addPathSegments("echo/same_operation_name")
 
 		val request = RequestBuilder("GET", url.build(), null)
 
