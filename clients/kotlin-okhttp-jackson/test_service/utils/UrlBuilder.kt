@@ -23,12 +23,7 @@ class UrlBuilder(baseUrl: String) {
         return this
     }
 
-    fun addPathSegments(value: String): UrlBuilder {
-        this.urlBuilder.addPathSegments(value)
-        return this
-    }
-
-    fun addPathParameter(value: Any): UrlBuilder {
+    fun addPathSegment(value: Any): UrlBuilder {
         val valueStr = value.toString()
         this.urlBuilder.addPathSegment(valueStr)
         return this

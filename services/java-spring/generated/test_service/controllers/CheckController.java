@@ -1,5 +1,12 @@
 package test_service.controllers;
 
+import org.apache.logging.log4j.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.*;
+import org.springframework.web.bind.annotation.*;
+import test_service.models.*;
+import test_service.services.check.*;
 import com.fasterxml.jackson.databind.*;
 import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.annotation.JsonSubTypes.*;
@@ -8,18 +15,7 @@ import java.math.BigDecimal;
 import java.time.*;
 import java.util.*;
 import java.io.*;
-
-import org.apache.logging.log4j.*;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.http.*;
-import org.springframework.web.bind.annotation.*;
-
 import static org.apache.tomcat.util.http.fileupload.FileUploadBase.CONTENT_TYPE;
-
-import test_service.json.Json;
-import test_service.models.*;
-import test_service.services.check.*;
 
 @RestController("CheckController")
 public class CheckController {
@@ -32,7 +28,7 @@ public class CheckController {
 	private ObjectMapper objectMapper;
 
 	@GetMapping("/check/empty")
-	public ResponseEntity<String> checkEmptyController() throws IOException {
+	public ResponseEntity<String> checkEmpty() throws IOException {
 		logger.info("Received request, operationId: check.check_empty, method: GET, url: /check/empty");
 
 		checkService.checkEmpty();
@@ -41,7 +37,7 @@ public class CheckController {
 	}
 
 	@PostMapping("/check/empty_response")
-	public ResponseEntity<String> checkEmptyResponseController(@RequestBody String bodyStr) throws IOException {
+	public ResponseEntity<String> checkEmptyResponse(@RequestBody String bodyStr) throws IOException {
 		logger.info("Received request, operationId: check.check_empty_response, method: POST, url: /check/empty_response");
 
 		Message requestBody;
@@ -57,7 +53,7 @@ public class CheckController {
 	}
 
 	@GetMapping("/check/forbidden")
-	public ResponseEntity<String> checkForbiddenController() throws IOException {
+	public ResponseEntity<String> checkForbidden() throws IOException {
 		logger.info("Received request, operationId: check.check_forbidden, method: GET, url: /check/forbidden");
 
 		var result = checkService.checkForbidden();
@@ -82,7 +78,7 @@ public class CheckController {
 	}
 
 	@GetMapping("/check/same_operation_name")
-	public ResponseEntity<String> sameOperationNameController() throws IOException {
+	public ResponseEntity<String> sameOperationName() throws IOException {
 		logger.info("Received request, operationId: check.same_operation_name, method: GET, url: /check/same_operation_name");
 
 		var result = checkService.sameOperationName();

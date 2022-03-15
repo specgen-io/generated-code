@@ -41,8 +41,8 @@ class EchoClient(private val baseUrl: String) {
 
 		val requestBody = bodyJson.toRequestBody("application/json".toMediaTypeOrNull())
 		val url = UrlBuilder(baseUrl)
-		url.addPathSegments("v2")
-		url.addPathSegments("echo/body_model")
+		url.addPathSegment("v2")
+		url.addPathSegment("echo/body_model")
 
 		val request = RequestBuilder("POST", url.build(), requestBody)
 

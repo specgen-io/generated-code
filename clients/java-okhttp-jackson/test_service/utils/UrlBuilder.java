@@ -24,12 +24,7 @@ public class UrlBuilder {
         return this;
     }
 
-    public UrlBuilder addPathSegments(String value) {
-        this.urlBuilder.addPathSegments(value);
-        return this;
-    }
-
-    public UrlBuilder addPathParameter(Object value) {
+    public UrlBuilder addPathSegment(Object value) {
         var valueStr = Stringify.paramToString(value);
         this.urlBuilder.addPathSegment(valueStr);
         return this;

@@ -31,7 +31,7 @@ public class CheckClient {
 
 	public void checkEmpty() {
 		var url = new UrlBuilder(baseUrl);
-		url.addPathSegments("check/empty");
+		url.addPathSegment("check/empty");
 
 		var request = new RequestBuilder("GET", url.build(), null);
 
@@ -68,7 +68,7 @@ public class CheckClient {
 
 		var requestBody = RequestBody.create(bodyJson, MediaType.parse("application/json"));
 		var url = new UrlBuilder(baseUrl);
-		url.addPathSegments("check/empty_response");
+		url.addPathSegment("check/empty_response");
 
 		var request = new RequestBuilder("POST", url.build(), requestBody);
 
@@ -95,7 +95,7 @@ public class CheckClient {
 
 	public CheckForbiddenResponse checkForbidden() {
 		var url = new UrlBuilder(baseUrl);
-		url.addPathSegments("check/forbidden");
+		url.addPathSegment("check/forbidden");
 
 		var request = new RequestBuilder("GET", url.build(), null);
 
@@ -133,7 +133,7 @@ public class CheckClient {
 
 	public SameOperationNameResponse sameOperationName() {
 		var url = new UrlBuilder(baseUrl);
-		url.addPathSegments("check/same_operation_name");
+		url.addPathSegment("check/same_operation_name");
 
 		var request = new RequestBuilder("GET", url.build(), null);
 
