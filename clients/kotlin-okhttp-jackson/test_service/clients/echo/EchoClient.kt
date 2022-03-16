@@ -21,7 +21,7 @@ import test_service.json.setupObjectMapper
 
 class EchoClient(private val baseUrl: String) {
 	private var objectMapper: ObjectMapper
-	private var client: OkHttpClient
+	private val client: OkHttpClient
 
 	init {
 		objectMapper = setupObjectMapper(jacksonObjectMapper())
@@ -100,7 +100,7 @@ class EchoClient(private val baseUrl: String) {
 					logger.error(errorMessage)
 					throw ClientException(errorMessage, e)
 				}
-				responseBody
+				responseBody!!
 			}
 			else -> {
 				val errorMessage = "Unexpected status code received: " + response.code
@@ -144,7 +144,7 @@ class EchoClient(private val baseUrl: String) {
 					logger.error(errorMessage)
 					throw ClientException(errorMessage, e)
 				}
-				responseBody
+				responseBody!!
 			}
 			else -> {
 				val errorMessage = "Unexpected status code received: " + response.code
@@ -188,7 +188,7 @@ class EchoClient(private val baseUrl: String) {
 					logger.error(errorMessage)
 					throw ClientException(errorMessage, e)
 				}
-				responseBody
+				responseBody!!
 			}
 			else -> {
 				val errorMessage = "Unexpected status code received: " + response.code
@@ -238,7 +238,7 @@ class EchoClient(private val baseUrl: String) {
 					logger.error(errorMessage)
 					throw ClientException(errorMessage, e)
 				}
-				responseBody
+				responseBody!!
 			}
 			else -> {
 				val errorMessage = "Unexpected status code received: " + response.code
@@ -288,7 +288,7 @@ class EchoClient(private val baseUrl: String) {
 					logger.error(errorMessage)
 					throw ClientException(errorMessage, e)
 				}
-				responseBody
+				responseBody!!
 			}
 			else -> {
 				val errorMessage = "Unexpected status code received: " + response.code
@@ -334,7 +334,7 @@ class EchoClient(private val baseUrl: String) {
 					logger.error(errorMessage)
 					throw ClientException(errorMessage, e)
 				}
-				responseBody
+				responseBody!!
 			}
 			else -> {
 				val errorMessage = "Unexpected status code received: " + response.code
@@ -384,7 +384,7 @@ class EchoClient(private val baseUrl: String) {
 					logger.error(errorMessage)
 					throw ClientException(errorMessage, e)
 				}
-				EchoEverythingResponse.Ok(responseBody)
+				EchoEverythingResponse.Ok(responseBody!!)
 			}
 			403 -> {
 				logger.info("Received response with status code {}", response.code)

@@ -21,7 +21,7 @@ import test_service.json.setupObjectMapper
 
 class CheckClient(private val baseUrl: String) {
 	private var objectMapper: ObjectMapper
-	private var client: OkHttpClient
+	private val client: OkHttpClient
 
 	init {
 		objectMapper = setupObjectMapper(jacksonObjectMapper())
@@ -118,7 +118,7 @@ class CheckClient(private val baseUrl: String) {
 					logger.error(errorMessage)
 					throw ClientException(errorMessage, e)
 				}
-				CheckForbiddenResponse.Ok(responseBody)
+				CheckForbiddenResponse.Ok(responseBody!!)
 			}
 			403 -> {
 				logger.info("Received response with status code {}", response.code)

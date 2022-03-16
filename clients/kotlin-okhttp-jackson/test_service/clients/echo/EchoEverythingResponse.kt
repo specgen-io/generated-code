@@ -3,16 +3,7 @@ package test_service.clients.echo
 import test_service.models.*
 
 interface EchoEverythingResponse {
-	class Ok : EchoEverythingResponse {
-		private lateinit var body: Everything
+	class Ok(var body: Everything) : EchoEverythingResponse
 
-		constructor()
-
-		constructor(body: Everything) {
-			this.body = body
-		}
-	}
-
-	class Forbidden : EchoEverythingResponse {
-	}
+	class Forbidden : EchoEverythingResponse
 }
