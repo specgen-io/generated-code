@@ -60,7 +60,7 @@ public class CheckClient {
 		String bodyJson;
 		try {
 			bodyJson = moshi.adapter(Message.class).toJson(body);
-		} catch (IOException e) {
+		} catch (AssertionError e) {
 			var errorMessage = "Failed to serialize JSON " + e.getMessage();
 			logger.error(errorMessage);
 			throw new ClientException(errorMessage, e);
@@ -115,7 +115,7 @@ public class CheckClient {
 				Message responseBody;
 				try {
 					responseBody = moshi.adapter(Message.class).fromJson(response.body().string());
-				} catch (JsonDataException e) {
+				} catch (IOException e) {
 					var errorMessage = "Failed to deserialize response body " + e.getMessage();
 					logger.error(errorMessage);
 					throw new ClientException(errorMessage, e);
