@@ -20,13 +20,8 @@ import test_service.models.*
 import test_service.json.setupObjectMapper
 
 class EchoClient(private val baseUrl: String) {
-	private var objectMapper: ObjectMapper
-	private val client: OkHttpClient
-
-	init {
-		objectMapper = setupObjectMapper(jacksonObjectMapper())
-		client = OkHttpClient()
-	}
+	private val client: OkHttpClient = OkHttpClient()
+	private val objectMapper: ObjectMapper = setupObjectMapper(jacksonObjectMapper())
 
 	private val logger: Logger = LoggerFactory.getLogger(EchoClient::class.java)
 
