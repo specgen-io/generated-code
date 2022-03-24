@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.*
 import com.fasterxml.jackson.annotation.JsonSubTypes.*
 import com.fasterxml.jackson.core.type.*
 import com.fasterxml.jackson.core.JsonProcessingException
+import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import java.math.BigDecimal
 import java.time.*
 import java.util.*
@@ -19,10 +20,15 @@ import test_service.v2.models.*
 import test_service.json.setupObjectMapper
 
 class EchoClient(private val baseUrl: String) {
-	private val client: OkHttpClient = OkHttpClient()
 	private val objectMapper: ObjectMapper
+	private val client: OkHttpClient
 
 	private val logger: Logger = LoggerFactory.getLogger(EchoClient::class.java)
+
+	init {
+		objectMapper = setupObjectMapper(jacksonObjectMapper())
+		client = OkHttpClient()
+	}
 
 	fun echoBodyModel(body: Message): Message {
 		val bodyJson = try {
