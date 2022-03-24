@@ -5,7 +5,6 @@ import com.fasterxml.jackson.annotation.*
 import com.fasterxml.jackson.annotation.JsonSubTypes.*
 import com.fasterxml.jackson.core.type.*
 import com.fasterxml.jackson.core.JsonProcessingException
-import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import java.math.BigDecimal
 import java.time.*
 import java.util.*
@@ -21,7 +20,7 @@ import test_service.json.setupObjectMapper
 
 class EchoClient(private val baseUrl: String) {
 	private val client: OkHttpClient = OkHttpClient()
-	private val objectMapper: ObjectMapper = setupObjectMapper(jacksonObjectMapper())
+	private val objectMapper: ObjectMapper
 
 	private val logger: Logger = LoggerFactory.getLogger(EchoClient::class.java)
 
