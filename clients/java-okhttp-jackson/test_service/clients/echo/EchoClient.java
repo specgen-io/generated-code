@@ -69,7 +69,7 @@ public class EchoClient {
 		String bodyJson;
 		try {
 			bodyJson = objectMapper.writeValueAsString(body);
-		} catch (IOException e) {
+		} catch (Exception e) {
 			var errorMessage = "Failed to serialize JSON " + e.getMessage();
 			logger.error(errorMessage);
 			throw new ClientException(errorMessage, e);
@@ -114,7 +114,7 @@ public class EchoClient {
 		String bodyJson;
 		try {
 			bodyJson = objectMapper.writeValueAsString(body);
-		} catch (IOException e) {
+		} catch (Exception e) {
 			var errorMessage = "Failed to serialize JSON " + e.getMessage();
 			logger.error(errorMessage);
 			throw new ClientException(errorMessage, e);
@@ -159,7 +159,7 @@ public class EchoClient {
 		String bodyJson;
 		try {
 			bodyJson = objectMapper.writeValueAsString(body);
-		} catch (IOException e) {
+		} catch (Exception e) {
 			var errorMessage = "Failed to serialize JSON " + e.getMessage();
 			logger.error(errorMessage);
 			throw new ClientException(errorMessage, e);
@@ -350,7 +350,7 @@ public class EchoClient {
 		String bodyJson;
 		try {
 			bodyJson = objectMapper.writeValueAsString(body);
-		} catch (IOException e) {
+		} catch (Exception e) {
 			var errorMessage = "Failed to serialize JSON " + e.getMessage();
 			logger.error(errorMessage);
 			throw new ClientException(errorMessage, e);

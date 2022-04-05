@@ -115,7 +115,7 @@ public class CheckClient {
 				Message responseBody;
 				try {
 					responseBody = moshi.adapter(Message.class).fromJson(response.body().string());
-				} catch (IOException e) {
+				} catch (Exception e) {
 					var errorMessage = "Failed to deserialize response body " + e.getMessage();
 					logger.error(errorMessage);
 					throw new ClientException(errorMessage, e);

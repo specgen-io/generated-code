@@ -28,7 +28,7 @@ public class CheckController {
 	private ObjectMapper objectMapper;
 
 	@GetMapping("/check/empty")
-	public ResponseEntity<String> checkEmpty() throws IOException {
+	public ResponseEntity<String> checkEmpty() {
 		logger.info("Received request, operationId: check.check_empty, method: GET, url: /check/empty");
 
 		checkService.checkEmpty();
@@ -37,7 +37,7 @@ public class CheckController {
 	}
 
 	@PostMapping("/check/empty_response")
-	public ResponseEntity<String> checkEmptyResponse(@RequestBody String bodyStr) throws IOException {
+	public ResponseEntity<String> checkEmptyResponse(@RequestBody String bodyStr) {
 		logger.info("Received request, operationId: check.check_empty_response, method: POST, url: /check/empty_response");
 
 		Message requestBody;
@@ -53,7 +53,7 @@ public class CheckController {
 	}
 
 	@GetMapping("/check/forbidden")
-	public ResponseEntity<String> checkForbidden() throws IOException {
+	public ResponseEntity<String> checkForbidden() {
 		logger.info("Received request, operationId: check.check_forbidden, method: GET, url: /check/forbidden");
 
 		var result = checkService.checkForbidden();
@@ -62,7 +62,13 @@ public class CheckController {
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 		if (result instanceof CheckForbiddenResponse.Ok) {
-			String responseJson = objectMapper.writeValueAsString(((CheckForbiddenResponse.Ok) result).body);
+			String responseJson;
+			try {
+				responseJson = objectMapper.writeValueAsString(((CheckForbiddenResponse.Ok) result).body);
+			} catch (Exception e) {
+				logger.error("Failed to serialize JSON: {}" + e.getMessage());
+				return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+			}
 			HttpHeaders headers = new HttpHeaders();
 			headers.add(CONTENT_TYPE, "application/json");
 			logger.info("Completed request with status code: {}", HttpStatus.OK);
@@ -78,7 +84,7 @@ public class CheckController {
 	}
 
 	@GetMapping("/check/same_operation_name")
-	public ResponseEntity<String> sameOperationName() throws IOException {
+	public ResponseEntity<String> sameOperationName() {
 		logger.info("Received request, operationId: check.same_operation_name, method: GET, url: /check/same_operation_name");
 
 		var result = checkService.sameOperationName();

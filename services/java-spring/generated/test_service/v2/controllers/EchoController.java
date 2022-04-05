@@ -28,7 +28,7 @@ public class EchoController {
 	private ObjectMapper objectMapper;
 
 	@PostMapping("/v2/echo/body_model")
-	public ResponseEntity<String> echoBodyModel(@RequestBody String bodyStr) throws IOException {
+	public ResponseEntity<String> echoBodyModel(@RequestBody String bodyStr) {
 		logger.info("Received request, operationId: echo.echo_body_model, method: POST, url: /v2/echo/body_model");
 
 		Message requestBody;
@@ -43,7 +43,13 @@ public class EchoController {
 			logger.error("Completed request with status code: {}", HttpStatus.INTERNAL_SERVER_ERROR);
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
-		String responseJson = objectMapper.writeValueAsString(result);
+		String responseJson;
+		try {
+			responseJson = objectMapper.writeValueAsString(result);
+		} catch (Exception e) {
+			logger.error("Failed to serialize JSON: {}" + e.getMessage());
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 		HttpHeaders headers = new HttpHeaders();
 		headers.add(CONTENT_TYPE, "application/json");
 		logger.info("Completed request with status code: {}", HttpStatus.OK);

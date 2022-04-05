@@ -97,7 +97,7 @@ public class EchoClient {
 				Message responseBody;
 				try {
 					responseBody = moshi.adapter(Message.class).fromJson(response.body().string());
-				} catch (IOException e) {
+				} catch (Exception e) {
 					var errorMessage = "Failed to deserialize response body " + e.getMessage();
 					logger.error(errorMessage);
 					throw new ClientException(errorMessage, e);
@@ -142,7 +142,7 @@ public class EchoClient {
 				String[] responseBody;
 				try {
 					responseBody = moshi.adapter(String[].class).fromJson(response.body().string());
-				} catch (IOException e) {
+				} catch (Exception e) {
 					var errorMessage = "Failed to deserialize response body " + e.getMessage();
 					logger.error(errorMessage);
 					throw new ClientException(errorMessage, e);
@@ -187,7 +187,7 @@ public class EchoClient {
 				Map<String, String> responseBody;
 				try {
 					responseBody = moshi.<Map<String, String>>adapter(Types.newParameterizedType(Map.class, String.class, String.class)).fromJson(response.body().string());
-				} catch (IOException e) {
+				} catch (Exception e) {
 					var errorMessage = "Failed to deserialize response body " + e.getMessage();
 					logger.error(errorMessage);
 					throw new ClientException(errorMessage, e);
@@ -237,7 +237,7 @@ public class EchoClient {
 				Parameters responseBody;
 				try {
 					responseBody = moshi.adapter(Parameters.class).fromJson(response.body().string());
-				} catch (IOException e) {
+				} catch (Exception e) {
 					var errorMessage = "Failed to deserialize response body " + e.getMessage();
 					logger.error(errorMessage);
 					throw new ClientException(errorMessage, e);
@@ -287,7 +287,7 @@ public class EchoClient {
 				Parameters responseBody;
 				try {
 					responseBody = moshi.adapter(Parameters.class).fromJson(response.body().string());
-				} catch (IOException e) {
+				} catch (Exception e) {
 					var errorMessage = "Failed to deserialize response body " + e.getMessage();
 					logger.error(errorMessage);
 					throw new ClientException(errorMessage, e);
@@ -333,7 +333,7 @@ public class EchoClient {
 				UrlParameters responseBody;
 				try {
 					responseBody = moshi.adapter(UrlParameters.class).fromJson(response.body().string());
-				} catch (IOException e) {
+				} catch (Exception e) {
 					var errorMessage = "Failed to deserialize response body " + e.getMessage();
 					logger.error(errorMessage);
 					throw new ClientException(errorMessage, e);
@@ -384,7 +384,7 @@ public class EchoClient {
 				Everything responseBody;
 				try {
 					responseBody = moshi.adapter(Everything.class).fromJson(response.body().string());
-				} catch (IOException e) {
+				} catch (Exception e) {
 					var errorMessage = "Failed to deserialize response body " + e.getMessage();
 					logger.error(errorMessage);
 					throw new ClientException(errorMessage, e);
