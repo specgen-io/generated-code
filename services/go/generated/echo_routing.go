@@ -172,7 +172,7 @@ func AddEchoRoutes(router *vestigo.Router, echoService echo.Service) {
 	router.Get("/echo/query", func(res http.ResponseWriter, req *http.Request) {
 		log.WithFields(logEchoQuery).Info("Received request")
 		var err error
-		queryParams := NewParamsParser(req.URL.Query(), false)
+		queryParams := NewParamsParser(req.URL.Query(), true)
 		intQuery := queryParams.Int("int_query")
 		longQuery := queryParams.Int64("long_query")
 		floatQuery := queryParams.Float32("float_query")
@@ -324,7 +324,7 @@ func AddEchoRoutes(router *vestigo.Router, echoService echo.Service) {
 			log.WithFields(logEchoEverything).WithField("status", 400).Info("Completed request")
 			return
 		}
-		queryParams := NewParamsParser(req.URL.Query(), false)
+		queryParams := NewParamsParser(req.URL.Query(), true)
 		floatQuery := queryParams.Float32("float_query")
 		boolQuery := queryParams.Bool("bool_query")
 		if len(queryParams.Errors) > 0 {
