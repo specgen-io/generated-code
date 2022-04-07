@@ -76,8 +76,8 @@ func AddCheckRoutes(router *vestigo.Router, checkService check.Service) {
 			return
 		}
 		if response.Ok != nil {
-			res.WriteHeader(200)
 			res.Header().Set("Content-Type", "application/json")
+			res.WriteHeader(200)
 			json.NewEncoder(res).Encode(response.Ok)
 			log.WithFields(logCheckForbidden).WithField("status", 200).Info("Completed request")
 			return
