@@ -59,15 +59,15 @@ public class EchoClient {
 		switch (response.code()) {
 			case 200:
 				logger.info("Received response with status code {}", response.code());
-				Message responseBodyOk;
+				Message responseBody;
 				try {
-					responseBodyOk = objectMapper.readValue(response.body().string(), new TypeReference<Message>() {});
+					responseBody = objectMapper.readValue(response.body().string(), new TypeReference<Message>() {});
 				} catch (IOException e) {
 					var errorMessage = "Failed to deserialize response body " + e.getMessage();
 					logger.error(errorMessage);
 					throw new ClientException(errorMessage, e);
 				}
-				return responseBodyOk;
+				return responseBody;
 			default:
 				var errorMessage = "Unexpected status code received: " + response.code();
 				logger.error(errorMessage);

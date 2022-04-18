@@ -49,15 +49,15 @@ public class EchoClient {
 		switch (response.code()) {
 			case 200:
 				logger.info("Received response with status code {}", response.code());
-				String responseBodyOk;
+				String responseBody;
 				try {
-					responseBodyOk = response.body().string();
+					responseBody = response.body().string();
 				} catch (IOException e) {
 					var errorMessage = "Failed to convert response body to string " + e.getMessage();
 					logger.error(errorMessage);
 					throw new ClientException(errorMessage, e);
 				}
-				return responseBodyOk;
+				return responseBody;
 			default:
 				var errorMessage = "Unexpected status code received: " + response.code();
 				logger.error(errorMessage);
@@ -94,15 +94,15 @@ public class EchoClient {
 		switch (response.code()) {
 			case 200:
 				logger.info("Received response with status code {}", response.code());
-				Message responseBodyOk;
+				Message responseBody;
 				try {
-					responseBodyOk = moshi.adapter(Message.class).fromJson(response.body().string());
+					responseBody = moshi.adapter(Message.class).fromJson(response.body().string());
 				} catch (Exception e) {
 					var errorMessage = "Failed to deserialize response body " + e.getMessage();
 					logger.error(errorMessage);
 					throw new ClientException(errorMessage, e);
 				}
-				return responseBodyOk;
+				return responseBody;
 			default:
 				var errorMessage = "Unexpected status code received: " + response.code();
 				logger.error(errorMessage);
@@ -139,15 +139,15 @@ public class EchoClient {
 		switch (response.code()) {
 			case 200:
 				logger.info("Received response with status code {}", response.code());
-				String[] responseBodyOk;
+				String[] responseBody;
 				try {
-					responseBodyOk = moshi.adapter(String[].class).fromJson(response.body().string());
+					responseBody = moshi.adapter(String[].class).fromJson(response.body().string());
 				} catch (Exception e) {
 					var errorMessage = "Failed to deserialize response body " + e.getMessage();
 					logger.error(errorMessage);
 					throw new ClientException(errorMessage, e);
 				}
-				return responseBodyOk;
+				return responseBody;
 			default:
 				var errorMessage = "Unexpected status code received: " + response.code();
 				logger.error(errorMessage);
@@ -184,15 +184,15 @@ public class EchoClient {
 		switch (response.code()) {
 			case 200:
 				logger.info("Received response with status code {}", response.code());
-				Map<String, String> responseBodyOk;
+				Map<String, String> responseBody;
 				try {
-					responseBodyOk = moshi.<Map<String, String>>adapter(Types.newParameterizedType(Map.class, String.class, String.class)).fromJson(response.body().string());
+					responseBody = moshi.<Map<String, String>>adapter(Types.newParameterizedType(Map.class, String.class, String.class)).fromJson(response.body().string());
 				} catch (Exception e) {
 					var errorMessage = "Failed to deserialize response body " + e.getMessage();
 					logger.error(errorMessage);
 					throw new ClientException(errorMessage, e);
 				}
-				return responseBodyOk;
+				return responseBody;
 			default:
 				var errorMessage = "Unexpected status code received: " + response.code();
 				logger.error(errorMessage);
@@ -234,15 +234,15 @@ public class EchoClient {
 		switch (response.code()) {
 			case 200:
 				logger.info("Received response with status code {}", response.code());
-				Parameters responseBodyOk;
+				Parameters responseBody;
 				try {
-					responseBodyOk = moshi.adapter(Parameters.class).fromJson(response.body().string());
+					responseBody = moshi.adapter(Parameters.class).fromJson(response.body().string());
 				} catch (Exception e) {
 					var errorMessage = "Failed to deserialize response body " + e.getMessage();
 					logger.error(errorMessage);
 					throw new ClientException(errorMessage, e);
 				}
-				return responseBodyOk;
+				return responseBody;
 			default:
 				var errorMessage = "Unexpected status code received: " + response.code();
 				logger.error(errorMessage);
@@ -284,15 +284,15 @@ public class EchoClient {
 		switch (response.code()) {
 			case 200:
 				logger.info("Received response with status code {}", response.code());
-				Parameters responseBodyOk;
+				Parameters responseBody;
 				try {
-					responseBodyOk = moshi.adapter(Parameters.class).fromJson(response.body().string());
+					responseBody = moshi.adapter(Parameters.class).fromJson(response.body().string());
 				} catch (Exception e) {
 					var errorMessage = "Failed to deserialize response body " + e.getMessage();
 					logger.error(errorMessage);
 					throw new ClientException(errorMessage, e);
 				}
-				return responseBodyOk;
+				return responseBody;
 			default:
 				var errorMessage = "Unexpected status code received: " + response.code();
 				logger.error(errorMessage);
@@ -330,15 +330,15 @@ public class EchoClient {
 		switch (response.code()) {
 			case 200:
 				logger.info("Received response with status code {}", response.code());
-				UrlParameters responseBodyOk;
+				UrlParameters responseBody;
 				try {
-					responseBodyOk = moshi.adapter(UrlParameters.class).fromJson(response.body().string());
+					responseBody = moshi.adapter(UrlParameters.class).fromJson(response.body().string());
 				} catch (Exception e) {
 					var errorMessage = "Failed to deserialize response body " + e.getMessage();
 					logger.error(errorMessage);
 					throw new ClientException(errorMessage, e);
 				}
-				return responseBodyOk;
+				return responseBody;
 			default:
 				var errorMessage = "Unexpected status code received: " + response.code();
 				logger.error(errorMessage);
@@ -381,15 +381,15 @@ public class EchoClient {
 		switch (response.code()) {
 			case 200:
 				logger.info("Received response with status code {}", response.code());
-				Everything responseBodyOk;
+				Everything responseBody;
 				try {
-					responseBodyOk = moshi.adapter(Everything.class).fromJson(response.body().string());
+					responseBody = moshi.adapter(Everything.class).fromJson(response.body().string());
 				} catch (Exception e) {
 					var errorMessage = "Failed to deserialize response body " + e.getMessage();
 					logger.error(errorMessage);
 					throw new ClientException(errorMessage, e);
 				}
-				return new EchoEverythingResponse.Ok(responseBodyOk);
+				return new EchoEverythingResponse.Ok(responseBody);
 			case 403:
 				logger.info("Received response with status code {}", response.code());
 				return new EchoEverythingResponse.Forbidden();

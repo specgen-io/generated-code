@@ -112,15 +112,15 @@ public class CheckClient {
 		switch (response.code()) {
 			case 200:
 				logger.info("Received response with status code {}", response.code());
-				Message responseBodyOk;
+				Message responseBody;
 				try {
-					responseBodyOk = moshi.adapter(Message.class).fromJson(response.body().string());
+					responseBody = moshi.adapter(Message.class).fromJson(response.body().string());
 				} catch (Exception e) {
 					var errorMessage = "Failed to deserialize response body " + e.getMessage();
 					logger.error(errorMessage);
 					throw new ClientException(errorMessage, e);
 				}
-				return new CheckForbiddenResponse.Ok(responseBodyOk);
+				return new CheckForbiddenResponse.Ok(responseBody);
 			case 403:
 				logger.info("Received response with status code {}", response.code());
 				return new CheckForbiddenResponse.Forbidden();

@@ -112,15 +112,15 @@ public class CheckClient {
 		switch (response.code()) {
 			case 200:
 				logger.info("Received response with status code {}", response.code());
-				Message responseBodyOk;
+				Message responseBody;
 				try {
-					responseBodyOk = objectMapper.readValue(response.body().string(), new TypeReference<Message>() {});
+					responseBody = objectMapper.readValue(response.body().string(), new TypeReference<Message>() {});
 				} catch (IOException e) {
 					var errorMessage = "Failed to deserialize response body " + e.getMessage();
 					logger.error(errorMessage);
 					throw new ClientException(errorMessage, e);
 				}
-				return new CheckForbiddenResponse.Ok(responseBodyOk);
+				return new CheckForbiddenResponse.Ok(responseBody);
 			case 403:
 				logger.info("Received response with status code {}", response.code());
 				return new CheckForbiddenResponse.Forbidden();
