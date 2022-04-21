@@ -6,7 +6,7 @@ import org.jetbrains.annotations.Nullable;
 import java.io.IOException;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.*;
-import java.util.*;
+import java.util.Set;
 
 public final class UnwrapFieldAdapterFactory<T> implements JsonAdapter.Factory {
     final Class<T> type;
