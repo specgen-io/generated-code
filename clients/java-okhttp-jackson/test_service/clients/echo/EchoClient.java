@@ -47,17 +47,18 @@ public class EchoClient {
 		}
 
 		switch (response.code()) {
-			case 200:
+			case 200: {
 				logger.info("Received response with status code {}", response.code());
-				String responseBodyOk;
+				String responseBody;
 				try {
-					responseBodyOk = response.body().string();
+					responseBody = response.body().string();
 				} catch (IOException e) {
 					var errorMessage = "Failed to convert response body to string " + e.getMessage();
 					logger.error(errorMessage);
 					throw new ClientException(errorMessage, e);
 				}
-				return responseBodyOk;
+				return responseBody;
+			}
 			default:
 				var errorMessage = "Unexpected status code received: " + response.code();
 				logger.error(errorMessage);
@@ -92,17 +93,18 @@ public class EchoClient {
 		}
 
 		switch (response.code()) {
-			case 200:
+			case 200: {
 				logger.info("Received response with status code {}", response.code());
-				Message responseBodyOk;
+				Message responseBody;
 				try {
-					responseBodyOk = objectMapper.readValue(response.body().string(), new TypeReference<Message>() {});
+					responseBody = objectMapper.readValue(response.body().string(), new TypeReference<Message>() {});
 				} catch (IOException e) {
 					var errorMessage = "Failed to deserialize response body " + e.getMessage();
 					logger.error(errorMessage);
 					throw new ClientException(errorMessage, e);
 				}
-				return responseBodyOk;
+				return responseBody;
+			}
 			default:
 				var errorMessage = "Unexpected status code received: " + response.code();
 				logger.error(errorMessage);
@@ -137,17 +139,18 @@ public class EchoClient {
 		}
 
 		switch (response.code()) {
-			case 200:
+			case 200: {
 				logger.info("Received response with status code {}", response.code());
-				String[] responseBodyOk;
+				String[] responseBody;
 				try {
-					responseBodyOk = objectMapper.readValue(response.body().string(), new TypeReference<String[]>() {});
+					responseBody = objectMapper.readValue(response.body().string(), new TypeReference<String[]>() {});
 				} catch (IOException e) {
 					var errorMessage = "Failed to deserialize response body " + e.getMessage();
 					logger.error(errorMessage);
 					throw new ClientException(errorMessage, e);
 				}
-				return responseBodyOk;
+				return responseBody;
+			}
 			default:
 				var errorMessage = "Unexpected status code received: " + response.code();
 				logger.error(errorMessage);
@@ -182,17 +185,18 @@ public class EchoClient {
 		}
 
 		switch (response.code()) {
-			case 200:
+			case 200: {
 				logger.info("Received response with status code {}", response.code());
-				Map<String, String> responseBodyOk;
+				Map<String, String> responseBody;
 				try {
-					responseBodyOk = objectMapper.readValue(response.body().string(), new TypeReference<Map<String, String>>() {});
+					responseBody = objectMapper.readValue(response.body().string(), new TypeReference<Map<String, String>>() {});
 				} catch (IOException e) {
 					var errorMessage = "Failed to deserialize response body " + e.getMessage();
 					logger.error(errorMessage);
 					throw new ClientException(errorMessage, e);
 				}
-				return responseBodyOk;
+				return responseBody;
+			}
 			default:
 				var errorMessage = "Unexpected status code received: " + response.code();
 				logger.error(errorMessage);
@@ -232,17 +236,18 @@ public class EchoClient {
 		}
 
 		switch (response.code()) {
-			case 200:
+			case 200: {
 				logger.info("Received response with status code {}", response.code());
-				Parameters responseBodyOk;
+				Parameters responseBody;
 				try {
-					responseBodyOk = objectMapper.readValue(response.body().string(), new TypeReference<Parameters>() {});
+					responseBody = objectMapper.readValue(response.body().string(), new TypeReference<Parameters>() {});
 				} catch (IOException e) {
 					var errorMessage = "Failed to deserialize response body " + e.getMessage();
 					logger.error(errorMessage);
 					throw new ClientException(errorMessage, e);
 				}
-				return responseBodyOk;
+				return responseBody;
+			}
 			default:
 				var errorMessage = "Unexpected status code received: " + response.code();
 				logger.error(errorMessage);
@@ -282,17 +287,18 @@ public class EchoClient {
 		}
 
 		switch (response.code()) {
-			case 200:
+			case 200: {
 				logger.info("Received response with status code {}", response.code());
-				Parameters responseBodyOk;
+				Parameters responseBody;
 				try {
-					responseBodyOk = objectMapper.readValue(response.body().string(), new TypeReference<Parameters>() {});
+					responseBody = objectMapper.readValue(response.body().string(), new TypeReference<Parameters>() {});
 				} catch (IOException e) {
 					var errorMessage = "Failed to deserialize response body " + e.getMessage();
 					logger.error(errorMessage);
 					throw new ClientException(errorMessage, e);
 				}
-				return responseBodyOk;
+				return responseBody;
+			}
 			default:
 				var errorMessage = "Unexpected status code received: " + response.code();
 				logger.error(errorMessage);
@@ -328,17 +334,18 @@ public class EchoClient {
 		}
 
 		switch (response.code()) {
-			case 200:
+			case 200: {
 				logger.info("Received response with status code {}", response.code());
-				UrlParameters responseBodyOk;
+				UrlParameters responseBody;
 				try {
-					responseBodyOk = objectMapper.readValue(response.body().string(), new TypeReference<UrlParameters>() {});
+					responseBody = objectMapper.readValue(response.body().string(), new TypeReference<UrlParameters>() {});
 				} catch (IOException e) {
 					var errorMessage = "Failed to deserialize response body " + e.getMessage();
 					logger.error(errorMessage);
 					throw new ClientException(errorMessage, e);
 				}
-				return responseBodyOk;
+				return responseBody;
+			}
 			default:
 				var errorMessage = "Unexpected status code received: " + response.code();
 				logger.error(errorMessage);
@@ -379,20 +386,22 @@ public class EchoClient {
 		}
 
 		switch (response.code()) {
-			case 200:
+			case 200: {
 				logger.info("Received response with status code {}", response.code());
-				Everything responseBodyOk;
+				Everything responseBody;
 				try {
-					responseBodyOk = objectMapper.readValue(response.body().string(), new TypeReference<Everything>() {});
+					responseBody = objectMapper.readValue(response.body().string(), new TypeReference<Everything>() {});
 				} catch (IOException e) {
 					var errorMessage = "Failed to deserialize response body " + e.getMessage();
 					logger.error(errorMessage);
 					throw new ClientException(errorMessage, e);
 				}
-				return new EchoEverythingResponse.Ok(responseBodyOk);
-			case 403:
+				return new EchoEverythingResponse.Ok(responseBody);
+			}
+			case 403: {
 				logger.info("Received response with status code {}", response.code());
 				return new EchoEverythingResponse.Forbidden();
+			}
 			default:
 				var errorMessage = "Unexpected status code received: " + response.code();
 				logger.error(errorMessage);
@@ -417,12 +426,14 @@ public class EchoClient {
 		}
 
 		switch (response.code()) {
-			case 200:
+			case 200: {
 				logger.info("Received response with status code {}", response.code());
 				return new SameOperationNameResponse.Ok();
-			case 403:
+			}
+			case 403: {
 				logger.info("Received response with status code {}", response.code());
 				return new SameOperationNameResponse.Forbidden();
+			}
 			default:
 				var errorMessage = "Unexpected status code received: " + response.code();
 				logger.error(errorMessage);

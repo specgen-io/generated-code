@@ -57,17 +57,18 @@ public class EchoClient {
 		}
 
 		switch (response.code()) {
-			case 200:
+			case 200: {
 				logger.info("Received response with status code {}", response.code());
-				Message responseBodyOk;
+				Message responseBody;
 				try {
-					responseBodyOk = moshi.adapter(Message.class).fromJson(response.body().string());
+					responseBody = moshi.adapter(Message.class).fromJson(response.body().string());
 				} catch (Exception e) {
 					var errorMessage = "Failed to deserialize response body " + e.getMessage();
 					logger.error(errorMessage);
 					throw new ClientException(errorMessage, e);
 				}
-				return responseBodyOk;
+				return responseBody;
+			}
 			default:
 				var errorMessage = "Unexpected status code received: " + response.code();
 				logger.error(errorMessage);

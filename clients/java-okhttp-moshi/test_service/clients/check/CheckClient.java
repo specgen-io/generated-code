@@ -46,9 +46,10 @@ public class CheckClient {
 		}
 
 		switch (response.code()) {
-			case 200:
+			case 200: {
 				logger.info("Received response with status code {}", response.code());
 				return;
+			}
 			default:
 				var errorMessage = "Unexpected status code received: " + response.code();
 				logger.error(errorMessage);
@@ -83,9 +84,10 @@ public class CheckClient {
 		}
 
 		switch (response.code()) {
-			case 200:
+			case 200: {
 				logger.info("Received response with status code {}", response.code());
 				return;
+			}
 			default:
 				var errorMessage = "Unexpected status code received: " + response.code();
 				logger.error(errorMessage);
@@ -110,20 +112,22 @@ public class CheckClient {
 		}
 
 		switch (response.code()) {
-			case 200:
+			case 200: {
 				logger.info("Received response with status code {}", response.code());
-				Message responseBodyOk;
+				Message responseBody;
 				try {
-					responseBodyOk = moshi.adapter(Message.class).fromJson(response.body().string());
+					responseBody = moshi.adapter(Message.class).fromJson(response.body().string());
 				} catch (Exception e) {
 					var errorMessage = "Failed to deserialize response body " + e.getMessage();
 					logger.error(errorMessage);
 					throw new ClientException(errorMessage, e);
 				}
-				return new CheckForbiddenResponse.Ok(responseBodyOk);
-			case 403:
+				return new CheckForbiddenResponse.Ok(responseBody);
+			}
+			case 403: {
 				logger.info("Received response with status code {}", response.code());
 				return new CheckForbiddenResponse.Forbidden();
+			}
 			default:
 				var errorMessage = "Unexpected status code received: " + response.code();
 				logger.error(errorMessage);
@@ -148,12 +152,14 @@ public class CheckClient {
 		}
 
 		switch (response.code()) {
-			case 200:
+			case 200: {
 				logger.info("Received response with status code {}", response.code());
 				return new SameOperationNameResponse.Ok();
-			case 403:
+			}
+			case 403: {
 				logger.info("Received response with status code {}", response.code());
 				return new SameOperationNameResponse.Forbidden();
+			}
 			default:
 				var errorMessage = "Unexpected status code received: " + response.code();
 				logger.error(errorMessage);
