@@ -25,6 +25,12 @@ type SameOperationNameResponse struct {
 	Forbidden *empty.Type
 }
 
+type EchoSuccessResponse struct {
+	Ok       *models.OkResult
+	Created  *models.CreatedResult
+	Accepted *models.AcceptedResult
+}
+
 type Client struct {
 	baseUrl string
 }
@@ -394,6 +400,71 @@ func (client *Client) SameOperationName() (*SameOperationNameResponse, error) {
 
 	msg := fmt.Sprintf("Unexpected status code received: %d", resp.StatusCode)
 	log.WithFields(logSameOperationName).Error(msg)
+	err = errors.New(msg)
+	return nil, err
+}
+
+var logEchoSuccess = log.Fields{"operationId": "echo.echo_success", "method": "GET", "url": "/echo/success"}
+func (client *Client) EchoSuccess(resultStatus string) (*EchoSuccessResponse, error) {
+	req, err := http.NewRequest("GET", client.baseUrl+"/echo/success", nil)
+	if err != nil {
+		log.WithFields(logEchoSuccess).Error("Failed to create HTTP request", err.Error())
+		return nil, err
+	}
+
+	query := req.URL.Query()
+	q := NewParamsConverter(query)
+	q.String("result_status", resultStatus)
+	req.URL.RawQuery = query.Encode()
+
+	log.WithFields(logEchoSuccess).Info("Sending request")
+	resp, err := http.DefaultClient.Do(req)
+	if err != nil {
+		log.WithFields(logEchoSuccess).Error("Request failed", err.Error())
+		return nil, err
+	}
+
+	if resp.StatusCode == 200 {
+		log.WithFields(logEchoSuccess).WithField("status", 200).Info("Received response")
+		responseBody, err := ioutil.ReadAll(resp.Body)
+		err = resp.Body.Close()
+		var result models.OkResult
+		err = json.Unmarshal(responseBody, &result)
+		if err != nil {
+			log.WithFields(logEchoSuccess).Error("Failed to parse response JSON", err.Error())
+			return nil, err
+		}
+		return &EchoSuccessResponse{Ok: &result}, nil
+	}
+
+	if resp.StatusCode == 201 {
+		log.WithFields(logEchoSuccess).WithField("status", 201).Info("Received response")
+		responseBody, err := ioutil.ReadAll(resp.Body)
+		err = resp.Body.Close()
+		var result models.CreatedResult
+		err = json.Unmarshal(responseBody, &result)
+		if err != nil {
+			log.WithFields(logEchoSuccess).Error("Failed to parse response JSON", err.Error())
+			return nil, err
+		}
+		return &EchoSuccessResponse{Created: &result}, nil
+	}
+
+	if resp.StatusCode == 202 {
+		log.WithFields(logEchoSuccess).WithField("status", 202).Info("Received response")
+		responseBody, err := ioutil.ReadAll(resp.Body)
+		err = resp.Body.Close()
+		var result models.AcceptedResult
+		err = json.Unmarshal(responseBody, &result)
+		if err != nil {
+			log.WithFields(logEchoSuccess).Error("Failed to parse response JSON", err.Error())
+			return nil, err
+		}
+		return &EchoSuccessResponse{Accepted: &result}, nil
+	}
+
+	msg := fmt.Sprintf("Unexpected status code received: %d", resp.StatusCode)
+	log.WithFields(logEchoSuccess).Error(msg)
 	err = errors.New(msg)
 	return nil, err
 }

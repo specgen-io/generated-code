@@ -485,6 +485,40 @@ paths:
           description: ""
         "500":
           description: Service will return this if unexpected internal error happens
+  /echo/success:
+    get:
+      operationId: echoEchoSuccess
+      tags:
+        - echo
+      parameters:
+        - in: query
+          name: result_status
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ""
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OkResult'
+        "201":
+          description: ""
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreatedResult'
+        "202":
+          description: ""
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AcceptedResult'
+        "400":
+          description: Service will return this if parameters are not provided or couldn't be parsed correctly
+        "500":
+          description: Service will return this if unexpected internal error happens
   /check/empty:
     get:
       operationId: checkCheckEmpty
@@ -706,3 +740,24 @@ components:
         - first_choice
         - second_choice
         - third_choice
+    OkResult:
+      type: object
+      required:
+        - ok_result
+      properties:
+        ok_result:
+          type: string
+    CreatedResult:
+      type: object
+      required:
+        - created_result
+      properties:
+        created_result:
+          type: string
+    AcceptedResult:
+      type: object
+      required:
+        - accepted_result
+      properties:
+        accepted_result:
+          type: string

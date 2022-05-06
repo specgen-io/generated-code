@@ -17,6 +17,7 @@ trait IEchoClient {
   def echoUrlParams(intUrl: Int, longUrl: Long, floatUrl: Float, doubleUrl: Double, decimalUrl: BigDecimal, boolUrl: Boolean, stringUrl: String, uuidUrl: java.util.UUID, dateUrl: java.time.LocalDate, datetimeUrl: java.time.LocalDateTime, enumUrl: Choice): Future[UrlParameters]
   def echoEverything(uuidHeader: java.util.UUID, datetimeHeader: java.time.LocalDateTime, body: Message, dateUrl: java.time.LocalDate, decimalUrl: BigDecimal, floatQuery: Float, boolQuery: Boolean): Future[EchoEverythingResponse]
   def sameOperationName(): Future[SameOperationNameResponse]
+  def echoSuccess(resultStatus: String): Future[EchoSuccessResponse]
 }
 
 sealed trait EchoEverythingResponse
@@ -29,6 +30,13 @@ sealed trait SameOperationNameResponse
 object SameOperationNameResponse {
   case class Ok() extends SameOperationNameResponse
   case class Forbidden() extends SameOperationNameResponse
+}
+
+sealed trait EchoSuccessResponse
+object EchoSuccessResponse {
+  case class Ok(body: OkResult) extends EchoSuccessResponse
+  case class Created(body: CreatedResult) extends EchoSuccessResponse
+  case class Accepted(body: AcceptedResult) extends EchoSuccessResponse
 }
 
 class EchoClient(baseUrl: String)(implicit backend: SttpBackend[Future, Nothing]) extends IEchoClient {
@@ -321,6 +329,37 @@ class EchoClient(baseUrl: String)(implicit backend: SttpBackend[Future, Nothing]
             response.code match {
               case 200 => SameOperationNameResponse.Ok()
               case 403 => SameOperationNameResponse.Forbidden()
+              case _ => 
+                val errorMessage = s"Request returned unexpected status code: ${response.code}, body: ${new String(body)}"
+                logger.error(errorMessage)
+                throw new RuntimeException(errorMessage)
+            }
+          case Left(errorData) =>
+            val errorMessage = s"Request failed, status code: ${response.code}, body: ${new String(errorData)}"
+            logger.error(errorMessage)
+            throw new RuntimeException(errorMessage)
+        }
+    }
+  }
+  def echoSuccess(resultStatus: String): Future[EchoSuccessResponse] = {
+    val query = new StringParamsWriter()
+    query.write("result_status", resultStatus)
+    val url = Uri.parse(baseUrl+s"/echo/success").get.params(query.params:_*)
+    logger.debug(s"Request to url: ${url}")
+    val response: Future[Response[String]] =
+      sttp
+        .get(url)
+        .parseResponseIf { status => status < 500 }
+        .send()
+    response.map {
+      response: Response[String] =>
+        response.body match {
+          case Right(body) =>
+            logger.debug(s"Response status: ${response.code}, body: ${body}")
+            response.code match {
+              case 200 => EchoSuccessResponse.Ok(Jsoner.readThrowing[OkResult](body))
+              case 201 => EchoSuccessResponse.Created(Jsoner.readThrowing[CreatedResult](body))
+              case 202 => EchoSuccessResponse.Accepted(Jsoner.readThrowing[AcceptedResult](body))
               case _ => 
                 val errorMessage = s"Request returned unexpected status code: ${response.code}, body: ${new String(body)}"
                 logger.error(errorMessage)

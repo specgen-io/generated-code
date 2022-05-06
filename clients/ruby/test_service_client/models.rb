@@ -59,6 +59,21 @@ module TestService
     val :date_url, Date
     val :decimal_url, Float
   end
+
+  class OkResult
+    include DataClass
+    val :ok_result, String
+  end
+
+  class CreatedResult
+    include DataClass
+    val :created_result, String
+  end
+
+  class AcceptedResult
+    include DataClass
+    val :accepted_result, String
+  end
 end
 
 module TestService::V2

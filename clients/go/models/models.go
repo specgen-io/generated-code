@@ -262,3 +262,156 @@ func (obj *Everything) UnmarshalJSON(data []byte) error {
 	*obj = Everything(jsonObj)
 	return nil
 }
+
+type OkResult struct {
+	OkResult string `json:"ok_result"`
+}
+
+type okResult OkResult
+
+var okResultRequiredFields = []string{"ok_result"}
+
+func (obj OkResult) MarshalJSON() ([]byte, error) {
+	data, err := json.Marshal(okResult(obj))
+	if err != nil {
+		return nil, err
+	}
+	var rawMap map[string]json.RawMessage
+	err = json.Unmarshal(data, &rawMap)
+	for _, name := range okResultRequiredFields {
+		value, found := rawMap[name]
+		if !found {
+			return nil, errors.New("required field missing: " + name)
+		}
+		if string(value) == "null" {
+			return nil, errors.New("required field doesn't have value: " + name)
+		}
+	}
+	return data, nil
+}
+
+func (obj *OkResult) UnmarshalJSON(data []byte) error {
+	jsonObj := okResult(*obj)
+	err := json.Unmarshal(data, &jsonObj)
+	if err != nil {
+		return err
+	}
+	var rawMap map[string]json.RawMessage
+	err = json.Unmarshal(data, &rawMap)
+	if err != nil {
+		return errors.New("failed to check fields in json: " + err.Error())
+	}
+	for _, name := range okResultRequiredFields {
+		value, found := rawMap[name]
+		if !found {
+			return errors.New("required field missing: " + name)
+		}
+		if string(value) == "null" {
+			return errors.New("required field doesn't have value: " + name)
+		}
+	}
+	*obj = OkResult(jsonObj)
+	return nil
+}
+
+type CreatedResult struct {
+	CreatedResult string `json:"created_result"`
+}
+
+type createdResult CreatedResult
+
+var createdResultRequiredFields = []string{"created_result"}
+
+func (obj CreatedResult) MarshalJSON() ([]byte, error) {
+	data, err := json.Marshal(createdResult(obj))
+	if err != nil {
+		return nil, err
+	}
+	var rawMap map[string]json.RawMessage
+	err = json.Unmarshal(data, &rawMap)
+	for _, name := range createdResultRequiredFields {
+		value, found := rawMap[name]
+		if !found {
+			return nil, errors.New("required field missing: " + name)
+		}
+		if string(value) == "null" {
+			return nil, errors.New("required field doesn't have value: " + name)
+		}
+	}
+	return data, nil
+}
+
+func (obj *CreatedResult) UnmarshalJSON(data []byte) error {
+	jsonObj := createdResult(*obj)
+	err := json.Unmarshal(data, &jsonObj)
+	if err != nil {
+		return err
+	}
+	var rawMap map[string]json.RawMessage
+	err = json.Unmarshal(data, &rawMap)
+	if err != nil {
+		return errors.New("failed to check fields in json: " + err.Error())
+	}
+	for _, name := range createdResultRequiredFields {
+		value, found := rawMap[name]
+		if !found {
+			return errors.New("required field missing: " + name)
+		}
+		if string(value) == "null" {
+			return errors.New("required field doesn't have value: " + name)
+		}
+	}
+	*obj = CreatedResult(jsonObj)
+	return nil
+}
+
+type AcceptedResult struct {
+	AcceptedResult string `json:"accepted_result"`
+}
+
+type acceptedResult AcceptedResult
+
+var acceptedResultRequiredFields = []string{"accepted_result"}
+
+func (obj AcceptedResult) MarshalJSON() ([]byte, error) {
+	data, err := json.Marshal(acceptedResult(obj))
+	if err != nil {
+		return nil, err
+	}
+	var rawMap map[string]json.RawMessage
+	err = json.Unmarshal(data, &rawMap)
+	for _, name := range acceptedResultRequiredFields {
+		value, found := rawMap[name]
+		if !found {
+			return nil, errors.New("required field missing: " + name)
+		}
+		if string(value) == "null" {
+			return nil, errors.New("required field doesn't have value: " + name)
+		}
+	}
+	return data, nil
+}
+
+func (obj *AcceptedResult) UnmarshalJSON(data []byte) error {
+	jsonObj := acceptedResult(*obj)
+	err := json.Unmarshal(data, &jsonObj)
+	if err != nil {
+		return err
+	}
+	var rawMap map[string]json.RawMessage
+	err = json.Unmarshal(data, &rawMap)
+	if err != nil {
+		return errors.New("failed to check fields in json: " + err.Error())
+	}
+	for _, name := range acceptedResultRequiredFields {
+		value, found := rawMap[name]
+		if !found {
+			return errors.New("required field missing: " + name)
+		}
+		if string(value) == "null" {
+			return errors.New("required field doesn't have value: " + name)
+		}
+	}
+	*obj = AcceptedResult(jsonObj)
+	return nil
+}

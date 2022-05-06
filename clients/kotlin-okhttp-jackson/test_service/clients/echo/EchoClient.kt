@@ -429,4 +429,62 @@ class EchoClient(private val baseUrl: String) {
 			}
 		}
 	}
+
+	fun echoSuccess(resultStatus: String): EchoSuccessResponse {
+		val url = UrlBuilder(baseUrl)
+		url.addPathSegments("echo/success")
+		url.addQueryParameter("result_status", resultStatus)
+
+		val request = RequestBuilder("GET", url.build(), null)
+
+		logger.info("Sending request, operationId: echo.echo_success, method: GET, url: /echo/success")
+		val response = try {
+			client.newCall(request.build()).execute()
+		} catch (e: IOException) {
+			val errorMessage = "Failed to execute the request " + e.message
+			logger.error(errorMessage)
+			throw ClientException(errorMessage, e)
+		}
+
+		return when (response.code) {
+			200 -> {
+				logger.info("Received response with status code {}", response.code)
+				val responseBody = try {
+					objectMapper.readValue(response.body!!.string(), object: TypeReference<OkResult>(){})
+				} catch (e: IOException) {
+					val errorMessage = "Failed to deserialize response body " + e.message
+					logger.error(errorMessage)
+					throw ClientException(errorMessage, e)
+				}
+				EchoSuccessResponse.Ok(responseBody!!)
+			}
+			201 -> {
+				logger.info("Received response with status code {}", response.code)
+				val responseBody = try {
+					objectMapper.readValue(response.body!!.string(), object: TypeReference<CreatedResult>(){})
+				} catch (e: IOException) {
+					val errorMessage = "Failed to deserialize response body " + e.message
+					logger.error(errorMessage)
+					throw ClientException(errorMessage, e)
+				}
+				EchoSuccessResponse.Created(responseBody!!)
+			}
+			202 -> {
+				logger.info("Received response with status code {}", response.code)
+				val responseBody = try {
+					objectMapper.readValue(response.body!!.string(), object: TypeReference<AcceptedResult>(){})
+				} catch (e: IOException) {
+					val errorMessage = "Failed to deserialize response body " + e.message
+					logger.error(errorMessage)
+					throw ClientException(errorMessage, e)
+				}
+				EchoSuccessResponse.Accepted(responseBody!!)
+			}
+			else -> {
+				val errorMessage = "Unexpected status code received: " + response.code
+				logger.error(errorMessage)
+				throw ClientException(errorMessage)
+			}
+		}
+	}
 }

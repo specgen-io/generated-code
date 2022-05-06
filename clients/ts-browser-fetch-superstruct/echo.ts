@@ -165,6 +165,24 @@ export const client = (config: {baseURL: string}) => {
                     throw new Error(`Unexpected status code ${ response.status }`)
             }
         },
+
+        echoSuccess: async (parameters: {resultStatus: string}): Promise<EchoSuccessResponse> => {
+            const query = strParamsItems({
+                "result_status": parameters.resultStatus,
+            })
+            const url = config.baseURL+`/echo/success?${new URLSearchParams(query)}`
+            const response = await fetch(url, {method: 'GET'})
+            switch (response.status) {
+                case 200:
+                    return Promise.resolve({ status: "ok", data: t.decode(models.TOkResult, await response.json()) })
+                case 201:
+                    return Promise.resolve({ status: "created", data: t.decode(models.TCreatedResult, await response.json()) })
+                case 202:
+                    return Promise.resolve({ status: "accepted", data: t.decode(models.TAcceptedResult, await response.json()) })
+                default:
+                    throw new Error(`Unexpected status code ${ response.status }`)
+            }
+        },
     }
 }
 
@@ -175,3 +193,8 @@ export type EchoEverythingResponse =
 export type SameOperationNameResponse =
     | { status: "ok" }
     | { status: "forbidden" }
+
+export type EchoSuccessResponse =
+    | { status: "ok", data: models.OkResult }
+    | { status: "created", data: models.CreatedResult }
+    | { status: "accepted", data: models.AcceptedResult }

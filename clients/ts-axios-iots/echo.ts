@@ -159,6 +159,23 @@ export const client = (axiosInstance: AxiosInstance) => {
                     throw new Error(`Unexpected status code ${ response.status }`)
             }
         },
+
+        echoSuccess: async (parameters: {resultStatus: string}): Promise<EchoSuccessResponse> => {
+            const query = strParamsItems({
+                "result_status": parameters.resultStatus,
+            })
+            const response = await axiosInstance.get(`/echo/success`, {params: new URLSearchParams(query)})
+            switch (response.status) {
+                case 200:
+                    return Promise.resolve({ status: "ok", data: t.decode(models.TOkResult, response.data) })
+                case 201:
+                    return Promise.resolve({ status: "created", data: t.decode(models.TCreatedResult, response.data) })
+                case 202:
+                    return Promise.resolve({ status: "accepted", data: t.decode(models.TAcceptedResult, response.data) })
+                default:
+                    throw new Error(`Unexpected status code ${ response.status }`)
+            }
+        },
     }
 }
 
@@ -169,3 +186,8 @@ export type EchoEverythingResponse =
 export type SameOperationNameResponse =
     | { status: "ok" }
     | { status: "forbidden" }
+
+export type EchoSuccessResponse =
+    | { status: "ok", data: models.OkResult }
+    | { status: "created", data: models.CreatedResult }
+    | { status: "accepted", data: models.AcceptedResult }

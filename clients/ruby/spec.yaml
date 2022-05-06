@@ -108,6 +108,15 @@ http:
         ok: empty
         forbidden: empty
 
+    echo_success:
+      endpoint: GET /echo/success
+      query:
+        result_status: string
+      response:
+        ok: OkResult
+        created: CreatedResult
+        accepted: AcceptedResult 
+
   check:
     check_empty:
       endpoint: GET /check/empty
@@ -181,3 +190,12 @@ models:
       first_choice: FIRST_CHOICE
       second_choice: SECOND_CHOICE
       third_choice: THIRD_CHOICE
+  OkResult:
+    object:
+      ok_result: string
+  CreatedResult:
+    object:
+      created_result: string
+  AcceptedResult:
+    object:
+      accepted_result: string       

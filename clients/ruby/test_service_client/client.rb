@@ -187,6 +187,24 @@ module TestService
         raise StandardError.new("Unexpected HTTP response code #{response.code}")
       end
     end
+
+    def echo_success(result_status:)
+      query = TestService::StringParams.new
+      query.set('result_status', String, result_status)
+      url = @base_uri + '/echo/success' + query.query_str
+      request = Net::HTTP::Get.new(url)
+      response = @client.request(request)
+      case response.code
+      when '200'
+        OpenStruct.new(:ok => Jsoner.from_json(OkResult, response.body), :ok? => true, :created? => false, :accepted? => false)
+      when '201'
+        OpenStruct.new(:created => Jsoner.from_json(CreatedResult, response.body), :ok? => false, :created? => true, :accepted? => false)
+      when '202'
+        OpenStruct.new(:accepted => Jsoner.from_json(AcceptedResult, response.body), :ok? => false, :created? => false, :accepted? => true)
+      else
+        raise StandardError.new("Unexpected HTTP response code #{response.code}")
+      end
+    end
   end
 
   class CheckClient < TestService::BaseClient

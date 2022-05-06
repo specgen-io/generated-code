@@ -84,3 +84,30 @@ object Everything {
   implicit val config = Configuration.default
   implicit val codec: Codec[Everything] = deriveConfiguredCodec
 }
+
+case class OkResult(
+  @JsonKey("ok_result") okResult: String
+)
+
+object OkResult {
+  implicit val config = Configuration.default
+  implicit val codec: Codec[OkResult] = deriveConfiguredCodec
+}
+
+case class CreatedResult(
+  @JsonKey("created_result") createdResult: String
+)
+
+object CreatedResult {
+  implicit val config = Configuration.default
+  implicit val codec: Codec[CreatedResult] = deriveConfiguredCodec
+}
+
+case class AcceptedResult(
+  @JsonKey("accepted_result") acceptedResult: String
+)
+
+object AcceptedResult {
+  implicit val config = Configuration.default
+  implicit val codec: Codec[AcceptedResult] = deriveConfiguredCodec
+}

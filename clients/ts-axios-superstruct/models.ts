@@ -68,3 +68,21 @@ export const TEverything = t.type({
 })
 
 export type Everything = t.Infer<typeof TEverything>
+
+export const TOkResult = t.type({
+    ok_result: t.string(),
+})
+
+export type OkResult = t.Infer<typeof TOkResult>
+
+export const TCreatedResult = t.type({
+    created_result: t.string(),
+})
+
+export type CreatedResult = t.Infer<typeof TCreatedResult>
+
+export const TAcceptedResult = t.type({
+    accepted_result: t.string(),
+})
+
+export type AcceptedResult = t.Infer<typeof TAcceptedResult>

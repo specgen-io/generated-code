@@ -440,4 +440,65 @@ public class EchoClient {
 				throw new ClientException(errorMessage);
 		}
 	}
+
+	public EchoSuccessResponse echoSuccess(String resultStatus) {
+		var url = new UrlBuilder(baseUrl);
+		url.addPathSegments("echo/success");
+		url.addQueryParameter("result_status", resultStatus);
+
+		var request = new RequestBuilder("GET", url.build(), null);
+
+		logger.info("Sending request, operationId: echo.echo_success, method: GET, url: /echo/success");
+		Response response;
+		try {
+			response = client.newCall(request.build()).execute();
+		} catch (IOException e) {
+			var errorMessage = "Failed to execute the request " + e.getMessage();
+			logger.error(errorMessage);
+			throw new ClientException(errorMessage, e);
+		}
+
+		switch (response.code()) {
+			case 200: {
+				logger.info("Received response with status code {}", response.code());
+				OkResult responseBody;
+				try {
+					responseBody = objectMapper.readValue(response.body().string(), new TypeReference<OkResult>() {});
+				} catch (IOException e) {
+					var errorMessage = "Failed to deserialize response body " + e.getMessage();
+					logger.error(errorMessage);
+					throw new ClientException(errorMessage, e);
+				}
+				return new EchoSuccessResponse.Ok(responseBody);
+			}
+			case 201: {
+				logger.info("Received response with status code {}", response.code());
+				CreatedResult responseBody;
+				try {
+					responseBody = objectMapper.readValue(response.body().string(), new TypeReference<CreatedResult>() {});
+				} catch (IOException e) {
+					var errorMessage = "Failed to deserialize response body " + e.getMessage();
+					logger.error(errorMessage);
+					throw new ClientException(errorMessage, e);
+				}
+				return new EchoSuccessResponse.Created(responseBody);
+			}
+			case 202: {
+				logger.info("Received response with status code {}", response.code());
+				AcceptedResult responseBody;
+				try {
+					responseBody = objectMapper.readValue(response.body().string(), new TypeReference<AcceptedResult>() {});
+				} catch (IOException e) {
+					var errorMessage = "Failed to deserialize response body " + e.getMessage();
+					logger.error(errorMessage);
+					throw new ClientException(errorMessage, e);
+				}
+				return new EchoSuccessResponse.Accepted(responseBody);
+			}
+			default:
+				var errorMessage = "Unexpected status code received: " + response.code();
+				logger.error(errorMessage);
+				throw new ClientException(errorMessage);
+		}
+	}
 }

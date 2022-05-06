@@ -68,3 +68,21 @@ export const TEverything = t.interface({
 })
 
 export type Everything = t.TypeOf<typeof TEverything>
+
+export const TOkResult = t.interface({
+    ok_result: t.string,
+})
+
+export type OkResult = t.TypeOf<typeof TOkResult>
+
+export const TCreatedResult = t.interface({
+    created_result: t.string,
+})
+
+export type CreatedResult = t.TypeOf<typeof TCreatedResult>
+
+export const TAcceptedResult = t.interface({
+    accepted_result: t.string,
+})
+
+export type AcceptedResult = t.TypeOf<typeof TAcceptedResult>

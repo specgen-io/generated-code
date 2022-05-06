@@ -140,3 +140,18 @@ data class Everything(
 	@JsonProperty(value = "decimal_url", required = true)
 	val decimalUrl: BigDecimal,
 )
+
+data class OkResult(
+	@JsonProperty(value = "ok_result", required = true)
+	val okResult: String,
+)
+
+data class CreatedResult(
+	@JsonProperty(value = "created_result", required = true)
+	val createdResult: String,
+)
+
+data class AcceptedResult(
+	@JsonProperty(value = "accepted_result", required = true)
+	val acceptedResult: String,
+)
