@@ -74,6 +74,23 @@ module TestService
     include DataClass
     val :accepted_result, String
   end
+
+  class InternalServerError
+    include DataClass
+    val :message, String
+  end
+
+  class ParamMessage
+    include DataClass
+    val :name, String
+    val :message, String
+  end
+
+  class BadRequestError
+    include DataClass
+    val :message, String
+    val :params, T.array(ParamMessage)
+  end
 end
 
 module TestService::V2
@@ -81,5 +98,22 @@ module TestService::V2
     include DataClass
     val :bool_field, Boolean
     val :string_field, String
+  end
+
+  class InternalServerError
+    include DataClass
+    val :message, String
+  end
+
+  class ParamMessage
+    include DataClass
+    val :name, String
+    val :message, String
+  end
+
+  class BadRequestError
+    include DataClass
+    val :message, String
+    val :params, T.array(ParamMessage)
   end
 end

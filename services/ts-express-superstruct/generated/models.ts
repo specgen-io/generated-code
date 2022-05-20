@@ -68,3 +68,23 @@ export const TEverything = t.type({
 })
 
 export type Everything = t.Infer<typeof TEverything>
+
+export const TInternalServerError = t.type({
+    message: t.string(),
+})
+
+export type InternalServerError = t.Infer<typeof TInternalServerError>
+
+export const TParamMessage = t.type({
+    name: t.string(),
+    message: t.string(),
+})
+
+export type ParamMessage = t.Infer<typeof TParamMessage>
+
+export const TBadRequestError = t.type({
+    message: t.string(),
+    params: t.array(TParamMessage),
+})
+
+export type BadRequestError = t.Infer<typeof TBadRequestError>

@@ -111,3 +111,32 @@ object AcceptedResult {
   implicit val config = Configuration.default
   implicit val codec: Codec[AcceptedResult] = deriveConfiguredCodec
 }
+
+case class InternalServerError(
+  @JsonKey("message") message: String
+)
+
+object InternalServerError {
+  implicit val config = Configuration.default
+  implicit val codec: Codec[InternalServerError] = deriveConfiguredCodec
+}
+
+case class ParamMessage(
+  @JsonKey("name") name: String,
+  @JsonKey("message") message: String
+)
+
+object ParamMessage {
+  implicit val config = Configuration.default
+  implicit val codec: Codec[ParamMessage] = deriveConfiguredCodec
+}
+
+case class BadRequestError(
+  @JsonKey("message") message: String,
+  @JsonKey("params") params: List[ParamMessage]
+)
+
+object BadRequestError {
+  implicit val config = Configuration.default
+  implicit val codec: Codec[BadRequestError] = deriveConfiguredCodec
+}

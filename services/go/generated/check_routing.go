@@ -2,6 +2,7 @@ package generated
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/husobee/vestigo"
 	log "github.com/sirupsen/logrus"
 	"net/http"
@@ -17,8 +18,12 @@ func AddCheckRoutes(router *vestigo.Router, checkService check.Service) {
 		var err error
 		err = checkService.CheckEmpty()
 		if err != nil {
-			log.WithFields(logCheckEmpty).Errorf("Error returned from service implementation: %s", err.Error())
+			message := fmt.Sprintf("Error returned from service implementation: %s", err.Error())
+			log.WithFields(logCheckEmpty).Error(message)
+			errorResponse := models.InternalServerError{message}
+			res.Header().Set("Content-Type", "application/json")
 			res.WriteHeader(500)
+			json.NewEncoder(res).Encode(errorResponse)
 			log.WithFields(logCheckEmpty).WithField("status", 500).Info("Completed request")
 			return
 		}
@@ -33,23 +38,35 @@ func AddCheckRoutes(router *vestigo.Router, checkService check.Service) {
 		var err error
 		contentType := req.Header.Get("Content-Type")
 		if !strings.Contains(contentType, "application/json") {
-			log.WithFields(logCheckEmptyResponse).Errorf("Wrong Content-type: %s", contentType)
+			message := fmt.Sprintf("Wrong Content-type: %s", contentType)
+			log.WithFields(logCheckEmptyResponse).Warn(message)
+			errorResponse := models.BadRequestError{message, nil}
+			res.Header().Set("Content-Type", "application/json")
 			res.WriteHeader(400)
+			json.NewEncoder(res).Encode(errorResponse)
 			log.WithFields(logCheckEmptyResponse).WithField("status", 400).Info("Completed request")
 			return
 		}
 		var body models.Message
 		err = json.NewDecoder(req.Body).Decode(&body)
 		if err != nil {
-			log.WithFields(logCheckEmptyResponse).Warnf("Decoding body JSON failed: %s", err.Error())
+			message := fmt.Sprintf("Decoding body JSON failed: %s", err.Error())
+			log.WithFields(logCheckEmptyResponse).Warn(message)
+			errorResponse := models.BadRequestError{message, nil}
+			res.Header().Set("Content-Type", "application/json")
 			res.WriteHeader(400)
+			json.NewEncoder(res).Encode(errorResponse)
 			log.WithFields(logCheckEmptyResponse).WithField("status", 400).Info("Completed request")
 			return
 		}
 		err = checkService.CheckEmptyResponse(&body)
 		if err != nil {
-			log.WithFields(logCheckEmptyResponse).Errorf("Error returned from service implementation: %s", err.Error())
+			message := fmt.Sprintf("Error returned from service implementation: %s", err.Error())
+			log.WithFields(logCheckEmptyResponse).Error(message)
+			errorResponse := models.InternalServerError{message}
+			res.Header().Set("Content-Type", "application/json")
 			res.WriteHeader(500)
+			json.NewEncoder(res).Encode(errorResponse)
 			log.WithFields(logCheckEmptyResponse).WithField("status", 500).Info("Completed request")
 			return
 		}
@@ -64,14 +81,22 @@ func AddCheckRoutes(router *vestigo.Router, checkService check.Service) {
 		var err error
 		response, err := checkService.CheckForbidden()
 		if err != nil {
-			log.WithFields(logCheckForbidden).Errorf("Error returned from service implementation: %s", err.Error())
+			message := fmt.Sprintf("Error returned from service implementation: %s", err.Error())
+			log.WithFields(logCheckForbidden).Error(message)
+			errorResponse := models.InternalServerError{message}
+			res.Header().Set("Content-Type", "application/json")
 			res.WriteHeader(500)
+			json.NewEncoder(res).Encode(errorResponse)
 			log.WithFields(logCheckForbidden).WithField("status", 500).Info("Completed request")
 			return
 		}
 		if response == nil {
-			log.WithFields(logCheckForbidden).Errorf("No result returned from service implementation")
+			message := "No result returned from service implementation"
+			log.WithFields(logCheckForbidden).Error(message)
+			errorResponse := models.InternalServerError{message}
+			res.Header().Set("Content-Type", "application/json")
 			res.WriteHeader(500)
+			json.NewEncoder(res).Encode(errorResponse)
 			log.WithFields(logCheckForbidden).WithField("status", 500).Info("Completed request")
 			return
 		}
@@ -87,8 +112,12 @@ func AddCheckRoutes(router *vestigo.Router, checkService check.Service) {
 			log.WithFields(logCheckForbidden).WithField("status", 403).Info("Completed request")
 			return
 		}
-		log.WithFields(logCheckForbidden).Error("Result from service implementation does not have anything in it")
+		message := "Result from service implementation does not have anything in it"
+		log.WithFields(logCheckForbidden).Error(message)
+		errorResponse := models.InternalServerError{message}
+		res.Header().Set("Content-Type", "application/json")
 		res.WriteHeader(500)
+		json.NewEncoder(res).Encode(errorResponse)
 		log.WithFields(logCheckForbidden).WithField("status", 500).Info("Completed request")
 		return
 	})
@@ -99,14 +128,22 @@ func AddCheckRoutes(router *vestigo.Router, checkService check.Service) {
 		var err error
 		response, err := checkService.SameOperationName()
 		if err != nil {
-			log.WithFields(logSameOperationName).Errorf("Error returned from service implementation: %s", err.Error())
+			message := fmt.Sprintf("Error returned from service implementation: %s", err.Error())
+			log.WithFields(logSameOperationName).Error(message)
+			errorResponse := models.InternalServerError{message}
+			res.Header().Set("Content-Type", "application/json")
 			res.WriteHeader(500)
+			json.NewEncoder(res).Encode(errorResponse)
 			log.WithFields(logSameOperationName).WithField("status", 500).Info("Completed request")
 			return
 		}
 		if response == nil {
-			log.WithFields(logSameOperationName).Errorf("No result returned from service implementation")
+			message := "No result returned from service implementation"
+			log.WithFields(logSameOperationName).Error(message)
+			errorResponse := models.InternalServerError{message}
+			res.Header().Set("Content-Type", "application/json")
 			res.WriteHeader(500)
+			json.NewEncoder(res).Encode(errorResponse)
 			log.WithFields(logSameOperationName).WithField("status", 500).Info("Completed request")
 			return
 		}
@@ -120,8 +157,12 @@ func AddCheckRoutes(router *vestigo.Router, checkService check.Service) {
 			log.WithFields(logSameOperationName).WithField("status", 403).Info("Completed request")
 			return
 		}
-		log.WithFields(logSameOperationName).Error("Result from service implementation does not have anything in it")
+		message := "Result from service implementation does not have anything in it"
+		log.WithFields(logSameOperationName).Error(message)
+		errorResponse := models.InternalServerError{message}
+		res.Header().Set("Content-Type", "application/json")
 		res.WriteHeader(500)
+		json.NewEncoder(res).Encode(errorResponse)
 		log.WithFields(logSameOperationName).WithField("status", 500).Info("Completed request")
 		return
 	})
