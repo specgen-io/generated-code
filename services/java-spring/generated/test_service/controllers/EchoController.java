@@ -62,7 +62,7 @@ public class EchoController {
 		try {
 			responseJson = objectMapper.writeValueAsString(result);
 		} catch (Exception e) {
-			logger.error("Failed to serialize JSON: {}" + e.getMessage());
+			logger.error("Failed to serialize JSON: {}", e.getMessage());
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 		HttpHeaders headers = new HttpHeaders();
@@ -91,7 +91,7 @@ public class EchoController {
 		try {
 			responseJson = objectMapper.writeValueAsString(result);
 		} catch (Exception e) {
-			logger.error("Failed to serialize JSON: {}" + e.getMessage());
+			logger.error("Failed to serialize JSON: {}", e.getMessage());
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 		HttpHeaders headers = new HttpHeaders();
@@ -120,7 +120,7 @@ public class EchoController {
 		try {
 			responseJson = objectMapper.writeValueAsString(result);
 		} catch (Exception e) {
-			logger.error("Failed to serialize JSON: {}" + e.getMessage());
+			logger.error("Failed to serialize JSON: {}", e.getMessage());
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 		HttpHeaders headers = new HttpHeaders();
@@ -142,7 +142,7 @@ public class EchoController {
 		try {
 			responseJson = objectMapper.writeValueAsString(result);
 		} catch (Exception e) {
-			logger.error("Failed to serialize JSON: {}" + e.getMessage());
+			logger.error("Failed to serialize JSON: {}", e.getMessage());
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 		HttpHeaders headers = new HttpHeaders();
@@ -164,7 +164,7 @@ public class EchoController {
 		try {
 			responseJson = objectMapper.writeValueAsString(result);
 		} catch (Exception e) {
-			logger.error("Failed to serialize JSON: {}" + e.getMessage());
+			logger.error("Failed to serialize JSON: {}", e.getMessage());
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 		HttpHeaders headers = new HttpHeaders();
@@ -186,7 +186,7 @@ public class EchoController {
 		try {
 			responseJson = objectMapper.writeValueAsString(result);
 		} catch (Exception e) {
-			logger.error("Failed to serialize JSON: {}" + e.getMessage());
+			logger.error("Failed to serialize JSON: {}", e.getMessage());
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 		HttpHeaders headers = new HttpHeaders();
@@ -216,7 +216,7 @@ public class EchoController {
 			try {
 				responseJson = objectMapper.writeValueAsString(((EchoEverythingResponse.Ok) result).body);
 			} catch (Exception e) {
-				logger.error("Failed to serialize JSON: {}" + e.getMessage());
+				logger.error("Failed to serialize JSON: {}", e.getMessage());
 				return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 			}
 			HttpHeaders headers = new HttpHeaders();

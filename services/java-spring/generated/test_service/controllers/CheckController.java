@@ -66,7 +66,7 @@ public class CheckController {
 			try {
 				responseJson = objectMapper.writeValueAsString(((CheckForbiddenResponse.Ok) result).body);
 			} catch (Exception e) {
-				logger.error("Failed to serialize JSON: {}" + e.getMessage());
+				logger.error("Failed to serialize JSON: {}", e.getMessage());
 				return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 			}
 			HttpHeaders headers = new HttpHeaders();
