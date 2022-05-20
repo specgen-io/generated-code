@@ -51,7 +51,7 @@ func AddEchoRoutes(router *vestigo.Router, echoService echo.Service) {
 			return
 		}
 		if response == nil {
-			message := "No result returned from service implementation"
+			message := "Service implementation returned nil"
 			log.WithFields(logEchoBodyModel).Error(message)
 			errorResponse := models.InternalServerError{message}
 			res.Header().Set("Content-Type", "application/json")

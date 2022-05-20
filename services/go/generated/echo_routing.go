@@ -52,7 +52,7 @@ func AddEchoRoutes(router *vestigo.Router, echoService echo.Service) {
 			return
 		}
 		if response == nil {
-			message := "No result returned from service implementation"
+			message := "Service implementation returned nil"
 			log.WithFields(logEchoBodyString).Error(message)
 			errorResponse := models.InternalServerError{message}
 			res.Header().Set("Content-Type", "application/json")
@@ -107,7 +107,7 @@ func AddEchoRoutes(router *vestigo.Router, echoService echo.Service) {
 			return
 		}
 		if response == nil {
-			message := "No result returned from service implementation"
+			message := "Service implementation returned nil"
 			log.WithFields(logEchoBodyModel).Error(message)
 			errorResponse := models.InternalServerError{message}
 			res.Header().Set("Content-Type", "application/json")
@@ -162,7 +162,7 @@ func AddEchoRoutes(router *vestigo.Router, echoService echo.Service) {
 			return
 		}
 		if response == nil {
-			message := "No result returned from service implementation"
+			message := "Service implementation returned nil"
 			log.WithFields(logEchoBodyArray).Error(message)
 			errorResponse := models.InternalServerError{message}
 			res.Header().Set("Content-Type", "application/json")
@@ -217,7 +217,7 @@ func AddEchoRoutes(router *vestigo.Router, echoService echo.Service) {
 			return
 		}
 		if response == nil {
-			message := "No result returned from service implementation"
+			message := "Service implementation returned nil"
 			log.WithFields(logEchoBodyMap).Error(message)
 			errorResponse := models.InternalServerError{message}
 			res.Header().Set("Content-Type", "application/json")
@@ -275,7 +275,7 @@ func AddEchoRoutes(router *vestigo.Router, echoService echo.Service) {
 			return
 		}
 		if response == nil {
-			message := "No result returned from service implementation"
+			message := "Service implementation returned nil"
 			log.WithFields(logEchoQuery).Error(message)
 			errorResponse := models.InternalServerError{message}
 			res.Header().Set("Content-Type", "application/json")
@@ -333,7 +333,7 @@ func AddEchoRoutes(router *vestigo.Router, echoService echo.Service) {
 			return
 		}
 		if response == nil {
-			message := "No result returned from service implementation"
+			message := "Service implementation returned nil"
 			log.WithFields(logEchoHeader).Error(message)
 			errorResponse := models.InternalServerError{message}
 			res.Header().Set("Content-Type", "application/json")
@@ -390,7 +390,7 @@ func AddEchoRoutes(router *vestigo.Router, echoService echo.Service) {
 			return
 		}
 		if response == nil {
-			message := "No result returned from service implementation"
+			message := "Service implementation returned nil"
 			log.WithFields(logEchoUrlParams).Error(message)
 			errorResponse := models.InternalServerError{message}
 			res.Header().Set("Content-Type", "application/json")
@@ -484,7 +484,7 @@ func AddEchoRoutes(router *vestigo.Router, echoService echo.Service) {
 			return
 		}
 		if response == nil {
-			message := "No result returned from service implementation"
+			message := "Service implementation returned nil"
 			log.WithFields(logEchoEverything).Error(message)
 			errorResponse := models.InternalServerError{message}
 			res.Header().Set("Content-Type", "application/json")
@@ -534,7 +534,7 @@ func AddEchoRoutes(router *vestigo.Router, echoService echo.Service) {
 			return
 		}
 		if response == nil {
-			message := "No result returned from service implementation"
+			message := "Service implementation returned nil"
 			log.WithFields(logSameOperationName).Error(message)
 			errorResponse := models.InternalServerError{message}
 			res.Header().Set("Content-Type", "application/json")

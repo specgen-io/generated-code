@@ -91,7 +91,7 @@ func AddCheckRoutes(router *vestigo.Router, checkService check.Service) {
 			return
 		}
 		if response == nil {
-			message := "No result returned from service implementation"
+			message := "Service implementation returned nil"
 			log.WithFields(logCheckForbidden).Error(message)
 			errorResponse := models.InternalServerError{message}
 			res.Header().Set("Content-Type", "application/json")
@@ -138,7 +138,7 @@ func AddCheckRoutes(router *vestigo.Router, checkService check.Service) {
 			return
 		}
 		if response == nil {
-			message := "No result returned from service implementation"
+			message := "Service implementation returned nil"
 			log.WithFields(logSameOperationName).Error(message)
 			errorResponse := models.InternalServerError{message}
 			res.Header().Set("Content-Type", "application/json")
