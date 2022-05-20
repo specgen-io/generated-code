@@ -98,6 +98,7 @@ export let echoRouter = (service: EchoService) => {
             return
         } catch (error) {
             response.status(500).send()
+            return
         }
     })
 
@@ -119,6 +120,7 @@ export let echoRouter = (service: EchoService) => {
             return
         } catch (error) {
             response.status(500).send()
+            return
         }
     })
 
@@ -140,6 +142,7 @@ export let echoRouter = (service: EchoService) => {
             return
         } catch (error) {
             response.status(500).send()
+            return
         }
     })
 
@@ -161,6 +164,7 @@ export let echoRouter = (service: EchoService) => {
             return
         } catch (error) {
             response.status(500).send()
+            return
         }
     })
 
@@ -178,6 +182,7 @@ export let echoRouter = (service: EchoService) => {
             return
         } catch (error) {
             response.status(500).send()
+            return
         }
     })
 
@@ -195,6 +200,7 @@ export let echoRouter = (service: EchoService) => {
             return
         } catch (error) {
             response.status(500).send()
+            return
         }
     })
 
@@ -212,6 +218,7 @@ export let echoRouter = (service: EchoService) => {
             return
         } catch (error) {
             response.status(500).send()
+            return
         }
     })
 
@@ -250,6 +257,7 @@ export let echoRouter = (service: EchoService) => {
             }
         } catch (error) {
             response.status(500).send()
+            return
         }
     })
 
@@ -266,6 +274,7 @@ export let echoRouter = (service: EchoService) => {
             }
         } catch (error) {
             response.status(500).send()
+            return
         }
     })
 
@@ -282,6 +291,7 @@ export let checkRouter = (service: CheckService) => {
             return
         } catch (error) {
             response.status(500).send()
+            return
         }
     })
 
@@ -303,6 +313,7 @@ export let checkRouter = (service: CheckService) => {
             return
         } catch (error) {
             response.status(500).send()
+            return
         }
     })
 
@@ -319,6 +330,7 @@ export let checkRouter = (service: CheckService) => {
             }
         } catch (error) {
             response.status(500).send()
+            return
         }
     })
 
@@ -335,6 +347,7 @@ export let checkRouter = (service: CheckService) => {
             }
         } catch (error) {
             response.status(500).send()
+            return
         }
     })
 

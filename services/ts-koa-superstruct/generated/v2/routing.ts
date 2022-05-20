@@ -26,6 +26,7 @@ export let echoRouter = (service: EchoService) => {
             return
         } catch (error) {
             ctx.throw(500)
+            return
         }
     })
 
