@@ -359,12 +359,13 @@ func (client *Client) EchoEverything(body *models.Message, floatQuery float32, b
 			log.WithFields(logEchoEverything).Error("Failed to parse response JSON", err.Error())
 			return nil, err
 		}
-		return &EchoEverythingResponse{Ok: &result}, nil
+		return EchoEverythingResponse{Ok: &result}
 	}
 
 	if resp.StatusCode == 403 {
 		log.WithFields(logEchoEverything).WithField("status", 403).Info("Received response")
-		return &EchoEverythingResponse{Forbidden: &empty.Type{}}, nil
+		result := empty.Type{}
+		return EchoEverythingResponse{Forbidden: &result}
 	}
 
 	msg := fmt.Sprintf("Unexpected status code received: %d", resp.StatusCode)
@@ -390,12 +391,14 @@ func (client *Client) SameOperationName() (*SameOperationNameResponse, error) {
 
 	if resp.StatusCode == 200 {
 		log.WithFields(logSameOperationName).WithField("status", 200).Info("Received response")
-		return &SameOperationNameResponse{Ok: &empty.Type{}}, nil
+		result := empty.Type{}
+		return SameOperationNameResponse{Ok: &result}
 	}
 
 	if resp.StatusCode == 403 {
 		log.WithFields(logSameOperationName).WithField("status", 403).Info("Received response")
-		return &SameOperationNameResponse{Forbidden: &empty.Type{}}, nil
+		result := empty.Type{}
+		return SameOperationNameResponse{Forbidden: &result}
 	}
 
 	msg := fmt.Sprintf("Unexpected status code received: %d", resp.StatusCode)
@@ -434,7 +437,7 @@ func (client *Client) EchoSuccess(resultStatus string) (*EchoSuccessResponse, er
 			log.WithFields(logEchoSuccess).Error("Failed to parse response JSON", err.Error())
 			return nil, err
 		}
-		return &EchoSuccessResponse{Ok: &result}, nil
+		return EchoSuccessResponse{Ok: &result}
 	}
 
 	if resp.StatusCode == 201 {
@@ -447,7 +450,7 @@ func (client *Client) EchoSuccess(resultStatus string) (*EchoSuccessResponse, er
 			log.WithFields(logEchoSuccess).Error("Failed to parse response JSON", err.Error())
 			return nil, err
 		}
-		return &EchoSuccessResponse{Created: &result}, nil
+		return EchoSuccessResponse{Created: &result}
 	}
 
 	if resp.StatusCode == 202 {
@@ -460,7 +463,7 @@ func (client *Client) EchoSuccess(resultStatus string) (*EchoSuccessResponse, er
 			log.WithFields(logEchoSuccess).Error("Failed to parse response JSON", err.Error())
 			return nil, err
 		}
-		return &EchoSuccessResponse{Accepted: &result}, nil
+		return EchoSuccessResponse{Accepted: &result}
 	}
 
 	msg := fmt.Sprintf("Unexpected status code received: %d", resp.StatusCode)

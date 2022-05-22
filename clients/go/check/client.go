@@ -47,6 +47,7 @@ func (client *Client) CheckEmpty() error {
 
 	if resp.StatusCode == 200 {
 		log.WithFields(logCheckEmpty).WithField("status", 200).Info("Received response")
+		result := empty.Type{}
 		return nil
 	}
 
@@ -75,6 +76,7 @@ func (client *Client) CheckEmptyResponse(body *models.Message) error {
 
 	if resp.StatusCode == 200 {
 		log.WithFields(logCheckEmptyResponse).WithField("status", 200).Info("Received response")
+		result := empty.Type{}
 		return nil
 	}
 
@@ -109,12 +111,13 @@ func (client *Client) CheckForbidden() (*CheckForbiddenResponse, error) {
 			log.WithFields(logCheckForbidden).Error("Failed to parse response JSON", err.Error())
 			return nil, err
 		}
-		return &CheckForbiddenResponse{Ok: &result}, nil
+		return CheckForbiddenResponse{Ok: &result}
 	}
 
 	if resp.StatusCode == 403 {
 		log.WithFields(logCheckForbidden).WithField("status", 403).Info("Received response")
-		return &CheckForbiddenResponse{Forbidden: &empty.Type{}}, nil
+		result := empty.Type{}
+		return CheckForbiddenResponse{Forbidden: &result}
 	}
 
 	msg := fmt.Sprintf("Unexpected status code received: %d", resp.StatusCode)
@@ -140,12 +143,14 @@ func (client *Client) SameOperationName() (*SameOperationNameResponse, error) {
 
 	if resp.StatusCode == 200 {
 		log.WithFields(logSameOperationName).WithField("status", 200).Info("Received response")
-		return &SameOperationNameResponse{Ok: &empty.Type{}}, nil
+		result := empty.Type{}
+		return SameOperationNameResponse{Ok: &result}
 	}
 
 	if resp.StatusCode == 403 {
 		log.WithFields(logSameOperationName).WithField("status", 403).Info("Received response")
-		return &SameOperationNameResponse{Forbidden: &empty.Type{}}, nil
+		result := empty.Type{}
+		return SameOperationNameResponse{Forbidden: &result}
 	}
 
 	msg := fmt.Sprintf("Unexpected status code received: %d", resp.StatusCode)
