@@ -46,7 +46,11 @@ public class EchoController {
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 		String responseJson = "";
-		try { responseJson = objectMapper.writeValueAsString(result); }
+		try {
+			responseJson = objectMapper.writeValueAsString(result); }
+		} catch (Exception e) {
+			logger.error("Failed to serialize response body: {}", e.getMessage());
+		}
 		HttpHeaders headers = new HttpHeaders();
 		headers.add(CONTENT_TYPE, "application/json");
 		logger.info("Completed request with status code: {}", HttpStatus.OK);

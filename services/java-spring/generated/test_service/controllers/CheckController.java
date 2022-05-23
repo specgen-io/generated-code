@@ -65,7 +65,11 @@ public class CheckController {
 		}
 		if (result instanceof CheckForbiddenResponse.Ok) {
 			String responseJson = "";
-			try { responseJson = objectMapper.writeValueAsString(((CheckForbiddenResponse.Ok) result).body); }
+			try {
+				responseJson = objectMapper.writeValueAsString(((CheckForbiddenResponse.Ok) result).body); }
+			} catch (Exception e) {
+				logger.error("Failed to serialize response body: {}", e.getMessage());
+			}
 			HttpHeaders headers = new HttpHeaders();
 			headers.add(CONTENT_TYPE, "application/json");
 			logger.info("Completed request with status code: {}", HttpStatus.OK);
