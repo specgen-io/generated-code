@@ -66,7 +66,7 @@ public class CheckController {
 		if (result instanceof CheckForbiddenResponse.Ok) {
 			String responseJson = "";
 			try {
-				responseJson = objectMapper.writeValueAsString(((CheckForbiddenResponse.Ok) result).body); }
+				responseJson = objectMapper.writeValueAsString(((CheckForbiddenResponse.Ok) result).body);
 			} catch (Exception e) {
 				logger.error("Failed to serialize response body: {}", e.getMessage());
 			}

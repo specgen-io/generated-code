@@ -63,7 +63,7 @@ public class EchoController {
 		}
 		String responseJson = "";
 		try {
-			responseJson = objectMapper.writeValueAsString(result); }
+			responseJson = objectMapper.writeValueAsString(result);
 		} catch (Exception e) {
 			logger.error("Failed to serialize response body: {}", e.getMessage());
 		}
@@ -93,7 +93,7 @@ public class EchoController {
 		}
 		String responseJson = "";
 		try {
-			responseJson = objectMapper.writeValueAsString(result); }
+			responseJson = objectMapper.writeValueAsString(result);
 		} catch (Exception e) {
 			logger.error("Failed to serialize response body: {}", e.getMessage());
 		}
@@ -123,7 +123,7 @@ public class EchoController {
 		}
 		String responseJson = "";
 		try {
-			responseJson = objectMapper.writeValueAsString(result); }
+			responseJson = objectMapper.writeValueAsString(result);
 		} catch (Exception e) {
 			logger.error("Failed to serialize response body: {}", e.getMessage());
 		}
@@ -145,7 +145,7 @@ public class EchoController {
 		}
 		String responseJson = "";
 		try {
-			responseJson = objectMapper.writeValueAsString(result); }
+			responseJson = objectMapper.writeValueAsString(result);
 		} catch (Exception e) {
 			logger.error("Failed to serialize response body: {}", e.getMessage());
 		}
@@ -167,7 +167,7 @@ public class EchoController {
 		}
 		String responseJson = "";
 		try {
-			responseJson = objectMapper.writeValueAsString(result); }
+			responseJson = objectMapper.writeValueAsString(result);
 		} catch (Exception e) {
 			logger.error("Failed to serialize response body: {}", e.getMessage());
 		}
@@ -189,7 +189,7 @@ public class EchoController {
 		}
 		String responseJson = "";
 		try {
-			responseJson = objectMapper.writeValueAsString(result); }
+			responseJson = objectMapper.writeValueAsString(result);
 		} catch (Exception e) {
 			logger.error("Failed to serialize response body: {}", e.getMessage());
 		}
@@ -220,7 +220,7 @@ public class EchoController {
 		if (result instanceof EchoEverythingResponse.Ok) {
 			String responseJson = "";
 			try {
-				responseJson = objectMapper.writeValueAsString(((EchoEverythingResponse.Ok) result).body); }
+				responseJson = objectMapper.writeValueAsString(((EchoEverythingResponse.Ok) result).body);
 			} catch (Exception e) {
 				logger.error("Failed to serialize response body: {}", e.getMessage());
 			}

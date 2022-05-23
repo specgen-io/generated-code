@@ -47,7 +47,7 @@ public class EchoController {
 		}
 		String responseJson = "";
 		try {
-			responseJson = objectMapper.writeValueAsString(result); }
+			responseJson = objectMapper.writeValueAsString(result);
 		} catch (Exception e) {
 			logger.error("Failed to serialize response body: {}", e.getMessage());
 		}
