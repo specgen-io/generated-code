@@ -289,7 +289,7 @@ func (client *Client) EchoHeader(intHeader int, longHeader int64, floatHeader fl
 
 var logEchoUrlParams = log.Fields{"operationId": "echo.echo_url_params", "method": "GET", "url": "/echo/url_params/{int_url}/{long_url}/{float_url}/{double_url}/{decimal_url}/{bool_url}/{string_url}/{uuid_url}/{date_url}/{datetime_url}/{enum_url}"}
 func (client *Client) EchoUrlParams(intUrl int, longUrl int64, floatUrl float32, doubleUrl float64, decimalUrl decimal.Decimal, boolUrl bool, stringUrl string, uuidUrl uuid.UUID, dateUrl civil.Date, datetimeUrl civil.DateTime, enumUrl models.Choice) (*models.UrlParameters, error) {
-	req, err := http.NewRequest("GET", client.baseUrl+fmt.Sprintf("/echo/url_params/%s/%s/%s/%s/%s/%s/%s/%s/%s/%s/%s", Int(intUrl), Int64(longUrl), Float32(floatUrl), Float64(doubleUrl), Decimal(decimalUrl), Bool(boolUrl), stringUrl, Uuid(uuidUrl), Date(dateUrl), DateTime(datetimeUrl), StringEnum(enumUrl)), nil)
+	req, err := http.NewRequest("GET", client.baseUrl+fmt.Sprintf("/echo/url_params/%s/%s/%s/%s/%s/%s/%s/%s/%s/%s/%s", convertInt(intUrl), convertInt64(longUrl), convertFloat32(floatUrl), convertFloat64(doubleUrl), convertDecimal(decimalUrl), convertBool(boolUrl), stringUrl, convertUuid(uuidUrl), convertDate(dateUrl), convertDateTime(datetimeUrl), convertStringEnum(enumUrl)), nil)
 	if err != nil {
 		log.WithFields(logEchoUrlParams).Error("Failed to create HTTP request", err.Error())
 		return nil, err
@@ -324,7 +324,7 @@ func (client *Client) EchoUrlParams(intUrl int, longUrl int64, floatUrl float32,
 var logEchoEverything = log.Fields{"operationId": "echo.echo_everything", "method": "POST", "url": "/echo/everything/{date_url}/{decimal_url}"}
 func (client *Client) EchoEverything(body *models.Message, floatQuery float32, boolQuery bool, uuidHeader uuid.UUID, datetimeHeader civil.DateTime, dateUrl civil.Date, decimalUrl decimal.Decimal) (*EchoEverythingResponse, error) {
 	bodyData, err := json.Marshal(body)
-	req, err := http.NewRequest("POST", client.baseUrl+fmt.Sprintf("/echo/everything/%s/%s", Date(dateUrl), Decimal(decimalUrl)), bytes.NewBuffer(bodyData))
+	req, err := http.NewRequest("POST", client.baseUrl+fmt.Sprintf("/echo/everything/%s/%s", convertDate(dateUrl), convertDecimal(decimalUrl)), bytes.NewBuffer(bodyData))
 	if err != nil {
 		log.WithFields(logEchoEverything).Error("Failed to create HTTP request", err.Error())
 		return nil, err
