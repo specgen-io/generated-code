@@ -18,9 +18,8 @@ func AddEchoRoutes(router *vestigo.Router, echoService echo.Service) {
 		var err error
 		contentType := req.Header.Get("Content-Type")
 		if !strings.Contains(contentType, "application/json") {
-			message := fmt.Sprintf("Wrong Content-type: %s", contentType)
-			log.WithFields(logEchoBodyModel).Warn(message)
-			errorResponse := models.BadRequestError{message, nil}
+			errorResponse := models.BadRequestError{fmt.Sprintf("Wrong Content-type: %s", contentType), nil}
+			log.WithFields(logEchoBodyModel).Warn(errorResponse.Message)
 			res.Header().Set("Content-Type", "application/json")
 			res.WriteHeader(400)
 			json.NewEncoder(res).Encode(errorResponse)
@@ -30,9 +29,8 @@ func AddEchoRoutes(router *vestigo.Router, echoService echo.Service) {
 		var body models.Message
 		err = json.NewDecoder(req.Body).Decode(&body)
 		if err != nil {
-			message := fmt.Sprintf("Decoding body JSON failed: %s", err.Error())
-			log.WithFields(logEchoBodyModel).Warn(message)
-			errorResponse := models.BadRequestError{message, nil}
+			errorResponse := models.BadRequestError{fmt.Sprintf("Decoding body JSON failed: %s", err.Error()), nil}
+			log.WithFields(logEchoBodyModel).Warn(errorResponse.Message)
 			res.Header().Set("Content-Type", "application/json")
 			res.WriteHeader(400)
 			json.NewEncoder(res).Encode(errorResponse)
@@ -41,9 +39,8 @@ func AddEchoRoutes(router *vestigo.Router, echoService echo.Service) {
 		}
 		response, err := echoService.EchoBodyModel(&body)
 		if err != nil {
-			message := fmt.Sprintf("Error returned from service implementation: %s", err.Error())
-			log.WithFields(logEchoBodyModel).Error(message)
-			errorResponse := models.InternalServerError{message}
+			errorResponse := models.InternalServerError{fmt.Sprintf("Error returned from service implementation: %s", err.Error())}
+			log.WithFields(logEchoBodyModel).Error(errorResponse.Message)
 			res.Header().Set("Content-Type", "application/json")
 			res.WriteHeader(500)
 			json.NewEncoder(res).Encode(errorResponse)
@@ -51,9 +48,8 @@ func AddEchoRoutes(router *vestigo.Router, echoService echo.Service) {
 			return
 		}
 		if response == nil {
-			message := "Service implementation returned nil"
-			log.WithFields(logEchoBodyModel).Error(message)
-			errorResponse := models.InternalServerError{message}
+			errorResponse := models.InternalServerError{"Service implementation returned nil"}
+			log.WithFields(logEchoBodyModel).Error(errorResponse.Message)
 			res.Header().Set("Content-Type", "application/json")
 			res.WriteHeader(500)
 			json.NewEncoder(res).Encode(errorResponse)
