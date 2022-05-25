@@ -7,7 +7,6 @@ import (
 	log "github.com/sirupsen/logrus"
 	"io/ioutil"
 	"net/http"
-	"strings"
 	"test-service/generated/echo"
 	"test-service/generated/models"
 )
@@ -17,204 +16,124 @@ func AddEchoRoutes(router *vestigo.Router, echoService echo.Service) {
 	router.Post("/echo/body_string", func(res http.ResponseWriter, req *http.Request) {
 		log.WithFields(logEchoBodyString).Info("Received request")
 		var err error
-		contentType := req.Header.Get("Content-Type")
-		if !strings.Contains(contentType, "text/plain") {
-			errorResponse := models.BadRequestError{fmt.Sprintf("Wrong Content-type: %s", contentType), nil}
-			log.WithFields(logEchoBodyString).Warn(errorResponse.Message)
-			res.Header().Set("Content-Type", "application/json")
-			res.WriteHeader(400)
-			json.NewEncoder(res).Encode(errorResponse)
-			log.WithFields(logEchoBodyString).WithField("status", 400).Info("Completed request")
+		if !CheckContentType(logEchoBodyString, res, req, "text/plain") {
 			return
 		}
 		bodyData, err := ioutil.ReadAll(req.Body)
 		if err != nil {
-			errorResponse := models.BadRequestError{fmt.Sprintf("Reading request body failed: %s", err.Error()), nil}
-			log.WithFields(logEchoBodyString).Warn(errorResponse.Message)
-			res.Header().Set("Content-Type", "application/json")
-			res.WriteHeader(400)
-			json.NewEncoder(res).Encode(errorResponse)
-			log.WithFields(logEchoBodyString).WithField("status", 400).Info("Completed request")
+			error := models.BadRequestError{Message: fmt.Sprintf("Reading request body failed: %s", err.Error()), Params: nil}
+			BadRequest(logEchoBodyString, res, &error)
 			return
 		}
 		body := string(bodyData)
 		response, err := echoService.EchoBodyString(body)
 		if err != nil {
-			errorResponse := models.InternalServerError{fmt.Sprintf("Error returned from service implementation: %s", err.Error())}
-			log.WithFields(logEchoBodyString).Error(errorResponse.Message)
-			res.Header().Set("Content-Type", "application/json")
-			res.WriteHeader(500)
-			json.NewEncoder(res).Encode(errorResponse)
-			log.WithFields(logEchoBodyString).WithField("status", 500).Info("Completed request")
+			error := models.InternalServerError{Message: fmt.Sprintf("Error returned from service implementation: %s", err.Error())}
+			InternalServerError(logEchoBodyString, res, &error)
 			return
 		}
 		if response == nil {
-			errorResponse := models.InternalServerError{"Service implementation returned nil"}
-			log.WithFields(logEchoBodyString).Error(errorResponse.Message)
-			res.Header().Set("Content-Type", "application/json")
-			res.WriteHeader(500)
-			json.NewEncoder(res).Encode(errorResponse)
-			log.WithFields(logEchoBodyString).WithField("status", 500).Info("Completed request")
+			error := models.InternalServerError{Message: "Service implementation returned nil"}
+			InternalServerError(logEchoBodyString, res, &error)
 			return
 		}
 		res.Header().Set("Content-Type", "text/plain")
 		res.WriteHeader(200)
 		res.Write([]byte(*response))
 		log.WithFields(logEchoBodyString).WithField("status", 200).Info("Completed request")
-		return
 	})
 
 	logEchoBodyModel := log.Fields{"operationId": "echo.echo_body_model", "method": "POST", "url": "/echo/body_model"}
 	router.Post("/echo/body_model", func(res http.ResponseWriter, req *http.Request) {
 		log.WithFields(logEchoBodyModel).Info("Received request")
 		var err error
-		contentType := req.Header.Get("Content-Type")
-		if !strings.Contains(contentType, "application/json") {
-			errorResponse := models.BadRequestError{fmt.Sprintf("Wrong Content-type: %s", contentType), nil}
-			log.WithFields(logEchoBodyModel).Warn(errorResponse.Message)
-			res.Header().Set("Content-Type", "application/json")
-			res.WriteHeader(400)
-			json.NewEncoder(res).Encode(errorResponse)
-			log.WithFields(logEchoBodyModel).WithField("status", 400).Info("Completed request")
+		if !CheckContentType(logEchoBodyModel, res, req, "application/json") {
 			return
 		}
 		var body models.Message
 		err = json.NewDecoder(req.Body).Decode(&body)
 		if err != nil {
-			errorResponse := models.BadRequestError{fmt.Sprintf("Decoding body JSON failed: %s", err.Error()), nil}
-			log.WithFields(logEchoBodyModel).Warn(errorResponse.Message)
-			res.Header().Set("Content-Type", "application/json")
-			res.WriteHeader(400)
-			json.NewEncoder(res).Encode(errorResponse)
-			log.WithFields(logEchoBodyModel).WithField("status", 400).Info("Completed request")
+			error := models.BadRequestError{Message: fmt.Sprintf("Decoding body JSON failed: %s", err.Error()), Params: nil}
+			BadRequest(logEchoBodyModel, res, &error)
 			return
 		}
 		response, err := echoService.EchoBodyModel(&body)
 		if err != nil {
-			errorResponse := models.InternalServerError{fmt.Sprintf("Error returned from service implementation: %s", err.Error())}
-			log.WithFields(logEchoBodyModel).Error(errorResponse.Message)
-			res.Header().Set("Content-Type", "application/json")
-			res.WriteHeader(500)
-			json.NewEncoder(res).Encode(errorResponse)
-			log.WithFields(logEchoBodyModel).WithField("status", 500).Info("Completed request")
+			error := models.InternalServerError{Message: fmt.Sprintf("Error returned from service implementation: %s", err.Error())}
+			InternalServerError(logEchoBodyModel, res, &error)
 			return
 		}
 		if response == nil {
-			errorResponse := models.InternalServerError{"Service implementation returned nil"}
-			log.WithFields(logEchoBodyModel).Error(errorResponse.Message)
-			res.Header().Set("Content-Type", "application/json")
-			res.WriteHeader(500)
-			json.NewEncoder(res).Encode(errorResponse)
-			log.WithFields(logEchoBodyModel).WithField("status", 500).Info("Completed request")
+			error := models.InternalServerError{Message: "Service implementation returned nil"}
+			InternalServerError(logEchoBodyModel, res, &error)
 			return
 		}
 		res.Header().Set("Content-Type", "application/json")
 		res.WriteHeader(200)
 		json.NewEncoder(res).Encode(response)
 		log.WithFields(logEchoBodyModel).WithField("status", 200).Info("Completed request")
-		return
 	})
 
 	logEchoBodyArray := log.Fields{"operationId": "echo.echo_body_array", "method": "POST", "url": "/echo/body_array"}
 	router.Post("/echo/body_array", func(res http.ResponseWriter, req *http.Request) {
 		log.WithFields(logEchoBodyArray).Info("Received request")
 		var err error
-		contentType := req.Header.Get("Content-Type")
-		if !strings.Contains(contentType, "application/json") {
-			errorResponse := models.BadRequestError{fmt.Sprintf("Wrong Content-type: %s", contentType), nil}
-			log.WithFields(logEchoBodyArray).Warn(errorResponse.Message)
-			res.Header().Set("Content-Type", "application/json")
-			res.WriteHeader(400)
-			json.NewEncoder(res).Encode(errorResponse)
-			log.WithFields(logEchoBodyArray).WithField("status", 400).Info("Completed request")
+		if !CheckContentType(logEchoBodyArray, res, req, "application/json") {
 			return
 		}
 		var body []string
 		err = json.NewDecoder(req.Body).Decode(&body)
 		if err != nil {
-			errorResponse := models.BadRequestError{fmt.Sprintf("Decoding body JSON failed: %s", err.Error()), nil}
-			log.WithFields(logEchoBodyArray).Warn(errorResponse.Message)
-			res.Header().Set("Content-Type", "application/json")
-			res.WriteHeader(400)
-			json.NewEncoder(res).Encode(errorResponse)
-			log.WithFields(logEchoBodyArray).WithField("status", 400).Info("Completed request")
+			error := models.BadRequestError{Message: fmt.Sprintf("Decoding body JSON failed: %s", err.Error()), Params: nil}
+			BadRequest(logEchoBodyArray, res, &error)
 			return
 		}
 		response, err := echoService.EchoBodyArray(&body)
 		if err != nil {
-			errorResponse := models.InternalServerError{fmt.Sprintf("Error returned from service implementation: %s", err.Error())}
-			log.WithFields(logEchoBodyArray).Error(errorResponse.Message)
-			res.Header().Set("Content-Type", "application/json")
-			res.WriteHeader(500)
-			json.NewEncoder(res).Encode(errorResponse)
-			log.WithFields(logEchoBodyArray).WithField("status", 500).Info("Completed request")
+			error := models.InternalServerError{Message: fmt.Sprintf("Error returned from service implementation: %s", err.Error())}
+			InternalServerError(logEchoBodyArray, res, &error)
 			return
 		}
 		if response == nil {
-			errorResponse := models.InternalServerError{"Service implementation returned nil"}
-			log.WithFields(logEchoBodyArray).Error(errorResponse.Message)
-			res.Header().Set("Content-Type", "application/json")
-			res.WriteHeader(500)
-			json.NewEncoder(res).Encode(errorResponse)
-			log.WithFields(logEchoBodyArray).WithField("status", 500).Info("Completed request")
+			error := models.InternalServerError{Message: "Service implementation returned nil"}
+			InternalServerError(logEchoBodyArray, res, &error)
 			return
 		}
 		res.Header().Set("Content-Type", "application/json")
 		res.WriteHeader(200)
 		json.NewEncoder(res).Encode(response)
 		log.WithFields(logEchoBodyArray).WithField("status", 200).Info("Completed request")
-		return
 	})
 
 	logEchoBodyMap := log.Fields{"operationId": "echo.echo_body_map", "method": "POST", "url": "/echo/body_map"}
 	router.Post("/echo/body_map", func(res http.ResponseWriter, req *http.Request) {
 		log.WithFields(logEchoBodyMap).Info("Received request")
 		var err error
-		contentType := req.Header.Get("Content-Type")
-		if !strings.Contains(contentType, "application/json") {
-			errorResponse := models.BadRequestError{fmt.Sprintf("Wrong Content-type: %s", contentType), nil}
-			log.WithFields(logEchoBodyMap).Warn(errorResponse.Message)
-			res.Header().Set("Content-Type", "application/json")
-			res.WriteHeader(400)
-			json.NewEncoder(res).Encode(errorResponse)
-			log.WithFields(logEchoBodyMap).WithField("status", 400).Info("Completed request")
+		if !CheckContentType(logEchoBodyMap, res, req, "application/json") {
 			return
 		}
 		var body map[string]string
 		err = json.NewDecoder(req.Body).Decode(&body)
 		if err != nil {
-			errorResponse := models.BadRequestError{fmt.Sprintf("Decoding body JSON failed: %s", err.Error()), nil}
-			log.WithFields(logEchoBodyMap).Warn(errorResponse.Message)
-			res.Header().Set("Content-Type", "application/json")
-			res.WriteHeader(400)
-			json.NewEncoder(res).Encode(errorResponse)
-			log.WithFields(logEchoBodyMap).WithField("status", 400).Info("Completed request")
+			error := models.BadRequestError{Message: fmt.Sprintf("Decoding body JSON failed: %s", err.Error()), Params: nil}
+			BadRequest(logEchoBodyMap, res, &error)
 			return
 		}
 		response, err := echoService.EchoBodyMap(&body)
 		if err != nil {
-			errorResponse := models.InternalServerError{fmt.Sprintf("Error returned from service implementation: %s", err.Error())}
-			log.WithFields(logEchoBodyMap).Error(errorResponse.Message)
-			res.Header().Set("Content-Type", "application/json")
-			res.WriteHeader(500)
-			json.NewEncoder(res).Encode(errorResponse)
-			log.WithFields(logEchoBodyMap).WithField("status", 500).Info("Completed request")
+			error := models.InternalServerError{Message: fmt.Sprintf("Error returned from service implementation: %s", err.Error())}
+			InternalServerError(logEchoBodyMap, res, &error)
 			return
 		}
 		if response == nil {
-			errorResponse := models.InternalServerError{"Service implementation returned nil"}
-			log.WithFields(logEchoBodyMap).Error(errorResponse.Message)
-			res.Header().Set("Content-Type", "application/json")
-			res.WriteHeader(500)
-			json.NewEncoder(res).Encode(errorResponse)
-			log.WithFields(logEchoBodyMap).WithField("status", 500).Info("Completed request")
+			error := models.InternalServerError{Message: "Service implementation returned nil"}
+			InternalServerError(logEchoBodyMap, res, &error)
 			return
 		}
 		res.Header().Set("Content-Type", "application/json")
 		res.WriteHeader(200)
 		json.NewEncoder(res).Encode(response)
 		log.WithFields(logEchoBodyMap).WithField("status", 200).Info("Completed request")
-		return
 	})
 
 	logEchoQuery := log.Fields{"operationId": "echo.echo_query", "method": "GET", "url": "/echo/query"}
@@ -238,38 +157,25 @@ func AddEchoRoutes(router *vestigo.Router, echoService echo.Service) {
 		datetimeQuery := queryParams.DateTime("datetime_query")
 		enumQuery := models.Choice(queryParams.StringEnum("enum_query", models.ChoiceValuesStrings))
 		if len(queryParams.Errors) > 0 {
-			errorResponse := models.BadRequestError{"Can't parse queryParams", nil}
-			log.WithFields(logEchoQuery).Warn(errorResponse.Message)
-			res.Header().Set("Content-Type", "application/json")
-			res.WriteHeader(400)
-			json.NewEncoder(res).Encode(errorResponse)
-			log.WithFields(logEchoQuery).WithField("status", 400).Info("Completed request")
+			error := models.BadRequestError{Message: "Can't parse queryParams", Params: queryParams.Errors}
+			BadRequest(logEchoQuery, res, &error)
 			return
 		}
 		response, err := echoService.EchoQuery(intQuery, longQuery, floatQuery, doubleQuery, decimalQuery, boolQuery, stringQuery, stringOptQuery, stringDefaultedQuery, stringArrayQuery, uuidQuery, dateQuery, dateArrayQuery, datetimeQuery, enumQuery)
 		if err != nil {
-			errorResponse := models.InternalServerError{fmt.Sprintf("Error returned from service implementation: %s", err.Error())}
-			log.WithFields(logEchoQuery).Error(errorResponse.Message)
-			res.Header().Set("Content-Type", "application/json")
-			res.WriteHeader(500)
-			json.NewEncoder(res).Encode(errorResponse)
-			log.WithFields(logEchoQuery).WithField("status", 500).Info("Completed request")
+			error := models.InternalServerError{Message: fmt.Sprintf("Error returned from service implementation: %s", err.Error())}
+			InternalServerError(logEchoQuery, res, &error)
 			return
 		}
 		if response == nil {
-			errorResponse := models.InternalServerError{"Service implementation returned nil"}
-			log.WithFields(logEchoQuery).Error(errorResponse.Message)
-			res.Header().Set("Content-Type", "application/json")
-			res.WriteHeader(500)
-			json.NewEncoder(res).Encode(errorResponse)
-			log.WithFields(logEchoQuery).WithField("status", 500).Info("Completed request")
+			error := models.InternalServerError{Message: "Service implementation returned nil"}
+			InternalServerError(logEchoQuery, res, &error)
 			return
 		}
 		res.Header().Set("Content-Type", "application/json")
 		res.WriteHeader(200)
 		json.NewEncoder(res).Encode(response)
 		log.WithFields(logEchoQuery).WithField("status", 200).Info("Completed request")
-		return
 	})
 
 	logEchoHeader := log.Fields{"operationId": "echo.echo_header", "method": "GET", "url": "/echo/header"}
@@ -293,38 +199,25 @@ func AddEchoRoutes(router *vestigo.Router, echoService echo.Service) {
 		datetimeHeader := headerParams.DateTime("Datetime-Header")
 		enumHeader := models.Choice(headerParams.StringEnum("Enum-Header", models.ChoiceValuesStrings))
 		if len(headerParams.Errors) > 0 {
-			errorResponse := models.BadRequestError{"Can't parse headerParams", nil}
-			log.WithFields(logEchoHeader).Warn(errorResponse.Message)
-			res.Header().Set("Content-Type", "application/json")
-			res.WriteHeader(400)
-			json.NewEncoder(res).Encode(errorResponse)
-			log.WithFields(logEchoHeader).WithField("status", 400).Info("Completed request")
+			error := models.BadRequestError{Message: "Can't parse headerParams", Params: headerParams.Errors}
+			BadRequest(logEchoHeader, res, &error)
 			return
 		}
 		response, err := echoService.EchoHeader(intHeader, longHeader, floatHeader, doubleHeader, decimalHeader, boolHeader, stringHeader, stringOptHeader, stringDefaultedHeader, stringArrayHeader, uuidHeader, dateHeader, dateArrayHeader, datetimeHeader, enumHeader)
 		if err != nil {
-			errorResponse := models.InternalServerError{fmt.Sprintf("Error returned from service implementation: %s", err.Error())}
-			log.WithFields(logEchoHeader).Error(errorResponse.Message)
-			res.Header().Set("Content-Type", "application/json")
-			res.WriteHeader(500)
-			json.NewEncoder(res).Encode(errorResponse)
-			log.WithFields(logEchoHeader).WithField("status", 500).Info("Completed request")
+			error := models.InternalServerError{Message: fmt.Sprintf("Error returned from service implementation: %s", err.Error())}
+			InternalServerError(logEchoHeader, res, &error)
 			return
 		}
 		if response == nil {
-			errorResponse := models.InternalServerError{"Service implementation returned nil"}
-			log.WithFields(logEchoHeader).Error(errorResponse.Message)
-			res.Header().Set("Content-Type", "application/json")
-			res.WriteHeader(500)
-			json.NewEncoder(res).Encode(errorResponse)
-			log.WithFields(logEchoHeader).WithField("status", 500).Info("Completed request")
+			error := models.InternalServerError{Message: "Service implementation returned nil"}
+			InternalServerError(logEchoHeader, res, &error)
 			return
 		}
 		res.Header().Set("Content-Type", "application/json")
 		res.WriteHeader(200)
 		json.NewEncoder(res).Encode(response)
 		log.WithFields(logEchoHeader).WithField("status", 200).Info("Completed request")
-		return
 	})
 	router.SetCors("/echo/header", &vestigo.CorsAccessControl{
 		AllowHeaders: []string{"Int-Header", "Long-Header", "Float-Header", "Double-Header", "Decimal-Header", "Bool-Header", "String-Header", "String-Opt-Header", "String-Defaulted-Header", "String-Array-Header", "Uuid-Header", "Date-Header", "Date-Array-Header", "Datetime-Header", "Enum-Header"},
@@ -347,118 +240,74 @@ func AddEchoRoutes(router *vestigo.Router, echoService echo.Service) {
 		datetimeUrl := urlParams.DateTime(":datetime_url")
 		enumUrl := models.Choice(urlParams.StringEnum(":enum_url", models.ChoiceValuesStrings))
 		if len(urlParams.Errors) > 0 {
-			errorResponse := models.BadRequestError{"Can't parse urlParams", nil}
-			log.WithFields(logEchoUrlParams).Warn(errorResponse.Message)
-			res.Header().Set("Content-Type", "application/json")
-			res.WriteHeader(400)
-			json.NewEncoder(res).Encode(errorResponse)
-			log.WithFields(logEchoUrlParams).WithField("status", 400).Info("Completed request")
+			error := models.BadRequestError{Message: "Can't parse urlParams", Params: urlParams.Errors}
+			BadRequest(logEchoUrlParams, res, &error)
 			return
 		}
 		response, err := echoService.EchoUrlParams(intUrl, longUrl, floatUrl, doubleUrl, decimalUrl, boolUrl, stringUrl, uuidUrl, dateUrl, datetimeUrl, enumUrl)
 		if err != nil {
-			errorResponse := models.InternalServerError{fmt.Sprintf("Error returned from service implementation: %s", err.Error())}
-			log.WithFields(logEchoUrlParams).Error(errorResponse.Message)
-			res.Header().Set("Content-Type", "application/json")
-			res.WriteHeader(500)
-			json.NewEncoder(res).Encode(errorResponse)
-			log.WithFields(logEchoUrlParams).WithField("status", 500).Info("Completed request")
+			error := models.InternalServerError{Message: fmt.Sprintf("Error returned from service implementation: %s", err.Error())}
+			InternalServerError(logEchoUrlParams, res, &error)
 			return
 		}
 		if response == nil {
-			errorResponse := models.InternalServerError{"Service implementation returned nil"}
-			log.WithFields(logEchoUrlParams).Error(errorResponse.Message)
-			res.Header().Set("Content-Type", "application/json")
-			res.WriteHeader(500)
-			json.NewEncoder(res).Encode(errorResponse)
-			log.WithFields(logEchoUrlParams).WithField("status", 500).Info("Completed request")
+			error := models.InternalServerError{Message: "Service implementation returned nil"}
+			InternalServerError(logEchoUrlParams, res, &error)
 			return
 		}
 		res.Header().Set("Content-Type", "application/json")
 		res.WriteHeader(200)
 		json.NewEncoder(res).Encode(response)
 		log.WithFields(logEchoUrlParams).WithField("status", 200).Info("Completed request")
-		return
 	})
 
 	logEchoEverything := log.Fields{"operationId": "echo.echo_everything", "method": "POST", "url": "/echo/everything/:date_url/:decimal_url"}
 	router.Post("/echo/everything/:date_url/:decimal_url", func(res http.ResponseWriter, req *http.Request) {
 		log.WithFields(logEchoEverything).Info("Received request")
 		var err error
-		contentType := req.Header.Get("Content-Type")
-		if !strings.Contains(contentType, "application/json") {
-			errorResponse := models.BadRequestError{fmt.Sprintf("Wrong Content-type: %s", contentType), nil}
-			log.WithFields(logEchoEverything).Warn(errorResponse.Message)
-			res.Header().Set("Content-Type", "application/json")
-			res.WriteHeader(400)
-			json.NewEncoder(res).Encode(errorResponse)
-			log.WithFields(logEchoEverything).WithField("status", 400).Info("Completed request")
+		if !CheckContentType(logEchoEverything, res, req, "application/json") {
 			return
 		}
 		var body models.Message
 		err = json.NewDecoder(req.Body).Decode(&body)
 		if err != nil {
-			errorResponse := models.BadRequestError{fmt.Sprintf("Decoding body JSON failed: %s", err.Error()), nil}
-			log.WithFields(logEchoEverything).Warn(errorResponse.Message)
-			res.Header().Set("Content-Type", "application/json")
-			res.WriteHeader(400)
-			json.NewEncoder(res).Encode(errorResponse)
-			log.WithFields(logEchoEverything).WithField("status", 400).Info("Completed request")
+			error := models.BadRequestError{Message: fmt.Sprintf("Decoding body JSON failed: %s", err.Error()), Params: nil}
+			BadRequest(logEchoEverything, res, &error)
 			return
 		}
 		queryParams := NewParamsParser(req.URL.Query(), true)
 		floatQuery := queryParams.Float32("float_query")
 		boolQuery := queryParams.Bool("bool_query")
 		if len(queryParams.Errors) > 0 {
-			errorResponse := models.BadRequestError{"Can't parse queryParams", nil}
-			log.WithFields(logEchoEverything).Warn(errorResponse.Message)
-			res.Header().Set("Content-Type", "application/json")
-			res.WriteHeader(400)
-			json.NewEncoder(res).Encode(errorResponse)
-			log.WithFields(logEchoEverything).WithField("status", 400).Info("Completed request")
+			error := models.BadRequestError{Message: "Can't parse queryParams", Params: queryParams.Errors}
+			BadRequest(logEchoEverything, res, &error)
 			return
 		}
 		headerParams := NewParamsParser(req.Header, true)
 		uuidHeader := headerParams.Uuid("Uuid-Header")
 		datetimeHeader := headerParams.DateTime("Datetime-Header")
 		if len(headerParams.Errors) > 0 {
-			errorResponse := models.BadRequestError{"Can't parse headerParams", nil}
-			log.WithFields(logEchoEverything).Warn(errorResponse.Message)
-			res.Header().Set("Content-Type", "application/json")
-			res.WriteHeader(400)
-			json.NewEncoder(res).Encode(errorResponse)
-			log.WithFields(logEchoEverything).WithField("status", 400).Info("Completed request")
+			error := models.BadRequestError{Message: "Can't parse headerParams", Params: headerParams.Errors}
+			BadRequest(logEchoEverything, res, &error)
 			return
 		}
 		urlParams := NewParamsParser(req.URL.Query(), false)
 		dateUrl := urlParams.Date(":date_url")
 		decimalUrl := urlParams.Decimal(":decimal_url")
 		if len(urlParams.Errors) > 0 {
-			errorResponse := models.BadRequestError{"Can't parse urlParams", nil}
-			log.WithFields(logEchoEverything).Warn(errorResponse.Message)
-			res.Header().Set("Content-Type", "application/json")
-			res.WriteHeader(400)
-			json.NewEncoder(res).Encode(errorResponse)
-			log.WithFields(logEchoEverything).WithField("status", 400).Info("Completed request")
+			error := models.BadRequestError{Message: "Can't parse urlParams", Params: urlParams.Errors}
+			BadRequest(logEchoEverything, res, &error)
 			return
 		}
 		response, err := echoService.EchoEverything(&body, floatQuery, boolQuery, uuidHeader, datetimeHeader, dateUrl, decimalUrl)
 		if err != nil {
-			errorResponse := models.InternalServerError{fmt.Sprintf("Error returned from service implementation: %s", err.Error())}
-			log.WithFields(logEchoEverything).Error(errorResponse.Message)
-			res.Header().Set("Content-Type", "application/json")
-			res.WriteHeader(500)
-			json.NewEncoder(res).Encode(errorResponse)
-			log.WithFields(logEchoEverything).WithField("status", 500).Info("Completed request")
+			error := models.InternalServerError{Message: fmt.Sprintf("Error returned from service implementation: %s", err.Error())}
+			InternalServerError(logEchoEverything, res, &error)
 			return
 		}
 		if response == nil {
-			errorResponse := models.InternalServerError{"Service implementation returned nil"}
-			log.WithFields(logEchoEverything).Error(errorResponse.Message)
-			res.Header().Set("Content-Type", "application/json")
-			res.WriteHeader(500)
-			json.NewEncoder(res).Encode(errorResponse)
-			log.WithFields(logEchoEverything).WithField("status", 500).Info("Completed request")
+			error := models.InternalServerError{Message: "Service implementation returned nil"}
+			InternalServerError(logEchoEverything, res, &error)
 			return
 		}
 		if response.Ok != nil {
@@ -473,12 +322,8 @@ func AddEchoRoutes(router *vestigo.Router, echoService echo.Service) {
 			log.WithFields(logEchoEverything).WithField("status", 403).Info("Completed request")
 			return
 		}
-		errorResponse := models.InternalServerError{"Result from service implementation does not have anything in it"}
-		log.WithFields(logEchoEverything).Error(errorResponse.Message)
-		res.Header().Set("Content-Type", "application/json")
-		res.WriteHeader(500)
-		json.NewEncoder(res).Encode(errorResponse)
-		log.WithFields(logEchoEverything).WithField("status", 500).Info("Completed request")
+		error := models.InternalServerError{Message: "Result from service implementation does not have anything in it"}
+		InternalServerError(logEchoEverything, res, &error)
 		return
 	})
 	router.SetCors("/echo/everything/:date_url/:decimal_url", &vestigo.CorsAccessControl{
@@ -491,21 +336,13 @@ func AddEchoRoutes(router *vestigo.Router, echoService echo.Service) {
 		var err error
 		response, err := echoService.SameOperationName()
 		if err != nil {
-			errorResponse := models.InternalServerError{fmt.Sprintf("Error returned from service implementation: %s", err.Error())}
-			log.WithFields(logSameOperationName).Error(errorResponse.Message)
-			res.Header().Set("Content-Type", "application/json")
-			res.WriteHeader(500)
-			json.NewEncoder(res).Encode(errorResponse)
-			log.WithFields(logSameOperationName).WithField("status", 500).Info("Completed request")
+			error := models.InternalServerError{Message: fmt.Sprintf("Error returned from service implementation: %s", err.Error())}
+			InternalServerError(logSameOperationName, res, &error)
 			return
 		}
 		if response == nil {
-			errorResponse := models.InternalServerError{"Service implementation returned nil"}
-			log.WithFields(logSameOperationName).Error(errorResponse.Message)
-			res.Header().Set("Content-Type", "application/json")
-			res.WriteHeader(500)
-			json.NewEncoder(res).Encode(errorResponse)
-			log.WithFields(logSameOperationName).WithField("status", 500).Info("Completed request")
+			error := models.InternalServerError{Message: "Service implementation returned nil"}
+			InternalServerError(logSameOperationName, res, &error)
 			return
 		}
 		if response.Ok != nil {
@@ -518,12 +355,8 @@ func AddEchoRoutes(router *vestigo.Router, echoService echo.Service) {
 			log.WithFields(logSameOperationName).WithField("status", 403).Info("Completed request")
 			return
 		}
-		errorResponse := models.InternalServerError{"Result from service implementation does not have anything in it"}
-		log.WithFields(logSameOperationName).Error(errorResponse.Message)
-		res.Header().Set("Content-Type", "application/json")
-		res.WriteHeader(500)
-		json.NewEncoder(res).Encode(errorResponse)
-		log.WithFields(logSameOperationName).WithField("status", 500).Info("Completed request")
+		error := models.InternalServerError{Message: "Result from service implementation does not have anything in it"}
+		InternalServerError(logSameOperationName, res, &error)
 		return
 	})
 }
