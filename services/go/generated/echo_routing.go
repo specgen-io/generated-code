@@ -137,24 +137,24 @@ func AddEchoRoutes(router *vestigo.Router, echoService echo.Service) {
 	router.Get("/echo/query", func(res http.ResponseWriter, req *http.Request) {
 		log.WithFields(logEchoQuery).Info("Received request")
 		var err error
-		queryParams := NewParamsParser(req.URL.Query(), true)
-		intQuery := queryParams.Int("int_query")
-		longQuery := queryParams.Int64("long_query")
-		floatQuery := queryParams.Float32("float_query")
-		doubleQuery := queryParams.Float64("double_query")
-		decimalQuery := queryParams.Decimal("decimal_query")
-		boolQuery := queryParams.Bool("bool_query")
-		stringQuery := queryParams.String("string_query")
-		stringOptQuery := queryParams.StringNullable("string_opt_query")
-		stringDefaultedQuery := queryParams.StringDefaulted("string_defaulted_query", "the default value")
-		stringArrayQuery := queryParams.StringArray("string_array_query")
-		uuidQuery := queryParams.Uuid("uuid_query")
-		dateQuery := queryParams.Date("date_query")
-		dateArrayQuery := queryParams.DateArray("date_array_query")
-		datetimeQuery := queryParams.DateTime("datetime_query")
-		enumQuery := models.Choice(queryParams.StringEnum("enum_query", models.ChoiceValuesStrings))
-		if len(queryParams.Errors) > 0 {
-			respondBadRequest(logEchoQuery, res, &models.BadRequestError{Message: "Can't parse queryParams", Params: queryParams.Errors})
+		query := NewParamsParser(req.URL.Query(), true)
+		intQuery := query.Int("int_query")
+		longQuery := query.Int64("long_query")
+		floatQuery := query.Float32("float_query")
+		doubleQuery := query.Float64("double_query")
+		decimalQuery := query.Decimal("decimal_query")
+		boolQuery := query.Bool("bool_query")
+		stringQuery := query.String("string_query")
+		stringOptQuery := query.StringNullable("string_opt_query")
+		stringDefaultedQuery := query.StringDefaulted("string_defaulted_query", "the default value")
+		stringArrayQuery := query.StringArray("string_array_query")
+		uuidQuery := query.Uuid("uuid_query")
+		dateQuery := query.Date("date_query")
+		dateArrayQuery := query.DateArray("date_array_query")
+		datetimeQuery := query.DateTime("datetime_query")
+		enumQuery := models.Choice(query.StringEnum("enum_query", models.ChoiceValuesStrings))
+		if len(query.Errors) > 0 {
+			respondBadRequest(logEchoQuery, res, &models.BadRequestError{Message: "Can't parse query", Params: query.Errors})
 			return
 		}
 		response, err := echoService.EchoQuery(intQuery, longQuery, floatQuery, doubleQuery, decimalQuery, boolQuery, stringQuery, stringOptQuery, stringDefaultedQuery, stringArrayQuery, uuidQuery, dateQuery, dateArrayQuery, datetimeQuery, enumQuery)
@@ -173,24 +173,24 @@ func AddEchoRoutes(router *vestigo.Router, echoService echo.Service) {
 	router.Get("/echo/header", func(res http.ResponseWriter, req *http.Request) {
 		log.WithFields(logEchoHeader).Info("Received request")
 		var err error
-		headerParams := NewParamsParser(req.Header, true)
-		intHeader := headerParams.Int("Int-Header")
-		longHeader := headerParams.Int64("Long-Header")
-		floatHeader := headerParams.Float32("Float-Header")
-		doubleHeader := headerParams.Float64("Double-Header")
-		decimalHeader := headerParams.Decimal("Decimal-Header")
-		boolHeader := headerParams.Bool("Bool-Header")
-		stringHeader := headerParams.String("String-Header")
-		stringOptHeader := headerParams.StringNullable("String-Opt-Header")
-		stringDefaultedHeader := headerParams.StringDefaulted("String-Defaulted-Header", "the default value")
-		stringArrayHeader := headerParams.StringArray("String-Array-Header")
-		uuidHeader := headerParams.Uuid("Uuid-Header")
-		dateHeader := headerParams.Date("Date-Header")
-		dateArrayHeader := headerParams.DateArray("Date-Array-Header")
-		datetimeHeader := headerParams.DateTime("Datetime-Header")
-		enumHeader := models.Choice(headerParams.StringEnum("Enum-Header", models.ChoiceValuesStrings))
-		if len(headerParams.Errors) > 0 {
-			respondBadRequest(logEchoHeader, res, &models.BadRequestError{Message: "Can't parse headerParams", Params: headerParams.Errors})
+		headers := NewParamsParser(req.Header, true)
+		intHeader := headers.Int("Int-Header")
+		longHeader := headers.Int64("Long-Header")
+		floatHeader := headers.Float32("Float-Header")
+		doubleHeader := headers.Float64("Double-Header")
+		decimalHeader := headers.Decimal("Decimal-Header")
+		boolHeader := headers.Bool("Bool-Header")
+		stringHeader := headers.String("String-Header")
+		stringOptHeader := headers.StringNullable("String-Opt-Header")
+		stringDefaultedHeader := headers.StringDefaulted("String-Defaulted-Header", "the default value")
+		stringArrayHeader := headers.StringArray("String-Array-Header")
+		uuidHeader := headers.Uuid("Uuid-Header")
+		dateHeader := headers.Date("Date-Header")
+		dateArrayHeader := headers.DateArray("Date-Array-Header")
+		datetimeHeader := headers.DateTime("Datetime-Header")
+		enumHeader := models.Choice(headers.StringEnum("Enum-Header", models.ChoiceValuesStrings))
+		if len(headers.Errors) > 0 {
+			respondBadRequest(logEchoHeader, res, &models.BadRequestError{Message: "Can't parse headers", Params: headers.Errors})
 			return
 		}
 		response, err := echoService.EchoHeader(intHeader, longHeader, floatHeader, doubleHeader, decimalHeader, boolHeader, stringHeader, stringOptHeader, stringDefaultedHeader, stringArrayHeader, uuidHeader, dateHeader, dateArrayHeader, datetimeHeader, enumHeader)
@@ -255,18 +255,18 @@ func AddEchoRoutes(router *vestigo.Router, echoService echo.Service) {
 			respondBadRequest(logEchoEverything, res, &models.BadRequestError{Message: fmt.Sprintf("Decoding body JSON failed: %s", err.Error()), Params: nil})
 			return
 		}
-		queryParams := NewParamsParser(req.URL.Query(), true)
-		floatQuery := queryParams.Float32("float_query")
-		boolQuery := queryParams.Bool("bool_query")
-		if len(queryParams.Errors) > 0 {
-			respondBadRequest(logEchoEverything, res, &models.BadRequestError{Message: "Can't parse queryParams", Params: queryParams.Errors})
+		query := NewParamsParser(req.URL.Query(), true)
+		floatQuery := query.Float32("float_query")
+		boolQuery := query.Bool("bool_query")
+		if len(query.Errors) > 0 {
+			respondBadRequest(logEchoEverything, res, &models.BadRequestError{Message: "Can't parse query", Params: query.Errors})
 			return
 		}
-		headerParams := NewParamsParser(req.Header, true)
-		uuidHeader := headerParams.Uuid("Uuid-Header")
-		datetimeHeader := headerParams.DateTime("Datetime-Header")
-		if len(headerParams.Errors) > 0 {
-			respondBadRequest(logEchoEverything, res, &models.BadRequestError{Message: "Can't parse headerParams", Params: headerParams.Errors})
+		headers := NewParamsParser(req.Header, true)
+		uuidHeader := headers.Uuid("Uuid-Header")
+		datetimeHeader := headers.DateTime("Datetime-Header")
+		if len(headers.Errors) > 0 {
+			respondBadRequest(logEchoEverything, res, &models.BadRequestError{Message: "Can't parse headers", Params: headers.Errors})
 			return
 		}
 		urlParams := NewParamsParser(req.URL.Query(), false)
