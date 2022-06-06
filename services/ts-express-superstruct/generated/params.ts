@@ -1,5 +1,5 @@
 export function zipHeaders(headers: string[]): Record<string, string | string[]> {
-  const result: Record<string, string | string[]> = {}
+  let result: Record<string, string | string[]> = {}
 
   for (let i = 0; i < headers.length / 2; i++) {
       const key: string = headers[i*2]

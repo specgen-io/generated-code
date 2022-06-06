@@ -35,21 +35,20 @@ public class EchoController {
 		try {
 			requestBody = objectMapper.readValue(bodyStr, new TypeReference<Message>() {});
 		} catch (IOException e) {
-			logger.error("Failed to deserialize request body {}", e.getMessage());
-			logger.info("Completed request with status code: {}", HttpStatus.BAD_REQUEST);
+			logger.error("Completed request with status code: {}", HttpStatus.BAD_REQUEST);
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 		var result = echoService.echoBodyModel(requestBody);
 		if (result == null) {
-			logger.error("Service implementation returned nil");
-			logger.info("Completed request with status code: {}", HttpStatus.INTERNAL_SERVER_ERROR);
+			logger.error("Completed request with status code: {}", HttpStatus.INTERNAL_SERVER_ERROR);
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
-		String responseJson = "";
+		String responseJson;
 		try {
 			responseJson = objectMapper.writeValueAsString(result);
 		} catch (Exception e) {
-			logger.error("Failed to serialize response body: {}", e.getMessage());
+			logger.error("Failed to serialize JSON: {}" + e.getMessage());
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 		HttpHeaders headers = new HttpHeaders();
 		headers.add(CONTENT_TYPE, "application/json");

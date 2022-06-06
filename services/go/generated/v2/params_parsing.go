@@ -1,114 +1,105 @@
 package v2
 
 import (
+	"cloud.google.com/go/civil"
 	"fmt"
+	"github.com/google/uuid"
+	"github.com/shopspring/decimal"
 	"strconv"
 	"strings"
 	"time"
-
-	"cloud.google.com/go/civil"
-	"github.com/google/uuid"
-	"github.com/shopspring/decimal"
-	"test-service/generated/v2/models"
 )
 
 type ParamsParser struct {
 	values                   map[string][]string
 	parseCommaSeparatedArray bool
-	Errors                   []models.ValidationError
+	Errors                   []error
 }
 
 func NewParamsParser(values map[string][]string, parseCommaSeparatedArray bool) *ParamsParser {
-	return &ParamsParser{values, parseCommaSeparatedArray, []models.ValidationError{}}
+	return &ParamsParser{values, parseCommaSeparatedArray, []error{}}
 }
 
-func (parser *ParamsParser) parseInt(name string, s string) int {
+func (parser *ParamsParser) parseInt(s string) int {
 	v, err := strconv.Atoi(s)
-	parser.addParsingError(name, "int", err)
+	parser.addError(err)
 	return v
 }
 
-func (parser *ParamsParser) parseInt64(name string, s string) int64 {
+func (parser *ParamsParser) parseInt64(s string) int64 {
 	v, err := strconv.ParseInt(s, 10, 64)
-	parser.addParsingError(name, "int64", err)
+	parser.addError(err)
 	return v
 }
 
-func (parser *ParamsParser) parseFloat32(name string, s string) float32 {
+func (parser *ParamsParser) parseFloat32(s string) float32 {
 	v, err := strconv.ParseFloat(s, 32)
-	parser.addParsingError(name, "float32", err)
+	parser.addError(err)
 	return float32(v)
 }
 
-func (parser *ParamsParser) parseFloat64(name string, s string) float64 {
+func (parser *ParamsParser) parseFloat64(s string) float64 {
 	v, err := strconv.ParseFloat(s, 64)
-	parser.addParsingError(name, "float64", err)
+	parser.addError(err)
 	return v
 }
 
-func (parser *ParamsParser) parseDecimal(name string, s string) decimal.Decimal {
+func (parser *ParamsParser) parseDecimal(s string) decimal.Decimal {
 	v, err := decimal.NewFromString(s)
-	parser.addParsingError(name, "decimal", err)
+	parser.addError(err)
 	return v
 }
 
-func (parser *ParamsParser) parseBool(name string, s string) bool {
+func (parser *ParamsParser) parseBool(s string) bool {
 	v, err := strconv.ParseBool(s)
-	parser.addParsingError(name, "bool", err)
+	parser.addError(err)
 	return v
 }
 
-func (parser *ParamsParser) parseUuid(name string, s string) uuid.UUID {
+func (parser *ParamsParser) parseUuid(s string) uuid.UUID {
 	v, err := uuid.Parse(s)
-	parser.addParsingError(name, "uuid", err)
+	parser.addError(err)
 	return v
 }
 
-func (parser *ParamsParser) parseDate(name string, s string) civil.Date {
+func (parser *ParamsParser) parseDate(s string) civil.Date {
 	v, err := civil.ParseDate(s)
-	parser.addParsingError(name, "date", err)
+	parser.addError(err)
 	return v
 }
 
-func (parser *ParamsParser) parseDateTime(name string, s string) civil.DateTime {
+func (parser *ParamsParser) parseDateTime(s string) civil.DateTime {
 	t, err := time.Parse("2006-01-02T15:04:05.999Z", s)
 	if err == nil {
+		parser.addError(err)
 		return civil.DateTimeOf(t)
 	} else {
 		v, err := civil.ParseDateTime(s)
-		parser.addParsingError(name, "datetime", err)
+		parser.addError(err)
 		return v
 	}
 }
 
-func (parser *ParamsParser) parseStringEnum(name string, s string, values []string) string {
-	for _, value := range values {
-		if s == value {
+func (parser *ParamsParser) parseStringEnum(s string, vs []string) string {
+	for _, v := range vs {
+		if s == v {
 			return s
 		}
 	}
-	parser.addValidationError(name, "unexpected_value", fmt.Sprintf("unexpected value %s, expected one of %s", s, strings.Join(values, ", ")))
+	parser.addError(fmt.Errorf("unexpected value %s, expected one of %s", s, strings.Join(vs, ", ")))
 	return ""
 }
 
-func (parser *ParamsParser) addParsingError(name string, format string, err error) {
+func (parser *ParamsParser) addError(err error) {
 	if err != nil {
-		parser.addValidationError(name, "parsing_failed", fmt.Sprintf("failed to parse %s: %s ", format, err.Error()))
+		parser.Errors = append(parser.Errors, err)
 	}
-}
-
-func (parser *ParamsParser) addValidationError(name string, code, message string) {
-	parser.Errors = append(parser.Errors, models.ValidationError{name, code, message})
 }
 
 func (parser *ParamsParser) exactlyOneValue(name string) bool {
 	pValues := parser.values[name]
 	if len(pValues) != 1 {
-		if len(pValues) == 0 {
-			parser.addValidationError(name, "missing", "Parameters is missing")
-		} else {
-			parser.addValidationError(name, "too_many_values", fmt.Sprintf("expected exactly one value, found: %s", strings.Join(pValues, ",")))
-		}
+		parser.addError(fmt.Errorf("param %s: expected exactly one value, found: %s", name, pValues))
 		return false
 	} else {
 		return true
@@ -118,7 +109,7 @@ func (parser *ParamsParser) exactlyOneValue(name string) bool {
 func (parser *ParamsParser) notMoreThenOneValue(name string) bool {
 	pValues := parser.values[name]
 	if len(pValues) > 1 {
-		parser.addValidationError(name, "too_many_values", fmt.Sprintf("too many values provided, expected one or zero, found %s", strings.Join(pValues, ",")))
+		parser.addError(fmt.Errorf("param %s: too many values, expected one or zero, found %d", name, len(pValues)))
 		return false
 	} else {
 		return true
@@ -170,7 +161,7 @@ func (parser *ParamsParser) Int(name string) int {
 	if !parser.exactlyOneValue(name) {
 		return 0
 	}
-	return parser.parseInt(name, parser.values[name][0])
+	return parser.parseInt(parser.values[name][0])
 }
 
 func (parser *ParamsParser) IntNullable(name string) *int {
@@ -181,7 +172,7 @@ func (parser *ParamsParser) IntNullable(name string) *int {
 	if len(pValues) == 0 {
 		return nil
 	} else {
-		convertedValue := parser.parseInt(name, pValues[0])
+		convertedValue := parser.parseInt(pValues[0])
 		return &convertedValue
 	}
 }
@@ -191,7 +182,7 @@ func (parser *ParamsParser) IntDefaulted(name string, defaultValue int) int {
 	if value == nil {
 		return defaultValue
 	} else {
-		return parser.parseInt(name, *value)
+		return parser.parseInt(*value)
 	}
 }
 
@@ -199,7 +190,7 @@ func (parser *ParamsParser) IntArray(name string) []int {
 	stringValues := parser.StringArray(name)
 	convertedValues := []int{}
 	for _, stringValue := range stringValues {
-		convertedValues = append(convertedValues, parser.parseInt(name, stringValue))
+		convertedValues = append(convertedValues, parser.parseInt(stringValue))
 	}
 	return convertedValues
 }
@@ -208,7 +199,7 @@ func (parser *ParamsParser) Int64(name string) int64 {
 	if !parser.exactlyOneValue(name) {
 		return 0
 	}
-	return parser.parseInt64(name, parser.values[name][0])
+	return parser.parseInt64(parser.values[name][0])
 }
 
 func (parser *ParamsParser) Int64Nullable(name string) *int64 {
@@ -219,7 +210,7 @@ func (parser *ParamsParser) Int64Nullable(name string) *int64 {
 	if len(pValues) == 0 {
 		return nil
 	} else {
-		convertedValue := parser.parseInt64(name, pValues[0])
+		convertedValue := parser.parseInt64(pValues[0])
 		return &convertedValue
 	}
 }
@@ -229,7 +220,7 @@ func (parser *ParamsParser) Int64Defaulted(name string, defaultValue int64) int6
 	if value == nil {
 		return defaultValue
 	} else {
-		return parser.parseInt64(name, *value)
+		return parser.parseInt64(*value)
 	}
 }
 
@@ -237,7 +228,7 @@ func (parser *ParamsParser) Int64Array(name string) []int64 {
 	stringValues := parser.StringArray(name)
 	convertedValues := []int64{}
 	for _, stringValue := range stringValues {
-		convertedValues = append(convertedValues, parser.parseInt64(name, stringValue))
+		convertedValues = append(convertedValues, parser.parseInt64(stringValue))
 	}
 	return convertedValues
 }
@@ -246,7 +237,7 @@ func (parser *ParamsParser) Float32(name string) float32 {
 	if !parser.exactlyOneValue(name) {
 		return 0
 	}
-	return parser.parseFloat32(name, parser.values[name][0])
+	return parser.parseFloat32(parser.values[name][0])
 }
 
 func (parser *ParamsParser) Float32Nullable(name string) *float32 {
@@ -257,7 +248,7 @@ func (parser *ParamsParser) Float32Nullable(name string) *float32 {
 	if len(pValues) == 0 {
 		return nil
 	} else {
-		convertedValue := parser.parseFloat32(name, pValues[0])
+		convertedValue := parser.parseFloat32(pValues[0])
 		return &convertedValue
 	}
 }
@@ -267,7 +258,7 @@ func (parser *ParamsParser) Float32Defaulted(name string, defaultValue float32) 
 	if value == nil {
 		return defaultValue
 	} else {
-		return parser.parseFloat32(name, *value)
+		return parser.parseFloat32(*value)
 	}
 }
 
@@ -275,7 +266,7 @@ func (parser *ParamsParser) Float32Array(name string) []float32 {
 	stringValues := parser.StringArray(name)
 	convertedValues := []float32{}
 	for _, stringValue := range stringValues {
-		convertedValues = append(convertedValues, parser.parseFloat32(name, stringValue))
+		convertedValues = append(convertedValues, parser.parseFloat32(stringValue))
 	}
 	return convertedValues
 }
@@ -284,7 +275,7 @@ func (parser *ParamsParser) Float64(name string) float64 {
 	if !parser.exactlyOneValue(name) {
 		return 0
 	}
-	return parser.parseFloat64(name, parser.values[name][0])
+	return parser.parseFloat64(parser.values[name][0])
 }
 
 func (parser *ParamsParser) Float64Nullable(name string) *float64 {
@@ -295,7 +286,7 @@ func (parser *ParamsParser) Float64Nullable(name string) *float64 {
 	if len(pValues) == 0 {
 		return nil
 	} else {
-		convertedValue := parser.parseFloat64(name, pValues[0])
+		convertedValue := parser.parseFloat64(pValues[0])
 		return &convertedValue
 	}
 }
@@ -305,7 +296,7 @@ func (parser *ParamsParser) Float64Defaulted(name string, defaultValue float64) 
 	if value == nil {
 		return defaultValue
 	} else {
-		return parser.parseFloat64(name, *value)
+		return parser.parseFloat64(*value)
 	}
 }
 
@@ -313,7 +304,7 @@ func (parser *ParamsParser) Float64Array(name string) []float64 {
 	stringValues := parser.StringArray(name)
 	convertedValues := []float64{}
 	for _, stringValue := range stringValues {
-		convertedValues = append(convertedValues, parser.parseFloat64(name, stringValue))
+		convertedValues = append(convertedValues, parser.parseFloat64(stringValue))
 	}
 	return convertedValues
 }
@@ -322,7 +313,7 @@ func (parser *ParamsParser) Decimal(name string) decimal.Decimal {
 	if !parser.exactlyOneValue(name) {
 		return decimal.Decimal{}
 	}
-	return parser.parseDecimal(name, parser.values[name][0])
+	return parser.parseDecimal(parser.values[name][0])
 }
 
 func (parser *ParamsParser) DecimalNullable(name string) *decimal.Decimal {
@@ -333,7 +324,7 @@ func (parser *ParamsParser) DecimalNullable(name string) *decimal.Decimal {
 	if len(pValues) == 0 {
 		return nil
 	} else {
-		convertedValue := parser.parseDecimal(name, pValues[0])
+		convertedValue := parser.parseDecimal(pValues[0])
 		return &convertedValue
 	}
 }
@@ -343,7 +334,7 @@ func (parser *ParamsParser) DecimalDefaulted(name string, defaultValue decimal.D
 	if value == nil {
 		return defaultValue
 	} else {
-		return parser.parseDecimal(name, *value)
+		return parser.parseDecimal(*value)
 	}
 }
 
@@ -351,7 +342,7 @@ func (parser *ParamsParser) DecimalArray(name string) []decimal.Decimal {
 	stringValues := parser.StringArray(name)
 	convertedValues := []decimal.Decimal{}
 	for _, stringValue := range stringValues {
-		convertedValues = append(convertedValues, parser.parseDecimal(name, stringValue))
+		convertedValues = append(convertedValues, parser.parseDecimal(stringValue))
 	}
 	return convertedValues
 }
@@ -360,7 +351,7 @@ func (parser *ParamsParser) Bool(name string) bool {
 	if !parser.exactlyOneValue(name) {
 		return false
 	}
-	return parser.parseBool(name, parser.values[name][0])
+	return parser.parseBool(parser.values[name][0])
 }
 
 func (parser *ParamsParser) BoolNullable(name string) *bool {
@@ -371,7 +362,7 @@ func (parser *ParamsParser) BoolNullable(name string) *bool {
 	if len(pValues) == 0 {
 		return nil
 	} else {
-		convertedValue := parser.parseBool(name, pValues[0])
+		convertedValue := parser.parseBool(pValues[0])
 		return &convertedValue
 	}
 }
@@ -381,7 +372,7 @@ func (parser *ParamsParser) BoolDefaulted(name string, defaultValue bool) bool {
 	if value == nil {
 		return defaultValue
 	} else {
-		return parser.parseBool(name, *value)
+		return parser.parseBool(*value)
 	}
 }
 
@@ -389,7 +380,7 @@ func (parser *ParamsParser) BoolArray(name string) []bool {
 	stringValues := parser.StringArray(name)
 	convertedValues := []bool{}
 	for _, stringValue := range stringValues {
-		convertedValues = append(convertedValues, parser.parseBool(name, stringValue))
+		convertedValues = append(convertedValues, parser.parseBool(stringValue))
 	}
 	return convertedValues
 }
@@ -398,7 +389,7 @@ func (parser *ParamsParser) Uuid(name string) uuid.UUID {
 	if !parser.exactlyOneValue(name) {
 		return uuid.Nil
 	}
-	return parser.parseUuid(name, parser.values[name][0])
+	return parser.parseUuid(parser.values[name][0])
 }
 
 func (parser *ParamsParser) UuidNullable(name string) *uuid.UUID {
@@ -409,7 +400,7 @@ func (parser *ParamsParser) UuidNullable(name string) *uuid.UUID {
 	if len(pValues) == 0 {
 		return nil
 	} else {
-		convertedValue := parser.parseUuid(name, pValues[0])
+		convertedValue := parser.parseUuid(pValues[0])
 		return &convertedValue
 	}
 }
@@ -419,7 +410,7 @@ func (parser *ParamsParser) UuidDefaulted(name string, defaultValue uuid.UUID) u
 	if value == nil {
 		return defaultValue
 	} else {
-		return parser.parseUuid(name, *value)
+		return parser.parseUuid(*value)
 	}
 }
 
@@ -427,7 +418,7 @@ func (parser *ParamsParser) UuidArray(name string) []uuid.UUID {
 	stringValues := parser.StringArray(name)
 	convertedValues := []uuid.UUID{}
 	for _, stringValue := range stringValues {
-		convertedValues = append(convertedValues, parser.parseUuid(name, stringValue))
+		convertedValues = append(convertedValues, parser.parseUuid(stringValue))
 	}
 	return convertedValues
 }
@@ -436,7 +427,7 @@ func (parser *ParamsParser) Date(name string) civil.Date {
 	if !parser.exactlyOneValue(name) {
 		return civil.Date{}
 	}
-	return parser.parseDate(name, parser.values[name][0])
+	return parser.parseDate(parser.values[name][0])
 }
 
 func (parser *ParamsParser) DateNullable(name string) *civil.Date {
@@ -447,7 +438,7 @@ func (parser *ParamsParser) DateNullable(name string) *civil.Date {
 	if len(pValues) == 0 {
 		return nil
 	} else {
-		convertedValue := parser.parseDate(name, pValues[0])
+		convertedValue := parser.parseDate(pValues[0])
 		return &convertedValue
 	}
 }
@@ -457,7 +448,7 @@ func (parser *ParamsParser) DateDefaulted(name string, defaultValue civil.Date) 
 	if value == nil {
 		return defaultValue
 	} else {
-		return parser.parseDate(name, *value)
+		return parser.parseDate(*value)
 	}
 }
 
@@ -465,7 +456,7 @@ func (parser *ParamsParser) DateArray(name string) []civil.Date {
 	stringValues := parser.StringArray(name)
 	convertedValues := []civil.Date{}
 	for _, stringValue := range stringValues {
-		convertedValues = append(convertedValues, parser.parseDate(name, stringValue))
+		convertedValues = append(convertedValues, parser.parseDate(stringValue))
 	}
 	return convertedValues
 }
@@ -474,7 +465,7 @@ func (parser *ParamsParser) DateTime(name string) civil.DateTime {
 	if !parser.exactlyOneValue(name) {
 		return civil.DateTime{}
 	}
-	return parser.parseDateTime(name, parser.values[name][0])
+	return parser.parseDateTime(parser.values[name][0])
 }
 
 func (parser *ParamsParser) DateTimeNullable(name string) *civil.DateTime {
@@ -485,7 +476,7 @@ func (parser *ParamsParser) DateTimeNullable(name string) *civil.DateTime {
 	if len(pValues) == 0 {
 		return nil
 	} else {
-		convertedValue := parser.parseDateTime(name, pValues[0])
+		convertedValue := parser.parseDateTime(pValues[0])
 		return &convertedValue
 	}
 }
@@ -495,7 +486,7 @@ func (parser *ParamsParser) DateTimeDefaulted(name string, defaultValue civil.Da
 	if value == nil {
 		return defaultValue
 	} else {
-		return parser.parseDateTime(name, *value)
+		return parser.parseDateTime(*value)
 	}
 }
 
@@ -503,7 +494,7 @@ func (parser *ParamsParser) DateTimeArray(name string) []civil.DateTime {
 	stringValues := parser.StringArray(name)
 	convertedValues := []civil.DateTime{}
 	for _, stringValue := range stringValues {
-		convertedValues = append(convertedValues, parser.parseDateTime(name, stringValue))
+		convertedValues = append(convertedValues, parser.parseDateTime(stringValue))
 	}
 	return convertedValues
 }
@@ -512,7 +503,7 @@ func (parser *ParamsParser) StringEnum(name string, values []string) string {
 	if !parser.exactlyOneValue(name) {
 		return ""
 	}
-	return parser.parseStringEnum(name, parser.values[name][0], values)
+	return parser.parseStringEnum(parser.values[name][0], values)
 }
 
 func (parser *ParamsParser) StringEnumNullable(name string, values []string) *string {
@@ -523,7 +514,7 @@ func (parser *ParamsParser) StringEnumNullable(name string, values []string) *st
 	if len(pValues) == 0 {
 		return nil
 	} else {
-		convertedValue := parser.parseStringEnum(name, pValues[0], values)
+		convertedValue := parser.parseStringEnum(pValues[0], values)
 		return &convertedValue
 	}
 }
@@ -533,7 +524,7 @@ func (parser *ParamsParser) StringEnumDefaulted(name string, values []string, de
 	if value == nil {
 		return defaultValue
 	} else {
-		return parser.parseStringEnum(name, *value, values)
+		return parser.parseStringEnum(*value, values)
 	}
 }
 
@@ -541,7 +532,7 @@ func (parser *ParamsParser) StringEnumArray(name string, values []string) []stri
 	stringValues := parser.StringArray(name)
 	convertedValues := []string{}
 	for _, stringValue := range stringValues {
-		convertedValues = append(convertedValues, parser.parseStringEnum(name, stringValue, values))
+		convertedValues = append(convertedValues, parser.parseStringEnum(stringValue, values))
 	}
 	return convertedValues
 }
