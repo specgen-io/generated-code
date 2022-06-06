@@ -15,11 +15,11 @@ import (
 type ParamsParser struct {
 	values                   map[string][]string
 	parseCommaSeparatedArray bool
-	Errors                   []models.ParamMessage
+	Errors                   []models.ValidationError
 }
 
 func NewParamsParser(values map[string][]string, parseCommaSeparatedArray bool) *ParamsParser {
-	return &ParamsParser{values, parseCommaSeparatedArray, []models.ParamMessage{}}
+	return &ParamsParser{values, parseCommaSeparatedArray, []models.ValidationError{}}
 }
 
 func (parser *ParamsParser) parseInt(name string, s string) int {
@@ -87,27 +87,27 @@ func (parser *ParamsParser) parseStringEnum(name string, s string, values []stri
 			return s
 		}
 	}
-	parser.addParamMessage(name, fmt.Sprintf("unexpected value %s, expected one of %s", s, strings.Join(values, ", ")))
+	parser.addValidationError(name, "unexpected_value", fmt.Sprintf("unexpected value %s, expected one of %s", s, strings.Join(values, ", ")))
 	return ""
 }
 
 func (parser *ParamsParser) addParsingError(name string, format string, err error) {
 	if err != nil {
-		parser.addParamMessage(name, fmt.Sprintf("failed to parse %s: %s ", format, err.Error()))
+		parser.addValidationError(name, "parsing_failed", fmt.Sprintf("failed to parse %s: %s ", format, err.Error()))
 	}
 }
 
-func (parser *ParamsParser) addParamMessage(name string, message string) {
-	parser.Errors = append(parser.Errors, models.ParamMessage{name, message})
+func (parser *ParamsParser) addValidationError(name string, code, message string) {
+	parser.Errors = append(parser.Errors, models.ValidationError{name, code, message})
 }
 
 func (parser *ParamsParser) exactlyOneValue(name string) bool {
 	pValues := parser.values[name]
 	if len(pValues) != 1 {
 		if len(pValues) == 0 {
-			parser.addParamMessage(name, "missing")
+			parser.addValidationError(name, "missing", "Parameters is missing")
 		} else {
-			parser.addParamMessage(name, fmt.Sprintf("expected exactly one value, found: %s", strings.Join(pValues, ",")))
+			parser.addValidationError(name, "too_many_values", fmt.Sprintf("expected exactly one value, found: %s", strings.Join(pValues, ",")))
 		}
 		return false
 	} else {
@@ -118,7 +118,7 @@ func (parser *ParamsParser) exactlyOneValue(name string) bool {
 func (parser *ParamsParser) notMoreThenOneValue(name string) bool {
 	pValues := parser.values[name]
 	if len(pValues) > 1 {
-		parser.addParamMessage(name, fmt.Sprintf("too many values provided, expected one or zero, found %s", strings.Join(pValues, ",")))
+		parser.addValidationError(name, "too_many_values", fmt.Sprintf("too many values provided, expected one or zero, found %s", strings.Join(pValues, ",")))
 		return false
 	} else {
 		return true
