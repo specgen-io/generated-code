@@ -1,20 +1,20 @@
-import * as service from './../generated/check_service'
+import * as service from './../generated/check'
 import * as models from './../generated/models'
 
-export let checkService = (): service.CheckService => {
-    let checkEmpty = async (): Promise<void> => {
+export const checkService = (): service.CheckService => {
+    const checkEmpty = async (): Promise<void> => {
         throw new Error('Not Implemented')
     }
 
-    let checkEmptyResponse = async (params: service.CheckEmptyResponseParams): Promise<void> => {
+    const checkEmptyResponse = async (params: service.CheckEmptyResponseParams): Promise<void> => {
         throw new Error('Not Implemented')
     }
 
-    let checkForbidden = async (): Promise<service.CheckForbiddenResponse> => {
+    const checkForbidden = async (): Promise<service.CheckForbiddenResponse> => {
         throw new Error('Not Implemented')
     }
 
-    let sameOperationName = async (): Promise<service.SameOperationNameResponse> => {
+    const sameOperationName = async (): Promise<service.SameOperationNameResponse> => {
         throw new Error('Not Implemented')
     }
 

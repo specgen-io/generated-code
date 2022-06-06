@@ -85,6 +85,47 @@ object Everything {
   implicit val codec: Codec[Everything] = deriveConfiguredCodec
 }
 
+sealed abstract class ErrorLocation(val value: String) extends StringEnumEntry
+
+case object ErrorLocation extends StringEnum[ErrorLocation] with StringCirceEnum[ErrorLocation] {
+  case object Query extends ErrorLocation("query")
+  case object Header extends ErrorLocation("header")
+  case object Body extends ErrorLocation("body")
+  case object Unknown extends ErrorLocation("unknown")
+  val values = findValues
+}
+
+case class ValidationError(
+  @JsonKey("path") path: String,
+  @JsonKey("code") code: String,
+  @JsonKey("message") message: Option[String]
+)
+
+object ValidationError {
+  implicit val config = Configuration.default
+  implicit val codec: Codec[ValidationError] = deriveConfiguredCodec
+}
+
+case class BadRequestError(
+  @JsonKey("message") message: String,
+  @JsonKey("location") location: ErrorLocation,
+  @JsonKey("errors") errors: List[ValidationError]
+)
+
+object BadRequestError {
+  implicit val config = Configuration.default
+  implicit val codec: Codec[BadRequestError] = deriveConfiguredCodec
+}
+
+case class NotFoundError(
+  @JsonKey("message") message: String
+)
+
+object NotFoundError {
+  implicit val config = Configuration.default
+  implicit val codec: Codec[NotFoundError] = deriveConfiguredCodec
+}
+
 case class InternalServerError(
   @JsonKey("message") message: String
 )
@@ -92,24 +133,4 @@ case class InternalServerError(
 object InternalServerError {
   implicit val config = Configuration.default
   implicit val codec: Codec[InternalServerError] = deriveConfiguredCodec
-}
-
-case class ParamMessage(
-  @JsonKey("name") name: String,
-  @JsonKey("message") message: String
-)
-
-object ParamMessage {
-  implicit val config = Configuration.default
-  implicit val codec: Codec[ParamMessage] = deriveConfiguredCodec
-}
-
-case class BadRequestError(
-  @JsonKey("message") message: String,
-  @JsonKey("params") params: List[ParamMessage]
-)
-
-object BadRequestError {
-  implicit val config = Configuration.default
-  implicit val codec: Codec[BadRequestError] = deriveConfiguredCodec
 }

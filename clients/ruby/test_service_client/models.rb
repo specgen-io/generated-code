@@ -75,21 +75,36 @@ module TestService
     val :accepted_result, String
   end
 
-  class InternalServerError
-    include DataClass
-    val :message, String
+  class ErrorLocation
+    include Enum
+    define :query, 'query'
+    define :header, 'header'
+    define :body, 'body'
+    define :unknown, 'unknown'
   end
 
-  class ParamMessage
+  class ValidationError
     include DataClass
-    val :name, String
-    val :message, String
+    val :path, String
+    val :code, String
+    val :message, T.nilable(String)
   end
 
   class BadRequestError
     include DataClass
     val :message, String
-    val :params, T.array(ParamMessage)
+    val :location, ErrorLocation
+    val :errors, T.array(ValidationError)
+  end
+
+  class NotFoundError
+    include DataClass
+    val :message, String
+  end
+
+  class InternalServerError
+    include DataClass
+    val :message, String
   end
 end
 
@@ -100,20 +115,35 @@ module TestService::V2
     val :string_field, String
   end
 
-  class InternalServerError
-    include DataClass
-    val :message, String
+  class ErrorLocation
+    include Enum
+    define :query, 'query'
+    define :header, 'header'
+    define :body, 'body'
+    define :unknown, 'unknown'
   end
 
-  class ParamMessage
+  class ValidationError
     include DataClass
-    val :name, String
-    val :message, String
+    val :path, String
+    val :code, String
+    val :message, T.nilable(String)
   end
 
   class BadRequestError
     include DataClass
     val :message, String
-    val :params, T.array(ParamMessage)
+    val :location, ErrorLocation
+    val :errors, T.array(ValidationError)
+  end
+
+  class NotFoundError
+    include DataClass
+    val :message, String
+  end
+
+  class InternalServerError
+    include DataClass
+    val :message, String
   end
 end

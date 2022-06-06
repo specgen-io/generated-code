@@ -13,12 +13,16 @@ public class BadRequestError {
 	@Json(name = "message")
 	private String message;
 
-	@Json(name = "params")
-	private ParamMessage[] params;
+	@Json(name = "location")
+	private ErrorLocation location;
 
-	public BadRequestError(String message, ParamMessage[] params) {
+	@Json(name = "errors")
+	private ValidationError[] errors;
+
+	public BadRequestError(String message, ErrorLocation location, ValidationError[] errors) {
 		this.message = message;
-		this.params = params;
+		this.location = location;
+		this.errors = errors;
 	}
 
 	public String getMessage() {
@@ -29,12 +33,20 @@ public class BadRequestError {
 		this.message = message;
 	}
 
-	public ParamMessage[] getParams() {
-		return params;
+	public ErrorLocation getLocation() {
+		return location;
 	}
 
-	public void setParams(ParamMessage[] params) {
-		this.params = params;
+	public void setLocation(ErrorLocation location) {
+		this.location = location;
+	}
+
+	public ValidationError[] getErrors() {
+		return errors;
+	}
+
+	public void setErrors(ValidationError[] errors) {
+		this.errors = errors;
 	}
 
 	@Override
@@ -42,18 +54,18 @@ public class BadRequestError {
 		if (this == o) return true;
 		if (!(o instanceof BadRequestError)) return false;
 		BadRequestError that = (BadRequestError) o;
-		return Objects.equals(getMessage(), that.getMessage()) && Arrays.equals(getParams(), that.getParams());
+		return Objects.equals(getMessage(), that.getMessage()) && Objects.equals(getLocation(), that.getLocation()) && Arrays.equals(getErrors(), that.getErrors());
 	}
 
 	@Override
 	public int hashCode() {
-		int result = Objects.hash(getMessage());
-		result = 31 * result + Arrays.hashCode(getParams());
+		int result = Objects.hash(getMessage(), getLocation());
+		result = 31 * result + Arrays.hashCode(getErrors());
 		return result;
 	}
 
 	@Override
 	public String toString() {
-		return String.format("BadRequestError{message=%s, params=%s}", message, Arrays.toString(params));
+		return String.format("BadRequestError{message=%s, location=%s, errors=%s}", message, location, Arrays.toString(errors));
 	}
 }

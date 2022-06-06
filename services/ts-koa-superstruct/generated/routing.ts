@@ -1,9 +1,10 @@
 import Router from '@koa/router'
+import { ExtendableContext } from 'koa'
 import {zipHeaders} from './params'
 import * as t from './superstruct'
 import * as models from './models'
-import {EchoService} from './echo_service'
-import {CheckService} from './check_service'
+import {EchoService} from './echo'
+import {CheckService} from './check'
 
 const TEchoQueryQueryParams = t.type({
     int_query: t.StrInteger,
@@ -82,177 +83,204 @@ const TEchoEverythingQueryParams = t.type({
 
 type EchoEverythingQueryParams = t.Infer<typeof TEchoEverythingQueryParams>
 
-export let echoRouter = (service: EchoService) => {
-    let router = new Router()
+export const echoRouter = (service: EchoService) => {
+    const respondInternalServerError = (ctx: ExtendableContext, error: models.InternalServerError) => {
+        const body = t.encode(models.TInternalServerError, error)
+        ctx.status = 500
+        ctx.body = body
+    }
+    
+    const respondNotFound = (ctx: ExtendableContext, error: models.NotFoundError) => {
+        const body = t.encode(models.TNotFoundError, error)
+        ctx.status = 404
+        ctx.body = body
+    }
+    
+    const respondBadRequest = (ctx: ExtendableContext, error: models.BadRequestError) => {
+        const body = t.encode(models.TBadRequestError, error)
+        ctx.status = 400
+        ctx.body = body
+    }
+    
+    const assertContentType = (ctx: ExtendableContext, contentType: string): boolean => {
+        if (ctx.request.type != contentType) {
+            const message = `Expected Content-Type header: ${contentType}`
+            const error = {
+                message, 
+                location: models.ErrorLocation.HEADER,
+                errors: [{path: "Content-Type", code: "wrong_value", message}]
+            }
+            respondBadRequest(ctx, error)
+            return false
+        }
+        return true
+    }
+
+    const router = new Router()
 
     router.post('/echo/body_string', async (ctx) => {
-        if (ctx.request.type != 'text/plain') {
-            ctx.throw(400)
-            return
-        }
-        const body: string = ctx.request.rawBody
         try {
-            let result = await service.echoBodyString({body})
+            if (!assertContentType(ctx, "text/plain")) {
+                return
+            }
+            const body: string = ctx.request.rawBody
+            const result = await service.echoBodyString({body})
             ctx.status = 200
             ctx.body = result
             return
         } catch (error) {
-            ctx.throw(500)
+            respondInternalServerError(ctx, { message: error instanceof Error ? error.message : "Unknown error" })
             return
         }
     })
 
     router.post('/echo/body_model', async (ctx) => {
-        if (ctx.request.type != 'application/json') {
-            ctx.throw(400)
-            return
-        }
-        var body: models.Message
         try {
-            body = t.decode(models.TMessage, ctx.request.body)
-        } catch (error) {
-            ctx.throw(400)
-            return
-        }
-        try {
-            let result = await service.echoBodyModel({body})
+            if (!assertContentType(ctx, "application/json")) {
+                return
+            }
+            const bodyDecode = t.decode(models.TMessage, ctx.request.body)
+            if (bodyDecode.error) {
+                respondBadRequest(ctx, { message: "Failed to parse body JSON", location: models.ErrorLocation.BODY, errors: bodyDecode.error })
+                return
+            }
+            const body = bodyDecode.value
+            const result = await service.echoBodyModel({body})
             ctx.status = 200
             ctx.body = t.encode(models.TMessage, result)
             return
         } catch (error) {
-            ctx.throw(500)
+            respondInternalServerError(ctx, { message: error instanceof Error ? error.message : "Unknown error" })
             return
         }
     })
 
     router.post('/echo/body_array', async (ctx) => {
-        if (ctx.request.type != 'application/json') {
-            ctx.throw(400)
-            return
-        }
-        var body: string[]
         try {
-            body = t.decode(t.array(t.string()), ctx.request.body)
-        } catch (error) {
-            ctx.throw(400)
-            return
-        }
-        try {
-            let result = await service.echoBodyArray({body})
+            if (!assertContentType(ctx, "application/json")) {
+                return
+            }
+            const bodyDecode = t.decode(t.array(t.string()), ctx.request.body)
+            if (bodyDecode.error) {
+                respondBadRequest(ctx, { message: "Failed to parse body JSON", location: models.ErrorLocation.BODY, errors: bodyDecode.error })
+                return
+            }
+            const body = bodyDecode.value
+            const result = await service.echoBodyArray({body})
             ctx.status = 200
             ctx.body = t.encode(t.array(t.string()), result)
             return
         } catch (error) {
-            ctx.throw(500)
+            respondInternalServerError(ctx, { message: error instanceof Error ? error.message : "Unknown error" })
             return
         }
     })
 
     router.post('/echo/body_map', async (ctx) => {
-        if (ctx.request.type != 'application/json') {
-            ctx.throw(400)
-            return
-        }
-        var body: Record<string, string>
         try {
-            body = t.decode(t.record(t.string(), t.string()), ctx.request.body)
-        } catch (error) {
-            ctx.throw(400)
-            return
-        }
-        try {
-            let result = await service.echoBodyMap({body})
+            if (!assertContentType(ctx, "application/json")) {
+                return
+            }
+            const bodyDecode = t.decode(t.record(t.string(), t.string()), ctx.request.body)
+            if (bodyDecode.error) {
+                respondBadRequest(ctx, { message: "Failed to parse body JSON", location: models.ErrorLocation.BODY, errors: bodyDecode.error })
+                return
+            }
+            const body = bodyDecode.value
+            const result = await service.echoBodyMap({body})
             ctx.status = 200
             ctx.body = t.encode(t.record(t.string(), t.string()), result)
             return
         } catch (error) {
-            ctx.throw(500)
+            respondInternalServerError(ctx, { message: error instanceof Error ? error.message : "Unknown error" })
             return
         }
     })
 
     router.get('/echo/query', async (ctx) => {
-        var queryParams: EchoQueryQueryParams
         try {
-            queryParams = t.decode(TEchoQueryQueryParams, ctx.request.query)
-        } catch (error) {
-            ctx.throw(400)
-            return
-        }
-        try {
-            let result = await service.echoQuery({...queryParams})
+            const queryParamsDecode = t.decode(TEchoQueryQueryParams, ctx.request.query)
+            if (queryParamsDecode.error) {
+                respondBadRequest(ctx, { message: "Failed to parse query parameters", location: models.ErrorLocation.QUERY, errors: queryParamsDecode.error })
+                return
+            }
+            const queryParams = queryParamsDecode.value
+            const result = await service.echoQuery({...queryParams})
             ctx.status = 200
             ctx.body = t.encode(models.TParameters, result)
             return
         } catch (error) {
-            ctx.throw(500)
+            respondInternalServerError(ctx, { message: error instanceof Error ? error.message : "Unknown error" })
             return
         }
     })
 
     router.get('/echo/header', async (ctx) => {
-        var headerParams: EchoHeaderHeaderParams
         try {
-            headerParams = t.decode(TEchoHeaderHeaderParams, zipHeaders(ctx.req.rawHeaders))
-        } catch (error) {
-            ctx.throw(400)
-            return
-        }
-        try {
-            let result = await service.echoHeader({...headerParams})
+            const headerParamsDecode = t.decode(TEchoHeaderHeaderParams, zipHeaders(ctx.req.rawHeaders))
+            if (headerParamsDecode.error) {
+                respondBadRequest(ctx, { message: "Failed to parse header parameters", location: models.ErrorLocation.HEADER, errors: headerParamsDecode.error })
+                return
+            }
+            const headerParams = headerParamsDecode.value
+            const result = await service.echoHeader({...headerParams})
             ctx.status = 200
             ctx.body = t.encode(models.TParameters, result)
             return
         } catch (error) {
-            ctx.throw(500)
+            respondInternalServerError(ctx, { message: error instanceof Error ? error.message : "Unknown error" })
             return
         }
     })
 
     router.get('/echo/url_params/:int_url/:long_url/:float_url/:double_url/:decimal_url/:bool_url/:string_url/:uuid_url/:date_url/:datetime_url/:enum_url', async (ctx) => {
-        var urlParams: EchoUrlParamsUrlParams
         try {
-            urlParams = t.decode(TEchoUrlParamsUrlParams, ctx.params)
-        } catch (error) {
-            ctx.throw(400)
-            return
-        }
-        try {
-            let result = await service.echoUrlParams({...urlParams})
+            const urlParamsDecode = t.decode(TEchoUrlParamsUrlParams, ctx.params)
+            if (urlParamsDecode.error) {
+                respondNotFound(ctx, { message: "Failed to parse url parameters" })
+                return
+            }
+            const urlParams = urlParamsDecode.value
+            const result = await service.echoUrlParams({...urlParams})
             ctx.status = 200
             ctx.body = t.encode(models.TUrlParameters, result)
             return
         } catch (error) {
-            ctx.throw(500)
+            respondInternalServerError(ctx, { message: error instanceof Error ? error.message : "Unknown error" })
             return
         }
     })
 
     router.post('/echo/everything/:date_url/:decimal_url', async (ctx) => {
-        if (ctx.request.type != 'application/json') {
-            ctx.throw(400)
-            return
-        }
-        var urlParams: EchoEverythingUrlParams
-        var headerParams: EchoEverythingHeaderParams
-        var queryParams: EchoEverythingQueryParams
         try {
-            urlParams = t.decode(TEchoEverythingUrlParams, ctx.params)
-            headerParams = t.decode(TEchoEverythingHeaderParams, zipHeaders(ctx.req.rawHeaders))
-            queryParams = t.decode(TEchoEverythingQueryParams, ctx.request.query)
-        } catch (error) {
-            ctx.throw(400)
-            return
-        }
-        var body: models.Message
-        try {
-            body = t.decode(models.TMessage, ctx.request.body)
-        } catch (error) {
-            ctx.throw(400)
-            return
-        }
-        try {
-            let result = await service.echoEverything({body, ...urlParams, ...headerParams, ...queryParams})
+            const urlParamsDecode = t.decode(TEchoEverythingUrlParams, ctx.params)
+            if (urlParamsDecode.error) {
+                respondNotFound(ctx, { message: "Failed to parse url parameters" })
+                return
+            }
+            const urlParams = urlParamsDecode.value
+            if (!assertContentType(ctx, "application/json")) {
+                return
+            }
+            const headerParamsDecode = t.decode(TEchoEverythingHeaderParams, zipHeaders(ctx.req.rawHeaders))
+            if (headerParamsDecode.error) {
+                respondBadRequest(ctx, { message: "Failed to parse header parameters", location: models.ErrorLocation.HEADER, errors: headerParamsDecode.error })
+                return
+            }
+            const headerParams = headerParamsDecode.value
+            const queryParamsDecode = t.decode(TEchoEverythingQueryParams, ctx.request.query)
+            if (queryParamsDecode.error) {
+                respondBadRequest(ctx, { message: "Failed to parse query parameters", location: models.ErrorLocation.QUERY, errors: queryParamsDecode.error })
+                return
+            }
+            const queryParams = queryParamsDecode.value
+            const bodyDecode = t.decode(models.TMessage, ctx.request.body)
+            if (bodyDecode.error) {
+                respondBadRequest(ctx, { message: "Failed to parse body JSON", location: models.ErrorLocation.BODY, errors: bodyDecode.error })
+                return
+            }
+            const body = bodyDecode.value
+            const result = await service.echoEverything({body, ...urlParams, ...headerParams, ...queryParams})
             switch (result.status) {
                 case 'ok':
                     ctx.status = 200
@@ -263,14 +291,14 @@ export let echoRouter = (service: EchoService) => {
                     return
             }
         } catch (error) {
-            ctx.throw(500)
+            respondInternalServerError(ctx, { message: error instanceof Error ? error.message : "Unknown error" })
             return
         }
     })
 
     router.get('/echo/same_operation_name', async (ctx) => {
         try {
-            let result = await service.sameOperationName()
+            const result = await service.sameOperationName()
             switch (result.status) {
                 case 'ok':
                     ctx.status = 200
@@ -280,7 +308,7 @@ export let echoRouter = (service: EchoService) => {
                     return
             }
         } catch (error) {
-            ctx.throw(500)
+            respondInternalServerError(ctx, { message: error instanceof Error ? error.message : "Unknown error" })
             return
         }
     })
@@ -288,8 +316,40 @@ export let echoRouter = (service: EchoService) => {
     return router
 }
 
-export let checkRouter = (service: CheckService) => {
-    let router = new Router()
+export const checkRouter = (service: CheckService) => {
+    const respondInternalServerError = (ctx: ExtendableContext, error: models.InternalServerError) => {
+        const body = t.encode(models.TInternalServerError, error)
+        ctx.status = 500
+        ctx.body = body
+    }
+    
+    const respondNotFound = (ctx: ExtendableContext, error: models.NotFoundError) => {
+        const body = t.encode(models.TNotFoundError, error)
+        ctx.status = 404
+        ctx.body = body
+    }
+    
+    const respondBadRequest = (ctx: ExtendableContext, error: models.BadRequestError) => {
+        const body = t.encode(models.TBadRequestError, error)
+        ctx.status = 400
+        ctx.body = body
+    }
+    
+    const assertContentType = (ctx: ExtendableContext, contentType: string): boolean => {
+        if (ctx.request.type != contentType) {
+            const message = `Expected Content-Type header: ${contentType}`
+            const error = {
+                message, 
+                location: models.ErrorLocation.HEADER,
+                errors: [{path: "Content-Type", code: "wrong_value", message}]
+            }
+            respondBadRequest(ctx, error)
+            return false
+        }
+        return true
+    }
+
+    const router = new Router()
 
     router.get('/check/empty', async (ctx) => {
         try {
@@ -297,36 +357,34 @@ export let checkRouter = (service: CheckService) => {
             ctx.status = 200
             return
         } catch (error) {
-            ctx.throw(500)
+            respondInternalServerError(ctx, { message: error instanceof Error ? error.message : "Unknown error" })
             return
         }
     })
 
     router.post('/check/empty_response', async (ctx) => {
-        if (ctx.request.type != 'application/json') {
-            ctx.throw(400)
-            return
-        }
-        var body: models.Message
         try {
-            body = t.decode(models.TMessage, ctx.request.body)
-        } catch (error) {
-            ctx.throw(400)
-            return
-        }
-        try {
+            if (!assertContentType(ctx, "application/json")) {
+                return
+            }
+            const bodyDecode = t.decode(models.TMessage, ctx.request.body)
+            if (bodyDecode.error) {
+                respondBadRequest(ctx, { message: "Failed to parse body JSON", location: models.ErrorLocation.BODY, errors: bodyDecode.error })
+                return
+            }
+            const body = bodyDecode.value
             await service.checkEmptyResponse({body})
             ctx.status = 200
             return
         } catch (error) {
-            ctx.throw(500)
+            respondInternalServerError(ctx, { message: error instanceof Error ? error.message : "Unknown error" })
             return
         }
     })
 
     router.get('/check/forbidden', async (ctx) => {
         try {
-            let result = await service.checkForbidden()
+            const result = await service.checkForbidden()
             switch (result.status) {
                 case 'ok':
                     ctx.status = 200
@@ -337,14 +395,14 @@ export let checkRouter = (service: CheckService) => {
                     return
             }
         } catch (error) {
-            ctx.throw(500)
+            respondInternalServerError(ctx, { message: error instanceof Error ? error.message : "Unknown error" })
             return
         }
     })
 
     router.get('/check/same_operation_name', async (ctx) => {
         try {
-            let result = await service.sameOperationName()
+            const result = await service.sameOperationName()
             switch (result.status) {
                 case 'ok':
                     ctx.status = 200
@@ -354,7 +412,7 @@ export let checkRouter = (service: CheckService) => {
                     return
             }
         } catch (error) {
-            ctx.throw(500)
+            respondInternalServerError(ctx, { message: error instanceof Error ? error.message : "Unknown error" })
             return
         }
     })
