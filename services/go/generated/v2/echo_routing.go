@@ -17,6 +17,11 @@ func AddEchoRoutes(router *vestigo.Router, echoService echo.Service) {
 		respondJson(logFields, res, 400, error)
 	}
 	_ = respondBadRequest
+	respondNotFound := func(logFields log.Fields, res http.ResponseWriter, error *models.NotFoundError) {
+		log.WithFields(logFields).Warn(error.Message)
+		respondJson(logFields, res, 404, error)
+	}
+	_ = respondNotFound
 
 	respondInternalServerError := func(logFields log.Fields, res http.ResponseWriter, error *models.InternalServerError) {
 		log.WithFields(logFields).Warn(error.Message)
@@ -30,13 +35,13 @@ func AddEchoRoutes(router *vestigo.Router, echoService echo.Service) {
 		var err error
 		contentType := req.Header.Get("Content-Type")
 		if !strings.Contains(contentType, "application/json") {
-			respondBadRequest(logEchoBodyModel, res, &models.BadRequestError{Message: fmt.Sprintf("Wrong Content-type: %s", contentType), Params: nil})
+			respondBadRequest(logEchoBodyModel, res, &models.BadRequestError{Message: fmt.Sprintf("Wrong Content-type: %s", contentType), Errors: nil})
 			return
 		}
 		var body models.Message
 		err = json.NewDecoder(req.Body).Decode(&body)
 		if err != nil {
-			respondBadRequest(logEchoBodyModel, res, &models.BadRequestError{Message: fmt.Sprintf("Decoding body JSON failed: %s", err.Error()), Params: nil})
+			respondBadRequest(logEchoBodyModel, res, &models.BadRequestError{Message: fmt.Sprintf("Decoding body JSON failed: %s", err.Error()), Errors: nil})
 			return
 		}
 		response, err := echoService.EchoBodyModel(&body)
