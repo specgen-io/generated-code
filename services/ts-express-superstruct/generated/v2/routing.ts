@@ -3,29 +3,54 @@ import {Request, Response} from 'express'
 import {zipHeaders} from './../params'
 import * as t from './../superstruct'
 import * as models from './models'
-import {EchoService} from './echo_service'
+import {EchoService} from './echo'
 
-export let echoRouter = (service: EchoService) => {
-    let router = Router()
+export const echoRouter = (service: EchoService) => {
+    const respondInternalServerError = (response: Response, error: models.InternalServerError) => {
+        const body = t.encode(models.TInternalServerError, error)
+        response.status(500).type("json").send(JSON.stringify(body))
+    }
+    
+    const respondNotFound = (response: Response, error: models.NotFoundError) => {
+        const body = t.encode(models.TNotFoundError, error)
+        response.status(404).type("json").send(JSON.stringify(body))
+    }
+    
+    const respondBadRequest = (response: Response, error: models.BadRequestError) => {
+        const body = t.encode(models.TBadRequestError, error)
+        response.status(400).type("json").send(JSON.stringify(body))
+    }
+    
+    const assertContentType = (request: Request, response: Response, contentType: string): boolean => {
+        if (!request.is(contentType)) {
+            const message = `Expected Content-Type header: ${contentType}`
+            const errors = [{path: "Content-Type", code: "wrong_value", message}]
+            const error = {message, location: models.ErrorLocation.HEADER, errors}
+            respondBadRequest(response, error)
+            return false
+        }
+        return true
+    }
+
+    const router = Router()
 
     router.post('/echo/body_model', async (request: Request, response: Response) => {
-        if (!request.is('application/json')) {
-            response.status(400).send()
-            return
-        }
-        var body: models.Message
         try {
-            body = t.decode(models.TMessage, request.body)
-        } catch (error) {
-            response.status(400).send()
-            return
-        }
-        try {
-            let result = await service.echoBodyModel({body})
+            if (!assertContentType(request, response, "application/json")) {
+                return
+            }
+            const bodyDecode = t.decode(models.TMessage, request.body)
+            if (bodyDecode.error) {
+                respondBadRequest(response, { message: "Failed to parse body JSON", location: models.ErrorLocation.BODY, errors: bodyDecode.error })
+                return
+            }
+            const body = bodyDecode.value
+            const result = await service.echoBodyModel({body})
             response.status(200).type('json').send(JSON.stringify(t.encode(models.TMessage, result)))
             return
         } catch (error) {
-            response.status(500).send()
+            respondInternalServerError(response, { message: error instanceof Error ? error.message : "Unknown error" })
+            return
         }
     })
 

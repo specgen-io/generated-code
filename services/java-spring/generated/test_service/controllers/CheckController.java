@@ -44,7 +44,8 @@ public class CheckController {
 		try {
 			requestBody = objectMapper.readValue(bodyStr, new TypeReference<Message>() {});
 		} catch (IOException e) {
-			logger.error("Completed request with status code: {}", HttpStatus.BAD_REQUEST);
+			logger.error("Failed to deserialize request body {}", e.getMessage());
+			logger.info("Completed request with status code: {}", HttpStatus.BAD_REQUEST);
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 		checkService.checkEmptyResponse(requestBody);
@@ -58,16 +59,16 @@ public class CheckController {
 
 		var result = checkService.checkForbidden();
 		if (result == null) {
-			logger.error("Completed request with status code: {}", HttpStatus.INTERNAL_SERVER_ERROR);
+			logger.error("Service implementation returned nil");
+			logger.info("Completed request with status code: {}", HttpStatus.INTERNAL_SERVER_ERROR);
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 		if (result instanceof CheckForbiddenResponse.Ok) {
-			String responseJson;
+			String responseJson = "";
 			try {
 				responseJson = objectMapper.writeValueAsString(((CheckForbiddenResponse.Ok) result).body);
 			} catch (Exception e) {
-				logger.error("Failed to serialize JSON: {}" + e.getMessage());
-				return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+				logger.error("Failed to serialize response body: {}", e.getMessage());
 			}
 			HttpHeaders headers = new HttpHeaders();
 			headers.add(CONTENT_TYPE, "application/json");
@@ -79,7 +80,8 @@ public class CheckController {
 			return new ResponseEntity<>(HttpStatus.FORBIDDEN);
 		}
 
-		logger.error("Completed request with status code: {}", HttpStatus.INTERNAL_SERVER_ERROR);
+		logger.error("No result returned from service implementation");
+		logger.info("Completed request with status code: {}", HttpStatus.INTERNAL_SERVER_ERROR);
 		return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 
@@ -89,7 +91,8 @@ public class CheckController {
 
 		var result = checkService.sameOperationName();
 		if (result == null) {
-			logger.error("Completed request with status code: {}", HttpStatus.INTERNAL_SERVER_ERROR);
+			logger.error("Service implementation returned nil");
+			logger.info("Completed request with status code: {}", HttpStatus.INTERNAL_SERVER_ERROR);
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 		if (result instanceof SameOperationNameResponse.Ok) {
@@ -101,7 +104,8 @@ public class CheckController {
 			return new ResponseEntity<>(HttpStatus.FORBIDDEN);
 		}
 
-		logger.error("Completed request with status code: {}", HttpStatus.INTERNAL_SERVER_ERROR);
+		logger.error("No result returned from service implementation");
+		logger.info("Completed request with status code: {}", HttpStatus.INTERNAL_SERVER_ERROR);
 		return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 }

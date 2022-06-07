@@ -33,7 +33,8 @@ public class EchoController {
 
 		var result = echoService.echoBodyString(bodyStr);
 		if (result == null) {
-			logger.error("Completed request with status code: {}", HttpStatus.INTERNAL_SERVER_ERROR);
+			logger.error("Service implementation returned nil");
+			logger.info("Completed request with status code: {}", HttpStatus.INTERNAL_SERVER_ERROR);
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 		HttpHeaders headers = new HttpHeaders();
@@ -50,20 +51,21 @@ public class EchoController {
 		try {
 			requestBody = objectMapper.readValue(bodyStr, new TypeReference<Message>() {});
 		} catch (IOException e) {
-			logger.error("Completed request with status code: {}", HttpStatus.BAD_REQUEST);
+			logger.error("Failed to deserialize request body {}", e.getMessage());
+			logger.info("Completed request with status code: {}", HttpStatus.BAD_REQUEST);
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 		var result = echoService.echoBodyModel(requestBody);
 		if (result == null) {
-			logger.error("Completed request with status code: {}", HttpStatus.INTERNAL_SERVER_ERROR);
+			logger.error("Service implementation returned nil");
+			logger.info("Completed request with status code: {}", HttpStatus.INTERNAL_SERVER_ERROR);
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
-		String responseJson;
+		String responseJson = "";
 		try {
 			responseJson = objectMapper.writeValueAsString(result);
 		} catch (Exception e) {
-			logger.error("Failed to serialize JSON: {}" + e.getMessage());
-			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+			logger.error("Failed to serialize response body: {}", e.getMessage());
 		}
 		HttpHeaders headers = new HttpHeaders();
 		headers.add(CONTENT_TYPE, "application/json");
@@ -79,20 +81,21 @@ public class EchoController {
 		try {
 			requestBody = objectMapper.readValue(bodyStr, new TypeReference<String[]>() {});
 		} catch (IOException e) {
-			logger.error("Completed request with status code: {}", HttpStatus.BAD_REQUEST);
+			logger.error("Failed to deserialize request body {}", e.getMessage());
+			logger.info("Completed request with status code: {}", HttpStatus.BAD_REQUEST);
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 		var result = echoService.echoBodyArray(requestBody);
 		if (result == null) {
-			logger.error("Completed request with status code: {}", HttpStatus.INTERNAL_SERVER_ERROR);
+			logger.error("Service implementation returned nil");
+			logger.info("Completed request with status code: {}", HttpStatus.INTERNAL_SERVER_ERROR);
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
-		String responseJson;
+		String responseJson = "";
 		try {
 			responseJson = objectMapper.writeValueAsString(result);
 		} catch (Exception e) {
-			logger.error("Failed to serialize JSON: {}" + e.getMessage());
-			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+			logger.error("Failed to serialize response body: {}", e.getMessage());
 		}
 		HttpHeaders headers = new HttpHeaders();
 		headers.add(CONTENT_TYPE, "application/json");
@@ -108,20 +111,21 @@ public class EchoController {
 		try {
 			requestBody = objectMapper.readValue(bodyStr, new TypeReference<Map<String, String>>() {});
 		} catch (IOException e) {
-			logger.error("Completed request with status code: {}", HttpStatus.BAD_REQUEST);
+			logger.error("Failed to deserialize request body {}", e.getMessage());
+			logger.info("Completed request with status code: {}", HttpStatus.BAD_REQUEST);
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 		var result = echoService.echoBodyMap(requestBody);
 		if (result == null) {
-			logger.error("Completed request with status code: {}", HttpStatus.INTERNAL_SERVER_ERROR);
+			logger.error("Service implementation returned nil");
+			logger.info("Completed request with status code: {}", HttpStatus.INTERNAL_SERVER_ERROR);
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
-		String responseJson;
+		String responseJson = "";
 		try {
 			responseJson = objectMapper.writeValueAsString(result);
 		} catch (Exception e) {
-			logger.error("Failed to serialize JSON: {}" + e.getMessage());
-			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+			logger.error("Failed to serialize response body: {}", e.getMessage());
 		}
 		HttpHeaders headers = new HttpHeaders();
 		headers.add(CONTENT_TYPE, "application/json");
@@ -135,15 +139,15 @@ public class EchoController {
 
 		var result = echoService.echoQuery(intQuery, longQuery, floatQuery, doubleQuery, decimalQuery, boolQuery, stringQuery, stringOptQuery, stringDefaultedQuery, stringArrayQuery, uuidQuery, dateQuery, dateArrayQuery, datetimeQuery, enumQuery);
 		if (result == null) {
-			logger.error("Completed request with status code: {}", HttpStatus.INTERNAL_SERVER_ERROR);
+			logger.error("Service implementation returned nil");
+			logger.info("Completed request with status code: {}", HttpStatus.INTERNAL_SERVER_ERROR);
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
-		String responseJson;
+		String responseJson = "";
 		try {
 			responseJson = objectMapper.writeValueAsString(result);
 		} catch (Exception e) {
-			logger.error("Failed to serialize JSON: {}" + e.getMessage());
-			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+			logger.error("Failed to serialize response body: {}", e.getMessage());
 		}
 		HttpHeaders headers = new HttpHeaders();
 		headers.add(CONTENT_TYPE, "application/json");
@@ -157,15 +161,15 @@ public class EchoController {
 
 		var result = echoService.echoHeader(intHeader, longHeader, floatHeader, doubleHeader, decimalHeader, boolHeader, stringHeader, stringOptHeader, stringDefaultedHeader, stringArrayHeader, uuidHeader, dateHeader, dateArrayHeader, datetimeHeader, enumHeader);
 		if (result == null) {
-			logger.error("Completed request with status code: {}", HttpStatus.INTERNAL_SERVER_ERROR);
+			logger.error("Service implementation returned nil");
+			logger.info("Completed request with status code: {}", HttpStatus.INTERNAL_SERVER_ERROR);
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
-		String responseJson;
+		String responseJson = "";
 		try {
 			responseJson = objectMapper.writeValueAsString(result);
 		} catch (Exception e) {
-			logger.error("Failed to serialize JSON: {}" + e.getMessage());
-			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+			logger.error("Failed to serialize response body: {}", e.getMessage());
 		}
 		HttpHeaders headers = new HttpHeaders();
 		headers.add(CONTENT_TYPE, "application/json");
@@ -179,15 +183,15 @@ public class EchoController {
 
 		var result = echoService.echoUrlParams(intUrl, longUrl, floatUrl, doubleUrl, decimalUrl, boolUrl, stringUrl, uuidUrl, dateUrl, datetimeUrl, enumUrl);
 		if (result == null) {
-			logger.error("Completed request with status code: {}", HttpStatus.INTERNAL_SERVER_ERROR);
+			logger.error("Service implementation returned nil");
+			logger.info("Completed request with status code: {}", HttpStatus.INTERNAL_SERVER_ERROR);
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
-		String responseJson;
+		String responseJson = "";
 		try {
 			responseJson = objectMapper.writeValueAsString(result);
 		} catch (Exception e) {
-			logger.error("Failed to serialize JSON: {}" + e.getMessage());
-			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+			logger.error("Failed to serialize response body: {}", e.getMessage());
 		}
 		HttpHeaders headers = new HttpHeaders();
 		headers.add(CONTENT_TYPE, "application/json");
@@ -203,21 +207,22 @@ public class EchoController {
 		try {
 			requestBody = objectMapper.readValue(bodyStr, new TypeReference<Message>() {});
 		} catch (IOException e) {
-			logger.error("Completed request with status code: {}", HttpStatus.BAD_REQUEST);
+			logger.error("Failed to deserialize request body {}", e.getMessage());
+			logger.info("Completed request with status code: {}", HttpStatus.BAD_REQUEST);
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 		var result = echoService.echoEverything(requestBody, floatQuery, boolQuery, uuidHeader, datetimeHeader, dateUrl, decimalUrl);
 		if (result == null) {
-			logger.error("Completed request with status code: {}", HttpStatus.INTERNAL_SERVER_ERROR);
+			logger.error("Service implementation returned nil");
+			logger.info("Completed request with status code: {}", HttpStatus.INTERNAL_SERVER_ERROR);
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 		if (result instanceof EchoEverythingResponse.Ok) {
-			String responseJson;
+			String responseJson = "";
 			try {
 				responseJson = objectMapper.writeValueAsString(((EchoEverythingResponse.Ok) result).body);
 			} catch (Exception e) {
-				logger.error("Failed to serialize JSON: {}" + e.getMessage());
-				return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+				logger.error("Failed to serialize response body: {}", e.getMessage());
 			}
 			HttpHeaders headers = new HttpHeaders();
 			headers.add(CONTENT_TYPE, "application/json");
@@ -229,7 +234,8 @@ public class EchoController {
 			return new ResponseEntity<>(HttpStatus.FORBIDDEN);
 		}
 
-		logger.error("Completed request with status code: {}", HttpStatus.INTERNAL_SERVER_ERROR);
+		logger.error("No result returned from service implementation");
+		logger.info("Completed request with status code: {}", HttpStatus.INTERNAL_SERVER_ERROR);
 		return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 
@@ -239,7 +245,8 @@ public class EchoController {
 
 		var result = echoService.sameOperationName();
 		if (result == null) {
-			logger.error("Completed request with status code: {}", HttpStatus.INTERNAL_SERVER_ERROR);
+			logger.error("Service implementation returned nil");
+			logger.info("Completed request with status code: {}", HttpStatus.INTERNAL_SERVER_ERROR);
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 		if (result instanceof SameOperationNameResponse.Ok) {
@@ -251,7 +258,8 @@ public class EchoController {
 			return new ResponseEntity<>(HttpStatus.FORBIDDEN);
 		}
 
-		logger.error("Completed request with status code: {}", HttpStatus.INTERNAL_SERVER_ERROR);
+		logger.error("No result returned from service implementation");
+		logger.info("Completed request with status code: {}", HttpStatus.INTERNAL_SERVER_ERROR);
 		return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 }
