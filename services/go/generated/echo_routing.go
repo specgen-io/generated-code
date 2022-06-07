@@ -36,12 +36,12 @@ func AddEchoRoutes(router *vestigo.Router, echoService echo.Service) {
 		var err error
 		contentType := req.Header.Get("Content-Type")
 		if !strings.Contains(contentType, "text/plain") {
-			respondBadRequest(logEchoBodyString, res, &models.BadRequestError{Message: fmt.Sprintf("Wrong Content-type: %s", contentType), Errors: nil})
+			respondBadRequest(logEchoBodyString, res, &models.BadRequestError{Location: "header", Message: fmt.Sprintf("Wrong Content-type: %s", contentType), Errors: []models.ValidationError{}})
 			return
 		}
 		bodyData, err := ioutil.ReadAll(req.Body)
 		if err != nil {
-			respondBadRequest(logEchoBodyString, res, &models.BadRequestError{Message: fmt.Sprintf("Reading request body failed: %s", err.Error()), Errors: nil})
+			respondBadRequest(logEchoBodyString, res, &models.BadRequestError{Location: "body", Message: fmt.Sprintf("Reading request body failed: %s", err.Error()), Errors: []models.ValidationError{}})
 			return
 		}
 		body := string(bodyData)
@@ -63,13 +63,13 @@ func AddEchoRoutes(router *vestigo.Router, echoService echo.Service) {
 		var err error
 		contentType := req.Header.Get("Content-Type")
 		if !strings.Contains(contentType, "application/json") {
-			respondBadRequest(logEchoBodyModel, res, &models.BadRequestError{Message: fmt.Sprintf("Wrong Content-type: %s", contentType), Errors: nil})
+			respondBadRequest(logEchoBodyModel, res, &models.BadRequestError{Location: "header", Message: fmt.Sprintf("Wrong Content-type: %s", contentType), Errors: []models.ValidationError{}})
 			return
 		}
 		var body models.Message
 		err = json.NewDecoder(req.Body).Decode(&body)
 		if err != nil {
-			respondBadRequest(logEchoBodyModel, res, &models.BadRequestError{Message: fmt.Sprintf("Decoding body JSON failed: %s", err.Error()), Errors: nil})
+			respondBadRequest(logEchoBodyModel, res, &models.BadRequestError{Location: "body", Message: "Failed to parse body JSON", Errors: []models.ValidationError{}})
 			return
 		}
 		response, err := echoService.EchoBodyModel(&body)
@@ -90,13 +90,13 @@ func AddEchoRoutes(router *vestigo.Router, echoService echo.Service) {
 		var err error
 		contentType := req.Header.Get("Content-Type")
 		if !strings.Contains(contentType, "application/json") {
-			respondBadRequest(logEchoBodyArray, res, &models.BadRequestError{Message: fmt.Sprintf("Wrong Content-type: %s", contentType), Errors: nil})
+			respondBadRequest(logEchoBodyArray, res, &models.BadRequestError{Location: "header", Message: fmt.Sprintf("Wrong Content-type: %s", contentType), Errors: []models.ValidationError{}})
 			return
 		}
 		var body []string
 		err = json.NewDecoder(req.Body).Decode(&body)
 		if err != nil {
-			respondBadRequest(logEchoBodyArray, res, &models.BadRequestError{Message: fmt.Sprintf("Decoding body JSON failed: %s", err.Error()), Errors: nil})
+			respondBadRequest(logEchoBodyArray, res, &models.BadRequestError{Location: "body", Message: "Failed to parse body JSON", Errors: []models.ValidationError{}})
 			return
 		}
 		response, err := echoService.EchoBodyArray(&body)
@@ -117,13 +117,13 @@ func AddEchoRoutes(router *vestigo.Router, echoService echo.Service) {
 		var err error
 		contentType := req.Header.Get("Content-Type")
 		if !strings.Contains(contentType, "application/json") {
-			respondBadRequest(logEchoBodyMap, res, &models.BadRequestError{Message: fmt.Sprintf("Wrong Content-type: %s", contentType), Errors: nil})
+			respondBadRequest(logEchoBodyMap, res, &models.BadRequestError{Location: "header", Message: fmt.Sprintf("Wrong Content-type: %s", contentType), Errors: []models.ValidationError{}})
 			return
 		}
 		var body map[string]string
 		err = json.NewDecoder(req.Body).Decode(&body)
 		if err != nil {
-			respondBadRequest(logEchoBodyMap, res, &models.BadRequestError{Message: fmt.Sprintf("Decoding body JSON failed: %s", err.Error()), Errors: nil})
+			respondBadRequest(logEchoBodyMap, res, &models.BadRequestError{Location: "body", Message: "Failed to parse body JSON", Errors: []models.ValidationError{}})
 			return
 		}
 		response, err := echoService.EchoBodyMap(&body)
@@ -159,7 +159,7 @@ func AddEchoRoutes(router *vestigo.Router, echoService echo.Service) {
 		datetimeQuery := query.DateTime("datetime_query")
 		enumQuery := models.Choice(query.StringEnum("enum_query", models.ChoiceValuesStrings))
 		if len(query.Errors) > 0 {
-			respondBadRequest(logEchoQuery, res, &models.BadRequestError{Message: "Can't parse query", Errors: query.Errors})
+			respondBadRequest(logEchoQuery, res, &models.BadRequestError{Location: "query", Message: "Failed to parse query parameters", Errors: query.Errors})
 			return
 		}
 		response, err := echoService.EchoQuery(intQuery, longQuery, floatQuery, doubleQuery, decimalQuery, boolQuery, stringQuery, stringOptQuery, stringDefaultedQuery, stringArrayQuery, uuidQuery, dateQuery, dateArrayQuery, datetimeQuery, enumQuery)
@@ -178,24 +178,24 @@ func AddEchoRoutes(router *vestigo.Router, echoService echo.Service) {
 	router.Get("/echo/header", func(res http.ResponseWriter, req *http.Request) {
 		log.WithFields(logEchoHeader).Info("Received request")
 		var err error
-		headers := NewParamsParser(req.Header, true)
-		intHeader := headers.Int("Int-Header")
-		longHeader := headers.Int64("Long-Header")
-		floatHeader := headers.Float32("Float-Header")
-		doubleHeader := headers.Float64("Double-Header")
-		decimalHeader := headers.Decimal("Decimal-Header")
-		boolHeader := headers.Bool("Bool-Header")
-		stringHeader := headers.String("String-Header")
-		stringOptHeader := headers.StringNullable("String-Opt-Header")
-		stringDefaultedHeader := headers.StringDefaulted("String-Defaulted-Header", "the default value")
-		stringArrayHeader := headers.StringArray("String-Array-Header")
-		uuidHeader := headers.Uuid("Uuid-Header")
-		dateHeader := headers.Date("Date-Header")
-		dateArrayHeader := headers.DateArray("Date-Array-Header")
-		datetimeHeader := headers.DateTime("Datetime-Header")
-		enumHeader := models.Choice(headers.StringEnum("Enum-Header", models.ChoiceValuesStrings))
-		if len(headers.Errors) > 0 {
-			respondBadRequest(logEchoHeader, res, &models.BadRequestError{Message: "Can't parse headers", Errors: headers.Errors})
+		header := NewParamsParser(req.Header, true)
+		intHeader := header.Int("Int-Header")
+		longHeader := header.Int64("Long-Header")
+		floatHeader := header.Float32("Float-Header")
+		doubleHeader := header.Float64("Double-Header")
+		decimalHeader := header.Decimal("Decimal-Header")
+		boolHeader := header.Bool("Bool-Header")
+		stringHeader := header.String("String-Header")
+		stringOptHeader := header.StringNullable("String-Opt-Header")
+		stringDefaultedHeader := header.StringDefaulted("String-Defaulted-Header", "the default value")
+		stringArrayHeader := header.StringArray("String-Array-Header")
+		uuidHeader := header.Uuid("Uuid-Header")
+		dateHeader := header.Date("Date-Header")
+		dateArrayHeader := header.DateArray("Date-Array-Header")
+		datetimeHeader := header.DateTime("Datetime-Header")
+		enumHeader := models.Choice(header.StringEnum("Enum-Header", models.ChoiceValuesStrings))
+		if len(header.Errors) > 0 {
+			respondBadRequest(logEchoHeader, res, &models.BadRequestError{Location: "header", Message: "Failed to parse header parameters", Errors: header.Errors})
 			return
 		}
 		response, err := echoService.EchoHeader(intHeader, longHeader, floatHeader, doubleHeader, decimalHeader, boolHeader, stringHeader, stringOptHeader, stringDefaultedHeader, stringArrayHeader, uuidHeader, dateHeader, dateArrayHeader, datetimeHeader, enumHeader)
@@ -230,7 +230,7 @@ func AddEchoRoutes(router *vestigo.Router, echoService echo.Service) {
 		datetimeUrl := urlParams.DateTime(":datetime_url")
 		enumUrl := models.Choice(urlParams.StringEnum(":enum_url", models.ChoiceValuesStrings))
 		if len(urlParams.Errors) > 0 {
-			respondNotFound(logEchoUrlParams, res, &models.NotFoundError{Message: "Can't parse url parameters"})
+			respondNotFound(logEchoUrlParams, res, &models.NotFoundError{Message: "Failed to parse url parameters"})
 			return
 		}
 		response, err := echoService.EchoUrlParams(intUrl, longUrl, floatUrl, doubleUrl, decimalUrl, boolUrl, stringUrl, uuidUrl, dateUrl, datetimeUrl, enumUrl)
@@ -253,32 +253,32 @@ func AddEchoRoutes(router *vestigo.Router, echoService echo.Service) {
 		dateUrl := urlParams.Date(":date_url")
 		decimalUrl := urlParams.Decimal(":decimal_url")
 		if len(urlParams.Errors) > 0 {
-			respondNotFound(logEchoEverything, res, &models.NotFoundError{Message: "Can't parse url parameters"})
+			respondNotFound(logEchoEverything, res, &models.NotFoundError{Message: "Failed to parse url parameters"})
 			return
 		}
-		headers := NewParamsParser(req.Header, true)
-		uuidHeader := headers.Uuid("Uuid-Header")
-		datetimeHeader := headers.DateTime("Datetime-Header")
-		if len(headers.Errors) > 0 {
-			respondBadRequest(logEchoEverything, res, &models.BadRequestError{Message: "Can't parse headers", Errors: headers.Errors})
+		header := NewParamsParser(req.Header, true)
+		uuidHeader := header.Uuid("Uuid-Header")
+		datetimeHeader := header.DateTime("Datetime-Header")
+		if len(header.Errors) > 0 {
+			respondBadRequest(logEchoEverything, res, &models.BadRequestError{Location: "header", Message: "Failed to parse header parameters", Errors: header.Errors})
 			return
 		}
 		query := NewParamsParser(req.URL.Query(), true)
 		floatQuery := query.Float32("float_query")
 		boolQuery := query.Bool("bool_query")
 		if len(query.Errors) > 0 {
-			respondBadRequest(logEchoEverything, res, &models.BadRequestError{Message: "Can't parse query", Errors: query.Errors})
+			respondBadRequest(logEchoEverything, res, &models.BadRequestError{Location: "query", Message: "Failed to parse query parameters", Errors: query.Errors})
 			return
 		}
 		contentType := req.Header.Get("Content-Type")
 		if !strings.Contains(contentType, "application/json") {
-			respondBadRequest(logEchoEverything, res, &models.BadRequestError{Message: fmt.Sprintf("Wrong Content-type: %s", contentType), Errors: nil})
+			respondBadRequest(logEchoEverything, res, &models.BadRequestError{Location: "header", Message: fmt.Sprintf("Wrong Content-type: %s", contentType), Errors: []models.ValidationError{}})
 			return
 		}
 		var body models.Message
 		err = json.NewDecoder(req.Body).Decode(&body)
 		if err != nil {
-			respondBadRequest(logEchoEverything, res, &models.BadRequestError{Message: fmt.Sprintf("Decoding body JSON failed: %s", err.Error()), Errors: nil})
+			respondBadRequest(logEchoEverything, res, &models.BadRequestError{Location: "body", Message: "Failed to parse body JSON", Errors: []models.ValidationError{}})
 			return
 		}
 		response, err := echoService.EchoEverything(&body, floatQuery, boolQuery, uuidHeader, datetimeHeader, dateUrl, decimalUrl)

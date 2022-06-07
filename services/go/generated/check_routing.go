@@ -47,13 +47,13 @@ func AddCheckRoutes(router *vestigo.Router, checkService check.Service) {
 		var err error
 		contentType := req.Header.Get("Content-Type")
 		if !strings.Contains(contentType, "application/json") {
-			respondBadRequest(logCheckEmptyResponse, res, &models.BadRequestError{Message: fmt.Sprintf("Wrong Content-type: %s", contentType), Errors: nil})
+			respondBadRequest(logCheckEmptyResponse, res, &models.BadRequestError{Location: "header", Message: fmt.Sprintf("Wrong Content-type: %s", contentType), Errors: []models.ValidationError{}})
 			return
 		}
 		var body models.Message
 		err = json.NewDecoder(req.Body).Decode(&body)
 		if err != nil {
-			respondBadRequest(logCheckEmptyResponse, res, &models.BadRequestError{Message: fmt.Sprintf("Decoding body JSON failed: %s", err.Error()), Errors: nil})
+			respondBadRequest(logCheckEmptyResponse, res, &models.BadRequestError{Location: "body", Message: "Failed to parse body JSON", Errors: []models.ValidationError{}})
 			return
 		}
 		err = checkService.CheckEmptyResponse(&body)
