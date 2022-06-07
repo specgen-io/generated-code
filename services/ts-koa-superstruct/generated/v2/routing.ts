@@ -45,7 +45,7 @@ export const echoRouter = (service: EchoService) => {
             if (!assertContentType(ctx, "application/json")) {
                 return
             }
-            const bodyDecode = t.decode(models.TMessage, ctx.request.body)
+            const bodyDecode = t.decodeR(models.TMessage, ctx.request.body)
             if (bodyDecode.error) {
                 respondBadRequest(ctx, { message: "Failed to parse body JSON", location: models.ErrorLocation.BODY, errors: bodyDecode.error })
                 return
