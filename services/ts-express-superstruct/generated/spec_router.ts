@@ -6,10 +6,16 @@ import {echoRouter as echoRouter} from './routing'
 import {CheckService as CheckService} from './check'
 import {checkRouter as checkRouter} from './routing'
 
-export const specRouter = (echoServiceV2: EchoServiceV2, echoService: EchoService, checkService: CheckService) => {
+export interface Services {
+    echoServiceV2: EchoServiceV2
+    echoService: EchoService
+    checkService: CheckService
+}
+
+export const specRouter = (services: Services) => {
     const router = Router()
-    router.use('/v2', echoRouterV2(echoServiceV2))
-    router.use('/', echoRouter(echoService))
-    router.use('/', checkRouter(checkService))
+    router.use('/v2', echoRouterV2(services.echoServiceV2))
+    router.use('/', echoRouter(services.echoService))
+    router.use('/', checkRouter(services.checkService))
     return router
 }
