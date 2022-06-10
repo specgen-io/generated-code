@@ -80,7 +80,6 @@ module TestService
     define :query, 'query'
     define :header, 'header'
     define :body, 'body'
-    define :unknown, 'unknown'
   end
 
   class ValidationError
@@ -94,7 +93,7 @@ module TestService
     include DataClass
     val :message, String
     val :location, ErrorLocation
-    val :errors, T.array(ValidationError)
+    val :errors, T.nilable(T.array(ValidationError))
   end
 
   class NotFoundError
@@ -120,7 +119,6 @@ module TestService::V2
     define :query, 'query'
     define :header, 'header'
     define :body, 'body'
-    define :unknown, 'unknown'
   end
 
   class ValidationError
@@ -134,7 +132,7 @@ module TestService::V2
     include DataClass
     val :message, String
     val :location, ErrorLocation
-    val :errors, T.array(ValidationError)
+    val :errors, T.nilable(T.array(ValidationError))
   end
 
   class NotFoundError

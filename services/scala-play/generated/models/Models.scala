@@ -91,7 +91,6 @@ case object ErrorLocation extends StringEnum[ErrorLocation] with StringCirceEnum
   case object Query extends ErrorLocation("query")
   case object Header extends ErrorLocation("header")
   case object Body extends ErrorLocation("body")
-  case object Unknown extends ErrorLocation("unknown")
   val values = findValues
 }
 
@@ -109,7 +108,7 @@ object ValidationError {
 case class BadRequestError(
   @JsonKey("message") message: String,
   @JsonKey("location") location: ErrorLocation,
-  @JsonKey("errors") errors: List[ValidationError]
+  @JsonKey("errors") errors: Option[List[ValidationError]]
 )
 
 object BadRequestError {

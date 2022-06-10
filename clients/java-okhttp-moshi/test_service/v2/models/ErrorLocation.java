@@ -12,5 +12,4 @@ public enum ErrorLocation {
 	@Json(name = "query") QUERY,
 	@Json(name = "header") HEADER,
 	@Json(name = "body") BODY,
-	@Json(name = "unknown") UNKNOWN,
 }

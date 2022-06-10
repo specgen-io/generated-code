@@ -22,7 +22,6 @@ enum class ErrorLocation {
 	@JsonProperty("query") QUERY,
 	@JsonProperty("header") HEADER,
 	@JsonProperty("body") BODY,
-	@JsonProperty("unknown") UNKNOWN,
 }
 
 data class ValidationError(
@@ -39,8 +38,8 @@ data class BadRequestError(
 	val message: String,
 	@JsonProperty(value = "location", required = true)
 	val location: ErrorLocation,
-	@JsonProperty(value = "errors", required = true)
-	val errors: Array<ValidationError>,
+	@JsonProperty(value = "errors", required = false)
+	val errors: Array<ValidationError>?,
 ) {
 	override fun equals(other: Any?): Boolean {
 		if (this === other) return true

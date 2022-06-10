@@ -17,7 +17,7 @@ public class BadRequestError {
 	@JsonProperty(value = "location", required = true)
 	private ErrorLocation location;
 
-	@JsonProperty(value = "errors", required = true)
+	@JsonProperty(value = "errors", required = false)
 	private ValidationError[] errors;
 
 	@JsonCreator
@@ -26,14 +26,13 @@ public class BadRequestError {
 		String message,
 		@JsonProperty(value = "location", required = true)
 		ErrorLocation location,
-		@JsonProperty(value = "errors", required = true)
+		@JsonProperty(value = "errors", required = false)
 		ValidationError[] errors
 	) {
 		if (message == null) { throw new IllegalArgumentException("null value is not allowed"); }
 		this.message = message;
 		if (location == null) { throw new IllegalArgumentException("null value is not allowed"); }
 		this.location = location;
-		if (errors == null) { throw new IllegalArgumentException("null value is not allowed"); }
 		this.errors = errors;
 	}
 
