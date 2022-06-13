@@ -115,7 +115,7 @@ public class EchoClient {
 	public List<String> echoBodyArray(List<String> body) {
 		String bodyJson;
 		try {
-			bodyJson = moshi.adapter(List<String>.class).toJson(body);
+			bodyJson = moshi.adapter(Types.newParameterizedType(List.class, String.class)).toJson(body);
 		} catch (AssertionError e) {
 			var errorMessage = "Failed to serialize JSON " + e.getMessage();
 			logger.error(errorMessage);
@@ -143,7 +143,7 @@ public class EchoClient {
 				logger.info("Received response with status code {}", response.code());
 				List<String> responseBody;
 				try {
-					responseBody = moshi.adapter(List<String>.class).fromJson(response.body().string());
+					responseBody = moshi.<List<String>>adapter(Types.newParameterizedType(List.class, String.class)).fromJson(response.body().string());
 				} catch (Exception e) {
 					var errorMessage = "Failed to deserialize response body " + e.getMessage();
 					logger.error(errorMessage);

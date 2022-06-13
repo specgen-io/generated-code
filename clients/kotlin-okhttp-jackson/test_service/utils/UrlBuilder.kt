@@ -16,7 +16,7 @@ class UrlBuilder(baseUrl: String) {
         return this
     }
 
-    fun <T> addQueryParameter(name: String, values: Array<T>): UrlBuilder {
+    fun <T> addQueryParameter(name: String, values: List<T>): UrlBuilder {
         for (value in values) {
             this.addQueryParameter(name, value!!)
         }

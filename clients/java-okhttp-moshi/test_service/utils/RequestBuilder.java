@@ -1,6 +1,7 @@
 package test_service.utils;
 
 import okhttp3.*;
+import java.util.List;
 
 public class RequestBuilder {
 	private final Request.Builder requestBuilder;
@@ -17,7 +18,7 @@ public class RequestBuilder {
 		return this;
 	}
 
-	public <T> RequestBuilder addHeaderParameter(String name, T[] values) {
+	public <T> RequestBuilder addHeaderParameter(String name, List<T> values) {
 		for (T val : values) {
 			this.addHeaderParameter(name, val);
 		}

@@ -1,6 +1,7 @@
 package test_service.utils;
 
 import okhttp3.HttpUrl;
+import java.util.List;
 
 public class UrlBuilder {
     private final HttpUrl.Builder urlBuilder;
@@ -17,7 +18,7 @@ public class UrlBuilder {
         return this;
     }
 
-    public <T> UrlBuilder addQueryParameter(String name, T[] values) {
+    public <T> UrlBuilder addQueryParameter(String name, List<T> values) {
         for (T val : values) {
             this.addQueryParameter(name, val);
         }

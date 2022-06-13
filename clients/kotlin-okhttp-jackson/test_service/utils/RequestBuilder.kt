@@ -15,7 +15,7 @@ class RequestBuilder(method: String, url: HttpUrl, body: RequestBody?) {
         return this
     }
 
-    fun <T> addHeaderParameter(name: String, values: Array<T>): RequestBuilder {
+    fun <T> addHeaderParameter(name: String, values: List<T>): RequestBuilder {
         for (value in values) {
             this.addHeaderParameter(name, value!!)
         }
