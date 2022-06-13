@@ -110,7 +110,7 @@ class EchoClient(private val baseUrl: String) {
 		}
 	}
 
-	fun echoBodyArray(body: Array<String>): Array<String> {
+	fun echoBodyArray(body: List<String>): List<String> {
 		val bodyJson = try {
 			objectMapper.writeValueAsString(body)
 		} catch (e: JsonProcessingException) {
@@ -138,7 +138,7 @@ class EchoClient(private val baseUrl: String) {
 			200 -> {
 				logger.info("Received response with status code {}", response.code)
 				val responseBody = try {
-					objectMapper.readValue(response.body!!.string(), object: TypeReference<Array<String>>(){})
+					objectMapper.readValue(response.body!!.string(), object: TypeReference<List<String>>(){})
 				} catch (e: IOException) {
 					val errorMessage = "Failed to deserialize response body " + e.message
 					logger.error(errorMessage)
@@ -198,7 +198,7 @@ class EchoClient(private val baseUrl: String) {
 		}
 	}
 
-	fun echoQuery(intQuery: Int, longQuery: Long, floatQuery: Float, doubleQuery: Double, decimalQuery: BigDecimal, boolQuery: Boolean, stringQuery: String, stringOptQuery: String?, stringDefaultedQuery: String, stringArrayQuery: Array<String>, uuidQuery: UUID, dateQuery: LocalDate, dateArrayQuery: Array<LocalDate>, datetimeQuery: LocalDateTime, enumQuery: Choice): Parameters {
+	fun echoQuery(intQuery: Int, longQuery: Long, floatQuery: Float, doubleQuery: Double, decimalQuery: BigDecimal, boolQuery: Boolean, stringQuery: String, stringOptQuery: String?, stringDefaultedQuery: String, stringArrayQuery: List<String>, uuidQuery: UUID, dateQuery: LocalDate, dateArrayQuery: List<LocalDate>, datetimeQuery: LocalDateTime, enumQuery: Choice): Parameters {
 		val url = UrlBuilder(baseUrl)
 		url.addPathSegments("echo/query")
 		url.addQueryParameter("int_query", intQuery)
@@ -248,7 +248,7 @@ class EchoClient(private val baseUrl: String) {
 		}
 	}
 
-	fun echoHeader(intHeader: Int, longHeader: Long, floatHeader: Float, doubleHeader: Double, decimalHeader: BigDecimal, boolHeader: Boolean, stringHeader: String, stringOptHeader: String?, stringDefaultedHeader: String, stringArrayHeader: Array<String>, uuidHeader: UUID, dateHeader: LocalDate, dateArrayHeader: Array<LocalDate>, datetimeHeader: LocalDateTime, enumHeader: Choice): Parameters {
+	fun echoHeader(intHeader: Int, longHeader: Long, floatHeader: Float, doubleHeader: Double, decimalHeader: BigDecimal, boolHeader: Boolean, stringHeader: String, stringOptHeader: String?, stringDefaultedHeader: String, stringArrayHeader: List<String>, uuidHeader: UUID, dateHeader: LocalDate, dateArrayHeader: List<LocalDate>, datetimeHeader: LocalDateTime, enumHeader: Choice): Parameters {
 		val url = UrlBuilder(baseUrl)
 		url.addPathSegments("echo/header")
 

@@ -13,4 +13,5 @@ public enum ErrorLocation {
 	@JsonProperty("query") QUERY,
 	@JsonProperty("header") HEADER,
 	@JsonProperty("body") BODY,
+	@JsonProperty("unknown") UNKNOWN,
 }

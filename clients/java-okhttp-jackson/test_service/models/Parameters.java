@@ -39,7 +39,7 @@ public class Parameters {
 	private String stringDefaultedField;
 
 	@JsonProperty(value = "string_array_field", required = true)
-	private String[] stringArrayField;
+	private List<String> stringArrayField;
 
 	@JsonProperty(value = "uuid_field", required = true)
 	private UUID uuidField;
@@ -48,7 +48,7 @@ public class Parameters {
 	private LocalDate dateField;
 
 	@JsonProperty(value = "date_array_field", required = true)
-	private LocalDate[] dateArrayField;
+	private List<LocalDate> dateArrayField;
 
 	@JsonProperty(value = "datetime_field", required = true)
 	private LocalDateTime datetimeField;
@@ -77,13 +77,13 @@ public class Parameters {
 		@JsonProperty(value = "string_defaulted_field", required = true)
 		String stringDefaultedField,
 		@JsonProperty(value = "string_array_field", required = true)
-		String[] stringArrayField,
+		List<String> stringArrayField,
 		@JsonProperty(value = "uuid_field", required = true)
 		UUID uuidField,
 		@JsonProperty(value = "date_field", required = true)
 		LocalDate dateField,
 		@JsonProperty(value = "date_array_field", required = true)
-		LocalDate[] dateArrayField,
+		List<LocalDate> dateArrayField,
 		@JsonProperty(value = "datetime_field", required = true)
 		LocalDateTime datetimeField,
 		@JsonProperty(value = "enum_field", required = true)
@@ -187,11 +187,11 @@ public class Parameters {
 		this.stringDefaultedField = stringDefaultedField;
 	}
 
-	public String[] getStringArrayField() {
+	public List<String> getStringArrayField() {
 		return stringArrayField;
 	}
 
-	public void setStringArrayField(String[] stringArrayField) {
+	public void setStringArrayField(List<String> stringArrayField) {
 		this.stringArrayField = stringArrayField;
 	}
 
@@ -211,11 +211,11 @@ public class Parameters {
 		this.dateField = dateField;
 	}
 
-	public LocalDate[] getDateArrayField() {
+	public List<LocalDate> getDateArrayField() {
 		return dateArrayField;
 	}
 
-	public void setDateArrayField(LocalDate[] dateArrayField) {
+	public void setDateArrayField(List<LocalDate> dateArrayField) {
 		this.dateArrayField = dateArrayField;
 	}
 
@@ -240,19 +240,16 @@ public class Parameters {
 		if (this == o) return true;
 		if (!(o instanceof Parameters)) return false;
 		Parameters that = (Parameters) o;
-		return getIntField() == that.getIntField() && getLongField() == that.getLongField() && Float.compare(that.getFloatField(), getFloatField()) == 0 && Double.compare(that.getDoubleField(), getDoubleField()) == 0 && Objects.equals(getDecimalField(), that.getDecimalField()) && getBoolField() == that.getBoolField() && Objects.equals(getStringField(), that.getStringField()) && Objects.equals(getStringOptField(), that.getStringOptField()) && Objects.equals(getStringDefaultedField(), that.getStringDefaultedField()) && Arrays.equals(getStringArrayField(), that.getStringArrayField()) && Objects.equals(getUuidField(), that.getUuidField()) && Objects.equals(getDateField(), that.getDateField()) && Arrays.equals(getDateArrayField(), that.getDateArrayField()) && Objects.equals(getDatetimeField(), that.getDatetimeField()) && Objects.equals(getEnumField(), that.getEnumField());
+		return getIntField() == that.getIntField() && getLongField() == that.getLongField() && Float.compare(that.getFloatField(), getFloatField()) == 0 && Double.compare(that.getDoubleField(), getDoubleField()) == 0 && Objects.equals(getDecimalField(), that.getDecimalField()) && getBoolField() == that.getBoolField() && Objects.equals(getStringField(), that.getStringField()) && Objects.equals(getStringOptField(), that.getStringOptField()) && Objects.equals(getStringDefaultedField(), that.getStringDefaultedField()) && Objects.equals(getStringArrayField(), that.getStringArrayField()) && Objects.equals(getUuidField(), that.getUuidField()) && Objects.equals(getDateField(), that.getDateField()) && Objects.equals(getDateArrayField(), that.getDateArrayField()) && Objects.equals(getDatetimeField(), that.getDatetimeField()) && Objects.equals(getEnumField(), that.getEnumField());
 	}
 
 	@Override
 	public int hashCode() {
-		int result = Objects.hash(getIntField(), getLongField(), getFloatField(), getDoubleField(), getDecimalField(), getBoolField(), getStringField(), getStringOptField(), getStringDefaultedField(), getUuidField(), getDateField(), getDatetimeField(), getEnumField());
-		result = 31 * result + Arrays.hashCode(getStringArrayField());
-		result = 31 * result + Arrays.hashCode(getDateArrayField());
-		return result;
+		return Objects.hash(getIntField(), getLongField(), getFloatField(), getDoubleField(), getDecimalField(), getBoolField(), getStringField(), getStringOptField(), getStringDefaultedField(), getStringArrayField(), getUuidField(), getDateField(), getDateArrayField(), getDatetimeField(), getEnumField());
 	}
 
 	@Override
 	public String toString() {
-		return String.format("Parameters{intField=%s, longField=%s, floatField=%s, doubleField=%s, decimalField=%s, boolField=%s, stringField=%s, stringOptField=%s, stringDefaultedField=%s, stringArrayField=%s, uuidField=%s, dateField=%s, dateArrayField=%s, datetimeField=%s, enumField=%s}", intField, longField, floatField, doubleField, decimalField, boolField, stringField, stringOptField, stringDefaultedField, Arrays.toString(stringArrayField), uuidField, dateField, Arrays.toString(dateArrayField), datetimeField, enumField);
+		return String.format("Parameters{intField=%s, longField=%s, floatField=%s, doubleField=%s, decimalField=%s, boolField=%s, stringField=%s, stringOptField=%s, stringDefaultedField=%s, stringArrayField=%s, uuidField=%s, dateField=%s, dateArrayField=%s, datetimeField=%s, enumField=%s}", intField, longField, floatField, doubleField, decimalField, boolField, stringField, stringOptField, stringDefaultedField, stringArrayField, uuidField, dateField, dateArrayField, datetimeField, enumField);
 	}
 }

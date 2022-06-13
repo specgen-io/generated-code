@@ -266,13 +266,14 @@ func (obj *Everything) UnmarshalJSON(data []byte) error {
 type ErrorLocation string
 
 const (
-	ErrorLocationQuery  ErrorLocation = "query"
-	ErrorLocationHeader ErrorLocation = "header"
-	ErrorLocationBody   ErrorLocation = "body"
+	ErrorLocationQuery   ErrorLocation = "query"
+	ErrorLocationHeader  ErrorLocation = "header"
+	ErrorLocationBody    ErrorLocation = "body"
+	ErrorLocationUnknown ErrorLocation = "unknown"
 )
 
-var ErrorLocationValuesStrings = []string{string(ErrorLocationQuery), string(ErrorLocationHeader), string(ErrorLocationBody)}
-var ErrorLocationValues = []ErrorLocation{ErrorLocationQuery, ErrorLocationHeader, ErrorLocationBody}
+var ErrorLocationValuesStrings = []string{string(ErrorLocationQuery), string(ErrorLocationHeader), string(ErrorLocationBody), string(ErrorLocationUnknown)}
+var ErrorLocationValues = []ErrorLocation{ErrorLocationQuery, ErrorLocationHeader, ErrorLocationBody, ErrorLocationUnknown}
 
 func (self *ErrorLocation) UnmarshalJSON(b []byte) error {
 	str, err := readEnumStringValue(b, ErrorLocationValuesStrings)
@@ -339,12 +340,12 @@ func (obj *ValidationError) UnmarshalJSON(data []byte) error {
 type BadRequestError struct {
 	Message  string            `json:"message"`
 	Location ErrorLocation     `json:"location"`
-	Errors   []ValidationError `json:"errors,omitempty"`
+	Errors   []ValidationError `json:"errors"`
 }
 
 type badRequestError BadRequestError
 
-var badRequestErrorRequiredFields = []string{"message", "location"}
+var badRequestErrorRequiredFields = []string{"message", "location", "errors"}
 
 func (obj BadRequestError) MarshalJSON() ([]byte, error) {
 	data, err := json.Marshal(badRequestError(obj))

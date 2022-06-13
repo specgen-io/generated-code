@@ -91,6 +91,7 @@ export enum ErrorLocation {
     QUERY = "query",
     HEADER = "header",
     BODY = "body",
+    UNKNOWN = "unknown",
 }
 
 export const TErrorLocation = t.enum(ErrorLocation)
@@ -107,15 +108,11 @@ export const TValidationError = t.intersection([
 
 export type ValidationError = t.TypeOf<typeof TValidationError>
 
-export const TBadRequestError = t.intersection([
-    t.interface({
-        message: t.string,
-        location: TErrorLocation,
-    }),
-    t.partial({
-        errors: t.union([t.array(TValidationError), t.null]),
-    })
-])
+export const TBadRequestError = t.interface({
+    message: t.string,
+    location: TErrorLocation,
+    errors: t.array(TValidationError),
+})
 
 export type BadRequestError = t.TypeOf<typeof TBadRequestError>
 

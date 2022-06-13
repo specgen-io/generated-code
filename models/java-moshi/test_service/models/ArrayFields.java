@@ -11,29 +11,29 @@ import java.io.*;
 public class ArrayFields {
 
 	@Json(name = "int_array_field")
-	private int[] intArrayField;
+	private List<Integer> intArrayField;
 
 	@Json(name = "string_array_field")
-	private String[] stringArrayField;
+	private List<String> stringArrayField;
 
-	public ArrayFields(int[] intArrayField, String[] stringArrayField) {
+	public ArrayFields(List<Integer> intArrayField, List<String> stringArrayField) {
 		this.intArrayField = intArrayField;
 		this.stringArrayField = stringArrayField;
 	}
 
-	public int[] getIntArrayField() {
+	public List<Integer> getIntArrayField() {
 		return intArrayField;
 	}
 
-	public void setIntArrayField(int[] intArrayField) {
+	public void setIntArrayField(List<Integer> intArrayField) {
 		this.intArrayField = intArrayField;
 	}
 
-	public String[] getStringArrayField() {
+	public List<String> getStringArrayField() {
 		return stringArrayField;
 	}
 
-	public void setStringArrayField(String[] stringArrayField) {
+	public void setStringArrayField(List<String> stringArrayField) {
 		this.stringArrayField = stringArrayField;
 	}
 
@@ -42,18 +42,16 @@ public class ArrayFields {
 		if (this == o) return true;
 		if (!(o instanceof ArrayFields)) return false;
 		ArrayFields that = (ArrayFields) o;
-		return Arrays.equals(getIntArrayField(), that.getIntArrayField()) && Arrays.equals(getStringArrayField(), that.getStringArrayField());
+		return Objects.equals(getIntArrayField(), that.getIntArrayField()) && Objects.equals(getStringArrayField(), that.getStringArrayField());
 	}
 
 	@Override
 	public int hashCode() {
-		int result = Arrays.hashCode(getIntArrayField());
-		result = 31 * result + Arrays.hashCode(getStringArrayField());
-		return result;
+		return Objects.hash(getIntArrayField(), getStringArrayField());
 	}
 
 	@Override
 	public String toString() {
-		return String.format("ArrayFields{intArrayField=%s, stringArrayField=%s}", Arrays.toString(intArrayField), Arrays.toString(stringArrayField));
+		return String.format("ArrayFields{intArrayField=%s, stringArrayField=%s}", intArrayField, stringArrayField);
 	}
 }

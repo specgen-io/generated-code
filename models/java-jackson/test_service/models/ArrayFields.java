@@ -12,17 +12,17 @@ import java.io.*;
 public class ArrayFields {
 
 	@JsonProperty(value = "int_array_field", required = true)
-	private int[] intArrayField;
+	private List<Integer> intArrayField;
 
 	@JsonProperty(value = "string_array_field", required = true)
-	private String[] stringArrayField;
+	private List<String> stringArrayField;
 
 	@JsonCreator
 	public ArrayFields(
 		@JsonProperty(value = "int_array_field", required = true)
-		int[] intArrayField,
+		List<Integer> intArrayField,
 		@JsonProperty(value = "string_array_field", required = true)
-		String[] stringArrayField
+		List<String> stringArrayField
 	) {
 		if (intArrayField == null) { throw new IllegalArgumentException("null value is not allowed"); }
 		this.intArrayField = intArrayField;
@@ -30,19 +30,19 @@ public class ArrayFields {
 		this.stringArrayField = stringArrayField;
 	}
 
-	public int[] getIntArrayField() {
+	public List<Integer> getIntArrayField() {
 		return intArrayField;
 	}
 
-	public void setIntArrayField(int[] intArrayField) {
+	public void setIntArrayField(List<Integer> intArrayField) {
 		this.intArrayField = intArrayField;
 	}
 
-	public String[] getStringArrayField() {
+	public List<String> getStringArrayField() {
 		return stringArrayField;
 	}
 
-	public void setStringArrayField(String[] stringArrayField) {
+	public void setStringArrayField(List<String> stringArrayField) {
 		this.stringArrayField = stringArrayField;
 	}
 
@@ -51,18 +51,16 @@ public class ArrayFields {
 		if (this == o) return true;
 		if (!(o instanceof ArrayFields)) return false;
 		ArrayFields that = (ArrayFields) o;
-		return Arrays.equals(getIntArrayField(), that.getIntArrayField()) && Arrays.equals(getStringArrayField(), that.getStringArrayField());
+		return Objects.equals(getIntArrayField(), that.getIntArrayField()) && Objects.equals(getStringArrayField(), that.getStringArrayField());
 	}
 
 	@Override
 	public int hashCode() {
-		int result = Arrays.hashCode(getIntArrayField());
-		result = 31 * result + Arrays.hashCode(getStringArrayField());
-		return result;
+		return Objects.hash(getIntArrayField(), getStringArrayField());
 	}
 
 	@Override
 	public String toString() {
-		return String.format("ArrayFields{intArrayField=%s, stringArrayField=%s}", Arrays.toString(intArrayField), Arrays.toString(stringArrayField));
+		return String.format("ArrayFields{intArrayField=%s, stringArrayField=%s}", intArrayField, stringArrayField);
 	}
 }

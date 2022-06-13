@@ -22,6 +22,7 @@ enum class ErrorLocation {
 	@JsonProperty("query") QUERY,
 	@JsonProperty("header") HEADER,
 	@JsonProperty("body") BODY,
+	@JsonProperty("unknown") UNKNOWN,
 }
 
 data class ValidationError(
@@ -38,27 +39,9 @@ data class BadRequestError(
 	val message: String,
 	@JsonProperty(value = "location", required = true)
 	val location: ErrorLocation,
-	@JsonProperty(value = "errors", required = false)
-	val errors: Array<ValidationError>?,
-) {
-	override fun equals(other: Any?): Boolean {
-		if (this === other) return true
-		if (other !is BadRequestError) return false
-
-		if (message != other.message) return false
-		if (location != other.location) return false
-		if (!errors.contentEquals(other.errors)) return false
-
-		return true
-	}
-
-	override fun hashCode(): Int {
-		var result = errors.contentHashCode()
-		result = 31 * result + message.hashCode()
-		result = 31 * result + location.hashCode()
-		return result
-	}
-}
+	@JsonProperty(value = "errors", required = true)
+	val errors: List<ValidationError>,
+)
 
 data class NotFoundError(
 	@JsonProperty(value = "message", required = true)

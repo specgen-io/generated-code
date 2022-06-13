@@ -23,22 +23,8 @@ paths:
                 $ref: '#/components/schemas/v2.Message'
         "400":
           description: Service will return this if parameters are not provided or couldn't be parsed correctly
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/v2.BadRequestError'
-        "404":
-          description: Service will return this if the endpoint is not found
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/v2.NotFoundError'
         "500":
           description: Service will return this if unexpected internal error happens
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/v2.InternalServerError'
   /echo/body_string:
     post:
       operationId: echoEchoBodyString
@@ -59,22 +45,8 @@ paths:
                 type: string
         "400":
           description: Service will return this if parameters are not provided or couldn't be parsed correctly
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/BadRequestError'
-        "404":
-          description: Service will return this if the endpoint is not found
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/NotFoundError'
         "500":
           description: Service will return this if unexpected internal error happens
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/InternalServerError'
   /echo/body_model:
     post:
       operationId: echoEchoBodyModel
@@ -95,22 +67,8 @@ paths:
                 $ref: '#/components/schemas/Message'
         "400":
           description: Service will return this if parameters are not provided or couldn't be parsed correctly
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/BadRequestError'
-        "404":
-          description: Service will return this if the endpoint is not found
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/NotFoundError'
         "500":
           description: Service will return this if unexpected internal error happens
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/InternalServerError'
   /echo/body_array:
     post:
       operationId: echoEchoBodyArray
@@ -135,22 +93,8 @@ paths:
                   type: string
         "400":
           description: Service will return this if parameters are not provided or couldn't be parsed correctly
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/BadRequestError'
-        "404":
-          description: Service will return this if the endpoint is not found
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/NotFoundError'
         "500":
           description: Service will return this if unexpected internal error happens
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/InternalServerError'
   /echo/body_map:
     post:
       operationId: echoEchoBodyMap
@@ -175,22 +119,8 @@ paths:
                   type: string
         "400":
           description: Service will return this if parameters are not provided or couldn't be parsed correctly
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/BadRequestError'
-        "404":
-          description: Service will return this if the endpoint is not found
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/NotFoundError'
         "500":
           description: Service will return this if unexpected internal error happens
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/InternalServerError'
   /echo/query:
     get:
       operationId: echoEchoQuery
@@ -295,22 +225,8 @@ paths:
                 $ref: '#/components/schemas/Parameters'
         "400":
           description: Service will return this if parameters are not provided or couldn't be parsed correctly
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/BadRequestError'
-        "404":
-          description: Service will return this if the endpoint is not found
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/NotFoundError'
         "500":
           description: Service will return this if unexpected internal error happens
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/InternalServerError'
   /echo/header:
     get:
       operationId: echoEchoHeader
@@ -415,22 +331,8 @@ paths:
                 $ref: '#/components/schemas/Parameters'
         "400":
           description: Service will return this if parameters are not provided or couldn't be parsed correctly
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/BadRequestError'
-        "404":
-          description: Service will return this if the endpoint is not found
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/NotFoundError'
         "500":
           description: Service will return this if unexpected internal error happens
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/InternalServerError'
   /echo/url_params/{int_url}/{long_url}/{float_url}/{double_url}/{decimal_url}/{bool_url}/{string_url}/{uuid_url}/{date_url}/{datetime_url}/{enum_url}:
     get:
       operationId: echoEchoUrlParams
@@ -509,22 +411,8 @@ paths:
                 $ref: '#/components/schemas/UrlParameters'
         "400":
           description: Service will return this if parameters are not provided or couldn't be parsed correctly
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/BadRequestError'
-        "404":
-          description: Service will return this if the endpoint is not found
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/NotFoundError'
         "500":
           description: Service will return this if unexpected internal error happens
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/InternalServerError'
   /echo/everything/{date_url}/{decimal_url}:
     post:
       operationId: echoEchoEverything
@@ -579,26 +467,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Everything'
-        "400":
-          description: Service will return this if parameters are not provided or couldn't be parsed correctly
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/BadRequestError'
         "403":
           description: ""
-        "404":
-          description: Service will return this if the endpoint is not found
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/NotFoundError'
+        "400":
+          description: Service will return this if parameters are not provided or couldn't be parsed correctly
         "500":
           description: Service will return this if unexpected internal error happens
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/InternalServerError'
   /echo/same_operation_name:
     get:
       operationId: echoSameOperationName
@@ -607,26 +481,10 @@ paths:
       responses:
         "200":
           description: ""
-        "400":
-          description: Service will return this if parameters are not provided or couldn't be parsed correctly
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/BadRequestError'
         "403":
           description: ""
-        "404":
-          description: Service will return this if the endpoint is not found
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/NotFoundError'
         "500":
           description: Service will return this if unexpected internal error happens
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/InternalServerError'
   /check/empty:
     get:
       operationId: checkCheckEmpty
@@ -635,24 +493,8 @@ paths:
       responses:
         "200":
           description: ""
-        "400":
-          description: Service will return this if parameters are not provided or couldn't be parsed correctly
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/BadRequestError'
-        "404":
-          description: Service will return this if the endpoint is not found
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/NotFoundError'
         "500":
           description: Service will return this if unexpected internal error happens
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/InternalServerError'
   /check/empty_response:
     post:
       operationId: checkCheckEmptyResponse
@@ -669,22 +511,8 @@ paths:
           description: ""
         "400":
           description: Service will return this if parameters are not provided or couldn't be parsed correctly
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/BadRequestError'
-        "404":
-          description: Service will return this if the endpoint is not found
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/NotFoundError'
         "500":
           description: Service will return this if unexpected internal error happens
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/InternalServerError'
   /check/forbidden:
     get:
       operationId: checkCheckForbidden
@@ -697,26 +525,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Message'
-        "400":
-          description: Service will return this if parameters are not provided or couldn't be parsed correctly
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/BadRequestError'
         "403":
           description: ""
-        "404":
-          description: Service will return this if the endpoint is not found
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/NotFoundError'
         "500":
           description: Service will return this if unexpected internal error happens
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/InternalServerError'
   /check/same_operation_name:
     get:
       operationId: checkSameOperationName
@@ -725,26 +537,10 @@ paths:
       responses:
         "200":
           description: ""
-        "400":
-          description: Service will return this if parameters are not provided or couldn't be parsed correctly
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/BadRequestError'
         "403":
           description: ""
-        "404":
-          description: Service will return this if the endpoint is not found
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/NotFoundError'
         "500":
           description: Service will return this if unexpected internal error happens
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/InternalServerError'
 components:
   schemas:
     v2.Message:
@@ -762,6 +558,7 @@ components:
       required:
         - message
         - location
+        - errors
       properties:
         message:
           type: string
@@ -789,6 +586,7 @@ components:
         - query
         - header
         - body
+        - unknown
     v2.NotFoundError:
       type: object
       required:
@@ -961,6 +759,7 @@ components:
       required:
         - message
         - location
+        - errors
       properties:
         message:
           type: string
@@ -988,6 +787,7 @@ components:
         - query
         - header
         - body
+        - unknown
     NotFoundError:
       type: object
       required:

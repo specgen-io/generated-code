@@ -17,9 +17,9 @@ public class BadRequestError {
 	private ErrorLocation location;
 
 	@Json(name = "errors")
-	private ValidationError[] errors;
+	private List<ValidationError> errors;
 
-	public BadRequestError(String message, ErrorLocation location, ValidationError[] errors) {
+	public BadRequestError(String message, ErrorLocation location, List<ValidationError> errors) {
 		this.message = message;
 		this.location = location;
 		this.errors = errors;
@@ -41,11 +41,11 @@ public class BadRequestError {
 		this.location = location;
 	}
 
-	public ValidationError[] getErrors() {
+	public List<ValidationError> getErrors() {
 		return errors;
 	}
 
-	public void setErrors(ValidationError[] errors) {
+	public void setErrors(List<ValidationError> errors) {
 		this.errors = errors;
 	}
 
@@ -54,18 +54,16 @@ public class BadRequestError {
 		if (this == o) return true;
 		if (!(o instanceof BadRequestError)) return false;
 		BadRequestError that = (BadRequestError) o;
-		return Objects.equals(getMessage(), that.getMessage()) && Objects.equals(getLocation(), that.getLocation()) && Arrays.equals(getErrors(), that.getErrors());
+		return Objects.equals(getMessage(), that.getMessage()) && Objects.equals(getLocation(), that.getLocation()) && Objects.equals(getErrors(), that.getErrors());
 	}
 
 	@Override
 	public int hashCode() {
-		int result = Objects.hash(getMessage(), getLocation());
-		result = 31 * result + Arrays.hashCode(getErrors());
-		return result;
+		return Objects.hash(getMessage(), getLocation(), getErrors());
 	}
 
 	@Override
 	public String toString() {
-		return String.format("BadRequestError{message=%s, location=%s, errors=%s}", message, location, Arrays.toString(errors));
+		return String.format("BadRequestError{message=%s, location=%s, errors=%s}", message, location, errors);
 	}
 }

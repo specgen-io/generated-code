@@ -44,60 +44,18 @@ data class Parameters(
 	@JsonProperty(value = "string_defaulted_field", required = true)
 	val stringDefaultedField: String,
 	@JsonProperty(value = "string_array_field", required = true)
-	val stringArrayField: Array<String>,
+	val stringArrayField: List<String>,
 	@JsonProperty(value = "uuid_field", required = true)
 	val uuidField: UUID,
 	@JsonProperty(value = "date_field", required = true)
 	val dateField: LocalDate,
 	@JsonProperty(value = "date_array_field", required = true)
-	val dateArrayField: Array<LocalDate>,
+	val dateArrayField: List<LocalDate>,
 	@JsonProperty(value = "datetime_field", required = true)
 	val datetimeField: LocalDateTime,
 	@JsonProperty(value = "enum_field", required = true)
 	val enumField: Choice,
-) {
-	override fun equals(other: Any?): Boolean {
-		if (this === other) return true
-		if (other !is Parameters) return false
-
-		if (intField != other.intField) return false
-		if (longField != other.longField) return false
-		if (floatField != other.floatField) return false
-		if (doubleField != other.doubleField) return false
-		if (decimalField != other.decimalField) return false
-		if (boolField != other.boolField) return false
-		if (stringField != other.stringField) return false
-		if (stringOptField != other.stringOptField) return false
-		if (stringDefaultedField != other.stringDefaultedField) return false
-		if (!stringArrayField.contentEquals(other.stringArrayField)) return false
-		if (uuidField != other.uuidField) return false
-		if (dateField != other.dateField) return false
-		if (!dateArrayField.contentEquals(other.dateArrayField)) return false
-		if (datetimeField != other.datetimeField) return false
-		if (enumField != other.enumField) return false
-
-		return true
-	}
-
-	override fun hashCode(): Int {
-		var result = stringArrayField.contentHashCode()
-		result = 31 * result + dateArrayField.contentHashCode()
-		result = 31 * result + intField.hashCode()
-		result = 31 * result + longField.hashCode()
-		result = 31 * result + floatField.hashCode()
-		result = 31 * result + doubleField.hashCode()
-		result = 31 * result + decimalField.hashCode()
-		result = 31 * result + boolField.hashCode()
-		result = 31 * result + stringField.hashCode()
-		result = 31 * result + (stringOptField?.hashCode() ?: 0)
-		result = 31 * result + stringDefaultedField.hashCode()
-		result = 31 * result + uuidField.hashCode()
-		result = 31 * result + dateField.hashCode()
-		result = 31 * result + datetimeField.hashCode()
-		result = 31 * result + enumField.hashCode()
-		return result
-	}
-}
+)
 
 data class UrlParameters(
 	@JsonProperty(value = "int_field", required = true)
@@ -160,6 +118,7 @@ enum class ErrorLocation {
 	@JsonProperty("query") QUERY,
 	@JsonProperty("header") HEADER,
 	@JsonProperty("body") BODY,
+	@JsonProperty("unknown") UNKNOWN,
 }
 
 data class ValidationError(
@@ -176,27 +135,9 @@ data class BadRequestError(
 	val message: String,
 	@JsonProperty(value = "location", required = true)
 	val location: ErrorLocation,
-	@JsonProperty(value = "errors", required = false)
-	val errors: Array<ValidationError>?,
-) {
-	override fun equals(other: Any?): Boolean {
-		if (this === other) return true
-		if (other !is BadRequestError) return false
-
-		if (message != other.message) return false
-		if (location != other.location) return false
-		if (!errors.contentEquals(other.errors)) return false
-
-		return true
-	}
-
-	override fun hashCode(): Int {
-		var result = errors.contentHashCode()
-		result = 31 * result + message.hashCode()
-		result = 31 * result + location.hashCode()
-		return result
-	}
-}
+	@JsonProperty(value = "errors", required = true)
+	val errors: List<ValidationError>,
+)
 
 data class NotFoundError(
 	@JsonProperty(value = "message", required = true)

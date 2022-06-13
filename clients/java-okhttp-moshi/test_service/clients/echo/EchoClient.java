@@ -112,10 +112,10 @@ public class EchoClient {
 		}
 	}
 
-	public String[] echoBodyArray(String[] body) {
+	public List<String> echoBodyArray(List<String> body) {
 		String bodyJson;
 		try {
-			bodyJson = moshi.adapter(String[].class).toJson(body);
+			bodyJson = moshi.adapter(List<String>.class).toJson(body);
 		} catch (AssertionError e) {
 			var errorMessage = "Failed to serialize JSON " + e.getMessage();
 			logger.error(errorMessage);
@@ -141,9 +141,9 @@ public class EchoClient {
 		switch (response.code()) {
 			case 200: {
 				logger.info("Received response with status code {}", response.code());
-				String[] responseBody;
+				List<String> responseBody;
 				try {
-					responseBody = moshi.adapter(String[].class).fromJson(response.body().string());
+					responseBody = moshi.adapter(List<String>.class).fromJson(response.body().string());
 				} catch (Exception e) {
 					var errorMessage = "Failed to deserialize response body " + e.getMessage();
 					logger.error(errorMessage);
@@ -204,7 +204,7 @@ public class EchoClient {
 		}
 	}
 
-	public Parameters echoQuery(int intQuery, long longQuery, float floatQuery, double doubleQuery, BigDecimal decimalQuery, boolean boolQuery, String stringQuery, String stringOptQuery, String stringDefaultedQuery, String[] stringArrayQuery, UUID uuidQuery, LocalDate dateQuery, LocalDate[] dateArrayQuery, LocalDateTime datetimeQuery, Choice enumQuery) {
+	public Parameters echoQuery(int intQuery, long longQuery, float floatQuery, double doubleQuery, BigDecimal decimalQuery, boolean boolQuery, String stringQuery, String stringOptQuery, String stringDefaultedQuery, List<String> stringArrayQuery, UUID uuidQuery, LocalDate dateQuery, List<LocalDate> dateArrayQuery, LocalDateTime datetimeQuery, Choice enumQuery) {
 		var url = new UrlBuilder(baseUrl);
 		url.addPathSegments("echo/query");
 		url.addQueryParameter("int_query", intQuery);
@@ -255,7 +255,7 @@ public class EchoClient {
 		}
 	}
 
-	public Parameters echoHeader(int intHeader, long longHeader, float floatHeader, double doubleHeader, BigDecimal decimalHeader, boolean boolHeader, String stringHeader, String stringOptHeader, String stringDefaultedHeader, String[] stringArrayHeader, UUID uuidHeader, LocalDate dateHeader, LocalDate[] dateArrayHeader, LocalDateTime datetimeHeader, Choice enumHeader) {
+	public Parameters echoHeader(int intHeader, long longHeader, float floatHeader, double doubleHeader, BigDecimal decimalHeader, boolean boolHeader, String stringHeader, String stringOptHeader, String stringDefaultedHeader, List<String> stringArrayHeader, UUID uuidHeader, LocalDate dateHeader, List<LocalDate> dateArrayHeader, LocalDateTime datetimeHeader, Choice enumHeader) {
 		var url = new UrlBuilder(baseUrl);
 		url.addPathSegments("echo/header");
 

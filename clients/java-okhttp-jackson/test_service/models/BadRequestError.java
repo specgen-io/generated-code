@@ -17,8 +17,8 @@ public class BadRequestError {
 	@JsonProperty(value = "location", required = true)
 	private ErrorLocation location;
 
-	@JsonProperty(value = "errors", required = false)
-	private ValidationError[] errors;
+	@JsonProperty(value = "errors", required = true)
+	private List<ValidationError> errors;
 
 	@JsonCreator
 	public BadRequestError(
@@ -26,13 +26,14 @@ public class BadRequestError {
 		String message,
 		@JsonProperty(value = "location", required = true)
 		ErrorLocation location,
-		@JsonProperty(value = "errors", required = false)
-		ValidationError[] errors
+		@JsonProperty(value = "errors", required = true)
+		List<ValidationError> errors
 	) {
 		if (message == null) { throw new IllegalArgumentException("null value is not allowed"); }
 		this.message = message;
 		if (location == null) { throw new IllegalArgumentException("null value is not allowed"); }
 		this.location = location;
+		if (errors == null) { throw new IllegalArgumentException("null value is not allowed"); }
 		this.errors = errors;
 	}
 
@@ -52,11 +53,11 @@ public class BadRequestError {
 		this.location = location;
 	}
 
-	public ValidationError[] getErrors() {
+	public List<ValidationError> getErrors() {
 		return errors;
 	}
 
-	public void setErrors(ValidationError[] errors) {
+	public void setErrors(List<ValidationError> errors) {
 		this.errors = errors;
 	}
 
@@ -65,18 +66,16 @@ public class BadRequestError {
 		if (this == o) return true;
 		if (!(o instanceof BadRequestError)) return false;
 		BadRequestError that = (BadRequestError) o;
-		return Objects.equals(getMessage(), that.getMessage()) && Objects.equals(getLocation(), that.getLocation()) && Arrays.equals(getErrors(), that.getErrors());
+		return Objects.equals(getMessage(), that.getMessage()) && Objects.equals(getLocation(), that.getLocation()) && Objects.equals(getErrors(), that.getErrors());
 	}
 
 	@Override
 	public int hashCode() {
-		int result = Objects.hash(getMessage(), getLocation());
-		result = 31 * result + Arrays.hashCode(getErrors());
-		return result;
+		return Objects.hash(getMessage(), getLocation(), getErrors());
 	}
 
 	@Override
 	public String toString() {
-		return String.format("BadRequestError{message=%s, location=%s, errors=%s}", message, location, Arrays.toString(errors));
+		return String.format("BadRequestError{message=%s, location=%s, errors=%s}", message, location, errors);
 	}
 }
