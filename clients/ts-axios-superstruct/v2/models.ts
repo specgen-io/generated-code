@@ -11,7 +11,6 @@ export const TErrorLocation = t.enums ([
     "query",
     "header",
     "body",
-    "unknown",
 ])
 
 export type ErrorLocation = t.Infer<typeof TErrorLocation>
@@ -20,7 +19,6 @@ export const ErrorLocation = {
     QUERY: <ErrorLocation>"query",
     HEADER: <ErrorLocation>"header",
     BODY: <ErrorLocation>"body",
-    UNKNOWN: <ErrorLocation>"unknown",
 }
 
 export const TValidationError = t.type({
@@ -34,7 +32,7 @@ export type ValidationError = t.Infer<typeof TValidationError>
 export const TBadRequestError = t.type({
     message: t.string(),
     location: TErrorLocation,
-    errors: t.array(TValidationError),
+    errors: t.optional(t.nullable(t.array(TValidationError))),
 })
 
 export type BadRequestError = t.Infer<typeof TBadRequestError>
