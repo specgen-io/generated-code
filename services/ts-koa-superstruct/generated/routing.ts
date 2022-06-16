@@ -141,7 +141,7 @@ export const echoRouter = (service: EchoService) => {
             }
             const bodyDecode = t.decodeR(models.TMessage, ctx.request.body)
             if (bodyDecode.error) {
-                respondBadRequest(ctx, { message: "Failed to parse body JSON", location: models.ErrorLocation.BODY, errors: bodyDecode.error })
+                respondBadRequest(ctx, { message: "Failed to parse body", location: models.ErrorLocation.BODY, errors: bodyDecode.error })
                 return
             }
             const body = bodyDecode.value
@@ -162,7 +162,7 @@ export const echoRouter = (service: EchoService) => {
             }
             const bodyDecode = t.decodeR(t.array(t.string()), ctx.request.body)
             if (bodyDecode.error) {
-                respondBadRequest(ctx, { message: "Failed to parse body JSON", location: models.ErrorLocation.BODY, errors: bodyDecode.error })
+                respondBadRequest(ctx, { message: "Failed to parse body", location: models.ErrorLocation.BODY, errors: bodyDecode.error })
                 return
             }
             const body = bodyDecode.value
@@ -183,7 +183,7 @@ export const echoRouter = (service: EchoService) => {
             }
             const bodyDecode = t.decodeR(t.record(t.string(), t.string()), ctx.request.body)
             if (bodyDecode.error) {
-                respondBadRequest(ctx, { message: "Failed to parse body JSON", location: models.ErrorLocation.BODY, errors: bodyDecode.error })
+                respondBadRequest(ctx, { message: "Failed to parse body", location: models.ErrorLocation.BODY, errors: bodyDecode.error })
                 return
             }
             const body = bodyDecode.value
@@ -201,7 +201,7 @@ export const echoRouter = (service: EchoService) => {
         try {
             const queryParamsDecode = t.decodeR(TEchoQueryQueryParams, ctx.request.query)
             if (queryParamsDecode.error) {
-                respondBadRequest(ctx, { message: "Failed to parse query parameters", location: models.ErrorLocation.QUERY, errors: queryParamsDecode.error })
+                respondBadRequest(ctx, { message: "Failed to parse query", location: models.ErrorLocation.QUERY, errors: queryParamsDecode.error })
                 return
             }
             const queryParams = queryParamsDecode.value
@@ -219,7 +219,7 @@ export const echoRouter = (service: EchoService) => {
         try {
             const headerParamsDecode = t.decodeR(TEchoHeaderHeaderParams, zipHeaders(ctx.req.rawHeaders))
             if (headerParamsDecode.error) {
-                respondBadRequest(ctx, { message: "Failed to parse header parameters", location: models.ErrorLocation.HEADER, errors: headerParamsDecode.error })
+                respondBadRequest(ctx, { message: "Failed to parse header", location: models.ErrorLocation.HEADER, errors: headerParamsDecode.error })
                 return
             }
             const headerParams = headerParamsDecode.value
@@ -264,19 +264,19 @@ export const echoRouter = (service: EchoService) => {
             }
             const headerParamsDecode = t.decodeR(TEchoEverythingHeaderParams, zipHeaders(ctx.req.rawHeaders))
             if (headerParamsDecode.error) {
-                respondBadRequest(ctx, { message: "Failed to parse header parameters", location: models.ErrorLocation.HEADER, errors: headerParamsDecode.error })
+                respondBadRequest(ctx, { message: "Failed to parse header", location: models.ErrorLocation.HEADER, errors: headerParamsDecode.error })
                 return
             }
             const headerParams = headerParamsDecode.value
             const queryParamsDecode = t.decodeR(TEchoEverythingQueryParams, ctx.request.query)
             if (queryParamsDecode.error) {
-                respondBadRequest(ctx, { message: "Failed to parse query parameters", location: models.ErrorLocation.QUERY, errors: queryParamsDecode.error })
+                respondBadRequest(ctx, { message: "Failed to parse query", location: models.ErrorLocation.QUERY, errors: queryParamsDecode.error })
                 return
             }
             const queryParams = queryParamsDecode.value
             const bodyDecode = t.decodeR(models.TMessage, ctx.request.body)
             if (bodyDecode.error) {
-                respondBadRequest(ctx, { message: "Failed to parse body JSON", location: models.ErrorLocation.BODY, errors: bodyDecode.error })
+                respondBadRequest(ctx, { message: "Failed to parse body", location: models.ErrorLocation.BODY, errors: bodyDecode.error })
                 return
             }
             const body = bodyDecode.value
@@ -369,7 +369,7 @@ export const checkRouter = (service: CheckService) => {
             }
             const bodyDecode = t.decodeR(models.TMessage, ctx.request.body)
             if (bodyDecode.error) {
-                respondBadRequest(ctx, { message: "Failed to parse body JSON", location: models.ErrorLocation.BODY, errors: bodyDecode.error })
+                respondBadRequest(ctx, { message: "Failed to parse body", location: models.ErrorLocation.BODY, errors: bodyDecode.error })
                 return
             }
             const body = bodyDecode.value
