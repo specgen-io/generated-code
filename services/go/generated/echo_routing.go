@@ -69,7 +69,7 @@ func AddEchoRoutes(router *vestigo.Router, echoService echo.Service) {
 		var body models.Message
 		err = json.NewDecoder(req.Body).Decode(&body)
 		if err != nil {
-			respondBadRequest(logEchoBodyModel, res, &models.BadRequestError{Location: "body", Message: "Failed to parse body JSON", Errors: []models.ValidationError{}})
+			respondBadRequest(logEchoBodyModel, res, &models.BadRequestError{Location: "body", Message: "Failed to parse body", Errors: []models.ValidationError{}})
 			return
 		}
 		response, err := echoService.EchoBodyModel(&body)
@@ -96,7 +96,7 @@ func AddEchoRoutes(router *vestigo.Router, echoService echo.Service) {
 		var body []string
 		err = json.NewDecoder(req.Body).Decode(&body)
 		if err != nil {
-			respondBadRequest(logEchoBodyArray, res, &models.BadRequestError{Location: "body", Message: "Failed to parse body JSON", Errors: []models.ValidationError{}})
+			respondBadRequest(logEchoBodyArray, res, &models.BadRequestError{Location: "body", Message: "Failed to parse body", Errors: []models.ValidationError{}})
 			return
 		}
 		response, err := echoService.EchoBodyArray(&body)
@@ -123,7 +123,7 @@ func AddEchoRoutes(router *vestigo.Router, echoService echo.Service) {
 		var body map[string]string
 		err = json.NewDecoder(req.Body).Decode(&body)
 		if err != nil {
-			respondBadRequest(logEchoBodyMap, res, &models.BadRequestError{Location: "body", Message: "Failed to parse body JSON", Errors: []models.ValidationError{}})
+			respondBadRequest(logEchoBodyMap, res, &models.BadRequestError{Location: "body", Message: "Failed to parse body", Errors: []models.ValidationError{}})
 			return
 		}
 		response, err := echoService.EchoBodyMap(&body)
@@ -159,7 +159,7 @@ func AddEchoRoutes(router *vestigo.Router, echoService echo.Service) {
 		datetimeQuery := query.DateTime("datetime_query")
 		enumQuery := models.Choice(query.StringEnum("enum_query", models.ChoiceValuesStrings))
 		if len(query.Errors) > 0 {
-			respondBadRequest(logEchoQuery, res, &models.BadRequestError{Location: "query", Message: "Failed to parse query parameters", Errors: query.Errors})
+			respondBadRequest(logEchoQuery, res, &models.BadRequestError{Location: "query", Message: "Failed to parse query", Errors: query.Errors})
 			return
 		}
 		response, err := echoService.EchoQuery(intQuery, longQuery, floatQuery, doubleQuery, decimalQuery, boolQuery, stringQuery, stringOptQuery, stringDefaultedQuery, stringArrayQuery, uuidQuery, dateQuery, dateArrayQuery, datetimeQuery, enumQuery)
@@ -195,7 +195,7 @@ func AddEchoRoutes(router *vestigo.Router, echoService echo.Service) {
 		datetimeHeader := header.DateTime("Datetime-Header")
 		enumHeader := models.Choice(header.StringEnum("Enum-Header", models.ChoiceValuesStrings))
 		if len(header.Errors) > 0 {
-			respondBadRequest(logEchoHeader, res, &models.BadRequestError{Location: "header", Message: "Failed to parse header parameters", Errors: header.Errors})
+			respondBadRequest(logEchoHeader, res, &models.BadRequestError{Location: "header", Message: "Failed to parse header", Errors: header.Errors})
 			return
 		}
 		response, err := echoService.EchoHeader(intHeader, longHeader, floatHeader, doubleHeader, decimalHeader, boolHeader, stringHeader, stringOptHeader, stringDefaultedHeader, stringArrayHeader, uuidHeader, dateHeader, dateArrayHeader, datetimeHeader, enumHeader)
@@ -260,14 +260,14 @@ func AddEchoRoutes(router *vestigo.Router, echoService echo.Service) {
 		uuidHeader := header.Uuid("Uuid-Header")
 		datetimeHeader := header.DateTime("Datetime-Header")
 		if len(header.Errors) > 0 {
-			respondBadRequest(logEchoEverything, res, &models.BadRequestError{Location: "header", Message: "Failed to parse header parameters", Errors: header.Errors})
+			respondBadRequest(logEchoEverything, res, &models.BadRequestError{Location: "header", Message: "Failed to parse header", Errors: header.Errors})
 			return
 		}
 		query := NewParamsParser(req.URL.Query(), true)
 		floatQuery := query.Float32("float_query")
 		boolQuery := query.Bool("bool_query")
 		if len(query.Errors) > 0 {
-			respondBadRequest(logEchoEverything, res, &models.BadRequestError{Location: "query", Message: "Failed to parse query parameters", Errors: query.Errors})
+			respondBadRequest(logEchoEverything, res, &models.BadRequestError{Location: "query", Message: "Failed to parse query", Errors: query.Errors})
 			return
 		}
 		contentType := req.Header.Get("Content-Type")
@@ -278,7 +278,7 @@ func AddEchoRoutes(router *vestigo.Router, echoService echo.Service) {
 		var body models.Message
 		err = json.NewDecoder(req.Body).Decode(&body)
 		if err != nil {
-			respondBadRequest(logEchoEverything, res, &models.BadRequestError{Location: "body", Message: "Failed to parse body JSON", Errors: []models.ValidationError{}})
+			respondBadRequest(logEchoEverything, res, &models.BadRequestError{Location: "body", Message: "Failed to parse body", Errors: []models.ValidationError{}})
 			return
 		}
 		response, err := echoService.EchoEverything(&body, floatQuery, boolQuery, uuidHeader, datetimeHeader, dateUrl, decimalUrl)

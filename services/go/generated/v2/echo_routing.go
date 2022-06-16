@@ -41,7 +41,7 @@ func AddEchoRoutes(router *vestigo.Router, echoService echo.Service) {
 		var body models.Message
 		err = json.NewDecoder(req.Body).Decode(&body)
 		if err != nil {
-			respondBadRequest(logEchoBodyModel, res, &models.BadRequestError{Location: "body", Message: "Failed to parse body JSON", Errors: []models.ValidationError{}})
+			respondBadRequest(logEchoBodyModel, res, &models.BadRequestError{Location: "body", Message: "Failed to parse body", Errors: []models.ValidationError{}})
 			return
 		}
 		response, err := echoService.EchoBodyModel(&body)

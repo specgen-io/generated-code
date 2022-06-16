@@ -53,7 +53,7 @@ func AddCheckRoutes(router *vestigo.Router, checkService check.Service) {
 		var body models.Message
 		err = json.NewDecoder(req.Body).Decode(&body)
 		if err != nil {
-			respondBadRequest(logCheckEmptyResponse, res, &models.BadRequestError{Location: "body", Message: "Failed to parse body JSON", Errors: []models.ValidationError{}})
+			respondBadRequest(logCheckEmptyResponse, res, &models.BadRequestError{Location: "body", Message: "Failed to parse body", Errors: []models.ValidationError{}})
 			return
 		}
 		err = checkService.CheckEmptyResponse(&body)
