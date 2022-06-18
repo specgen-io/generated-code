@@ -20,6 +20,14 @@ public class CheckClient {
 
 	private String baseUrl;
 	private ObjectMapper objectMapper;
+
+	private String writeJson(Object result) {
+		try {
+			return objectMapper.writeValueAsString(result);
+		} catch (Exception exception) {
+			throw new RuntimeException(exception);
+		}
+	}
 	private OkHttpClient client;
 
 	public CheckClient(String baseUrl) {

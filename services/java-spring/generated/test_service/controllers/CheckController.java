@@ -27,6 +27,14 @@ public class CheckController {
 	@Autowired
 	private ObjectMapper objectMapper;
 
+	private String writeJson(Object result) {
+		try {
+			return objectMapper.writeValueAsString(result);
+		} catch (Exception exception) {
+			throw new RuntimeException(exception);
+		}
+	}
+
 	@GetMapping("/check/empty")
 	public ResponseEntity<String> checkEmpty() {
 		logger.info("Received request, operationId: check.check_empty, method: GET, url: /check/empty");

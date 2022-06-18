@@ -27,6 +27,14 @@ public class EchoController {
 	@Autowired
 	private ObjectMapper objectMapper;
 
+	private String writeJson(Object result) {
+		try {
+			return objectMapper.writeValueAsString(result);
+		} catch (Exception exception) {
+			throw new RuntimeException(exception);
+		}
+	}
+
 	@PostMapping("/echo/body_string")
 	public ResponseEntity<String> echoBodyString(@RequestBody String bodyStr) {
 		logger.info("Received request, operationId: echo.echo_body_string, method: POST, url: /echo/body_string");
