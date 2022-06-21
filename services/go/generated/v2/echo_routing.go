@@ -29,19 +29,33 @@ func AddEchoRoutes(router *vestigo.Router, echoService echo.Service) {
 	}
 	_ = respondInternalServerError
 
+	checkContentType := func(logFields log.Fields, expectedContentType string, req *http.Request, res http.ResponseWriter) bool {
+		contentType := req.Header.Get("Content-Type")
+		if !strings.Contains(contentType, expectedContentType) {
+			message := fmt.Sprintf("Expected Content-Type header: '%!!(MISSING)s(MISSING)' was not provided, found: '%!!(MISSING)s(MISSING)'", expectedContentType, contentType)
+			respondBadRequest(logFields, res, &models.BadRequestError{Location: "header", Message: "Failed to parse header", Errors: []models.ValidationError{{Path: "Content-Type", Code: "missing", Message: &message}}})
+			return false
+		}
+		return true
+	}
+	_ = checkContentType
+
 	logEchoBodyModel := log.Fields{"operationId": "echo.echo_body_model", "method": "POST", "url": "/v2/echo/body_model"}
 	router.Post("/v2/echo/body_model", func(res http.ResponseWriter, req *http.Request) {
 		log.WithFields(logEchoBodyModel).Info("Received request")
 		var err error
-		contentType := req.Header.Get("Content-Type")
-		if !strings.Contains(contentType, "application/json") {
-			respondBadRequest(logEchoBodyModel, res, &models.BadRequestError{Location: "header", Message: fmt.Sprintf("Wrong Content-type: %s", contentType), Errors: []models.ValidationError{}})
+		if !checkContentType(logEchoBodyModel, "application/json", req, res) {
 			return
 		}
 		var body models.Message
 		err = json.NewDecoder(req.Body).Decode(&body)
 		if err != nil {
-			respondBadRequest(logEchoBodyModel, res, &models.BadRequestError{Location: "body", Message: "Failed to parse body", Errors: []models.ValidationError{}})
+			var errors []models.ValidationError = nil
+			if unmarshalError, ok := err.(*json.UnmarshalTypeError); ok {
+				message := fmt.Sprintf("Failed to parse JSON, field: %s", unmarshalError.Field)
+				errors = []models.ValidationError{{Path: unmarshalError.Field, Code: "parsing_failed", Message: &message}}
+			}
+			respondBadRequest(logEchoBodyModel, res, &models.BadRequestError{Location: "body", Message: "Failed to parse body", Errors: errors})
 			return
 		}
 		response, err := echoService.EchoBodyModel(&body)

@@ -30,18 +30,27 @@ func AddEchoRoutes(router *vestigo.Router, echoService echo.Service) {
 	}
 	_ = respondInternalServerError
 
+	checkContentType := func(logFields log.Fields, expectedContentType string, req *http.Request, res http.ResponseWriter) bool {
+		contentType := req.Header.Get("Content-Type")
+		if !strings.Contains(contentType, expectedContentType) {
+			message := fmt.Sprintf("Expected Content-Type header: '%!!(MISSING)s(MISSING)' was not provided, found: '%!!(MISSING)s(MISSING)'", expectedContentType, contentType)
+			respondBadRequest(logFields, res, &models.BadRequestError{Location: "header", Message: "Failed to parse header", Errors: []models.ValidationError{{Path: "Content-Type", Code: "missing", Message: &message}}})
+			return false
+		}
+		return true
+	}
+	_ = checkContentType
+
 	logEchoBodyString := log.Fields{"operationId": "echo.echo_body_string", "method": "POST", "url": "/echo/body_string"}
 	router.Post("/echo/body_string", func(res http.ResponseWriter, req *http.Request) {
 		log.WithFields(logEchoBodyString).Info("Received request")
 		var err error
-		contentType := req.Header.Get("Content-Type")
-		if !strings.Contains(contentType, "text/plain") {
-			respondBadRequest(logEchoBodyString, res, &models.BadRequestError{Location: "header", Message: fmt.Sprintf("Wrong Content-type: %s", contentType), Errors: []models.ValidationError{}})
+		if !checkContentType(logEchoBodyString, "text/plain", req, res) {
 			return
 		}
 		bodyData, err := ioutil.ReadAll(req.Body)
 		if err != nil {
-			respondBadRequest(logEchoBodyString, res, &models.BadRequestError{Location: "body", Message: fmt.Sprintf("Reading request body failed: %s", err.Error()), Errors: []models.ValidationError{}})
+			respondBadRequest(logEchoBodyString, res, &models.BadRequestError{Location: "body", Message: fmt.Sprintf("Reading request body failed: %s", err.Error()), Errors: nil})
 			return
 		}
 		body := string(bodyData)
@@ -61,15 +70,18 @@ func AddEchoRoutes(router *vestigo.Router, echoService echo.Service) {
 	router.Post("/echo/body_model", func(res http.ResponseWriter, req *http.Request) {
 		log.WithFields(logEchoBodyModel).Info("Received request")
 		var err error
-		contentType := req.Header.Get("Content-Type")
-		if !strings.Contains(contentType, "application/json") {
-			respondBadRequest(logEchoBodyModel, res, &models.BadRequestError{Location: "header", Message: fmt.Sprintf("Wrong Content-type: %s", contentType), Errors: []models.ValidationError{}})
+		if !checkContentType(logEchoBodyModel, "application/json", req, res) {
 			return
 		}
 		var body models.Message
 		err = json.NewDecoder(req.Body).Decode(&body)
 		if err != nil {
-			respondBadRequest(logEchoBodyModel, res, &models.BadRequestError{Location: "body", Message: "Failed to parse body", Errors: []models.ValidationError{}})
+			var errors []models.ValidationError = nil
+			if unmarshalError, ok := err.(*json.UnmarshalTypeError); ok {
+				message := fmt.Sprintf("Failed to parse JSON, field: %s", unmarshalError.Field)
+				errors = []models.ValidationError{{Path: unmarshalError.Field, Code: "parsing_failed", Message: &message}}
+			}
+			respondBadRequest(logEchoBodyModel, res, &models.BadRequestError{Location: "body", Message: "Failed to parse body", Errors: errors})
 			return
 		}
 		response, err := echoService.EchoBodyModel(&body)
@@ -88,15 +100,18 @@ func AddEchoRoutes(router *vestigo.Router, echoService echo.Service) {
 	router.Post("/echo/body_array", func(res http.ResponseWriter, req *http.Request) {
 		log.WithFields(logEchoBodyArray).Info("Received request")
 		var err error
-		contentType := req.Header.Get("Content-Type")
-		if !strings.Contains(contentType, "application/json") {
-			respondBadRequest(logEchoBodyArray, res, &models.BadRequestError{Location: "header", Message: fmt.Sprintf("Wrong Content-type: %s", contentType), Errors: []models.ValidationError{}})
+		if !checkContentType(logEchoBodyArray, "application/json", req, res) {
 			return
 		}
 		var body []string
 		err = json.NewDecoder(req.Body).Decode(&body)
 		if err != nil {
-			respondBadRequest(logEchoBodyArray, res, &models.BadRequestError{Location: "body", Message: "Failed to parse body", Errors: []models.ValidationError{}})
+			var errors []models.ValidationError = nil
+			if unmarshalError, ok := err.(*json.UnmarshalTypeError); ok {
+				message := fmt.Sprintf("Failed to parse JSON, field: %s", unmarshalError.Field)
+				errors = []models.ValidationError{{Path: unmarshalError.Field, Code: "parsing_failed", Message: &message}}
+			}
+			respondBadRequest(logEchoBodyArray, res, &models.BadRequestError{Location: "body", Message: "Failed to parse body", Errors: errors})
 			return
 		}
 		response, err := echoService.EchoBodyArray(&body)
@@ -115,15 +130,18 @@ func AddEchoRoutes(router *vestigo.Router, echoService echo.Service) {
 	router.Post("/echo/body_map", func(res http.ResponseWriter, req *http.Request) {
 		log.WithFields(logEchoBodyMap).Info("Received request")
 		var err error
-		contentType := req.Header.Get("Content-Type")
-		if !strings.Contains(contentType, "application/json") {
-			respondBadRequest(logEchoBodyMap, res, &models.BadRequestError{Location: "header", Message: fmt.Sprintf("Wrong Content-type: %s", contentType), Errors: []models.ValidationError{}})
+		if !checkContentType(logEchoBodyMap, "application/json", req, res) {
 			return
 		}
 		var body map[string]string
 		err = json.NewDecoder(req.Body).Decode(&body)
 		if err != nil {
-			respondBadRequest(logEchoBodyMap, res, &models.BadRequestError{Location: "body", Message: "Failed to parse body", Errors: []models.ValidationError{}})
+			var errors []models.ValidationError = nil
+			if unmarshalError, ok := err.(*json.UnmarshalTypeError); ok {
+				message := fmt.Sprintf("Failed to parse JSON, field: %s", unmarshalError.Field)
+				errors = []models.ValidationError{{Path: unmarshalError.Field, Code: "parsing_failed", Message: &message}}
+			}
+			respondBadRequest(logEchoBodyMap, res, &models.BadRequestError{Location: "body", Message: "Failed to parse body", Errors: errors})
 			return
 		}
 		response, err := echoService.EchoBodyMap(&body)
@@ -270,15 +288,18 @@ func AddEchoRoutes(router *vestigo.Router, echoService echo.Service) {
 			respondBadRequest(logEchoEverything, res, &models.BadRequestError{Location: "query", Message: "Failed to parse query", Errors: query.Errors})
 			return
 		}
-		contentType := req.Header.Get("Content-Type")
-		if !strings.Contains(contentType, "application/json") {
-			respondBadRequest(logEchoEverything, res, &models.BadRequestError{Location: "header", Message: fmt.Sprintf("Wrong Content-type: %s", contentType), Errors: []models.ValidationError{}})
+		if !checkContentType(logEchoEverything, "application/json", req, res) {
 			return
 		}
 		var body models.Message
 		err = json.NewDecoder(req.Body).Decode(&body)
 		if err != nil {
-			respondBadRequest(logEchoEverything, res, &models.BadRequestError{Location: "body", Message: "Failed to parse body", Errors: []models.ValidationError{}})
+			var errors []models.ValidationError = nil
+			if unmarshalError, ok := err.(*json.UnmarshalTypeError); ok {
+				message := fmt.Sprintf("Failed to parse JSON, field: %s", unmarshalError.Field)
+				errors = []models.ValidationError{{Path: unmarshalError.Field, Code: "parsing_failed", Message: &message}}
+			}
+			respondBadRequest(logEchoEverything, res, &models.BadRequestError{Location: "body", Message: "Failed to parse body", Errors: errors})
 			return
 		}
 		response, err := echoService.EchoEverything(&body, floatQuery, boolQuery, uuidHeader, datetimeHeader, dateUrl, decimalUrl)
