@@ -26,11 +26,10 @@ export const echoRouter = (service: EchoService) => {
     
     const assertContentType = (ctx: ExtendableContext, contentType: string): boolean => {
         if (ctx.request.type != contentType) {
-            const message = `Expected Content-Type header: ${contentType}`
             const error = {
-                message, 
+                message: "Failed to parse header", 
                 location: models.ErrorLocation.HEADER,
-                errors: [{path: "Content-Type", code: "wrong_value", message}]
+                errors: [{path: "Content-Type", code: "missing", message: "Expected Content-Type header: ${contentType}"}]
             }
             respondBadRequest(ctx, error)
             return false
